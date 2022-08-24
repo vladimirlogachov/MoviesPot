@@ -54,6 +54,7 @@ dependencies {
 
     // Accompanist
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
 
     // Coil
     implementation "io.coil-kt:coil-compose:$coil_version"

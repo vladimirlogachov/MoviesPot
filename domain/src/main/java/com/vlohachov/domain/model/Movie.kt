@@ -9,5 +9,5 @@ data class Movie(
     val genreIds: List<Long>,
     val isAdult: Boolean,
     val voteCount: Long,
-    val voteAverage: Int,
+    val voteAverage: Float,
 )

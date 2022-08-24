@@ -1,6 +1,7 @@
 package com.vlohachov.data.remote.schema
 
 import com.google.gson.annotations.SerializedName
+import com.vlohachov.data.remote.TmdbConfig
 import com.vlohachov.domain.model.Movie
 
 data class MovieSchema(
@@ -21,7 +22,7 @@ data class MovieSchema(
     @SerializedName("vote_count")
     val voteCount: Long,
     @SerializedName("vote_average")
-    val voteAverage: Int,
+    val voteAverage: Float,
 )
 
 internal fun MovieSchema.toDomain(): Movie =
@@ -30,7 +31,7 @@ internal fun MovieSchema.toDomain(): Movie =
         title = title,
         overview = overview,
         releaseDate = releaseDate,
-        posterPath = posterPath,
+        posterPath = TmdbConfig.BASE_IMAGE_URL + "w185" + posterPath,
         genreIds = genreIds,
         isAdult = isAdult,
         voteCount = voteCount,

@@ -19,6 +19,7 @@ android {
         consumerProguardFiles "consumer-rules.pro"
 
         buildConfigField("String", "BASE_URL", apikeyProperties['base.url'])
+        buildConfigField("String", "BASE_IMAGE_URL", apikeyProperties['base.image.url'])
         buildConfigField("String", "API_KEY", apikeyProperties['api.key'])
         buildConfigField("String", "ACCESS_TOKEN", apikeyProperties['access.token'])
     }

@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface TmdbApi {
-    @GET("/movie/top_rated")
+    @GET("/3/movie/top_rated")
     suspend fun getTopRatedMovies(
         @Query("page") page: Int,
         @Query("language") language: String?,
