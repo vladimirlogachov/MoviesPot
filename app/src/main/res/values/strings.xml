@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Movies Pot</string>
+    <string name="ok">OK</string>
+    <string name="uknown_error">Uknown Error. Check your internet connection.</string>
+    <string name="top_rated">Top Rated</string>
 </resources>
