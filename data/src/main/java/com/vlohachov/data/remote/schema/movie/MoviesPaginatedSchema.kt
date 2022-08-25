@@ -1,4 +1,4 @@
-package com.vlohachov.data.remote.schema
+package com.vlohachov.data.remote.schema.movie
 
 import com.google.gson.annotations.SerializedName
 
