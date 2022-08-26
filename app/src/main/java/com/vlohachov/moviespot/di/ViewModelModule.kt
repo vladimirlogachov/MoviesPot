@@ -1,7 +1,7 @@
 package com.vlohachov.moviespot.di
 
-import com.vlohachov.moviespot.ui.genres.GenresViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
+import com.vlohachov.moviespot.ui.movies.upcoming.UpcomingMoviesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -17,6 +17,6 @@ val viewModelModule = module {
     }
 
     viewModel {
-        GenresViewModel(genresUseCase = get())
+        UpcomingMoviesViewModel(upcoming = get())
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.Movie
+import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.usecase.NowPlayingUseCase
 import com.vlohachov.domain.usecase.PopularUseCase
 import com.vlohachov.domain.usecase.TopRatedUseCase
@@ -25,16 +26,16 @@ class MainViewModel(
 
     private val error = MutableStateFlow<Throwable?>(value = null)
 
-    private val upcomingResult: Flow<Result<List<Movie>>> =
+    private val upcomingResult: Flow<Result<PaginatedData<Movie>>> =
         upcoming.resultFlow(param = UpcomingUseCase.Param())
 
-    private val nowPlayingResult: Flow<Result<List<Movie>>> =
+    private val nowPlayingResult: Flow<Result<PaginatedData<Movie>>> =
         nowPlaying.resultFlow(param = NowPlayingUseCase.Param())
 
-    private val popularResult: Flow<Result<List<Movie>>> =
+    private val popularResult: Flow<Result<PaginatedData<Movie>>> =
         popular.resultFlow(param = PopularUseCase.Param())
 
-    private val topRatedResult: Flow<Result<List<Movie>>> =
+    private val topRatedResult: Flow<Result<PaginatedData<Movie>>> =
         topRated.resultFlow(param = TopRatedUseCase.Param())
 
     private val moviesViewStates: StateFlow<Map<MoviesSection, ViewState<List<Movie>>>> = combine(
@@ -49,7 +50,7 @@ class MainViewModel(
             is Result.Error ->
                 ViewState.Error(error = upcomingResult.exception)
             is Result.Success ->
-                ViewState.Success(data = upcomingResult.data)
+                ViewState.Success(data = upcomingResult.value.data)
         }
         val nowPlayingViewState: ViewState<List<Movie>> = when (nowPlayingResult) {
             Result.Loading ->
@@ -57,7 +58,7 @@ class MainViewModel(
             is Result.Error ->
                 ViewState.Error(error = nowPlayingResult.exception)
             is Result.Success ->
-                ViewState.Success(data = nowPlayingResult.data)
+                ViewState.Success(data = nowPlayingResult.value.data)
         }
         val popularViewState: ViewState<List<Movie>> = when (popularResult) {
             Result.Loading ->
@@ -65,7 +66,7 @@ class MainViewModel(
             is Result.Error ->
                 ViewState.Error(error = popularResult.exception)
             is Result.Success ->
-                ViewState.Success(data = popularResult.data)
+                ViewState.Success(data = popularResult.value.data)
         }
         val topRatedViewState: ViewState<List<Movie>> = when (topRatedResult) {
             Result.Loading ->
@@ -73,7 +74,7 @@ class MainViewModel(
             is Result.Error ->
                 ViewState.Error(error = topRatedResult.exception)
             is Result.Success ->
-                ViewState.Success(data = topRatedResult.data)
+                ViewState.Success(data = topRatedResult.value.data)
         }
         mapOf(
             MoviesSection.Upcoming to upcomingViewState,

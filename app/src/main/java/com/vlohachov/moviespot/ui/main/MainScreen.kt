@@ -24,9 +24,8 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    modifier: Modifier,
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewModel: MainViewModel = getViewModel(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -40,7 +39,7 @@ fun MainScreen(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             CenterAlignedTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
