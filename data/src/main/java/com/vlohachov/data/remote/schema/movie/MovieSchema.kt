@@ -1,4 +1,4 @@
-package com.vlohachov.data.remote.schema
+package com.vlohachov.data.remote.schema.movie
 
 import com.google.gson.annotations.SerializedName
 import com.vlohachov.data.remote.TmdbConfig
@@ -24,6 +24,9 @@ data class MovieSchema(
     @SerializedName("vote_average")
     val voteAverage: Float,
 )
+
+internal fun List<MovieSchema>.toDomain(): List<Movie> =
+    map(MovieSchema::toDomain)
 
 internal fun MovieSchema.toDomain(): Movie =
     Movie(
