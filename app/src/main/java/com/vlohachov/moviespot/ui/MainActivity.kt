@@ -3,7 +3,9 @@ package com.vlohachov.moviespot.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.vlohachov.moviespot.ui.main.MainScreen
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import com.ramcosta.composedestinations.DestinationsNavHost
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +13,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MoviesPotTheme {
-                MainScreen()
+                DestinationsNavHost(
+                    modifier = Modifier.fillMaxSize(),
+                    navGraph = NavGraphs.root,
+                )
             }
         }
     }

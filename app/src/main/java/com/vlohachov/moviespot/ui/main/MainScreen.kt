@@ -1,6 +1,8 @@
 package com.vlohachov.moviespot.ui.main
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
@@ -8,22 +10,26 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.moviespot.ui.destinations.UpcomingMoviesDestination
 import com.vlohachov.moviespot.ui.movies.MoviesSection
 import com.vlohachov.moviespot.ui.movies.components.Movies
 import com.vlohachov.moviespot.ui.movies.components.Section
 import com.vlohachov.moviespot.ui.movies.components.SectionTitle
 import org.koin.androidx.compose.getViewModel
 
+@Destination(start = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
+    navigator: DestinationsNavigator,
     viewModel: MainViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
@@ -62,7 +68,15 @@ fun MainScreen(
             Content(
                 modifier = Modifier.fillMaxSize(),
                 moviesViewStates = uiState.moviesViewStates,
-                onSeeAll = {},
+                onSeeAll = { section ->
+                    when (section) {
+                        MoviesSection.Upcoming ->
+                            navigator.navigate(UpcomingMoviesDestination)
+                        MoviesSection.NowPlaying -> TODO()
+                        MoviesSection.Popular -> TODO()
+                        MoviesSection.TopRated -> TODO()
+                    }
+                },
             )
         }
     }
@@ -76,8 +90,6 @@ private fun Content(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         items(items = moviesViewStates.keys.toTypedArray()) { section ->
@@ -91,10 +103,7 @@ private fun Content(
                         text = stringResource(id = section.textRes),
                         trailing = {
                             TextButton(onClick = { onSeeAll(section) }) {
-                                Text(
-                                    text = stringResource(id = R.string.see_all).uppercase(),
-                                    textDecoration = TextDecoration.Underline
-                                )
+                                Text(text = stringResource(id = R.string.more).uppercase())
                             }
                         }
                     )

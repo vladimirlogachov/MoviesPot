@@ -2,7 +2,7 @@
     <string name="app_name">Movies Pot</string>
     <string name="ok">OK</string>
     <string name="uknown_error">Uknown Error. Check your internet connection.</string>
-    <string name="see_all">See All</string>
+    <string name="more">More</string>
     <string name="upcoming">Upcoming</string>
     <string name="now_playing">Now Playing</string>
     <string name="popular">Popular</string>
