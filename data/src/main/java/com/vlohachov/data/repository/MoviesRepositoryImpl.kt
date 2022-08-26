@@ -3,7 +3,6 @@ package com.vlohachov.data.repository
 import com.vlohachov.data.remote.TmdbApi
 import com.vlohachov.data.remote.schema.genre.GenreSchema
 import com.vlohachov.data.remote.schema.genre.toDomain
-import com.vlohachov.data.remote.schema.movie.MovieSchema
 import com.vlohachov.data.remote.schema.movie.toDomain
 import com.vlohachov.domain.model.Genre
 import com.vlohachov.domain.model.Movie
@@ -27,6 +26,57 @@ class MoviesRepositoryImpl(
         }.flowOn(context = Dispatchers.IO)
     }
 
+    override fun getUpcomingMovies(
+        page: Int,
+        language: String?,
+        region: String?
+    ): Flow<List<Movie>> {
+        return flow {
+            val response = remote.getUpcomingMovies(
+                page = page,
+                language = language,
+                region = region,
+            )
+            emit(value = response)
+        }.map { response ->
+            response.results.toDomain()
+        }.flowOn(context = Dispatchers.IO)
+    }
+
+    override fun getNowPlayingMovies(
+        page: Int,
+        language: String?,
+        region: String?
+    ): Flow<List<Movie>> {
+        return flow {
+            val response = remote.getNowPlayingMovies(
+                page = page,
+                language = language,
+                region = region,
+            )
+            emit(value = response)
+        }.map { response ->
+            response.results.toDomain()
+        }.flowOn(context = Dispatchers.IO)
+    }
+
+    override fun getPopularMovies(
+        page: Int,
+        language: String?,
+        region: String?
+    ): Flow<List<Movie>> {
+        return flow {
+            val response = remote.getPopularMovies(
+                page = page,
+                language = language,
+                region = region,
+            )
+            emit(value = response)
+        }.map { response ->
+            response.results.toDomain()
+        }.flowOn(context = Dispatchers.IO)
+    }
+
     override fun getTopRatedMovies(
         page: Int,
         language: String?,
@@ -40,7 +90,7 @@ class MoviesRepositoryImpl(
             )
             emit(value = response)
         }.map { response ->
-            response.results.map(MovieSchema::toDomain)
+            response.results.toDomain()
         }.flowOn(context = Dispatchers.IO)
     }
 }

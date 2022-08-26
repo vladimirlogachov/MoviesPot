@@ -25,6 +25,9 @@ data class MovieSchema(
     val voteAverage: Float,
 )
 
+internal fun List<MovieSchema>.toDomain(): List<Movie> =
+    map(MovieSchema::toDomain)
+
 internal fun MovieSchema.toDomain(): Movie =
     Movie(
         id = id,

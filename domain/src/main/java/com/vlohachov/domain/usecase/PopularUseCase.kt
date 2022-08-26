@@ -6,22 +6,22 @@ import com.vlohachov.domain.repository.MoviesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
 
-class TopRatedMoviesUseCase(
+class PopularUseCase(
     coroutineContext: CoroutineContext,
-    private val repository: MoviesRepository
-) : UseCase<TopRatedMoviesUseCase.Param, List<Movie>>(coroutineContext = coroutineContext) {
-
-    override fun execute(param: Param): Flow<List<Movie>> {
-        return repository.getTopRatedMovies(
-            page = param.page,
-            language = param.language,
-            region = param.region,
-        )
-    }
+    private val repository: MoviesRepository,
+) : UseCase<PopularUseCase.Param, List<Movie>>(coroutineContext = coroutineContext) {
 
     data class Param(
         val page: Int = 1,
         val language: String? = null,
         val region: String? = null,
     )
+
+    override fun execute(param: Param): Flow<List<Movie>> {
+        return repository.getPopularMovies(
+            page = param.page,
+            language = param.language,
+            region = param.region,
+        )
+    }
 }
