@@ -8,12 +8,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
@@ -36,6 +39,14 @@ fun NowPlayingMovies(
 ) {
     val colorTransitionFraction = scrollBehavior.state.overlappedFraction
     val appBarContainerColor by topAppBarColors.containerColor(colorTransitionFraction)
+    val unknownErrorText = stringResource(id = R.string.uknown_error)
+
+    viewModel.error?.run {
+        LaunchedEffect(snackbarHostState) {
+            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
+            viewModel.onErrorConsumed()
+        }
+    }
 
     SetSystemBarsColor(color = appBarContainerColor)
 
@@ -65,12 +76,19 @@ fun NowPlayingMovies(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) { paddingValues ->
+        val movies = viewModel.movies.collectAsLazyPagingItems()
+
         MoviesPaginatedGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-            columns = GridCells.Fixed(count = 2),
-            movies = viewModel.movies.collectAsLazyPagingItems(),
+            columns = GridCells.Fixed(count = 3),
+            movies = movies,
+            swipeRefreshState = rememberSwipeRefreshState(
+                isRefreshing = movies.loadState.refresh is LoadState.Loading
+            ),
+            onRefresh = { movies.refresh() },
+            onError = viewModel::onError,
         )
     }
 }
