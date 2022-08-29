@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.movies.components
+package com.vlohachov.moviespot.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

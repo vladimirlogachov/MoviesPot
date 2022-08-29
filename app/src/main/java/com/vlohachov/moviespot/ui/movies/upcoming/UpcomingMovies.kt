@@ -7,9 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
@@ -18,7 +20,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.Movie
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.movies.components.Movie
+import com.vlohachov.moviespot.ui.components.Movie
+import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import org.koin.androidx.compose.getViewModel
 
 @Destination
@@ -28,9 +31,23 @@ fun UpcomingMovies(
     navigator: DestinationsNavigator,
     viewModel: UpcomingMoviesViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    topAppBarState: TopAppBarState = rememberTopAppBarState(),
+    scrollBehavior: TopAppBarScrollBehavior = remember {
+        TopAppBarDefaults.pinnedScrollBehavior(
+            topAppBarState
+        )
+    },
+    topAppBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
+    val colorTransitionFraction = scrollBehavior.state.overlappedFraction
+    val appBarContainerColor by topAppBarColors.containerColor(colorTransitionFraction)
+
+    SetSystemBarsColor(color = appBarContainerColor)
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
@@ -45,6 +62,8 @@ fun UpcomingMovies(
                         )
                     }
                 },
+                scrollBehavior = scrollBehavior,
+                colors = topAppBarColors,
             )
         },
         snackbarHost = {
@@ -61,7 +80,7 @@ fun UpcomingMovies(
 }
 
 @Composable
-fun Content(
+private fun Content(
     modifier: Modifier,
     movies: LazyPagingItems<Movie>,
 ) {

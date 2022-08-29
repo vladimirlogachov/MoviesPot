@@ -92,8 +92,9 @@ fun MoviesPotTheme(
     if (!view.isInEditMode) {
         SideEffect {
             with((view.context as Activity).window) {
-                statusBarColor = colorScheme.primary.toArgb()
-                WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars = darkTheme
+                statusBarColor = colorScheme.surface.toArgb()
+                WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars =
+                    !darkTheme
             }
         }
     }

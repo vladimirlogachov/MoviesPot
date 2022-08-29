@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -18,11 +19,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.moviespot.ui.components.Movies
+import com.vlohachov.moviespot.ui.components.Section
+import com.vlohachov.moviespot.ui.components.SectionTitle
+import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import com.vlohachov.moviespot.ui.destinations.UpcomingMoviesDestination
 import com.vlohachov.moviespot.ui.movies.MoviesSection
-import com.vlohachov.moviespot.ui.movies.components.Movies
-import com.vlohachov.moviespot.ui.movies.components.Section
-import com.vlohachov.moviespot.ui.movies.components.SectionTitle
 import org.koin.androidx.compose.getViewModel
 
 @Destination(start = true)
@@ -32,7 +34,16 @@ fun MainScreen(
     navigator: DestinationsNavigator,
     viewModel: MainViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    topAppBarState: TopAppBarState = rememberTopAppBarState(),
+    scrollBehavior: TopAppBarScrollBehavior = remember {
+        TopAppBarDefaults.pinnedScrollBehavior(
+            topAppBarState
+        )
+    },
+    topAppBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
+    val colorTransitionFraction = scrollBehavior.state.overlappedFraction
+    val appBarContainerColor by topAppBarColors.containerColor(colorTransitionFraction)
     val uiState by viewModel.uiState.collectAsState()
 
     val unknownErrorText = stringResource(id = R.string.uknown_error)
@@ -44,14 +55,20 @@ fun MainScreen(
         }
     }
 
+    SetSystemBarsColor(color = appBarContainerColor)
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 title = {
                     Text(text = stringResource(id = R.string.app_name))
                 },
+                scrollBehavior = scrollBehavior,
+                colors = topAppBarColors,
             )
         },
         snackbarHost = {
