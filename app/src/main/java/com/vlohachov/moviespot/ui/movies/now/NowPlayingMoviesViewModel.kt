@@ -1,19 +1,19 @@
-package com.vlohachov.moviespot.ui.movies.upcoming
+package com.vlohachov.moviespot.ui.movies.now
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.vlohachov.domain.usecase.UpcomingUseCase
+import com.vlohachov.domain.usecase.NowPlayingUseCase
 
-class UpcomingMoviesViewModel(useCase: UpcomingUseCase) : ViewModel() {
+class NowPlayingMoviesViewModel(useCase: NowPlayingUseCase) : ViewModel() {
 
     private companion object Constants {
         const val PageSize = 20
     }
 
     val movies = Pager(config = PagingConfig(pageSize = PageSize)) {
-        UpcomingMoviesSource(useCase = useCase)
+        NowPlayingMoviesSource(useCase = useCase)
     }.flow.cachedIn(viewModelScope)
 }

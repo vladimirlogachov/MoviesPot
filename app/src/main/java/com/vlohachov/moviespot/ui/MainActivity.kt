@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
@@ -13,10 +14,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MoviesPotTheme {
-                DestinationsNavHost(
-                    modifier = Modifier.fillMaxSize(),
-                    navGraph = NavGraphs.root,
-                )
+                Surface {
+                    DestinationsNavHost(
+                        modifier = Modifier.fillMaxSize(),
+                        navGraph = NavGraphs.root,
+                    )
+                }
             }
         }
     }

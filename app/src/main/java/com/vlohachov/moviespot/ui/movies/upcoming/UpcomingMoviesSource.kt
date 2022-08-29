@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class UpcomingMoviesDataSource(
-    private val upcoming: UpcomingUseCase
-) : PagingSource<Int, Movie>() {
+class UpcomingMoviesSource(private val useCase: UpcomingUseCase) : PagingSource<Int, Movie>() {
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { position ->
@@ -37,7 +35,7 @@ class UpcomingMoviesDataSource(
     }
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
-        upcoming.resultFlow(param = UpcomingUseCase.Param(page = page))
+        useCase.resultFlow(param = UpcomingUseCase.Param(page = page))
             .filter { result -> result is Result.Success }
             .map { result -> (result as Result.Success).value }
             .first()

@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.movies.upcoming
+package com.vlohachov.moviespot.ui.movies.popular
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,9 +24,9 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-fun UpcomingMovies(
+fun PopularMovies(
     navigator: DestinationsNavigator,
-    viewModel: UpcomingMoviesViewModel = getViewModel(),
+    viewModel: PopularMoviesViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     topAppBarState: TopAppBarState = rememberTopAppBarState(),
     scrollBehavior: TopAppBarScrollBehavior = remember {
@@ -47,7 +47,7 @@ fun UpcomingMovies(
             CenterAlignedTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 title = {
-                    Text(text = stringResource(id = R.string.upcoming))
+                    Text(text = stringResource(id = R.string.popular))
                 },
                 navigationIcon = {
                     IconButton(onClick = { navigator.navigateUp() }) {
@@ -74,4 +74,3 @@ fun UpcomingMovies(
         )
     }
 }
-

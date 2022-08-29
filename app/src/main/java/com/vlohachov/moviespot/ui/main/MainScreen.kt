@@ -23,12 +23,15 @@ import com.vlohachov.moviespot.ui.components.Movies
 import com.vlohachov.moviespot.ui.components.Section
 import com.vlohachov.moviespot.ui.components.SectionTitle
 import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
+import com.vlohachov.moviespot.ui.destinations.NowPlayingMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.PopularMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.TopRatedMoviesDestination
 import com.vlohachov.moviespot.ui.destinations.UpcomingMoviesDestination
 import com.vlohachov.moviespot.ui.movies.MoviesSection
 import org.koin.androidx.compose.getViewModel
 
-@Destination(start = true)
 @OptIn(ExperimentalMaterial3Api::class)
+@Destination(start = true)
 @Composable
 fun MainScreen(
     navigator: DestinationsNavigator,
@@ -87,11 +90,10 @@ fun MainScreen(
                 moviesViewStates = uiState.moviesViewStates,
                 onSeeAll = { section ->
                     when (section) {
-                        MoviesSection.Upcoming ->
-                            navigator.navigate(UpcomingMoviesDestination)
-                        MoviesSection.NowPlaying -> TODO()
-                        MoviesSection.Popular -> TODO()
-                        MoviesSection.TopRated -> TODO()
+                        MoviesSection.Upcoming -> navigator.navigate(UpcomingMoviesDestination)
+                        MoviesSection.NowPlaying -> navigator.navigate(NowPlayingMoviesDestination)
+                        MoviesSection.Popular -> navigator.navigate(PopularMoviesDestination)
+                        MoviesSection.TopRated -> navigator.navigate(TopRatedMoviesDestination)
                     }
                 },
             )
