@@ -91,7 +91,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
         return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
     }
 
-    override fun getMovieDetails(id: Int, language: String?): Flow<MovieDetails> {
+    override fun getMovieDetails(id: Long, language: String?): Flow<MovieDetails> {
         val flow = flow {
             val response = remote.getMovieDetails(
                 id = id,

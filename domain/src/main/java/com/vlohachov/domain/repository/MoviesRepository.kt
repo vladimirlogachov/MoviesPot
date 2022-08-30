@@ -35,7 +35,7 @@ interface MoviesRepository {
     ): Flow<PaginatedData<Movie>>
 
     fun getMovieDetails(
-        id: Int,
+        id: Long,
         language: String?,
     ): Flow<MovieDetails>
 }

@@ -1,5 +1,6 @@
 package com.vlohachov.moviespot.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,6 +24,7 @@ fun MoviesPaginatedGrid(
     onRefresh: () -> Unit,
     onError: (error: Throwable) -> Unit,
     modifier: Modifier = Modifier,
+    onSeeDetails: ((movie: Movie) -> Unit)? = null,
     contentPadding: PaddingValues = MoviesPaginatedGridDefaults.ContentPadding,
     verticalArrangement: Arrangement.Vertical = MoviesPaginatedGridDefaults.VerticalArrangement,
     horizontalArrangement: Arrangement.Horizontal = MoviesPaginatedGridDefaults.HorizontalArrangement,
@@ -40,8 +42,11 @@ fun MoviesPaginatedGrid(
         ) {
             items(movies.itemCount) { index ->
                 movies[index]?.let { movie ->
+                    val onClickModifier = onSeeDetails?.let { onClick ->
+                        Modifier.clickable { onClick(movie) }
+                    } ?: Modifier
                     Movie(
-                        modifier = itemModifier,
+                        modifier = itemModifier.then(other = onClickModifier),
                         movie = movie,
                     )
                 }

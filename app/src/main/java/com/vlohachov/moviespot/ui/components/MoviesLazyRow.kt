@@ -1,5 +1,6 @@
 package com.vlohachov.moviespot.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -20,6 +21,7 @@ fun MoviesLazyRow(
     movies: List<Movie>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(all = 16.dp),
+    onSeeDetails: ((movie: Movie) -> Unit)? = null,
     onSeeMore: (() -> Unit)? = null,
 ) {
     LazyRow(
@@ -28,13 +30,17 @@ fun MoviesLazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(movies) { movie ->
+            val onClickModifier = onSeeDetails?.let { onClick ->
+                Modifier.clickable { onClick(movie) }
+            } ?: Modifier
             Movie(
                 modifier = Modifier
                     .fillMaxHeight()
                     .aspectRatio(
                         ratio = .75f,
                         matchHeightConstraintsFirst = true,
-                    ),
+                    )
+                    .then(other = onClickModifier),
                 movie = movie,
             )
         }

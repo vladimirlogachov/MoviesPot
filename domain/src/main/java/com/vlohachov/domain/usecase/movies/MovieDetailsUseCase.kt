@@ -12,7 +12,7 @@ class MovieDetailsUseCase(
 ) : UseCase<MovieDetailsUseCase.Param, MovieDetails>(coroutineContext = coroutineContext) {
 
     data class Param(
-        val id: Int,
+        val id: Long,
         val language: String? = null,
     )
 

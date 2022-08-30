@@ -9,6 +9,8 @@ data class MovieSchema(
     val id: Long,
     @SerializedName("title")
     val title: String,
+    @SerializedName("original_title")
+    val originalTitle: String,
     @SerializedName("overview")
     val overview: String,
     @SerializedName("release_date")
@@ -32,6 +34,7 @@ internal fun MovieSchema.toDomain(): Movie =
     Movie(
         id = id,
         title = title,
+        originalTitle = originalTitle,
         overview = overview,
         releaseDate = releaseDate,
         posterPath = TmdbConfig.BASE_IMAGE_URL + "w342" + posterPath,

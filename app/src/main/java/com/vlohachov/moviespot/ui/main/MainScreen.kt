@@ -23,10 +23,7 @@ import com.vlohachov.moviespot.ui.components.Movies
 import com.vlohachov.moviespot.ui.components.Section
 import com.vlohachov.moviespot.ui.components.SectionTitle
 import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
-import com.vlohachov.moviespot.ui.destinations.NowPlayingMoviesDestination
-import com.vlohachov.moviespot.ui.destinations.PopularMoviesDestination
-import com.vlohachov.moviespot.ui.destinations.TopRatedMoviesDestination
-import com.vlohachov.moviespot.ui.destinations.UpcomingMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.*
 import com.vlohachov.moviespot.ui.movies.MoviesSection
 import org.koin.androidx.compose.getViewModel
 
@@ -88,6 +85,14 @@ fun MainScreen(
             Content(
                 modifier = Modifier.fillMaxSize(),
                 moviesViewStates = uiState.moviesViewStates,
+                onSeeDetails = { movie ->
+                    navigator.navigate(
+                        MovieDetailsDestination(
+                            movieId = movie.id,
+                            movieTitle = movie.title
+                        )
+                    )
+                },
                 onSeeMore = { section ->
                     when (section) {
                         MoviesSection.Upcoming -> navigator.navigate(UpcomingMoviesDestination)
@@ -105,6 +110,7 @@ fun MainScreen(
 private fun Content(
     modifier: Modifier,
     moviesViewStates: Map<MoviesSection, ViewState<List<Movie>>>,
+    onSeeDetails: (movie: Movie) -> Unit,
     onSeeMore: (section: MoviesSection) -> Unit,
 ) {
     LazyColumn(
@@ -126,6 +132,7 @@ private fun Content(
                     Movies(
                         modifier = Modifier.fillMaxWidth(),
                         viewState = moviesViewStates[section] ?: ViewState.Loading,
+                        onSeeDetails = onSeeDetails,
                         onSeeMore = { onSeeMore(section) },
                     )
                 },

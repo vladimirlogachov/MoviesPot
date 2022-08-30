@@ -1,5 +1,6 @@
 package com.vlohachov.moviespot.di
 
+import com.vlohachov.moviespot.ui.details.MovieDetailsViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
 import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.popular.PopularMoviesViewModel
@@ -33,5 +34,12 @@ val viewModelModule = module {
 
     viewModel {
         TopRatedMoviesViewModel(useCase = get())
+    }
+
+    viewModel { params ->
+        MovieDetailsViewModel(
+            movieId = params.get(),
+            movieDetails = get(),
+        )
     }
 }

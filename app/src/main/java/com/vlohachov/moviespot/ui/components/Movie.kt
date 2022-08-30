@@ -22,7 +22,7 @@ import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 fun Movie(
     modifier: Modifier,
     movie: Movie,
-    shape: Shape = RoundedCornerShape(size = 16.dp)
+    shape: Shape = RoundedCornerShape(size = 16.dp),
 ) {
     val backgroundModifier = Modifier
         .background(

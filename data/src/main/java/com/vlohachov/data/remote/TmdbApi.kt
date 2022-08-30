@@ -49,7 +49,7 @@ interface TmdbApi {
 
     @GET("/3/movie/{id}")
     suspend fun getMovieDetails(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Query("language") language: String?,
         @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
     ): MovieDetailsSchema

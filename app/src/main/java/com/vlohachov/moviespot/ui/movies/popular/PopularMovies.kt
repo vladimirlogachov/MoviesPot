@@ -22,6 +22,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.components.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
+import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,6 +89,14 @@ fun PopularMovies(
                 isRefreshing = movies.loadState.refresh is LoadState.Loading
             ),
             onRefresh = { movies.refresh() },
+            onSeeDetails = { movie ->
+                navigator.navigate(
+                    MovieDetailsDestination(
+                        movieId = movie.id,
+                        movieTitle = movie.title
+                    )
+                )
+            },
             onError = viewModel::onError,
         )
     }

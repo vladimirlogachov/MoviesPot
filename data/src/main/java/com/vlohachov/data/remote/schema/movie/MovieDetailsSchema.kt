@@ -1,6 +1,7 @@
 package com.vlohachov.data.remote.schema.movie
 
 import com.google.gson.annotations.SerializedName
+import com.vlohachov.data.remote.TmdbConfig
 import com.vlohachov.data.remote.schema.CompanySchema
 import com.vlohachov.data.remote.schema.CountrySchema
 import com.vlohachov.data.remote.schema.LanguageSchema
@@ -54,7 +55,7 @@ internal fun MovieDetailsSchema.toDomain(): MovieDetails =
         title = title,
         originalTitle = originalTitle,
         overview = overview,
-        posterPath = posterPath,
+        posterPath = TmdbConfig.BASE_IMAGE_URL + "w500" + posterPath,
         runtime = runtime,
         budget = budget,
         releaseDate = releaseDate,
