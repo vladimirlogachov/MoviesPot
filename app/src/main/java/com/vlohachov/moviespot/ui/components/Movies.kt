@@ -17,6 +17,7 @@ import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 fun Movies(
     viewState: ViewState<List<Movie>>,
     modifier: Modifier = Modifier,
+    onSeeMore: (() -> Unit)? = null,
 ) {
     Box(modifier = modifier) {
         when (viewState) {
@@ -35,6 +36,7 @@ fun Movies(
                         .height(height = 160.dp)
                         .fillMaxWidth(),
                     movies = viewState.data,
+                    onSeeMore = onSeeMore,
                 )
         }
     }

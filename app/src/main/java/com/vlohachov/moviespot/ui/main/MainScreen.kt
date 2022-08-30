@@ -88,7 +88,7 @@ fun MainScreen(
             Content(
                 modifier = Modifier.fillMaxSize(),
                 moviesViewStates = uiState.moviesViewStates,
-                onSeeAll = { section ->
+                onSeeMore = { section ->
                     when (section) {
                         MoviesSection.Upcoming -> navigator.navigate(UpcomingMoviesDestination)
                         MoviesSection.NowPlaying -> navigator.navigate(NowPlayingMoviesDestination)
@@ -105,7 +105,7 @@ fun MainScreen(
 private fun Content(
     modifier: Modifier,
     moviesViewStates: Map<MoviesSection, ViewState<List<Movie>>>,
-    onSeeAll: (section: MoviesSection) -> Unit,
+    onSeeMore: (section: MoviesSection) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -120,17 +120,13 @@ private fun Content(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
                         text = stringResource(id = section.textRes),
-                        trailing = {
-                            TextButton(onClick = { onSeeAll(section) }) {
-                                Text(text = stringResource(id = R.string.more).uppercase())
-                            }
-                        }
                     )
                 },
                 content = {
                     Movies(
                         modifier = Modifier.fillMaxWidth(),
                         viewState = moviesViewStates[section] ?: ViewState.Loading,
+                        onSeeMore = { onSeeMore(section) },
                     )
                 },
             )
