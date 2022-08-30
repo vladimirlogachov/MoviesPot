@@ -9,4 +9,7 @@
     <string name="top_rated">Top Rated</string>
     <string name="by_genres">By Genres</string>
     <string name="original_title">Original title</string>
+    <string name="release_date">Release %s</string>
+    <string name="status">Status</string>
+    <string name="duration">%1$dh %2$dm</string>
 </resources>

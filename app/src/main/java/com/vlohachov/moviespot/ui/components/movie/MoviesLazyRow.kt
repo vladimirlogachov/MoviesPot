@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.components.movies
+package com.vlohachov.moviespot.ui.components.movie
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyMovies
-import com.vlohachov.moviespot.ui.components.Movie
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 @Composable

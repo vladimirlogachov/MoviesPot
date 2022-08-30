@@ -2,6 +2,7 @@ package com.vlohachov.moviespot.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -37,8 +38,8 @@ fun SectionTitle(
 @Composable
 fun Section(
     modifier: Modifier,
-    title: @Composable () -> Unit,
-    content: @Composable () -> Unit,
+    title: @Composable ColumnScope.() -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(modifier = modifier) {
         title()

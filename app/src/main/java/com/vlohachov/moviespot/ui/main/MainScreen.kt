@@ -19,7 +19,7 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.Section
 import com.vlohachov.moviespot.ui.components.SectionTitle
 import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
-import com.vlohachov.moviespot.ui.components.movies.MoviesLazyRow
+import com.vlohachov.moviespot.ui.components.movie.MoviesLazyRow
 import com.vlohachov.moviespot.ui.destinations.*
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.getViewModel
@@ -76,12 +76,7 @@ fun MainScreen(
                 }
             },
             onSeeDetails = { movie ->
-                navigator.navigate(
-                    MovieDetailsDestination(
-                        movieId = movie.id,
-                        movieTitle = movie.title
-                    )
-                )
+                navigator.navigate(MovieDetailsDestination(movieId = movie.id))
             },
             onMoreUpcoming = { navigator.navigate(UpcomingMoviesDestination) },
             onMoreNowPlaying = { navigator.navigate(NowPlayingMoviesDestination) },
