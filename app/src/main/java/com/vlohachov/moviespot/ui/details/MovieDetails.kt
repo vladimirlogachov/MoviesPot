@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,6 +28,9 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DateUtils
 import com.vlohachov.moviespot.core.TimeUtils
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.moviespot.ui.components.section.Section
+import com.vlohachov.moviespot.ui.components.section.SectionDefaults
+import com.vlohachov.moviespot.ui.components.section.SectionTitle
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
 import org.koin.androidx.compose.getViewModel
@@ -70,9 +74,7 @@ fun MovieDetails(
                 colors = topAppBarColors,
             )
         },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -155,13 +157,33 @@ private fun LazyListScope.details(details: MovieDetails) {
         )
     }
     item {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(intrinsicSize = IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-
+        CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(intrinsicSize = IntrinsicSize.Min),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Section(
+                    modifier = Modifier.weight(weight = 1f),
+                    title = {
+                        SectionTitle(
+                            text = details.voteAverage.toString(),
+                            trailing = {
+                                Icon(
+                                    imageVector = Icons.Default.Star,
+                                    contentDescription = null,
+                                )
+                            }
+                        )
+                    },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    textStyles = SectionDefaults.smallTextStyles(),
+                ) {
+                    Text(text = stringResource(id = R.string.reviews, details.voteCount))
+                }
+            }
         }
     }
 }

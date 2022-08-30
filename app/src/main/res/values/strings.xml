@@ -12,4 +12,5 @@
     <string name="release_date">Release %s</string>
     <string name="status">Status</string>
     <string name="duration">%1$dh %2$dm</string>
+    <string name="reviews">%d reviews</string>
 </resources>
