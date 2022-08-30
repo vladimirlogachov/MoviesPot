@@ -11,7 +11,6 @@ import com.vlohachov.domain.usecase.movies.TopRatedUseCase
 import com.vlohachov.domain.usecase.movies.UpcomingUseCase
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.WhileUiSubscribed
-import com.vlohachov.moviespot.ui.movies.MoviesSection
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -21,8 +20,6 @@ class MainViewModel(
     popular: PopularUseCase,
     topRated: TopRatedUseCase,
 ) : ViewModel() {
-
-    private val isLoading = MutableStateFlow(value = false)
 
     private val error = MutableStateFlow<Throwable?>(value = null)
 
@@ -38,12 +35,13 @@ class MainViewModel(
     private val topRatedResult: Flow<Result<PaginatedData<Movie>>> =
         topRated.resultFlow(param = TopRatedUseCase.Param())
 
-    private val moviesViewStates: StateFlow<Map<MoviesSection, ViewState<List<Movie>>>> = combine(
+    val uiState: StateFlow<MainViewState> = combine(
         upcomingResult,
         nowPlayingResult,
         popularResult,
         topRatedResult,
-    ) { upcomingResult, nowPlayingResult, popularResult, topRatedResult ->
+        error,
+    ) { upcomingResult, nowPlayingResult, popularResult, topRatedResult, error ->
         val upcomingViewState: ViewState<List<Movie>> = when (upcomingResult) {
             Result.Loading ->
                 ViewState.Loading
@@ -76,26 +74,12 @@ class MainViewModel(
             is Result.Success ->
                 ViewState.Success(data = topRatedResult.value.data)
         }
-        mapOf(
-            MoviesSection.Upcoming to upcomingViewState,
-            MoviesSection.NowPlaying to nowPlayingViewState,
-            MoviesSection.Popular to popularViewState,
-            MoviesSection.TopRated to topRatedViewState,
-        )
-    }.stateIn(
-        scope = viewModelScope,
-        started = WhileUiSubscribed,
-        initialValue = emptyMap(),
-    )
 
-    val uiState: StateFlow<MainViewState> = combine(
-        moviesViewStates,
-        isLoading,
-        error,
-    ) { moviesViewStates, isLoading, error ->
         MainViewState(
-            moviesViewStates = moviesViewStates,
-            isLoading = isLoading,
+            upcomingViewState = upcomingViewState,
+            nowPlayingViewState = nowPlayingViewState,
+            popularViewState = popularViewState,
+            topRatedViewState = topRatedViewState,
             error = error,
         )
     }.stateIn(
@@ -103,12 +87,6 @@ class MainViewModel(
         started = WhileUiSubscribed,
         initialValue = MainViewState(),
     )
-
-    fun onRefresh() {
-        viewModelScope.launch {
-
-        }
-    }
 
     fun onErrorConsumed() {
         viewModelScope.launch { error.emit(value = null) }

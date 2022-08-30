@@ -36,9 +36,9 @@ fun SectionTitle(
 
 @Composable
 fun Section(
+    modifier: Modifier,
     title: @Composable () -> Unit,
     content: @Composable () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         title()
@@ -67,6 +67,7 @@ fun SectionTitlePreview() {
 fun SectionPreview() {
     MoviesPotTheme {
         Section(
+            modifier = Modifier,
             title = { SectionTitle(text = "Title") },
             content = { Text(text = "Content") },
         )

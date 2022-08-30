@@ -43,7 +43,7 @@ data class MovieDetailsSchema(
     val originalLanguage: String,
     @SerializedName("spoken_languages")
     val spokenLanguages: List<LanguageSchema>,
-    @SerializedName("production_companies")
+    @SerializedName("production_countries")
     val productionCountries: List<CountrySchema>,
     @SerializedName("production_companies")
     val productionCompanies: List<CompanySchema>,
@@ -55,7 +55,7 @@ internal fun MovieDetailsSchema.toDomain(): MovieDetails =
         title = title,
         originalTitle = originalTitle,
         overview = overview,
-        posterPath = TmdbConfig.BASE_IMAGE_URL + "w500" + posterPath,
+        posterPath = TmdbConfig.BASE_IMAGE_URL + "original" + posterPath,
         runtime = runtime,
         budget = budget,
         releaseDate = releaseDate,

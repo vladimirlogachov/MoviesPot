@@ -93,7 +93,7 @@ fun TopRatedMovies(
                 navigator.navigate(
                     MovieDetailsDestination(
                         movieId = movie.id,
-                        movieTitle = movie.title
+                        movieTitle = movie.title,
                     )
                 )
             },

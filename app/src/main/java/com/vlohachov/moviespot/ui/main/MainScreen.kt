@@ -1,30 +1,27 @@
 package com.vlohachov.moviespot.ui.main
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
+import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.Movies
 import com.vlohachov.moviespot.ui.components.Section
 import com.vlohachov.moviespot.ui.components.SectionTitle
 import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
+import com.vlohachov.moviespot.ui.components.movies.MoviesLazyRow
 import com.vlohachov.moviespot.ui.destinations.*
-import com.vlohachov.moviespot.ui.movies.MoviesSection
+import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,24 +33,14 @@ fun MainScreen(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     topAppBarState: TopAppBarState = rememberTopAppBarState(),
     scrollBehavior: TopAppBarScrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior(
-            topAppBarState
-        )
+        TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
     },
     topAppBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
+    val unknownErrorText = stringResource(id = R.string.uknown_error)
     val colorTransitionFraction = scrollBehavior.state.overlappedFraction
     val appBarContainerColor by topAppBarColors.containerColor(colorTransitionFraction)
     val uiState by viewModel.uiState.collectAsState()
-
-    val unknownErrorText = stringResource(id = R.string.uknown_error)
-
-    uiState.error?.run {
-        LaunchedEffect(snackbarHostState) {
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
-            viewModel.onErrorConsumed()
-        }
-    }
 
     SetSystemBarsColor(color = appBarContainerColor)
 
@@ -75,68 +62,172 @@ fun MainScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) { paddingValues ->
-        SwipeRefresh(
+        Content(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-            state = rememberSwipeRefreshState(isRefreshing = uiState.isLoading),
-            onRefresh = viewModel::onRefresh,
-        ) {
-            Content(
-                modifier = Modifier.fillMaxSize(),
-                moviesViewStates = uiState.moviesViewStates,
-                onSeeDetails = { movie ->
-                    navigator.navigate(
-                        MovieDetailsDestination(
-                            movieId = movie.id,
-                            movieTitle = movie.title
-                        )
+            viewState = uiState,
+            onError = { error ->
+                LaunchedEffect(snackbarHostState) {
+                    snackbarHostState.showSnackbar(
+                        message = error.localizedMessage ?: unknownErrorText
                     )
-                },
-                onSeeMore = { section ->
-                    when (section) {
-                        MoviesSection.Upcoming -> navigator.navigate(UpcomingMoviesDestination)
-                        MoviesSection.NowPlaying -> navigator.navigate(NowPlayingMoviesDestination)
-                        MoviesSection.Popular -> navigator.navigate(PopularMoviesDestination)
-                        MoviesSection.TopRated -> navigator.navigate(TopRatedMoviesDestination)
-                    }
-                },
-            )
-        }
+                    viewModel.onErrorConsumed()
+                }
+            },
+            onSeeDetails = { movie ->
+                navigator.navigate(
+                    MovieDetailsDestination(
+                        movieId = movie.id,
+                        movieTitle = movie.title
+                    )
+                )
+            },
+            onMoreUpcoming = { navigator.navigate(UpcomingMoviesDestination) },
+            onMoreNowPlaying = { navigator.navigate(NowPlayingMoviesDestination) },
+            onMorePopular = { navigator.navigate(PopularMoviesDestination) },
+            onMoreTopRated = { navigator.navigate(TopRatedMoviesDestination) },
+        )
     }
 }
 
 @Composable
 private fun Content(
     modifier: Modifier,
-    moviesViewStates: Map<MoviesSection, ViewState<List<Movie>>>,
+    viewState: MainViewState,
+    onError: @Composable (error: Throwable) -> Unit,
     onSeeDetails: (movie: Movie) -> Unit,
-    onSeeMore: (section: MoviesSection) -> Unit,
+    onMoreUpcoming: () -> Unit,
+    onMoreNowPlaying: () -> Unit,
+    onMorePopular: () -> Unit,
+    onMoreTopRated: () -> Unit,
 ) {
-    LazyColumn(
+    Box(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        contentAlignment = Alignment.TopCenter,
     ) {
-        items(items = moviesViewStates.keys.toTypedArray()) { section ->
-            Section(
-                modifier = Modifier.fillMaxWidth(),
-                title = {
-                    SectionTitle(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        text = stringResource(id = section.textRes),
-                    )
-                },
-                content = {
-                    Movies(
-                        modifier = Modifier.fillMaxWidth(),
-                        viewState = moviesViewStates[section] ?: ViewState.Loading,
-                        onSeeDetails = onSeeDetails,
-                        onSeeMore = { onSeeMore(section) },
-                    )
-                },
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            item {
+                MoviesSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(id = R.string.upcoming),
+                    viewState = viewState.upcomingViewState,
+                    onSeeDetails = onSeeDetails,
+                    onSeeMore = onMoreUpcoming,
+                )
+            }
+            item {
+                MoviesSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(id = R.string.now_playing),
+                    viewState = viewState.nowPlayingViewState,
+                    onSeeDetails = onSeeDetails,
+                    onSeeMore = onMoreNowPlaying,
+                )
+            }
+            item {
+                MoviesSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(id = R.string.popular),
+                    viewState = viewState.popularViewState,
+                    onSeeDetails = onSeeDetails,
+                    onSeeMore = onMorePopular,
+                )
+            }
+            item {
+                MoviesSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(id = R.string.top_rated),
+                    viewState = viewState.topRatedViewState,
+                    onSeeDetails = onSeeDetails,
+                    onSeeMore = onMoreTopRated,
+                )
+            }
+        }
+
+        viewState.error?.run {
+            onError(error = this)
+        }
+    }
+}
+
+@Composable
+private fun MoviesSection(
+    title: String,
+    viewState: ViewState<List<Movie>>,
+    modifier: Modifier = Modifier,
+    onSeeDetails: ((movie: Movie) -> Unit)? = null,
+    onSeeMore: (() -> Unit)? = null,
+) {
+    Section(
+        modifier = modifier,
+        title = {
+            SectionTitle(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                text = title,
             )
+        },
+    ) {
+        Movies(
+            modifier = Modifier.fillMaxWidth(),
+            viewState = viewState,
+            onSeeDetails = onSeeDetails,
+            onSeeMore = onSeeMore,
+        )
+    }
+}
+
+@Composable
+private fun Movies(
+    viewState: ViewState<List<Movie>>,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(all = 16.dp),
+    onSeeDetails: ((movie: Movie) -> Unit)? = null,
+    onSeeMore: (() -> Unit)? = null,
+) {
+    Box(modifier = modifier) {
+        when (viewState) {
+            ViewState.Loading ->
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .padding(paddingValues = contentPadding)
+                        .align(alignment = Alignment.Center)
+                )
+            is ViewState.Error ->
+                viewState.error?.message?.run {
+                    Text(
+                        modifier = Modifier.padding(paddingValues = contentPadding),
+                        text = this,
+                    )
+                }
+            is ViewState.Success ->
+                MoviesLazyRow(
+                    modifier = Modifier
+                        .height(height = 160.dp)
+                        .fillMaxWidth(),
+                    movies = viewState.data,
+                    contentPadding = contentPadding,
+                    onSeeDetails = onSeeDetails,
+                    onSeeMore = onSeeMore,
+                )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MoviesSectionPreview() {
+    MoviesPotTheme {
+        Column {
+            MoviesSection(title = "Title", viewState = ViewState.Loading)
+            MoviesSection(
+                title = "Title",
+                viewState = ViewState.Error(error = Throwable("Error text")),
+            )
+            MoviesSection(title = "Title", viewState = ViewState.Success(data = DummyMovies))
         }
     }
 }
