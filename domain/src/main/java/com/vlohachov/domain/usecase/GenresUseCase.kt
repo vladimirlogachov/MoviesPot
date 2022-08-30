@@ -1,7 +1,7 @@
 package com.vlohachov.domain.usecase
 
 import com.vlohachov.domain.core.UseCase
-import com.vlohachov.domain.model.Genre
+import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.domain.repository.MoviesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

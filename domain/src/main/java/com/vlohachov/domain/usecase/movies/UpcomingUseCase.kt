@@ -1,8 +1,8 @@
-package com.vlohachov.domain.usecase
+package com.vlohachov.domain.usecase.movies
 
 import com.vlohachov.domain.core.UseCase
-import com.vlohachov.domain.model.Movie
 import com.vlohachov.domain.model.PaginatedData
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.repository.MoviesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext

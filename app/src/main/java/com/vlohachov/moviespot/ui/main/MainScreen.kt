@@ -16,7 +16,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.domain.model.Movie
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.Movies

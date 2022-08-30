@@ -1,4 +1,4 @@
-package com.vlohachov.domain.model
+package com.vlohachov.domain.model.movie
 
 data class Movie(
     val id: Long,

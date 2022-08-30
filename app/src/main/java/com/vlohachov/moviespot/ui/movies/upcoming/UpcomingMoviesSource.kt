@@ -3,9 +3,9 @@ package com.vlohachov.moviespot.ui.movies.upcoming
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.Movie
 import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.usecase.UpcomingUseCase
+import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.usecase.movies.UpcomingUseCase
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map

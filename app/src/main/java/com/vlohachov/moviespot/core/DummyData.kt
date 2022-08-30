@@ -1,6 +1,6 @@
 package com.vlohachov.moviespot.core
 
-import com.vlohachov.domain.model.Movie
+import com.vlohachov.domain.model.movie.Movie
 
 val DummyMovie = Movie(
     id = 10,

@@ -3,12 +3,12 @@ package com.vlohachov.moviespot.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.Movie
 import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.usecase.NowPlayingUseCase
-import com.vlohachov.domain.usecase.PopularUseCase
-import com.vlohachov.domain.usecase.TopRatedUseCase
-import com.vlohachov.domain.usecase.UpcomingUseCase
+import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.usecase.movies.NowPlayingUseCase
+import com.vlohachov.domain.usecase.movies.PopularUseCase
+import com.vlohachov.domain.usecase.movies.TopRatedUseCase
+import com.vlohachov.domain.usecase.movies.UpcomingUseCase
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.WhileUiSubscribed
 import com.vlohachov.moviespot.ui.movies.MoviesSection

@@ -1,7 +1,7 @@
 package com.vlohachov.moviespot.ui.main
 
-import com.vlohachov.domain.model.Genre
-import com.vlohachov.domain.model.Movie
+import com.vlohachov.domain.model.genre.Genre
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.movies.MoviesSection
 

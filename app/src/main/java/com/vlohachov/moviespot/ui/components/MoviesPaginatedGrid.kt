@@ -13,7 +13,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
-import com.vlohachov.domain.model.Movie
+import com.vlohachov.domain.model.movie.Movie
 
 @Composable
 fun MoviesPaginatedGrid(

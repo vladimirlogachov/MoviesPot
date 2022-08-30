@@ -1,8 +1,10 @@
 package com.vlohachov.data.remote
 
 import com.vlohachov.data.remote.schema.genre.GenresSchema
+import com.vlohachov.data.remote.schema.movie.MovieDetailsSchema
 import com.vlohachov.data.remote.schema.movie.MoviesPaginatedSchema
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TmdbApi {
@@ -44,4 +46,11 @@ interface TmdbApi {
         @Query("region") region: String?,
         @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
     ): MoviesPaginatedSchema
+
+    @GET("/3/movie/{id}")
+    suspend fun getMovieDetails(
+        @Path("id") id: Int,
+        @Query("language") language: String?,
+        @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
+    ): MovieDetailsSchema
 }

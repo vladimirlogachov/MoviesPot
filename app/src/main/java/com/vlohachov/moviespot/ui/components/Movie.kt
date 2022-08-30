@@ -14,7 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.vlohachov.domain.model.Movie
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.core.DummyMovie
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 

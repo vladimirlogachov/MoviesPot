@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.vlohachov.domain.usecase.NowPlayingUseCase
+import com.vlohachov.domain.usecase.movies.NowPlayingUseCase
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
