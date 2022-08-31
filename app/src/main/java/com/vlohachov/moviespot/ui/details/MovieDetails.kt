@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.LoremIpsum
@@ -33,10 +34,12 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils.format
 import com.vlohachov.moviespot.core.utils.TimeUtils
+import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
 import com.vlohachov.moviespot.ui.destinations.MovieCreditsDestination
+import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
 import org.koin.androidx.compose.getViewModel
@@ -90,8 +93,15 @@ fun MovieDetails(
             Content(
                 modifier = Modifier.fillMaxSize(),
                 detailsViewState = uiState.detailsViewState,
+                recommendationsViewState = uiState.recommendationsViewState,
                 onCredits = { navigator.navigate(MovieCreditsDestination(movieId = movieId)) },
-                onMore = {},
+                onMoreAbout = {},
+                onMoreRecommendations = {
+
+                },
+                onMovieClick = { movie ->
+                    navigator.navigate(MovieDetailsDestination(movieId = movie.id))
+                },
                 onError = viewModel::onError,
             )
 
@@ -109,8 +119,11 @@ fun MovieDetails(
 private fun Content(
     modifier: Modifier,
     detailsViewState: ViewState<MovieDetails>,
+    recommendationsViewState: ViewState<List<Movie>>,
     onCredits: () -> Unit,
-    onMore: () -> Unit,
+    onMoreAbout: () -> Unit,
+    onMoreRecommendations: () -> Unit,
+    onMovieClick: (movie: Movie) -> Unit,
     onError: (error: Throwable) -> Unit,
 ) {
     LazyColumn(
@@ -122,8 +135,18 @@ private fun Content(
                 modifier = Modifier.fillMaxWidth(),
                 viewState = detailsViewState,
                 onCredits = onCredits,
-                onMore = onMore,
+                onMore = onMoreAbout,
                 onError = onError,
+            )
+        }
+        item {
+            MoviesSection(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(id = R.string.recommendations),
+                viewState = recommendationsViewState,
+                onMore = onMoreRecommendations,
+                onMovieClick = onMovieClick,
+                textStyles = SectionDefaults.smallTextStyles(),
             )
         }
     }
@@ -221,6 +244,9 @@ private fun About(
             )
         },
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+        textStyles = SectionDefaults.smallTextStyles(
+            contentTextStyle = MaterialTheme.typography.bodyMedium,
+        ),
     ) {
         Text(
             text = text,

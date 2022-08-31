@@ -115,7 +115,7 @@ private fun Credits(
             title = {
                 SectionTitle(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    text = stringResource(id = R.string.cast),
+                    text = stringResource(id = R.string.cast, credits.cast.size),
                 )
             },
             textStyles = SectionDefaults.smallTextStyles(),
@@ -133,7 +133,7 @@ private fun Credits(
             title = {
                 SectionTitle(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    text = stringResource(id = R.string.crew),
+                    text = stringResource(id = R.string.crew, credits.crew.size),
                 )
             },
             textStyles = SectionDefaults.smallTextStyles(),

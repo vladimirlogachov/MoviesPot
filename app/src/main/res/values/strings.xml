@@ -17,6 +17,7 @@
     <string name="audience">Audience</string>
     <string name="about_this_film">About this film</string>
     <string name="credits">Credits</string>
-    <string name="cast">Cast</string>
-    <string name="crew">Crew</string>
+    <string name="cast">Cast (%d)</string>
+    <string name="crew">Crew (%d)</string>
+    <string name="recommendations">Recommendations</string>
 </resources>

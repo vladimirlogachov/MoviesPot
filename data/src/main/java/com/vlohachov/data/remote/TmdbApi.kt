@@ -61,4 +61,12 @@ interface TmdbApi {
         @Query("language") language: String?,
         @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
     ): MovieCreditsSchema
+
+    @GET("/3/movie/{id}/recommendations")
+    suspend fun getMovieRecommendations(
+        @Path("id") id: Long,
+        @Query("page") page: Int,
+        @Query("language") language: String?,
+        @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
+    ): MoviesPaginatedSchema
 }

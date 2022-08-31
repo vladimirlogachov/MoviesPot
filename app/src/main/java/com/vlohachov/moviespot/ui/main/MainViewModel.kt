@@ -42,7 +42,7 @@ class MainViewModel(
         topRatedResult,
         error,
     ) { upcomingResult, nowPlayingResult, popularResult, topRatedResult, error ->
-        val upcomingViewState: ViewState<List<Movie>> = when (upcomingResult) {
+        val upcomingViewState = when (upcomingResult) {
             Result.Loading ->
                 ViewState.Loading
             is Result.Error ->
@@ -50,7 +50,7 @@ class MainViewModel(
             is Result.Success ->
                 ViewState.Success(data = upcomingResult.value.data)
         }
-        val nowPlayingViewState: ViewState<List<Movie>> = when (nowPlayingResult) {
+        val nowPlayingViewState = when (nowPlayingResult) {
             Result.Loading ->
                 ViewState.Loading
             is Result.Error ->
@@ -58,7 +58,7 @@ class MainViewModel(
             is Result.Success ->
                 ViewState.Success(data = nowPlayingResult.value.data)
         }
-        val popularViewState: ViewState<List<Movie>> = when (popularResult) {
+        val popularViewState = when (popularResult) {
             Result.Loading ->
                 ViewState.Loading
             is Result.Error ->
@@ -66,7 +66,7 @@ class MainViewModel(
             is Result.Success ->
                 ViewState.Success(data = popularResult.value.data)
         }
-        val topRatedViewState: ViewState<List<Movie>> = when (topRatedResult) {
+        val topRatedViewState = when (topRatedResult) {
             Result.Loading ->
                 ViewState.Loading
             is Result.Error ->

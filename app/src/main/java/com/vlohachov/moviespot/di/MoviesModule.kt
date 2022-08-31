@@ -5,6 +5,7 @@ import com.vlohachov.domain.repository.MoviesRepository
 import com.vlohachov.domain.usecase.GenresUseCase
 import com.vlohachov.domain.usecase.movies.MovieCreditsUseCase
 import com.vlohachov.domain.usecase.movies.MovieDetailsUseCase
+import com.vlohachov.domain.usecase.movies.MovieRecommendationsUseCase
 import com.vlohachov.domain.usecase.movies.list.NowPlayingUseCase
 import com.vlohachov.domain.usecase.movies.list.PopularUseCase
 import com.vlohachov.domain.usecase.movies.list.TopRatedUseCase
@@ -60,6 +61,13 @@ val moviesModule = module {
 
     single {
         MovieCreditsUseCase(
+            coroutineContext = get(),
+            repository = get(),
+        )
+    }
+
+    single {
+        MovieRecommendationsUseCase(
             coroutineContext = get(),
             repository = get(),
         )

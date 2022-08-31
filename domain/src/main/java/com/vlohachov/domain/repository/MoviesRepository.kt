@@ -44,4 +44,10 @@ interface MoviesRepository {
         id: Long,
         language: String?,
     ): Flow<MovieCredits>
+
+    fun getMovieRecommendations(
+        id: Long,
+        page: Int,
+        language: String?,
+    ): Flow<PaginatedData<Movie>>
 }
