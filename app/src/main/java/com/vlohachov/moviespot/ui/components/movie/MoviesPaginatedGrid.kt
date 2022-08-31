@@ -12,19 +12,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.vlohachov.domain.model.movie.Movie
 
 @Composable
 fun MoviesPaginatedGrid(
     columns: GridCells,
     movies: LazyPagingItems<Movie>,
-    swipeRefreshState: SwipeRefreshState,
-    onRefresh: () -> Unit,
     onError: (error: Throwable) -> Unit,
     modifier: Modifier = Modifier,
-    onSeeDetails: ((movie: Movie) -> Unit)? = null,
+    onClick: ((movie: Movie) -> Unit)? = null,
     contentPadding: PaddingValues = MoviesPaginatedGridDefaults.ContentPadding,
     verticalArrangement: Arrangement.Vertical = MoviesPaginatedGridDefaults.VerticalArrangement,
     horizontalArrangement: Arrangement.Horizontal = MoviesPaginatedGridDefaults.HorizontalArrangement,
@@ -32,35 +28,33 @@ fun MoviesPaginatedGrid(
     val itemModifier = Modifier
         .fillMaxWidth()
         .aspectRatio(ratio = .75f)
-    SwipeRefresh(state = swipeRefreshState, onRefresh = onRefresh) {
-        LazyVerticalGrid(
-            modifier = modifier,
-            columns = columns,
-            contentPadding = contentPadding,
-            verticalArrangement = verticalArrangement,
-            horizontalArrangement = horizontalArrangement,
-        ) {
-            items(movies.itemCount) { index ->
-                movies[index]?.let { movie ->
-                    val onClickModifier = onSeeDetails?.let { onClick ->
-                        Modifier.clickable { onClick(movie) }
-                    } ?: Modifier
-                    Movie(
-                        modifier = itemModifier.then(other = onClickModifier),
-                        movie = movie,
-                    )
-                }
+    LazyVerticalGrid(
+        modifier = modifier,
+        columns = columns,
+        contentPadding = contentPadding,
+        verticalArrangement = verticalArrangement,
+        horizontalArrangement = horizontalArrangement,
+    ) {
+        items(movies.itemCount) { index ->
+            movies[index]?.let { movie ->
+                val onClickModifier = onClick?.let { onClick ->
+                    Modifier.clickable { onClick(movie) }
+                } ?: Modifier
+                Movie(
+                    modifier = itemModifier.then(other = onClickModifier),
+                    movie = movie,
+                )
             }
+        }
 
-            movies.apply {
-                when {
-                    loadState.append is LoadState.Loading ->
-                        item { Progress(modifier = modifier) }
-                    loadState.refresh is LoadState.Error ->
-                        onError((loadState.refresh as LoadState.Error).error)
-                    loadState.append is LoadState.Error ->
-                        onError((loadState.append as LoadState.Error).error)
-                }
+        movies.apply {
+            when {
+                loadState.append is LoadState.Loading ->
+                    item { Progress(modifier = itemModifier) }
+                loadState.refresh is LoadState.Error ->
+                    onError((loadState.refresh as LoadState.Error).error)
+                loadState.append is LoadState.Error ->
+                    onError((loadState.append as LoadState.Error).error)
             }
         }
     }

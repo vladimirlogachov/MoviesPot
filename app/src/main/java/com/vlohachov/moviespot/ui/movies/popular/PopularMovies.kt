@@ -16,6 +16,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -73,26 +74,24 @@ fun PopularMovies(
                 colors = topAppBarColors,
             )
         },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { paddingValues ->
         val movies = viewModel.movies.collectAsLazyPagingItems()
 
-        MoviesPaginatedGrid(
+        SwipeRefresh(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-            columns = GridCells.Fixed(count = 3),
-            movies = movies,
-            swipeRefreshState = rememberSwipeRefreshState(
-                isRefreshing = movies.loadState.refresh is LoadState.Loading
-            ),
-            onRefresh = { movies.refresh() },
-            onSeeDetails = { movie ->
-                navigator.navigate(MovieDetailsDestination(movieId = movie.id))
-            },
-            onError = viewModel::onError,
-        )
+            state = rememberSwipeRefreshState(isRefreshing = movies.loadState.refresh is LoadState.Loading),
+            onRefresh = movies::refresh,
+        ) {
+            MoviesPaginatedGrid(
+                modifier = Modifier.fillMaxSize(),
+                columns = GridCells.Fixed(count = 3),
+                movies = movies,
+                onClick = { movie -> navigator.navigate(MovieDetailsDestination(movieId = movie.id)) },
+                onError = viewModel::onError,
+            )
+        }
     }
 }

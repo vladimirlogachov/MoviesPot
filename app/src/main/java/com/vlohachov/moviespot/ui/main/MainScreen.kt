@@ -2,6 +2,8 @@ package com.vlohachov.moviespot.ui.main
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -110,7 +112,7 @@ private fun Content(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = R.string.upcoming),
                     viewState = viewState.upcomingViewState,
-                    onSeeDetails = onSeeDetails,
+                    onMovieClick = onSeeDetails,
                     onSeeMore = onMoreUpcoming,
                 )
             }
@@ -119,7 +121,7 @@ private fun Content(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = R.string.now_playing),
                     viewState = viewState.nowPlayingViewState,
-                    onSeeDetails = onSeeDetails,
+                    onMovieClick = onSeeDetails,
                     onSeeMore = onMoreNowPlaying,
                 )
             }
@@ -128,7 +130,7 @@ private fun Content(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = R.string.popular),
                     viewState = viewState.popularViewState,
-                    onSeeDetails = onSeeDetails,
+                    onMovieClick = onSeeDetails,
                     onSeeMore = onMorePopular,
                 )
             }
@@ -137,7 +139,7 @@ private fun Content(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = R.string.top_rated),
                     viewState = viewState.topRatedViewState,
-                    onSeeDetails = onSeeDetails,
+                    onMovieClick = onSeeDetails,
                     onSeeMore = onMoreTopRated,
                 )
             }
@@ -154,23 +156,37 @@ private fun MoviesSection(
     title: String,
     viewState: ViewState<List<Movie>>,
     modifier: Modifier = Modifier,
-    onSeeDetails: ((movie: Movie) -> Unit)? = null,
+    onMovieClick: ((movie: Movie) -> Unit)? = null,
     onSeeMore: (() -> Unit)? = null,
 ) {
     Section(
         modifier = modifier,
         title = {
             SectionTitle(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
                 text = title,
+                trailing = if (viewState is ViewState.Success) {
+                    @Composable {
+                        onSeeMore?.run {
+                            IconButton(onClick = this) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowForward,
+                                    contentDescription = stringResource(id = R.string.see_more),
+                                )
+                            }
+                        }
+                    }
+                } else null,
+                horizontalArrangement = Arrangement.SpaceBetween,
             )
         },
     ) {
         Movies(
             modifier = Modifier.fillMaxWidth(),
             viewState = viewState,
-            onSeeDetails = onSeeDetails,
-            onSeeMore = onSeeMore,
+            onMovieClick = onMovieClick,
         )
     }
 }
@@ -180,8 +196,7 @@ private fun Movies(
     viewState: ViewState<List<Movie>>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(all = 16.dp),
-    onSeeDetails: ((movie: Movie) -> Unit)? = null,
-    onSeeMore: (() -> Unit)? = null,
+    onMovieClick: ((movie: Movie) -> Unit)? = null,
 ) {
     Box(modifier = modifier) {
         when (viewState) {
@@ -205,8 +220,7 @@ private fun Movies(
                         .fillMaxWidth(),
                     movies = viewState.data,
                     contentPadding = contentPadding,
-                    onSeeDetails = onSeeDetails,
-                    onSeeMore = onSeeMore,
+                    onClick = onMovieClick,
                 )
         }
     }
@@ -223,6 +237,11 @@ fun MoviesSectionPreview() {
                 viewState = ViewState.Error(error = Throwable("Error text")),
             )
             MoviesSection(title = "Title", viewState = ViewState.Success(data = DummyMovies))
+            MoviesSection(
+                title = "Title",
+                viewState = ViewState.Success(data = DummyMovies),
+                onSeeMore = {},
+            )
         }
     }
 }

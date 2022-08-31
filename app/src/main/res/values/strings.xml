@@ -13,4 +13,5 @@
     <string name="status">Status</string>
     <string name="duration">%1$dh %2$dm</string>
     <string name="reviews">%d reviews</string>
+    <string name="see_more">See more</string>
 </resources>

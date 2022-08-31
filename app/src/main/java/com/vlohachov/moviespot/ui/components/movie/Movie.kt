@@ -31,7 +31,7 @@ fun Movie(
         )
         .clip(shape = shape)
     Image(
-        modifier = modifier.then(other = backgroundModifier),
+        modifier = backgroundModifier.then(other = modifier),
         painter = rememberAsyncImagePainter(movie.posterPath),
         contentScale = ContentScale.Crop,
         contentDescription = movie.title,

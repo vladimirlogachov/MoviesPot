@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -26,6 +23,7 @@ fun SectionTitle(
     text: String,
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    tint: Color = MaterialTheme.colorScheme.primary,
     trailing: @Composable (() -> Unit)? = null,
 ) {
     Row(
@@ -34,7 +32,9 @@ fun SectionTitle(
         horizontalArrangement = horizontalArrangement,
     ) {
         Text(text = text)
-        trailing?.invoke()
+        CompositionLocalProvider(LocalContentColor provides tint) {
+            trailing?.invoke()
+        }
     }
 }
 
