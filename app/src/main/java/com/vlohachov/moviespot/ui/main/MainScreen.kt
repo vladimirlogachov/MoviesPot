@@ -72,7 +72,12 @@ fun MainScreen(
                 }
             },
             onSeeDetails = { movie ->
-                navigator.navigate(MovieDetailsDestination(movieId = movie.id))
+                navigator.navigate(
+                    MovieDetailsDestination(
+                        movieId = movie.id,
+                        movieTitle = movie.title,
+                    )
+                )
             },
             onMoreUpcoming = { navigator.navigate(UpcomingMoviesDestination) },
             onMoreNowPlaying = { navigator.navigate(NowPlayingMoviesDestination) },

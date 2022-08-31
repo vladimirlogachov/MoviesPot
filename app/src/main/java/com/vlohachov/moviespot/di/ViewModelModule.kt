@@ -5,6 +5,7 @@ import com.vlohachov.moviespot.ui.details.MovieDetailsViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
 import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.popular.PopularMoviesViewModel
+import com.vlohachov.moviespot.ui.movies.similar.SimilarMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.top.TopRatedMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.upcoming.UpcomingMoviesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -49,6 +50,13 @@ val viewModelModule = module {
         MovieCreditsViewModel(
             movieId = params.get(),
             movieCredits = get(),
+        )
+    }
+
+    viewModel { params ->
+        SimilarMoviesViewModel(
+            movieId = params.get(),
+            useCase = get(),
         )
     }
 }

@@ -75,13 +75,7 @@ object MoviesPaginatedGridDefaults {
 
     val ContentPadding: PaddingValues = PaddingValues(all = ItemsSpace)
 
-    val VerticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(
-        space = ItemsSpace,
-        alignment = Alignment.CenterVertically,
-    )
+    val VerticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(space = ItemsSpace)
 
-    val HorizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
-        space = ItemsSpace,
-        alignment = Alignment.CenterHorizontally,
-    )
+    val HorizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = ItemsSpace)
 }

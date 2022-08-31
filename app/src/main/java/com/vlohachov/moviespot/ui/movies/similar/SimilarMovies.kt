@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.movies.popular
+package com.vlohachov.moviespot.ui.movies.similar
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -25,21 +26,24 @@ import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
-fun PopularMovies(
+fun SimilarMovies(
     navigator: DestinationsNavigator,
-    viewModel: PopularMoviesViewModel = getViewModel(),
+    movieId: Long,
+    movieTitle: String,
+    viewModel: SimilarMoviesViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     topAppBarState: TopAppBarState = rememberTopAppBarState(),
     scrollBehavior: TopAppBarScrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
+        TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
     },
-    topAppBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
+    topAppBarColors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
 ) {
-    val colorTransitionFraction = scrollBehavior.state.overlappedFraction
+    val colorTransitionFraction = scrollBehavior.state.collapsedFraction
     val appBarContainerColor by topAppBarColors.containerColor(colorTransitionFraction)
     val unknownErrorText = stringResource(id = R.string.uknown_error)
 
@@ -57,10 +61,14 @@ fun PopularMovies(
             .fillMaxSize()
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            LargeTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 title = {
-                    Text(text = stringResource(id = R.string.popular))
+                    Text(
+                        text = stringResource(id = R.string.similar_to, movieTitle),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navigator.navigateUp() }) {

@@ -40,6 +40,7 @@ import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
 import com.vlohachov.moviespot.ui.destinations.MovieCreditsDestination
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
+import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
 import org.koin.androidx.compose.getViewModel
@@ -52,6 +53,7 @@ import kotlin.text.Typography as Chars
 fun MovieDetails(
     navigator: DestinationsNavigator,
     movieId: Long,
+    movieTitle: String,
     viewModel: MovieDetailsViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     topAppBarState: TopAppBarState = rememberTopAppBarState(),
@@ -97,10 +99,20 @@ fun MovieDetails(
                 onCredits = { navigator.navigate(MovieCreditsDestination(movieId = movieId)) },
                 onMoreAbout = {},
                 onMoreRecommendations = {
-
+                    navigator.navigate(
+                        SimilarMoviesDestination(
+                            movieId = movieId,
+                            movieTitle = movieTitle,
+                        )
+                    )
                 },
                 onMovieClick = { movie ->
-                    navigator.navigate(MovieDetailsDestination(movieId = movie.id))
+                    navigator.navigate(
+                        MovieDetailsDestination(
+                            movieId = movie.id,
+                            movieTitle = movie.title,
+                        )
+                    )
                 },
                 onError = viewModel::onError,
             )

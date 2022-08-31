@@ -89,7 +89,14 @@ fun TopRatedMovies(
                 modifier = Modifier.fillMaxSize(),
                 columns = GridCells.Fixed(count = 3),
                 movies = movies,
-                onClick = { movie -> navigator.navigate(MovieDetailsDestination(movieId = movie.id)) },
+                onClick = { movie ->
+                    navigator.navigate(
+                        MovieDetailsDestination(
+                            movieId = movie.id,
+                            movieTitle = movie.title,
+                        )
+                    )
+                },
                 onError = viewModel::onError,
             )
         }

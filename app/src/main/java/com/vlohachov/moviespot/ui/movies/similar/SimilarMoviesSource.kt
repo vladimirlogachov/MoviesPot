@@ -1,16 +1,19 @@
-package com.vlohachov.moviespot.ui.movies.now
+package com.vlohachov.moviespot.ui.movies.similar
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.movies.list.NowPlayingUseCase
+import com.vlohachov.domain.usecase.movies.MovieRecommendationsUseCase
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class NowPlayingMoviesSource(private val useCase: NowPlayingUseCase) : PagingSource<Int, Movie>() {
+class SimilarMoviesSource(
+    private val movieId: Long,
+    private val useCase: MovieRecommendationsUseCase,
+) : PagingSource<Int, Movie>() {
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { position ->
@@ -35,7 +38,7 @@ class NowPlayingMoviesSource(private val useCase: NowPlayingUseCase) : PagingSou
     }
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
-        useCase.resultFlow(param = NowPlayingUseCase.Param(page = page))
+        useCase.resultFlow(param = MovieRecommendationsUseCase.Param(id = movieId, page = page))
             .filter { result -> result is Result.Success }
             .map { result -> (result as Result.Success).value }
             .first()

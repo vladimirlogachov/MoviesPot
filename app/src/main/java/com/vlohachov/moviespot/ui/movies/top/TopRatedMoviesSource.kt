@@ -27,7 +27,7 @@ class TopRatedMoviesSource(private val useCase: TopRatedUseCase) : PagingSource<
             LoadResult.Page(
                 data = result.data,
                 prevKey = if (page == 1) null else page.minus(1),
-                nextKey = result.page.plus(1),
+                nextKey = if (result.data.isEmpty()) null else result.page.plus(1),
             )
         } catch (e: Throwable) {
             LoadResult.Error(e)
