@@ -1,4 +1,4 @@
-package com.vlohachov.domain.usecase.movies
+package com.vlohachov.domain.usecase.movies.list
 
 import com.vlohachov.domain.core.UseCase
 import com.vlohachov.domain.model.PaginatedData

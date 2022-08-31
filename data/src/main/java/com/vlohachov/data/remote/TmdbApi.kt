@@ -3,6 +3,7 @@ package com.vlohachov.data.remote
 import com.vlohachov.data.remote.schema.genre.GenresSchema
 import com.vlohachov.data.remote.schema.movie.MovieDetailsSchema
 import com.vlohachov.data.remote.schema.movie.MoviesPaginatedSchema
+import com.vlohachov.data.remote.schema.movie.credit.MovieCreditsSchema
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -53,4 +54,11 @@ interface TmdbApi {
         @Query("language") language: String?,
         @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
     ): MovieDetailsSchema
+
+    @GET("/3/movie/{id}/credits")
+    suspend fun getMovieCredits(
+        @Path("id") id: Long,
+        @Query("language") language: String?,
+        @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
+    ): MovieCreditsSchema
 }

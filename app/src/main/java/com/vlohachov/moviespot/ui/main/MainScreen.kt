@@ -2,8 +2,6 @@ package com.vlohachov.moviespot.ui.main
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +16,7 @@ import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.moviespot.ui.components.MoreButton
 import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import com.vlohachov.moviespot.ui.components.movie.MoviesLazyRow
 import com.vlohachov.moviespot.ui.components.section.Section
@@ -159,6 +158,12 @@ private fun MoviesSection(
     onMovieClick: ((movie: Movie) -> Unit)? = null,
     onSeeMore: (() -> Unit)? = null,
 ) {
+    val moreButton: @Composable (() -> Unit)? =
+        if (viewState is ViewState.Success && onSeeMore != null) {
+            @Composable { MoreButton(onClick = onSeeMore) }
+        } else {
+            null
+        }
     Section(
         modifier = modifier,
         title = {
@@ -167,18 +172,7 @@ private fun MoviesSection(
                     .fillMaxWidth()
                     .padding(start = 16.dp),
                 text = title,
-                trailing = if (viewState is ViewState.Success) {
-                    @Composable {
-                        onSeeMore?.run {
-                            IconButton(onClick = this) {
-                                Icon(
-                                    imageVector = Icons.Default.ArrowForward,
-                                    contentDescription = stringResource(id = R.string.see_more),
-                                )
-                            }
-                        }
-                    }
-                } else null,
+                trailing = moreButton,
                 horizontalArrangement = Arrangement.SpaceBetween,
             )
         },

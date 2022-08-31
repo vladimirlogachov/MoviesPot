@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.core
+package com.vlohachov.moviespot.core.utils
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

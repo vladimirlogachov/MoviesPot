@@ -1,4 +1,4 @@
-package com.vlohachov.domain.usecase.movies
+package com.vlohachov.domain.usecase.movies.list
 
 import com.vlohachov.domain.core.UseCase
 import com.vlohachov.domain.model.PaginatedData
@@ -7,10 +7,10 @@ import com.vlohachov.domain.repository.MoviesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
 
-class NowPlayingUseCase(
+class TopRatedUseCase(
     coroutineContext: CoroutineContext,
-    private val repository: MoviesRepository,
-) : UseCase<NowPlayingUseCase.Param, PaginatedData<Movie>>(coroutineContext = coroutineContext) {
+    private val repository: MoviesRepository
+) : UseCase<TopRatedUseCase.Param, PaginatedData<Movie>>(coroutineContext = coroutineContext) {
 
     data class Param(
         val page: Int = 1,
@@ -19,7 +19,7 @@ class NowPlayingUseCase(
     )
 
     override fun execute(param: Param): Flow<PaginatedData<Movie>> {
-        return repository.getNowPlayingMovies(
+        return repository.getTopRatedMovies(
             page = param.page,
             language = param.language,
             region = param.region,

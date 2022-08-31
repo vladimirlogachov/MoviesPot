@@ -3,6 +3,7 @@ package com.vlohachov.domain.repository
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.model.movie.MovieCredits
 import com.vlohachov.domain.model.movie.MovieDetails
 import kotlinx.coroutines.flow.Flow
 
@@ -38,4 +39,9 @@ interface MoviesRepository {
         id: Long,
         language: String?,
     ): Flow<MovieDetails>
+
+    fun getMovieCredits(
+        id: Long,
+        language: String?,
+    ): Flow<MovieCredits>
 }

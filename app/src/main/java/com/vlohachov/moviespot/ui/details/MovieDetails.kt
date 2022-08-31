@@ -2,11 +2,14 @@ package com.vlohachov.moviespot.ui.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,6 +21,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -25,9 +29,11 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.core.DateUtils
-import com.vlohachov.moviespot.core.TimeUtils
+import com.vlohachov.moviespot.core.LoremIpsum
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.moviespot.core.utils.DateUtils
+import com.vlohachov.moviespot.core.utils.DecimalUtils.format
+import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
@@ -84,6 +90,7 @@ fun MovieDetails(
             Content(
                 modifier = Modifier.fillMaxSize(),
                 viewState = uiState.detailsViewState,
+                onMore = {},
                 onError = viewModel::onError,
             )
 
@@ -101,27 +108,31 @@ fun MovieDetails(
 private fun Content(
     modifier: Modifier,
     viewState: ViewState<MovieDetails>,
+    onMore: () -> Unit,
     onError: (error: Throwable) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(all = 16.dp)
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = contentPadding,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         when (viewState) {
-            ViewState.Loading -> item { CircularProgressIndicator() }
+            ViewState.Loading ->
+                item { CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp)) }
             is ViewState.Error -> viewState.error?.run(onError)
-            is ViewState.Success -> details(details = viewState.data)
+            is ViewState.Success -> details(
+                onMore = onMore,
+                details = viewState.data,
+            )
         }
     }
 }
 
-private fun LazyListScope.details(details: MovieDetails) {
+private fun LazyListScope.details(onMore: () -> Unit, details: MovieDetails) {
     item {
         Headline(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 16.dp),
+                .padding(all = 16.dp)
+                .fillMaxWidth(),
             poster = { modifier ->
                 Image(
                     modifier = modifier,
@@ -130,59 +141,162 @@ private fun LazyListScope.details(details: MovieDetails) {
                     contentScale = ContentScale.Crop,
                 )
             },
-            title = {
-                val year = DateUtils.format(
-                    date = details.releaseDate,
-                    pattern = DateUtils.YEAR,
-                )
-                Text(text = "${details.title} ($year)")
-            },
+            title = { Text(text = details.title) },
             info = {
                 Text(
                     text = buildString {
                         append(DateUtils.format(date = details.releaseDate))
                         append(" ${Chars.bullet} ")
                         append(details.status)
-                        append(" ${Chars.bullet} ")
-                        append(
-                            stringResource(
-                                id = R.string.duration,
-                                TimeUtils.hours(details.runtime),
-                                TimeUtils.minutes(details.runtime),
-                            )
-                        )
                     }
                 )
             },
         )
     }
     item {
-        CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(intrinsicSize = IntrinsicSize.Min),
-                verticalAlignment = Alignment.CenterVertically,
+        BriefInfo(
+            modifier = Modifier
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .fillMaxWidth(),
+            voteAverage = details.voteAverage,
+            voteCount = details.voteCount,
+            isAdult = details.isAdult,
+            runtime = details.runtime,
+        )
+    }
+    item {
+        Divider(modifier = Modifier.padding(vertical = 8.dp))
+    }
+    item {
+        About(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp),
+            text = details.overview,
+            onMore = onMore,
+        )
+    }
+}
+
+@Composable
+private fun About(
+    modifier: Modifier,
+    text: String,
+    onMore: () -> Unit,
+) {
+    Section(
+        modifier = Modifier
+            .clickable(onClick = onMore)
+            .then(other = modifier),
+        title = {
+            SectionTitle(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.about_this_film),
+                trailing = {
+                    Icon(
+                        imageVector = Icons.Default.ArrowForward,
+                        contentDescription = stringResource(id = R.string.more),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                },
                 horizontalArrangement = Arrangement.SpaceBetween,
+            )
+        },
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+    ) {
+        Text(
+            text = text,
+            maxLines = 4,
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun BriefInfo(
+    modifier: Modifier,
+    voteAverage: Float,
+    voteCount: Int,
+    isAdult: Boolean,
+    runtime: Int,
+    tint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+) {
+    CompositionLocalProvider(LocalContentColor provides tint) {
+        Row(
+            modifier = modifier
+                .then(other = Modifier.height(intrinsicSize = IntrinsicSize.Min)),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Section(
+                modifier = Modifier.weight(weight = 1f),
+                title = {
+                    SectionTitle(
+                        text = voteAverage.format(),
+                        trailing = {
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = null,
+                            )
+                        }
+                    )
+                },
+                horizontalAlignment = Alignment.CenterHorizontally,
+                textStyles = SectionDefaults.smallTextStyles(),
             ) {
-                Section(
-                    modifier = Modifier.weight(weight = 1f),
-                    title = {
-                        SectionTitle(
-                            text = details.voteAverage.toString(),
-                            trailing = {
-                                Icon(
-                                    imageVector = Icons.Default.Star,
-                                    contentDescription = null,
-                                )
-                            }
-                        )
-                    },
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    textStyles = SectionDefaults.smallTextStyles(),
-                ) {
-                    Text(text = stringResource(id = R.string.reviews, details.voteCount))
-                }
+                Text(text = stringResource(id = R.string.reviews, voteCount))
+            }
+            Divider(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(width = 1.dp)
+                    .padding(vertical = 8.dp)
+            )
+            Section(
+                modifier = Modifier.weight(weight = 1f),
+                title = {
+                    Text(
+                        modifier = Modifier
+                            .height(height = 32.dp)
+                            .padding(vertical = 6.dp)
+                            .border(
+                                width = 1.dp,
+                                color = LocalContentColor.current,
+                                shape = ShapeDefaults.ExtraSmall,
+                            )
+                            .padding(horizontal = 4.dp),
+                        text = if (isAdult) "R" else "G"
+                    )
+                },
+                horizontalAlignment = Alignment.CenterHorizontally,
+                textStyles = SectionDefaults.smallTextStyles(
+                    titleTextStyle = Typography.titleSmall,
+                ),
+            ) {
+                Text(text = stringResource(id = R.string.audience))
+            }
+            Divider(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(width = 1.dp)
+                    .padding(vertical = 8.dp)
+            )
+            Section(
+                modifier = Modifier.weight(weight = 1f),
+                title = {
+                    SectionTitle(
+                        text = stringResource(
+                            id = R.string.format_duration,
+                            TimeUtils.hours(runtime),
+                            TimeUtils.minutes(runtime),
+                        ),
+                    )
+                },
+                horizontalAlignment = Alignment.CenterHorizontally,
+                textStyles = SectionDefaults.smallTextStyles(),
+            ) {
+                Text(text = stringResource(id = R.string.duration))
             }
         }
     }
@@ -227,25 +341,6 @@ private fun Headline(
     }
 }
 
-@Composable
-private fun Status(
-    status: String,
-    modifier: Modifier = Modifier,
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = stringResource(id = R.string.status),
-            style = Typography.labelLarge,
-            color = MaterialTheme.colorScheme.secondary,
-        )
-        Text(
-            text = status,
-            style = Typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun HeadlinePreview() {
@@ -259,8 +354,34 @@ fun HeadlinePreview() {
                 Text(text = "Title (2022)")
             },
             info = {
-                Text(text = "12 Mar, 2022 ${Chars.bullet} Released ${Chars.bullet} 1h 30m")
+                Text(text = "12 Mar, 2022 ${Chars.bullet} Released")
             }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BriefInfoPreview() {
+    MoviesPotTheme {
+        BriefInfo(
+            modifier = Modifier.padding(all = 16.dp),
+            voteAverage = 7.25f,
+            voteCount = 567,
+            isAdult = true,
+            runtime = 127,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AboutPreview() {
+    MoviesPotTheme {
+        About(
+            modifier = Modifier,
+            text = LoremIpsum,
+            onMore = {},
         )
     }
 }

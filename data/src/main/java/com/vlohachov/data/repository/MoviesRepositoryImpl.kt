@@ -5,10 +5,13 @@ import com.vlohachov.data.remote.schema.genre.GenresSchema
 import com.vlohachov.data.remote.schema.genre.toDomain
 import com.vlohachov.data.remote.schema.movie.MovieDetailsSchema
 import com.vlohachov.data.remote.schema.movie.MoviesPaginatedSchema
+import com.vlohachov.data.remote.schema.movie.credit.MovieCreditsSchema
+import com.vlohachov.data.remote.schema.movie.credit.toDomain
 import com.vlohachov.data.remote.schema.movie.toDomain
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.model.movie.MovieCredits
 import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.domain.repository.MoviesRepository
 import kotlinx.coroutines.Dispatchers
@@ -100,5 +103,16 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             emit(value = response)
         }
         return flow.map(MovieDetailsSchema::toDomain).flowOn(context = Dispatchers.IO)
+    }
+
+    override fun getMovieCredits(id: Long, language: String?): Flow<MovieCredits> {
+        val flow = flow {
+            val response = remote.getMovieCredits(
+                id = id,
+                language = language,
+            )
+            emit(value = response)
+        }
+        return flow.map(MovieCreditsSchema::toDomain).flowOn(context = Dispatchers.IO)
     }
 }
