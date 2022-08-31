@@ -20,8 +20,8 @@ import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 @Composable
 fun Movie(
-    modifier: Modifier,
     movie: Movie,
+    modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(size = 16.dp),
 ) {
     val backgroundModifier = Modifier
@@ -32,7 +32,7 @@ fun Movie(
         .clip(shape = shape)
     Image(
         modifier = backgroundModifier.then(other = modifier),
-        painter = rememberAsyncImagePainter(movie.posterPath),
+        painter = rememberAsyncImagePainter(model = movie.posterPath),
         contentScale = ContentScale.Crop,
         contentDescription = movie.title,
     )

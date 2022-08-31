@@ -14,19 +14,20 @@ class MovieDetailsViewModel(
     movieId: Long,
     movieDetails: MovieDetailsUseCase,
 ) : ViewModel() {
+
     private val error = MutableStateFlow<Throwable?>(value = null)
 
-    private val movieDetailsResult: Flow<Result<MovieDetails>> =
+    private val detailsResult: Flow<Result<MovieDetails>> =
         movieDetails.resultFlow(param = MovieDetailsUseCase.Param(id = movieId))
 
     val uiState: StateFlow<MovieDetailsViewState> = combine(
-        movieDetailsResult,
+        detailsResult,
         error,
-    ) { movieDetailsResult, error ->
-        val detailsViewState = when (movieDetailsResult) {
+    ) { detailsResult, error ->
+        val detailsViewState = when (detailsResult) {
             Result.Loading -> ViewState.Loading
-            is Result.Error -> ViewState.Error(error = movieDetailsResult.exception)
-            is Result.Success -> ViewState.Success(data = movieDetailsResult.value)
+            is Result.Error -> ViewState.Error(error = detailsResult.exception)
+            is Result.Success -> ViewState.Success(data = detailsResult.value)
         }
 
         MovieDetailsViewState(

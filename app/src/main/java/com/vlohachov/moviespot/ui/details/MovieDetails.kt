@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
@@ -37,6 +36,7 @@ import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
+import com.vlohachov.moviespot.ui.destinations.MovieCreditsDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
 import org.koin.androidx.compose.getViewModel
@@ -89,7 +89,8 @@ fun MovieDetails(
         ) {
             Content(
                 modifier = Modifier.fillMaxSize(),
-                viewState = uiState.detailsViewState,
+                detailsViewState = uiState.detailsViewState,
+                onCredits = { navigator.navigate(MovieCreditsDestination(movieId = movieId)) },
                 onMore = {},
                 onError = viewModel::onError,
             )
@@ -107,7 +108,8 @@ fun MovieDetails(
 @Composable
 private fun Content(
     modifier: Modifier,
-    viewState: ViewState<MovieDetails>,
+    detailsViewState: ViewState<MovieDetails>,
+    onCredits: () -> Unit,
     onMore: () -> Unit,
     onError: (error: Throwable) -> Unit,
 ) {
@@ -115,66 +117,82 @@ private fun Content(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        when (viewState) {
-            ViewState.Loading ->
-                item { CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp)) }
-            is ViewState.Error -> viewState.error?.run(onError)
-            is ViewState.Success -> details(
+        item {
+            Details(
+                modifier = Modifier.fillMaxWidth(),
+                viewState = detailsViewState,
+                onCredits = onCredits,
                 onMore = onMore,
-                details = viewState.data,
+                onError = onError,
             )
         }
     }
 }
 
-private fun LazyListScope.details(onMore: () -> Unit, details: MovieDetails) {
-    item {
-        Headline(
-            modifier = Modifier
-                .padding(all = 16.dp)
-                .fillMaxWidth(),
-            poster = { modifier ->
-                Image(
-                    modifier = modifier,
-                    painter = rememberAsyncImagePainter(model = details.posterPath),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+@Composable
+private fun Details(
+    modifier: Modifier,
+    viewState: ViewState<MovieDetails>,
+    onCredits: () -> Unit,
+    onMore: () -> Unit,
+    onError: (error: Throwable) -> Unit,
+) {
+    when (viewState) {
+        ViewState.Loading -> CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp))
+        is ViewState.Error -> viewState.error?.run(onError)
+        is ViewState.Success -> with(viewState.data) {
+            Column(modifier = modifier) {
+                Headline(
+                    modifier = Modifier
+                        .padding(all = 16.dp)
+                        .fillMaxWidth(),
+                    poster = { modifier ->
+                        Image(
+                            modifier = modifier,
+                            painter = rememberAsyncImagePainter(model = posterPath),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                        )
+                    },
+                    title = { Text(text = title) },
+                    info = {
+                        Text(
+                            text = buildString {
+                                append(DateUtils.format(date = releaseDate))
+                                append(" ${Chars.bullet} ")
+                                append(status)
+                            }
+                        )
+                    },
                 )
-            },
-            title = { Text(text = details.title) },
-            info = {
-                Text(
-                    text = buildString {
-                        append(DateUtils.format(date = details.releaseDate))
-                        append(" ${Chars.bullet} ")
-                        append(details.status)
-                    }
+                BriefInfo(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                        .fillMaxWidth(),
+                    voteAverage = voteAverage,
+                    voteCount = voteCount,
+                    isAdult = isAdult,
+                    runtime = runtime,
                 )
-            },
-        )
-    }
-    item {
-        BriefInfo(
-            modifier = Modifier
-                .padding(vertical = 8.dp, horizontal = 16.dp)
-                .fillMaxWidth(),
-            voteAverage = details.voteAverage,
-            voteCount = details.voteCount,
-            isAdult = details.isAdult,
-            runtime = details.runtime,
-        )
-    }
-    item {
-        Divider(modifier = Modifier.padding(vertical = 8.dp))
-    }
-    item {
-        About(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 16.dp),
-            text = details.overview,
-            onMore = onMore,
-        )
+                TextButton(
+                    modifier = Modifier
+                        .align(alignment = Alignment.End)
+                        .padding(horizontal = 16.dp),
+                    shape = ShapeDefaults.ExtraSmall,
+                    onClick = onCredits,
+                ) {
+                    Text(text = stringResource(id = R.string.credits))
+                }
+                Divider(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp))
+                About(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    text = overview,
+                    onMore = onMore,
+                )
+            }
+        }
     }
 }
 

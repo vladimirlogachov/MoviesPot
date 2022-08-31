@@ -1,6 +1,8 @@
 package com.vlohachov.moviespot.core
 
 import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.model.movie.credit.CastMember
+import com.vlohachov.domain.model.movie.credit.CrewMember
 
 const val LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod" +
         " tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nos" +
@@ -8,6 +10,20 @@ const val LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         "rure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pari" +
         "atur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru" +
         "nt mollit anim id est laborum."
+
+val DummyCastMember = CastMember(
+    id = 10,
+    name = "Name",
+    character = "Character",
+    profilePath = "",
+)
+
+val DummyCrewMember = CrewMember(
+    id = 10,
+    name = "Name",
+    job = "Director",
+    profilePath = "",
+)
 
 val DummyMovie = Movie(
     id = 10,
