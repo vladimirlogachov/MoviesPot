@@ -1,7 +1,5 @@
 package com.vlohachov.moviespot.ui.details
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,11 +12,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,13 +30,11 @@ import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils.format
 import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
+import com.vlohachov.moviespot.ui.components.movie.Poster
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
-import com.vlohachov.moviespot.ui.destinations.CastDestination
-import com.vlohachov.moviespot.ui.destinations.CrewDestination
-import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
-import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.*
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
 import org.koin.androidx.compose.getViewModel
@@ -92,6 +85,7 @@ fun MovieDetails(
                 modifier = Modifier.fillMaxSize(),
                 detailsViewState = uiState.detailsViewState,
                 recommendationsViewState = uiState.recommendationsViewState,
+                onPoster = { path -> navigator.navigate(FullscreenImageDestination(path = path)) },
                 onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
                 onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
                 onMoreAbout = {},
@@ -129,6 +123,7 @@ private fun Content(
     modifier: Modifier,
     detailsViewState: ViewState<MovieDetails>,
     recommendationsViewState: ViewState<List<Movie>>,
+    onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
     onCrew: () -> Unit,
     onMoreAbout: () -> Unit,
@@ -144,6 +139,7 @@ private fun Content(
             Details(
                 modifier = Modifier.fillMaxWidth(),
                 viewState = detailsViewState,
+                onPoster = onPoster,
                 onCast = onCast,
                 onCrew = onCrew,
                 onMore = onMoreAbout,
@@ -167,6 +163,7 @@ private fun Content(
 private fun Details(
     modifier: Modifier,
     viewState: ViewState<MovieDetails>,
+    onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
     onCrew: () -> Unit,
     onMore: () -> Unit,
@@ -182,11 +179,10 @@ private fun Details(
                         .padding(all = 16.dp)
                         .fillMaxWidth(),
                     poster = { modifier ->
-                        Image(
+                        Poster(
                             modifier = modifier,
                             painter = rememberAsyncImagePainter(model = posterPath),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
+                            onClick = { onPoster(posterPath) },
                         )
                     },
                     title = { Text(text = title) },
@@ -368,7 +364,6 @@ private fun Headline(
     poster: @Composable RowScope.(modifier: Modifier) -> Unit,
     title: @Composable ColumnScope.() -> Unit,
     info: @Composable ColumnScope.() -> Unit,
-    posterShape: Shape = ShapeDefaults.Small,
 ) {
     Row(
         modifier = modifier,
@@ -377,12 +372,7 @@ private fun Headline(
         poster(
             modifier = Modifier
                 .weight(weight = 1f)
-                .aspectRatio(ratio = .75f)
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    shape = posterShape,
-                )
-                .clip(shape = posterShape)
+                .aspectRatio(ratio = .75f),
         )
         Column(
             modifier = Modifier.weight(weight = 2f),
