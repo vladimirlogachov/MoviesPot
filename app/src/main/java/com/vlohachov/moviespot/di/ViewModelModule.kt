@@ -1,6 +1,7 @@
 package com.vlohachov.moviespot.di
 
-import com.vlohachov.moviespot.ui.credits.MovieCreditsViewModel
+import com.vlohachov.moviespot.ui.credits.cast.CastViewModel
+import com.vlohachov.moviespot.ui.credits.crew.CrewViewModel
 import com.vlohachov.moviespot.ui.details.MovieDetailsViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
 import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesViewModel
@@ -47,9 +48,16 @@ val viewModelModule = module {
     }
 
     viewModel { params ->
-        MovieCreditsViewModel(
+        CastViewModel(
             movieId = params.get(),
-            movieCredits = get(),
+            cast = get(),
+        )
+    }
+
+    viewModel { params ->
+        CrewViewModel(
+            movieId = params.get(),
+            crew = get(),
         )
     }
 

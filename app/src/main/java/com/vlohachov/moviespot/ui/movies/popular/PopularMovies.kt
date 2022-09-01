@@ -20,7 +20,6 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import org.koin.androidx.compose.getViewModel
@@ -42,8 +41,6 @@ fun PopularMovies(
             viewModel.onErrorConsumed()
         }
     }
-
-    SetSystemBarsColor(colorTransitionFraction = scrollBehavior.state.overlappedFraction)
 
     Scaffold(
         modifier = Modifier

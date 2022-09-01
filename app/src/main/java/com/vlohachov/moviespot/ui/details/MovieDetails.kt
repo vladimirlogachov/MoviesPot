@@ -34,12 +34,12 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils.format
 import com.vlohachov.moviespot.core.utils.TimeUtils
-import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
-import com.vlohachov.moviespot.ui.destinations.MovieCreditsDestination
+import com.vlohachov.moviespot.ui.destinations.CastDestination
+import com.vlohachov.moviespot.ui.destinations.CrewDestination
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
@@ -61,8 +61,6 @@ fun MovieDetails(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
     val uiState by viewModel.uiState.collectAsState()
-
-    SetSystemBarsColor(colorTransitionFraction = scrollBehavior.state.collapsedFraction)
 
     Scaffold(
         modifier = Modifier
@@ -94,7 +92,8 @@ fun MovieDetails(
                 modifier = Modifier.fillMaxSize(),
                 detailsViewState = uiState.detailsViewState,
                 recommendationsViewState = uiState.recommendationsViewState,
-                onCredits = { navigator.navigate(MovieCreditsDestination(movieId = movieId)) },
+                onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
+                onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
                 onMoreAbout = {},
                 onMoreRecommendations = {
                     navigator.navigate(
@@ -130,7 +129,8 @@ private fun Content(
     modifier: Modifier,
     detailsViewState: ViewState<MovieDetails>,
     recommendationsViewState: ViewState<List<Movie>>,
-    onCredits: () -> Unit,
+    onCast: () -> Unit,
+    onCrew: () -> Unit,
     onMoreAbout: () -> Unit,
     onMoreRecommendations: () -> Unit,
     onMovieClick: (movie: Movie) -> Unit,
@@ -144,7 +144,8 @@ private fun Content(
             Details(
                 modifier = Modifier.fillMaxWidth(),
                 viewState = detailsViewState,
-                onCredits = onCredits,
+                onCast = onCast,
+                onCrew = onCrew,
                 onMore = onMoreAbout,
                 onError = onError,
             )
@@ -166,7 +167,8 @@ private fun Content(
 private fun Details(
     modifier: Modifier,
     viewState: ViewState<MovieDetails>,
-    onCredits: () -> Unit,
+    onCast: () -> Unit,
+    onCrew: () -> Unit,
     onMore: () -> Unit,
     onError: (error: Throwable) -> Unit,
 ) {
@@ -207,14 +209,18 @@ private fun Details(
                     isAdult = isAdult,
                     runtime = runtime,
                 )
-                TextButton(
+                Row(
                     modifier = Modifier
                         .align(alignment = Alignment.End)
                         .padding(horizontal = 16.dp),
-                    shape = ShapeDefaults.ExtraSmall,
-                    onClick = onCredits,
+                    horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
                 ) {
-                    Text(text = stringResource(id = R.string.credits))
+                    OutlinedButton(onClick = onCast) {
+                        Text(text = stringResource(id = R.string.cast))
+                    }
+                    OutlinedButton(onClick = onCrew) {
+                        Text(text = stringResource(id = R.string.crew))
+                    }
                 }
                 Divider(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp))
                 About(

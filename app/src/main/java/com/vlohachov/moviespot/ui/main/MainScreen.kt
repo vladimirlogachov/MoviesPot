@@ -15,7 +15,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.destinations.*
 import org.koin.androidx.compose.getViewModel
@@ -31,8 +30,6 @@ fun MainScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
     val uiState by viewModel.uiState.collectAsState()
-
-    SetSystemBarsColor(colorTransitionFraction = scrollBehavior.state.overlappedFraction)
 
     Scaffold(
         modifier = Modifier
