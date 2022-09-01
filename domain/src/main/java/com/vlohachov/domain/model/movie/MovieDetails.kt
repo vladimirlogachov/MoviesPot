@@ -9,6 +9,7 @@ data class MovieDetails(
     val id: Int,
     val title: String,
     val originalTitle: String,
+    val tagline: String,
     val overview: String,
     val posterPath: String,
     val runtime: Int,

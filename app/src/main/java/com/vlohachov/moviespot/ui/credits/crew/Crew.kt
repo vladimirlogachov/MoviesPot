@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -123,10 +124,11 @@ private fun Content(
         horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         when (viewState) {
-            ViewState.Loading ->
-                item(span = { GridItemSpan(currentLineSpan = 2) }) {
-                    CircularProgressIndicator(modifier = Modifier)
+            ViewState.Loading -> item(span = { GridItemSpan(currentLineSpan = 2) }) {
+                Box(contentAlignment = Alignment.TopCenter) {
+                    CircularProgressIndicator()
                 }
+            }
             is ViewState.Error ->
                 viewState.error?.run(onError)
             is ViewState.Success ->

@@ -17,6 +17,8 @@ data class MovieDetailsSchema(
     val title: String,
     @SerializedName("original_title")
     val originalTitle: String,
+    @SerializedName("tagline")
+    val tagline: String,
     @SerializedName("overview")
     val overview: String,
     @SerializedName("poster_path")
@@ -54,6 +56,7 @@ internal fun MovieDetailsSchema.toDomain(): MovieDetails =
         id = id,
         title = title,
         originalTitle = originalTitle,
+        tagline = tagline,
         overview = overview,
         posterPath = TmdbConfig.BASE_IMAGE_URL + "original" + posterPath,
         runtime = runtime,

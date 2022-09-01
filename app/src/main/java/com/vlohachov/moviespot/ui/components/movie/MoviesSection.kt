@@ -6,9 +6,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.MoreButton
@@ -27,8 +29,9 @@ fun MoviesSection(
     textStyles: SectionTextStyles = SectionDefaults.mediumTextStyles(),
     colors: SectionColors = SectionDefaults.sectionColors(),
 ) {
+    val isEmpty = viewState is ViewState.Success && viewState.data.isEmpty()
     val moreButton: @Composable (() -> Unit)? =
-        if (viewState is ViewState.Success && onMore != null) {
+        if (!isEmpty && onMore != null) {
             @Composable { MoreButton(onClick = onMore) }
         } else {
             null
@@ -80,14 +83,23 @@ private fun Movies(
                     )
                 }
             is ViewState.Success ->
-                MoviesLazyRow(
-                    modifier = Modifier
-                        .height(height = 168.dp)
-                        .fillMaxWidth(),
-                    movies = viewState.data,
-                    contentPadding = contentPadding,
-                    onClick = onMovieClick,
-                )
+                if (viewState.data.isEmpty()) {
+                    Text(
+                        modifier = Modifier
+                            .padding(paddingValues = contentPadding)
+                            .align(alignment = Alignment.Center),
+                        text = stringResource(id = R.string.no_results),
+                    )
+                } else {
+                    MoviesLazyRow(
+                        modifier = Modifier
+                            .height(height = 168.dp)
+                            .fillMaxWidth(),
+                        movies = viewState.data,
+                        contentPadding = contentPadding,
+                        onClick = onMovieClick,
+                    )
+                }
         }
     }
 }

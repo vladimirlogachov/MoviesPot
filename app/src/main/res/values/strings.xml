@@ -15,7 +15,7 @@
     <string name="reviews">%d reviews</string>
     <string name="duration">Duration</string>
     <string name="audience">Audience</string>
-    <string name="about_this_film">About this film</string>
+    <string name="overview">Overview</string>
     <string name="credits">Credits</string>
     <string name="cast">Cast</string>
     <string name="crew">Crew</string>
@@ -23,4 +23,5 @@
     <string name="similar_to">Similar to %s</string>
     <string name="scroll_to_top">Scroll to top</string>
     <string name="directed_by">Directed by %s</string>
+    <string name="no_results">No results.</string>
 </resources>

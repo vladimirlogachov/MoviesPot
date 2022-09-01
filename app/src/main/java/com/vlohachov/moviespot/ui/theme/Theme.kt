@@ -99,6 +99,8 @@ fun MoviesPotTheme(
                 navigationBarColor = colorScheme.surfaceColorAtElevation(elevation = 3.dp).toArgb()
                 WindowCompat.getInsetsController(this, view)
                     .isAppearanceLightStatusBars = !darkTheme
+                WindowCompat.getInsetsController(this, view)
+                    .isAppearanceLightNavigationBars = !darkTheme
             }
         }
     }

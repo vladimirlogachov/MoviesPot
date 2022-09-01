@@ -1,12 +1,11 @@
 package com.vlohachov.moviespot.ui.details
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -89,7 +87,6 @@ fun MovieDetails(
                 onPoster = { path -> navigator.navigate(FullscreenImageDestination(path = path)) },
                 onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
                 onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
-                onMoreAbout = {},
                 onMoreRecommendations = {
                     navigator.navigate(
                         SimilarMoviesDestination(
@@ -128,7 +125,6 @@ private fun Content(
     onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
     onCrew: () -> Unit,
-    onMoreAbout: () -> Unit,
     onMoreRecommendations: () -> Unit,
     onMovieClick: (movie: Movie) -> Unit,
     onError: (error: Throwable) -> Unit,
@@ -137,22 +133,18 @@ private fun Content(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        item {
-            Details(
-                modifier = Modifier.fillMaxWidth(),
-                director = if (directorViewState is ViewState.Success) {
-                    directorViewState.data
-                } else {
-                    ""
-                },
-                viewState = detailsViewState,
-                onPoster = onPoster,
-                onCast = onCast,
-                onCrew = onCrew,
-                onMore = onMoreAbout,
-                onError = onError,
-            )
-        }
+        details(
+            director = if (directorViewState is ViewState.Success) {
+                directorViewState.data
+            } else {
+                ""
+            },
+            viewState = detailsViewState,
+            onPoster = onPoster,
+            onCast = onCast,
+            onCrew = onCrew,
+            onError = onError,
+        )
         item {
             MoviesSection(
                 modifier = Modifier.fillMaxWidth(),
@@ -160,28 +152,29 @@ private fun Content(
                 viewState = recommendationsViewState,
                 onMore = onMoreRecommendations,
                 onMovieClick = onMovieClick,
-                textStyles = SectionDefaults.smallTextStyles(),
+                textStyles = SectionDefaults.smallTextStyles(
+                    contentTextStyle = MaterialTheme.typography.bodyMedium
+                ),
             )
         }
     }
 }
 
-@Composable
-private fun Details(
-    modifier: Modifier,
+private fun LazyListScope.details(
     director: String,
     viewState: ViewState<MovieDetails>,
     onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
     onCrew: () -> Unit,
-    onMore: () -> Unit,
     onError: (error: Throwable) -> Unit,
 ) {
     when (viewState) {
-        ViewState.Loading -> CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp))
+        ViewState.Loading -> item {
+            CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp))
+        }
         is ViewState.Error -> viewState.error?.run(onError)
         is ViewState.Success -> with(viewState.data) {
-            Column(modifier = modifier) {
+            item {
                 Headline(
                     modifier = Modifier
                         .padding(all = 16.dp)
@@ -197,30 +190,43 @@ private fun Details(
                     info = {
                         Text(
                             text = buildString {
-                                append(DateUtils.format(date = releaseDate))
-                                append(" ${Chars.bullet} ")
+                                if (releaseDate.isNotBlank()) {
+                                    append(DateUtils.format(date = releaseDate))
+                                    append(" ${Chars.bullet} ")
+                                }
                                 append(status)
                             }
                         )
                         if (director.isNotBlank()) {
                             Text(text = stringResource(id = R.string.directed_by, director))
                         }
+                        if (tagline.isNotBlank()) {
+                            Spacer(modifier = Modifier.height(height = 16.dp))
+                            Text(text = "\"$tagline\"")
+                        }
                     },
                 )
+            }
+            item {
                 BriefInfo(
                     modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 16.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(all = 16.dp),
                     voteAverage = voteAverage,
                     voteCount = voteCount,
                     isAdult = isAdult,
                     runtime = runtime,
                 )
+            }
+            item {
                 Row(
                     modifier = Modifier
-                        .align(alignment = Alignment.End)
+                        .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = 16.dp,
+                        alignment = Alignment.End,
+                    )
                 ) {
                     OutlinedButton(onClick = onCast) {
                         Text(text = stringResource(id = R.string.cast))
@@ -229,13 +235,16 @@ private fun Details(
                         Text(text = stringResource(id = R.string.crew))
                     }
                 }
-                Divider(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp))
-                About(
+            }
+            item {
+                Divider(modifier = Modifier.padding(all = 16.dp))
+            }
+            item {
+                Overview(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp, horizontal = 16.dp),
                     text = overview,
-                    onMore = onMore,
                 )
             }
         }
@@ -243,27 +252,16 @@ private fun Details(
 }
 
 @Composable
-private fun About(
+private fun Overview(
     modifier: Modifier,
     text: String,
-    onMore: () -> Unit,
 ) {
     Section(
-        modifier = Modifier
-            .clickable(onClick = onMore)
-            .then(other = modifier),
+        modifier = modifier,
         title = {
             SectionTitle(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.about_this_film),
-                trailing = {
-                    Icon(
-                        imageVector = Icons.Rounded.ArrowForward,
-                        contentDescription = stringResource(id = R.string.more),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                },
-                horizontalArrangement = Arrangement.SpaceBetween,
+                text = stringResource(id = R.string.overview),
             )
         },
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
@@ -273,8 +271,6 @@ private fun About(
     ) {
         Text(
             text = text,
-            maxLines = 4,
-            overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
@@ -388,7 +384,7 @@ private fun Headline(
         Column(
             modifier = Modifier.weight(weight = 2f),
         ) {
-            ProvideTextStyle(value = Typography.headlineSmall) {
+            ProvideTextStyle(value = Typography.titleLarge) {
                 title()
             }
             ProvideTextStyle(value = Typography.bodyMedium) {
@@ -439,10 +435,9 @@ fun BriefInfoPreview() {
 @Composable
 fun AboutPreview() {
     MoviesPotTheme {
-        About(
+        Overview(
             modifier = Modifier,
             text = LoremIpsum,
-            onMore = {},
         )
     }
 }
