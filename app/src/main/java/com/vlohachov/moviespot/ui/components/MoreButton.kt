@@ -1,7 +1,7 @@
 package com.vlohachov.moviespot.ui.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -25,7 +25,7 @@ fun MoreButton(
             onClick = onClick,
         ) {
             Icon(
-                imageVector = Icons.Default.ArrowForward,
+                imageVector = Icons.Rounded.ArrowForward,
                 contentDescription = stringResource(id = R.string.more),
             )
         }

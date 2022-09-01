@@ -2,7 +2,9 @@ package com.vlohachov.moviespot.ui.components.movie
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +23,7 @@ fun MoviesPaginatedGrid(
     onError: (error: Throwable) -> Unit,
     modifier: Modifier = Modifier,
     onClick: ((movie: Movie) -> Unit)? = null,
+    state: LazyGridState = rememberLazyGridState(),
     contentPadding: PaddingValues = MoviesPaginatedGridDefaults.ContentPadding,
     verticalArrangement: Arrangement.Vertical = MoviesPaginatedGridDefaults.VerticalArrangement,
     horizontalArrangement: Arrangement.Horizontal = MoviesPaginatedGridDefaults.HorizontalArrangement,
@@ -28,8 +31,10 @@ fun MoviesPaginatedGrid(
     val itemModifier = Modifier
         .fillMaxWidth()
         .aspectRatio(ratio = .75f)
+
     LazyVerticalGrid(
         modifier = modifier,
+        state = state,
         columns = columns,
         contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,

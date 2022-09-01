@@ -1,16 +1,15 @@
 package com.vlohachov.moviespot.ui.credits.cast
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -20,10 +19,11 @@ import com.vlohachov.domain.model.movie.credit.CastMember
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.Profile
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Destination
 @Composable
 fun Cast(
@@ -32,8 +32,11 @@ fun Cast(
     viewModel: CastViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val gridState = rememberLazyGridState()
+    val coroutineScope = rememberCoroutineScope()
+    val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > 3 } }
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
@@ -47,13 +50,34 @@ fun Cast(
                 navigationIcon = {
                     IconButton(onClick = { navigator.navigateUp() }) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null,
                         )
                     }
                 },
                 scrollBehavior = scrollBehavior,
             )
+        },
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = showScrollToTop,
+                enter = fadeIn() + scaleIn(),
+                exit = fadeOut() + scaleOut(),
+            ) {
+                FloatingActionButton(
+                    modifier = Modifier.navigationBarsPadding(),
+                    onClick = {
+                        coroutineScope.launch {
+                            gridState.animateScrollToItem(index = 0)
+                        }
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_round_arrow_upward_24),
+                        contentDescription = stringResource(id = R.string.scroll_to_top),
+                    )
+                }
+            }
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { paddingValues ->
@@ -64,6 +88,7 @@ fun Cast(
         ) {
             Content(
                 modifier = Modifier.fillMaxSize(),
+                gridState = gridState,
                 viewState = uiState.viewState,
                 onCredit = { creditId ->
 
@@ -84,12 +109,14 @@ fun Cast(
 @Composable
 private fun Content(
     modifier: Modifier,
+    gridState: LazyGridState,
     viewState: ViewState<List<CastMember>>,
     onCredit: (creditId: Long) -> Unit,
     onError: (error: Throwable) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = modifier,
+        state = gridState,
         columns = GridCells.Fixed(count = 2),
         contentPadding = PaddingValues(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),

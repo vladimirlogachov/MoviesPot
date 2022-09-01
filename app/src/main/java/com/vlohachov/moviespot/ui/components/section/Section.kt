@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
@@ -118,7 +118,7 @@ fun SectionTitlePreview() {
             SectionTitle(
                 text = "Section with trailing",
                 trailing = {
-                    Icon(imageVector = Icons.Default.Info, contentDescription = null)
+                    Icon(imageVector = Icons.Rounded.Info, contentDescription = null)
                 }
             )
         }
