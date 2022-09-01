@@ -43,6 +43,7 @@ val viewModelModule = module {
         MovieDetailsViewModel(
             movieId = params.get(),
             movieDetails = get(),
+            director = get(),
             movieRecommendations = get(),
         )
     }

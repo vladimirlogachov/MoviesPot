@@ -6,6 +6,7 @@ import com.vlohachov.moviespot.core.ViewState
 
 data class MovieDetailsViewState(
     val detailsViewState: ViewState<MovieDetails> = ViewState.Loading,
+    val directorViewState: ViewState<String> = ViewState.Loading,
     val recommendationsViewState: ViewState<List<Movie>> = ViewState.Loading,
     val error: Throwable? = null,
 )

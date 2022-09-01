@@ -22,4 +22,5 @@
     <string name="recommendations">Recommendations</string>
     <string name="similar_to">Similar to %s</string>
     <string name="scroll_to_top">Scroll to top</string>
+    <string name="directed_by">Directed by %s</string>
 </resources>

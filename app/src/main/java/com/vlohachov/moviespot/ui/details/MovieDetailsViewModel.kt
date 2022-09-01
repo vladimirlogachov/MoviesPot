@@ -6,6 +6,7 @@ import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieDetails
+import com.vlohachov.domain.usecase.DirectorUseCase
 import com.vlohachov.domain.usecase.movies.MovieDetailsUseCase
 import com.vlohachov.domain.usecase.movies.MovieRecommendationsUseCase
 import com.vlohachov.moviespot.core.ViewState
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class MovieDetailsViewModel(
     movieId: Long,
     movieDetails: MovieDetailsUseCase,
+    director: DirectorUseCase,
     movieRecommendations: MovieRecommendationsUseCase,
 ) : ViewModel() {
 
@@ -23,18 +25,27 @@ class MovieDetailsViewModel(
 
     private val detailsResult: Flow<Result<MovieDetails>> =
         movieDetails.resultFlow(param = MovieDetailsUseCase.Param(id = movieId))
+    private val directorResult: Flow<Result<String>> =
+        director.resultFlow(param = DirectorUseCase.Param(id = movieId))
     private val recommendationsResult: Flow<Result<PaginatedData<Movie>>> =
         movieRecommendations.resultFlow(param = MovieRecommendationsUseCase.Param(id = movieId))
 
     val uiState: StateFlow<MovieDetailsViewState> = combine(
         detailsResult,
+        directorResult,
         recommendationsResult,
         error,
-    ) { detailsResult, recommendationsResult, error ->
+    ) { detailsResult, directorResult, recommendationsResult, error ->
         val detailsViewState = when (detailsResult) {
             Result.Loading -> ViewState.Loading
             is Result.Error -> ViewState.Error(error = detailsResult.exception)
             is Result.Success -> ViewState.Success(data = detailsResult.value)
+        }
+
+        val directorViewState = when (directorResult) {
+            Result.Loading -> ViewState.Loading
+            is Result.Error -> ViewState.Error(error = directorResult.exception)
+            is Result.Success -> ViewState.Success(data = directorResult.value)
         }
 
         val recommendationsViewState = when (recommendationsResult) {
@@ -45,6 +56,7 @@ class MovieDetailsViewModel(
 
         MovieDetailsViewState(
             detailsViewState = detailsViewState,
+            directorViewState = directorViewState,
             recommendationsViewState = recommendationsViewState,
             error = error,
         )

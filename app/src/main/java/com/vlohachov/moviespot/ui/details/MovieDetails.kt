@@ -84,6 +84,7 @@ fun MovieDetails(
             Content(
                 modifier = Modifier.fillMaxSize(),
                 detailsViewState = uiState.detailsViewState,
+                directorViewState = uiState.directorViewState,
                 recommendationsViewState = uiState.recommendationsViewState,
                 onPoster = { path -> navigator.navigate(FullscreenImageDestination(path = path)) },
                 onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
@@ -122,6 +123,7 @@ fun MovieDetails(
 private fun Content(
     modifier: Modifier,
     detailsViewState: ViewState<MovieDetails>,
+    directorViewState: ViewState<String>,
     recommendationsViewState: ViewState<List<Movie>>,
     onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
@@ -138,6 +140,11 @@ private fun Content(
         item {
             Details(
                 modifier = Modifier.fillMaxWidth(),
+                director = if (directorViewState is ViewState.Success) {
+                    directorViewState.data
+                } else {
+                    ""
+                },
                 viewState = detailsViewState,
                 onPoster = onPoster,
                 onCast = onCast,
@@ -162,6 +169,7 @@ private fun Content(
 @Composable
 private fun Details(
     modifier: Modifier,
+    director: String,
     viewState: ViewState<MovieDetails>,
     onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
@@ -194,6 +202,9 @@ private fun Details(
                                 append(status)
                             }
                         )
+                        if (director.isNotBlank()) {
+                            Text(text = stringResource(id = R.string.directed_by, director))
+                        }
                     },
                 )
                 BriefInfo(

@@ -4,6 +4,7 @@ import com.vlohachov.data.repository.MoviesRepositoryImpl
 import com.vlohachov.domain.repository.MoviesRepository
 import com.vlohachov.domain.usecase.CastUseCase
 import com.vlohachov.domain.usecase.CrewUseCase
+import com.vlohachov.domain.usecase.DirectorUseCase
 import com.vlohachov.domain.usecase.GenresUseCase
 import com.vlohachov.domain.usecase.movies.MovieCreditsUseCase
 import com.vlohachov.domain.usecase.movies.MovieDetailsUseCase
@@ -63,6 +64,13 @@ val moviesModule = module {
 
     single {
         MovieCreditsUseCase(
+            coroutineContext = get(),
+            repository = get(),
+        )
+    }
+
+    single {
+        DirectorUseCase(
             coroutineContext = get(),
             repository = get(),
         )
