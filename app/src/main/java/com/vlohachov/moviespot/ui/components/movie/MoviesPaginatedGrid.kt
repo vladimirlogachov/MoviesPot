@@ -1,6 +1,5 @@
 package com.vlohachov.moviespot.ui.components.movie
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -12,6 +11,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.domain.model.movie.Movie
 
 @Composable
@@ -35,15 +35,22 @@ fun MoviesPaginatedGrid(
         verticalArrangement = verticalArrangement,
         horizontalArrangement = horizontalArrangement,
     ) {
-        items(movies.itemCount) { index ->
+        items(count = movies.itemCount) { index ->
             movies[index]?.let { movie ->
-                val onClickModifier = onClick?.let { onClick ->
-                    Modifier.clickable { onClick(movie) }
-                } ?: Modifier
-                Movie(
-                    modifier = itemModifier.then(other = onClickModifier),
-                    movie = movie,
-                )
+                if (onClick != null) {
+                    Poster(
+                        modifier = itemModifier,
+                        painter = rememberAsyncImagePainter(model = movie.posterPath),
+                        contentDescription = movie.title,
+                        onClick = { onClick(movie) },
+                    )
+                } else {
+                    Poster(
+                        modifier = itemModifier,
+                        painter = rememberAsyncImagePainter(model = movie.posterPath),
+                        contentDescription = movie.title,
+                    )
+                }
             }
         }
 

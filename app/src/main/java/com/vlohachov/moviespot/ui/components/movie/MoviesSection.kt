@@ -82,7 +82,7 @@ private fun Movies(
             is ViewState.Success ->
                 MoviesLazyRow(
                     modifier = Modifier
-                        .height(height = 160.dp)
+                        .height(height = 168.dp)
                         .fillMaxWidth(),
                     movies = viewState.data,
                     contentPadding = contentPadding,

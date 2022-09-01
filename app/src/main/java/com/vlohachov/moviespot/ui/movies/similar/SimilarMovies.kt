@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -37,14 +36,8 @@ fun SimilarMovies(
     movieTitle: String,
     viewModel: SimilarMoviesViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    topAppBarState: TopAppBarState = rememberTopAppBarState(),
-    scrollBehavior: TopAppBarScrollBehavior = remember {
-        TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-    },
-    topAppBarColors: TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(),
 ) {
-    val colorTransitionFraction = scrollBehavior.state.collapsedFraction
-    val appBarContainerColor by topAppBarColors.containerColor(colorTransitionFraction)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
 
     viewModel.error?.run {
@@ -54,7 +47,10 @@ fun SimilarMovies(
         }
     }
 
-    SetSystemBarsColor(color = appBarContainerColor)
+    SetSystemBarsColor(
+        colorTransitionFraction = scrollBehavior.state.collapsedFraction,
+        twoRowsTopAppBar = true,
+    )
 
     Scaffold(
         modifier = Modifier
@@ -79,7 +75,6 @@ fun SimilarMovies(
                     }
                 },
                 scrollBehavior = scrollBehavior,
-                colors = topAppBarColors,
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },

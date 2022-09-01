@@ -34,6 +34,7 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils.format
 import com.vlohachov.moviespot.core.utils.TimeUtils
+import com.vlohachov.moviespot.ui.components.SetSystemBarsColor
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
@@ -56,14 +57,12 @@ fun MovieDetails(
     movieTitle: String,
     viewModel: MovieDetailsViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    topAppBarState: TopAppBarState = rememberTopAppBarState(),
-    scrollBehavior: TopAppBarScrollBehavior = remember {
-        TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
-    },
-    topAppBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
     val uiState by viewModel.uiState.collectAsState()
+
+    SetSystemBarsColor(colorTransitionFraction = scrollBehavior.state.collapsedFraction)
 
     Scaffold(
         modifier = Modifier
@@ -82,7 +81,6 @@ fun MovieDetails(
                     }
                 },
                 scrollBehavior = scrollBehavior,
-                colors = topAppBarColors,
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },

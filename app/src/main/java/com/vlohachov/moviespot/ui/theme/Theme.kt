@@ -93,8 +93,9 @@ fun MoviesPotTheme(
         SideEffect {
             with((view.context as Activity).window) {
                 statusBarColor = colorScheme.surface.toArgb()
-                WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars =
-                    !darkTheme
+                WindowCompat.getInsetsController(this, view)
+                    .isAppearanceLightStatusBars = !darkTheme
+                WindowCompat.setDecorFitsSystemWindows(this, false)
             }
         }
     }
@@ -102,6 +103,6 @@ fun MoviesPotTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
+        content = content,
     )
 }

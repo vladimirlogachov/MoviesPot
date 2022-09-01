@@ -27,18 +27,12 @@ fun MainScreen(
     navigator: DestinationsNavigator,
     viewModel: MainViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    topAppBarState: TopAppBarState = rememberTopAppBarState(),
-    scrollBehavior: TopAppBarScrollBehavior = remember {
-        TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
-    },
-    topAppBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
-    val colorTransitionFraction = scrollBehavior.state.overlappedFraction
-    val appBarContainerColor by topAppBarColors.containerColor(colorTransitionFraction)
     val uiState by viewModel.uiState.collectAsState()
 
-    SetSystemBarsColor(color = appBarContainerColor)
+    SetSystemBarsColor(colorTransitionFraction = scrollBehavior.state.overlappedFraction)
 
     Scaffold(
         modifier = Modifier
@@ -51,7 +45,6 @@ fun MainScreen(
                     Text(text = stringResource(id = R.string.app_name))
                 },
                 scrollBehavior = scrollBehavior,
-                colors = topAppBarColors,
             )
         },
         snackbarHost = {

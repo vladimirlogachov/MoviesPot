@@ -1,7 +1,9 @@
 package com.vlohachov.moviespot.ui.credits
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.flowlayout.FlowRow
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.MovieCredits
@@ -95,7 +98,8 @@ private fun Content(
                 viewState.error?.run(onError)
             is ViewState.Success ->
                 Credits(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize(),
                     credits = viewState.data,
                     onCredit = onCredit,
                 )
@@ -109,42 +113,44 @@ private fun Credits(
     credits: MovieCredits,
     onCredit: (creditId: Long) -> Unit,
 ) {
-    Column(modifier = modifier) {
-        Section(
-            modifier = Modifier.fillMaxWidth(),
-            title = {
-                SectionTitle(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    text = stringResource(id = R.string.cast, credits.cast.size),
+    LazyColumn(modifier = modifier) {
+        item {
+            Section(
+                modifier = Modifier.fillMaxWidth(),
+                title = {
+                    SectionTitle(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.cast, credits.cast.size),
+                    )
+                },
+                textStyles = SectionDefaults.smallTextStyles(),
+            ) {
+                Cast(
+                    modifier = Modifier
+                        .height(height = 384.dp)
+                        .fillMaxWidth(),
+                    cast = credits.cast,
+                    onClick = onCredit,
                 )
-            },
-            textStyles = SectionDefaults.smallTextStyles(),
-        ) {
-            Cast(
-                modifier = Modifier
-                    .height(height = 200.dp)
-                    .fillMaxWidth(),
-                cast = credits.cast,
-                onClick = onCredit,
-            )
+            }
         }
-        Section(
-            modifier = Modifier.fillMaxWidth(),
-            title = {
-                SectionTitle(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    text = stringResource(id = R.string.crew, credits.crew.size),
+        item {
+            Section(
+                modifier = Modifier.fillMaxWidth(),
+                title = {
+                    SectionTitle(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        text = stringResource(id = R.string.crew, credits.crew.size),
+                    )
+                },
+                textStyles = SectionDefaults.smallTextStyles(),
+            ) {
+                Crew(
+                    modifier = Modifier.fillMaxWidth(),
+                    crew = credits.crew,
+                    onClick = onCredit,
                 )
-            },
-            textStyles = SectionDefaults.smallTextStyles(),
-        ) {
-            Crew(
-                modifier = Modifier
-                    .height(height = 200.dp)
-                    .fillMaxWidth(),
-                crew = credits.crew,
-                onClick = onCredit,
-            )
+            }
         }
     }
 }
@@ -154,22 +160,21 @@ private fun Cast(
     modifier: Modifier,
     cast: List<CastMember>,
     onClick: (memberId: Long) -> Unit,
+    columns: GridCells = GridCells.Fixed(count = 3),
     contentPadding: PaddingValues = PaddingValues(all = 16.dp),
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(space = 16.dp),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = 16.dp),
 ) {
-    LazyRow(
+    FlowRow(
         modifier = modifier,
-        contentPadding = contentPadding,
-        horizontalArrangement = horizontalArrangement,
+        mainAxisSpacing = 16.dp,
+        crossAxisSpacing = 16.dp,
     ) {
-        items(items = cast) { member ->
+        for (member in cast) {
             Profile(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(
-                        ratio = .75f,
-                        matchHeightConstraintsFirst = true,
-                    ),
+                    .fillMaxWidth()
+                    .aspectRatio(ratio = 0.75f),
                 title = member.name,
                 body = member.character,
                 painter = rememberAsyncImagePainter(model = member.profilePath),
@@ -177,6 +182,17 @@ private fun Cast(
             )
         }
     }
+//    LazyVerticalGrid(
+//        modifier = modifier,
+//        columns = columns,
+//        contentPadding = contentPadding,
+//        verticalArrangement = verticalArrangement,
+//        horizontalArrangement = horizontalArrangement,
+//    ) {
+//        items(items = cast) { member ->
+//
+//        }
+//    }
 }
 
 @Composable
@@ -194,15 +210,12 @@ private fun Crew(
     ) {
         items(items = crew) { member ->
             Profile(
-                Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(
-                        ratio = .75f,
-                        matchHeightConstraintsFirst = true,
-                    ),
+                modifier = Modifier
+                    .height(height = 168.dp)
+                    .aspectRatio(ratio = .75f, matchHeightConstraintsFirst = true),
+                painter = rememberAsyncImagePainter(model = member.profilePath),
                 title = member.name,
                 body = member.job,
-                painter = rememberAsyncImagePainter(model = member.profilePath),
                 onClick = { onClick(member.id) },
             )
         }
