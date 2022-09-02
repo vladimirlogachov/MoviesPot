@@ -1,6 +1,7 @@
 package com.vlohachov.data.remote.schema
 
 import com.google.gson.annotations.SerializedName
+import com.vlohachov.data.remote.TmdbConfig
 import com.vlohachov.domain.model.Company
 
 data class CompanySchema(
@@ -15,4 +16,9 @@ data class CompanySchema(
 )
 
 internal fun CompanySchema.toDomain(): Company =
-    Company(id = id, name = name, logoPath = logoPath, originCountry = originCountry)
+    Company(
+        id = id,
+        name = name,
+        logoPath = TmdbConfig.BASE_IMAGE_URL + "w92" + logoPath,
+        originCountry = originCountry,
+    )

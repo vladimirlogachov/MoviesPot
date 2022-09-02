@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Star
@@ -21,6 +23,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.flowlayout.FlowRow
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.vlohachov.domain.model.Company
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.domain.model.movie.keyword.Keyword
@@ -30,6 +33,7 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils.format
 import com.vlohachov.moviespot.core.utils.TimeUtils
+import com.vlohachov.moviespot.ui.components.Company
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.components.movie.Poster
 import com.vlohachov.moviespot.ui.components.section.Section
@@ -260,16 +264,58 @@ private fun LazyListScope.details(
                         Text(text = stringResource(id = R.string.crew))
                     }
                 }
+                Spacer(modifier = Modifier.height(height = 16.dp))
             }
             item {
-                Divider(modifier = Modifier.padding(all = 16.dp))
+                Divider(modifier = Modifier.padding(horizontal = 16.dp))
             }
             item {
                 Overview(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                        .padding(all = 16.dp),
                     text = overview,
+                )
+            }
+            item {
+                Production(
+                    modifier = Modifier.fillMaxWidth(),
+                    companies = productionCompanies,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun Production(
+    modifier: Modifier,
+    companies: List<Company>,
+) {
+    Section(
+        modifier = modifier,
+        title = {
+            SectionTitle(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                text = stringResource(id = R.string.production),
+            )
+        },
+        textStyles = SectionDefaults.smallTextStyles(
+            contentTextStyle = MaterialTheme.typography.bodyMedium,
+        ),
+    ) {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(all = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
+        ) {
+            items(items = companies) { company ->
+                Company(
+                    modifier = Modifier.width(width = 96.dp),
+                    painter = rememberAsyncImagePainter(model = company.logoPath),
+                    name = company.name
                 )
             }
         }
