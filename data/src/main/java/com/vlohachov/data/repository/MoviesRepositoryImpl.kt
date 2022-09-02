@@ -7,12 +7,15 @@ import com.vlohachov.data.remote.schema.movie.MovieDetailsSchema
 import com.vlohachov.data.remote.schema.movie.MoviesPaginatedSchema
 import com.vlohachov.data.remote.schema.movie.credit.MovieCreditsSchema
 import com.vlohachov.data.remote.schema.movie.credit.toDomain
+import com.vlohachov.data.remote.schema.movie.keyword.MovieKeywordsSchema
+import com.vlohachov.data.remote.schema.movie.keyword.toDomain
 import com.vlohachov.data.remote.schema.movie.toDomain
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieCredits
 import com.vlohachov.domain.model.movie.MovieDetails
+import com.vlohachov.domain.model.movie.keyword.Keyword
 import com.vlohachov.domain.repository.MoviesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -130,5 +133,13 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             emit(value = response)
         }
         return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+    }
+
+    override fun getMovieKeywords(id: Long): Flow<List<Keyword>> {
+        val flow = flow {
+            val response = remote.getMovieKeywords(id = id)
+            emit(value = response)
+        }
+        return flow.map(MovieKeywordsSchema::toDomain).flowOn(context = Dispatchers.IO)
     }
 }

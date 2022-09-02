@@ -6,9 +6,11 @@ import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieDetails
+import com.vlohachov.domain.model.movie.keyword.Keyword
 import com.vlohachov.domain.usecase.DirectorUseCase
-import com.vlohachov.domain.usecase.movies.MovieDetailsUseCase
-import com.vlohachov.domain.usecase.movies.MovieRecommendationsUseCase
+import com.vlohachov.domain.usecase.movie.MovieDetailsUseCase
+import com.vlohachov.domain.usecase.movie.MovieKeywordsUseCase
+import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.WhileUiSubscribed
 import kotlinx.coroutines.flow.*
@@ -18,6 +20,7 @@ class MovieDetailsViewModel(
     movieId: Long,
     movieDetails: MovieDetailsUseCase,
     director: DirectorUseCase,
+    keywords: MovieKeywordsUseCase,
     movieRecommendations: MovieRecommendationsUseCase,
 ) : ViewModel() {
 
@@ -27,15 +30,18 @@ class MovieDetailsViewModel(
         movieDetails.resultFlow(param = MovieDetailsUseCase.Param(id = movieId))
     private val directorResult: Flow<Result<String>> =
         director.resultFlow(param = DirectorUseCase.Param(id = movieId))
+    private val keywordsResult: Flow<Result<List<Keyword>>> =
+        keywords.resultFlow(param = MovieKeywordsUseCase.Param(id = movieId))
     private val recommendationsResult: Flow<Result<PaginatedData<Movie>>> =
         movieRecommendations.resultFlow(param = MovieRecommendationsUseCase.Param(id = movieId))
 
     val uiState: StateFlow<MovieDetailsViewState> = combine(
         detailsResult,
         directorResult,
+        keywordsResult,
         recommendationsResult,
         error,
-    ) { detailsResult, directorResult, recommendationsResult, error ->
+    ) { detailsResult, directorResult, keywordsResult, recommendationsResult, error ->
         val detailsViewState = when (detailsResult) {
             Result.Loading -> ViewState.Loading
             is Result.Error -> ViewState.Error(error = detailsResult.exception)
@@ -48,6 +54,12 @@ class MovieDetailsViewModel(
             is Result.Success -> ViewState.Success(data = directorResult.value)
         }
 
+        val keywordsViewState = when (keywordsResult) {
+            Result.Loading -> ViewState.Loading
+            is Result.Error -> ViewState.Error(error = keywordsResult.exception)
+            is Result.Success -> ViewState.Success(data = keywordsResult.value)
+        }
+
         val recommendationsViewState = when (recommendationsResult) {
             Result.Loading -> ViewState.Loading
             is Result.Error -> ViewState.Error(error = recommendationsResult.exception)
@@ -57,6 +69,7 @@ class MovieDetailsViewModel(
         MovieDetailsViewState(
             detailsViewState = detailsViewState,
             directorViewState = directorViewState,
+            keywordsViewState = keywordsViewState,
             recommendationsViewState = recommendationsViewState,
             error = error,
         )

@@ -24,4 +24,5 @@
     <string name="scroll_to_top">Scroll to top</string>
     <string name="directed_by">Directed by %s</string>
     <string name="no_results">No results.</string>
+    <string name="keywords">Keywords</string>
 </resources>

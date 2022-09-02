@@ -5,6 +5,7 @@ import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieCredits
 import com.vlohachov.domain.model.movie.MovieDetails
+import com.vlohachov.domain.model.movie.keyword.Keyword
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
@@ -50,4 +51,6 @@ interface MoviesRepository {
         page: Int,
         language: String?,
     ): Flow<PaginatedData<Movie>>
+
+    fun getMovieKeywords(id: Long): Flow<List<Keyword>>
 }

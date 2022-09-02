@@ -1,6 +1,7 @@
 package com.vlohachov.moviespot.ui.details
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -17,10 +18,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.flowlayout.FlowRow
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieDetails
+import com.vlohachov.domain.model.movie.keyword.Keyword
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.LoremIpsum
 import com.vlohachov.moviespot.core.ViewState
@@ -83,10 +86,14 @@ fun MovieDetails(
                 modifier = Modifier.fillMaxSize(),
                 detailsViewState = uiState.detailsViewState,
                 directorViewState = uiState.directorViewState,
+                keywordsViewState = uiState.keywordsViewState,
                 recommendationsViewState = uiState.recommendationsViewState,
                 onPoster = { path -> navigator.navigate(FullscreenImageDestination(path = path)) },
                 onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
                 onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
+                onKeyword = { keyword ->
+
+                },
                 onMoreRecommendations = {
                     navigator.navigate(
                         SimilarMoviesDestination(
@@ -121,10 +128,12 @@ private fun Content(
     modifier: Modifier,
     detailsViewState: ViewState<MovieDetails>,
     directorViewState: ViewState<String>,
+    keywordsViewState: ViewState<List<Keyword>>,
     recommendationsViewState: ViewState<List<Movie>>,
     onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
     onCrew: () -> Unit,
+    onKeyword: (keyword: Keyword) -> Unit,
     onMoreRecommendations: () -> Unit,
     onMovieClick: (movie: Movie) -> Unit,
     onError: (error: Throwable) -> Unit,
@@ -139,7 +148,7 @@ private fun Content(
             } else {
                 ""
             },
-            viewState = detailsViewState,
+            detailsViewState = detailsViewState,
             onPoster = onPoster,
             onCast = onCast,
             onCrew = onCrew,
@@ -157,23 +166,27 @@ private fun Content(
                 ),
             )
         }
+        keywords(
+            onKeyword = onKeyword,
+            viewState = keywordsViewState,
+        )
     }
 }
 
 private fun LazyListScope.details(
     director: String,
-    viewState: ViewState<MovieDetails>,
+    detailsViewState: ViewState<MovieDetails>,
     onPoster: (path: String) -> Unit,
     onCast: () -> Unit,
     onCrew: () -> Unit,
     onError: (error: Throwable) -> Unit,
 ) {
-    when (viewState) {
+    when (detailsViewState) {
         ViewState.Loading -> item {
             CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp))
         }
-        is ViewState.Error -> viewState.error?.run(onError)
-        is ViewState.Success -> with(viewState.data) {
+        is ViewState.Error -> detailsViewState.error?.run(onError)
+        is ViewState.Success -> with(detailsViewState.data) {
             item {
                 Headline(
                     modifier = Modifier
@@ -187,7 +200,7 @@ private fun LazyListScope.details(
                         )
                     },
                     title = { Text(text = title) },
-                    info = {
+                    subtitle = {
                         Text(
                             text = buildString {
                                 if (releaseDate.isNotBlank()) {
@@ -197,15 +210,27 @@ private fun LazyListScope.details(
                                 append(status)
                             }
                         )
+                    },
+                    info = {
+                        Text(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            text = buildString {
+                                for ((index, genre) in genres.withIndex()) {
+                                    append(genre.name)
+                                    if (index < genres.size - 1) {
+                                        append(", ")
+                                    }
+                                }
+                            }
+                        )
                         if (director.isNotBlank()) {
                             Text(text = stringResource(id = R.string.directed_by, director))
                         }
-                        if (tagline.isNotBlank()) {
-                            Spacer(modifier = Modifier.height(height = 16.dp))
-                            Text(text = "\"$tagline\"")
-                        }
                     },
                 )
+            }
+            if (tagline.isNotBlank()) {
+                item { Text(text = "\"$tagline\"") }
             }
             item {
                 BriefInfo(
@@ -251,6 +276,48 @@ private fun LazyListScope.details(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+private fun LazyListScope.keywords(
+    onKeyword: (keyword: Keyword) -> Unit,
+    viewState: ViewState<List<Keyword>>,
+) {
+    if (viewState is ViewState.Success) {
+        item {
+            Section(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                title = {
+                    SectionTitle(text = stringResource(id = R.string.keywords))
+                },
+                verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+                textStyles = SectionDefaults.smallTextStyles(),
+            ) {
+                FlowRow(
+                    mainAxisSpacing = 8.dp,
+                    crossAxisSpacing = 8.dp,
+                ) {
+                    for (keyword in viewState.data) {
+                        Text(
+                            modifier = Modifier
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.outline,
+                                    shape = SuggestionChipDefaults.shape,
+                                )
+                                .clickable { onKeyword(keyword) }
+                                .padding(vertical = 8.dp, horizontal = 16.dp),
+                            text = keyword.name,
+                            style = MaterialTheme.typography.labelMedium,
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(height = 16.dp))
+        }
+    }
+}
+
 @Composable
 private fun Overview(
     modifier: Modifier,
@@ -269,10 +336,7 @@ private fun Overview(
             contentTextStyle = MaterialTheme.typography.bodyMedium,
         ),
     ) {
-        Text(
-            text = text,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        Text(text = text, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
@@ -370,6 +434,7 @@ private fun Headline(
     modifier: Modifier,
     poster: @Composable RowScope.(modifier: Modifier) -> Unit,
     title: @Composable ColumnScope.() -> Unit,
+    subtitle: @Composable ColumnScope.() -> Unit,
     info: @Composable ColumnScope.() -> Unit,
 ) {
     Row(
@@ -381,16 +446,13 @@ private fun Headline(
                 .weight(weight = 1f)
                 .aspectRatio(ratio = .75f),
         )
-        Column(
-            modifier = Modifier.weight(weight = 2f),
-        ) {
+        Column(modifier = Modifier.weight(weight = 2f)) {
             ProvideTextStyle(value = Typography.titleLarge) {
                 title()
             }
+            subtitle()
             ProvideTextStyle(value = Typography.bodyMedium) {
-                CompositionLocalProvider(
-                    LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant
-                ) {
+                CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
                     info()
                 }
             }
@@ -410,8 +472,11 @@ fun HeadlinePreview() {
             title = {
                 Text(text = "Title (2022)")
             },
-            info = {
+            subtitle = {
                 Text(text = "12 Mar, 2022 ${Chars.bullet} Released")
+            },
+            info = {
+                Text(text = "Directed by Walter J. Smith")
             }
         )
     }

@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.movies.MovieRecommendationsUseCase
+import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map

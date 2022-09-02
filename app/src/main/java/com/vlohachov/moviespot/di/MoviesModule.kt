@@ -6,13 +6,14 @@ import com.vlohachov.domain.usecase.CastUseCase
 import com.vlohachov.domain.usecase.CrewUseCase
 import com.vlohachov.domain.usecase.DirectorUseCase
 import com.vlohachov.domain.usecase.GenresUseCase
-import com.vlohachov.domain.usecase.movies.MovieCreditsUseCase
-import com.vlohachov.domain.usecase.movies.MovieDetailsUseCase
-import com.vlohachov.domain.usecase.movies.MovieRecommendationsUseCase
-import com.vlohachov.domain.usecase.movies.list.NowPlayingUseCase
-import com.vlohachov.domain.usecase.movies.list.PopularUseCase
-import com.vlohachov.domain.usecase.movies.list.TopRatedUseCase
-import com.vlohachov.domain.usecase.movies.list.UpcomingUseCase
+import com.vlohachov.domain.usecase.movie.MovieCreditsUseCase
+import com.vlohachov.domain.usecase.movie.MovieDetailsUseCase
+import com.vlohachov.domain.usecase.movie.MovieKeywordsUseCase
+import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase
+import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
+import com.vlohachov.domain.usecase.movie.list.PopularUseCase
+import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
+import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
 import org.koin.dsl.module
 
 val moviesModule = module {
@@ -92,6 +93,13 @@ val moviesModule = module {
 
     single {
         MovieRecommendationsUseCase(
+            coroutineContext = get(),
+            repository = get(),
+        )
+    }
+
+    single {
+        MovieKeywordsUseCase(
             coroutineContext = get(),
             repository = get(),
         )

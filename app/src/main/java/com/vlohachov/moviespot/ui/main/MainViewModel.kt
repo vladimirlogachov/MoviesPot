@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.movies.list.NowPlayingUseCase
-import com.vlohachov.domain.usecase.movies.list.PopularUseCase
-import com.vlohachov.domain.usecase.movies.list.TopRatedUseCase
-import com.vlohachov.domain.usecase.movies.list.UpcomingUseCase
+import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
+import com.vlohachov.domain.usecase.movie.list.PopularUseCase
+import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
+import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.WhileUiSubscribed
 import kotlinx.coroutines.flow.*
