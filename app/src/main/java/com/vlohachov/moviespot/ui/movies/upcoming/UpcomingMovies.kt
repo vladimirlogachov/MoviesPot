@@ -90,7 +90,12 @@ fun UpcomingMovies(
                 }
             }
         },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier.navigationBarsPadding(),
+                hostState = snackbarHostState,
+            )
+        },
     ) { paddingValues ->
         val movies = viewModel.movies.collectAsLazyPagingItems()
 

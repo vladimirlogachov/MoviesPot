@@ -53,4 +53,10 @@ interface MoviesRepository {
     ): Flow<PaginatedData<Movie>>
 
     fun getMovieKeywords(id: Long): Flow<List<Keyword>>
+
+    fun searchMovies(
+        query: String,
+        page: Int,
+        language: String?,
+    ): Flow<PaginatedData<Movie>>
 }

@@ -1,5 +1,6 @@
 package com.vlohachov.moviespot.ui.movies.upcoming
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -28,6 +29,7 @@ class UpcomingMoviesViewModel(useCase: UpcomingUseCase) : ViewModel() {
         private set
 
     fun onError(e: Throwable) {
+        Log.e("TAG", "onError: ", e)
         viewModelScope.launch {
             error = e
         }

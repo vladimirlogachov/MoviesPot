@@ -1,10 +1,9 @@
 package com.vlohachov.moviespot.ui.main
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -41,11 +40,24 @@ fun MainScreen(
                 title = {
                     Text(text = stringResource(id = R.string.app_name))
                 },
+                actions = {
+                    IconButton(
+                        onClick = { navigator.navigate(SearchDestination) },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Search,
+                            contentDescription = stringResource(id = R.string.search),
+                        )
+                    }
+                },
                 scrollBehavior = scrollBehavior,
             )
         },
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(
+                modifier = Modifier.navigationBarsPadding(),
+                hostState = snackbarHostState,
+            )
         },
     ) { paddingValues ->
         Content(
