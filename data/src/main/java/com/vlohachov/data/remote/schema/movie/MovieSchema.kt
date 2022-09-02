@@ -2,13 +2,15 @@ package com.vlohachov.data.remote.schema.movie
 
 import com.google.gson.annotations.SerializedName
 import com.vlohachov.data.remote.TmdbConfig
-import com.vlohachov.domain.model.Movie
+import com.vlohachov.domain.model.movie.Movie
 
 data class MovieSchema(
     @SerializedName("id")
     val id: Long,
     @SerializedName("title")
     val title: String,
+    @SerializedName("original_title")
+    val originalTitle: String,
     @SerializedName("overview")
     val overview: String,
     @SerializedName("release_date")
@@ -32,6 +34,7 @@ internal fun MovieSchema.toDomain(): Movie =
     Movie(
         id = id,
         title = title,
+        originalTitle = originalTitle,
         overview = overview,
         releaseDate = releaseDate,
         posterPath = TmdbConfig.BASE_IMAGE_URL + "w342" + posterPath,

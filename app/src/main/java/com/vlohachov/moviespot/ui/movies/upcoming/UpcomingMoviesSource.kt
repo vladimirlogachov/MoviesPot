@@ -3,9 +3,9 @@ package com.vlohachov.moviespot.ui.movies.upcoming
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.Movie
 import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.usecase.UpcomingUseCase
+import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -27,7 +27,7 @@ class UpcomingMoviesSource(private val useCase: UpcomingUseCase) : PagingSource<
             LoadResult.Page(
                 data = result.data,
                 prevKey = if (page == 1) null else page.minus(1),
-                nextKey = result.page.plus(1),
+                nextKey = if (result.data.isEmpty()) null else result.page.plus(1),
             )
         } catch (e: Throwable) {
             LoadResult.Error(e)

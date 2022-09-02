@@ -1,6 +1,6 @@
 package com.vlohachov.domain.model
 
-data class Genre(
-    val id: Int,
+data class Country(
     val name: String,
+    val iso: String,
 )

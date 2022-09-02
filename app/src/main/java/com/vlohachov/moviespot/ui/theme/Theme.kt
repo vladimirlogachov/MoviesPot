@@ -6,9 +6,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 
 private val LightColorScheme = lightColorScheme(
@@ -92,9 +94,13 @@ fun MoviesPotTheme(
     if (!view.isInEditMode) {
         SideEffect {
             with((view.context as Activity).window) {
-                statusBarColor = colorScheme.surface.toArgb()
-                WindowCompat.getInsetsController(this, view).isAppearanceLightStatusBars =
-                    !darkTheme
+                setDecorFitsSystemWindows(false)
+                statusBarColor = Color.Transparent.toArgb()
+                navigationBarColor = colorScheme.surfaceColorAtElevation(elevation = 3.dp).toArgb()
+                WindowCompat.getInsetsController(this, view)
+                    .isAppearanceLightStatusBars = !darkTheme
+                WindowCompat.getInsetsController(this, view)
+                    .isAppearanceLightNavigationBars = !darkTheme
             }
         }
     }
@@ -102,6 +108,6 @@ fun MoviesPotTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
+        content = content,
     )
 }
