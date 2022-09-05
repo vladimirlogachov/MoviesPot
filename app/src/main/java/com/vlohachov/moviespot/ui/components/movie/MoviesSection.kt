@@ -29,9 +29,9 @@ fun MoviesSection(
     textStyles: SectionTextStyles = SectionDefaults.mediumTextStyles(),
     colors: SectionColors = SectionDefaults.sectionColors(),
 ) {
-    val isEmpty = viewState is ViewState.Success && viewState.data.isEmpty()
+    val isNotEmpty = viewState is ViewState.Success && viewState.data.isNotEmpty()
     val moreButton: @Composable (() -> Unit)? =
-        if (!isEmpty && onMore != null) {
+        if (onMore != null && isNotEmpty) {
             @Composable { MoreButton(onClick = onMore) }
         } else {
             null

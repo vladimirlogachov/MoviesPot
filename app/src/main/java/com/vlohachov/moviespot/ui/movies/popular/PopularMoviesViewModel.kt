@@ -21,15 +21,15 @@ class PopularMoviesViewModel(useCase: PopularUseCase) : ViewModel() {
     val movies = Pager(config = PagingConfig(pageSize = PageSize)) {
         PopularMoviesSource(useCase = useCase)
     }.flow
-        .catch { e -> error = e }
+        .catch { error -> onError(error = error) }
         .cachedIn(viewModelScope)
 
     var error by mutableStateOf<Throwable?>(value = null)
         private set
 
-    fun onError(e: Throwable) {
+    fun onError(error: Throwable) {
         viewModelScope.launch {
-            error = e
+            this@PopularMoviesViewModel.error = error
         }
     }
 

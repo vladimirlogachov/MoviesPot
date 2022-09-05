@@ -1,6 +1,5 @@
 package com.vlohachov.moviespot.ui.movies.upcoming
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,16 +21,15 @@ class UpcomingMoviesViewModel(useCase: UpcomingUseCase) : ViewModel() {
     val movies = Pager(config = PagingConfig(pageSize = PageSize)) {
         UpcomingMoviesSource(useCase = useCase)
     }.flow
-        .catch { e -> error = e }
+        .catch { error -> onError(error = error) }
         .cachedIn(viewModelScope)
 
     var error by mutableStateOf<Throwable?>(value = null)
         private set
 
-    fun onError(e: Throwable) {
-        Log.e("TAG", "onError: ", e)
+    fun onError(error: Throwable) {
         viewModelScope.launch {
-            error = e
+            this@UpcomingMoviesViewModel.error = error
         }
     }
 
