@@ -1,17 +1,21 @@
-package com.vlohachov.moviespot.ui.movies.now
+package com.vlohachov.moviespot.ui.search
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
+import com.vlohachov.domain.usecase.SearchMoviesUseCase
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
-class NowPlayingMoviesSource(private val useCase: NowPlayingUseCase) : PagingSource<Int, Movie>() {
+class SearchSource(
+    private val query: String,
+    private val useCase: SearchMoviesUseCase,
+) : PagingSource<Int, Movie>() {
+
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { position ->
@@ -22,21 +26,29 @@ class NowPlayingMoviesSource(private val useCase: NowPlayingUseCase) : PagingSou
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
-        return try {
+        return if (query.isEmpty()) {
+            LoadResult.Page(data = emptyList(), prevKey = null, nextKey = null)
+        } else try {
             val page = params.key ?: 1
             val result = loadPage(page = page)
             LoadResult.Page(
                 data = result.data,
-                prevKey = if (page == 1) null else page.minus(1),
-                nextKey = if (result.data.isEmpty()) null else result.page.plus(1),
+                prevKey = result.prevKey(),
+                nextKey = result.nextKey(),
             )
         } catch (e: Throwable) {
             LoadResult.Error(e)
         }
     }
 
+    private fun PaginatedData<Movie>.prevKey(): Int? =
+        if (page == 1) null else page.minus(1)
+
+    private fun PaginatedData<Movie>.nextKey(): Int? =
+        if (data.isEmpty() || totalPages == 1) null else page.plus(1)
+
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
-        useCase.resultFlow(param = NowPlayingUseCase.Param(page = page))
+        useCase.resultFlow(param = SearchMoviesUseCase.Param(query = query, page = page))
             .filter { result -> result !is Result.Loading }
             .onEach { result -> if (result is Result.Error) throw result.exception }
             .map { result -> (result as Result.Success).value }

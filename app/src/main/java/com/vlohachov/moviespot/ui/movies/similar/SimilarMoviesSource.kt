@@ -9,6 +9,7 @@ import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 class SimilarMoviesSource(
     private val movieId: Long,
@@ -39,7 +40,8 @@ class SimilarMoviesSource(
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
         useCase.resultFlow(param = MovieRecommendationsUseCase.Param(id = movieId, page = page))
-            .filter { result -> result is Result.Success }
+            .filter { result -> result !is Result.Loading }
+            .onEach { result -> if (result is Result.Error) throw result.exception }
             .map { result -> (result as Result.Success).value }
             .first()
 }

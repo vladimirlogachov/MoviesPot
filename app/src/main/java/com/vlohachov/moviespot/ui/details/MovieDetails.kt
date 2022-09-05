@@ -79,7 +79,12 @@ fun MovieDetails(
                 scrollBehavior = scrollBehavior,
             )
         },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier.navigationBarsPadding(),
+                hostState = snackbarHostState,
+            )
+        },
     ) { paddingValues ->
         Box(
             modifier = Modifier

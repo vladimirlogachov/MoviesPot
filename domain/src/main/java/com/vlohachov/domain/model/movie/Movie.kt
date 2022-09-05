@@ -5,7 +5,7 @@ data class Movie(
     val title: String,
     val originalTitle: String,
     val overview: String,
-    val releaseDate: String,
+    val releaseDate: String?,
     val posterPath: String?,
     val genreIds: List<Long>,
     val isAdult: Boolean,

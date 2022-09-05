@@ -9,6 +9,7 @@ import com.vlohachov.moviespot.ui.movies.popular.PopularMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.similar.SimilarMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.top.TopRatedMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.upcoming.UpcomingMoviesViewModel
+import com.vlohachov.moviespot.ui.search.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -68,5 +69,9 @@ val viewModelModule = module {
             movieId = params.get(),
             useCase = get(),
         )
+    }
+
+    viewModel {
+        SearchViewModel(useCase = get())
     }
 }

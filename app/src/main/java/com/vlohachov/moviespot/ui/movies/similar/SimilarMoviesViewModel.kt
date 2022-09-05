@@ -24,15 +24,15 @@ class SimilarMoviesViewModel(
     val movies = Pager(config = PagingConfig(pageSize = PageSize)) {
         SimilarMoviesSource(movieId = movieId, useCase = useCase)
     }.flow
-        .catch { e -> error = e }
+        .catch { error -> onError(error = error) }
         .cachedIn(viewModelScope)
 
     var error by mutableStateOf<Throwable?>(value = null)
         private set
 
-    fun onError(e: Throwable) {
+    fun onError(error: Throwable) {
         viewModelScope.launch {
-            error = e
+            this@SimilarMoviesViewModel.error = error
         }
     }
 

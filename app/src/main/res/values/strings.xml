@@ -26,4 +26,6 @@
     <string name="no_results">No results.</string>
     <string name="keywords">Keywords</string>
     <string name="production">Production</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
 </resources>

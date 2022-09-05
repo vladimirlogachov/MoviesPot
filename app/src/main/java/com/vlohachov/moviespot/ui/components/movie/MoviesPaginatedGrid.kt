@@ -1,12 +1,10 @@
 package com.vlohachov.moviespot.ui.components.movie
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -23,6 +21,7 @@ fun MoviesPaginatedGrid(
     onError: (error: Throwable) -> Unit,
     modifier: Modifier = Modifier,
     onClick: ((movie: Movie) -> Unit)? = null,
+    progress: (LazyGridScope.() -> Unit)? = null,
     state: LazyGridState = rememberLazyGridState(),
     contentPadding: PaddingValues = MoviesPaginatedGridDefaults.ContentPadding,
     verticalArrangement: Arrangement.Vertical = MoviesPaginatedGridDefaults.VerticalArrangement,
@@ -40,6 +39,12 @@ fun MoviesPaginatedGrid(
         verticalArrangement = verticalArrangement,
         horizontalArrangement = horizontalArrangement,
     ) {
+        progress?.run {
+            if (movies.loadState.refresh is LoadState.Loading) {
+                this()
+            }
+        }
+
         items(count = movies.itemCount) { index ->
             movies[index]?.let { movie ->
                 if (onClick != null) {
@@ -59,15 +64,17 @@ fun MoviesPaginatedGrid(
             }
         }
 
-        movies.apply {
-            when {
-                loadState.append is LoadState.Loading ->
-                    item { Progress(modifier = itemModifier) }
-                loadState.refresh is LoadState.Error ->
-                    onError((loadState.refresh as LoadState.Error).error)
-                loadState.append is LoadState.Error ->
-                    onError((loadState.append as LoadState.Error).error)
-            }
+        if (movies.loadState.append is LoadState.Loading) {
+            item { Progress(modifier = itemModifier) }
+        }
+    }
+
+    LaunchedEffect(movies.loadState) {
+        when {
+            movies.loadState.refresh is LoadState.Error ->
+                onError((movies.loadState.refresh as LoadState.Error).error)
+            movies.loadState.append is LoadState.Error ->
+                onError((movies.loadState.append as LoadState.Error).error)
         }
     }
 }
