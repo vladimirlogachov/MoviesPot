@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.movie.credit.CastMember
-import com.vlohachov.domain.usecase.CastUseCase
+import com.vlohachov.domain.usecase.credits.CastUseCase
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.WhileUiSubscribed
 import kotlinx.coroutines.flow.*

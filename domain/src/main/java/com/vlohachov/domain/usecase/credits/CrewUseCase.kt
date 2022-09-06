@@ -1,4 +1,4 @@
-package com.vlohachov.domain.usecase
+package com.vlohachov.domain.usecase.credits
 
 import com.vlohachov.domain.core.UseCase
 import com.vlohachov.domain.model.movie.credit.CrewMember
