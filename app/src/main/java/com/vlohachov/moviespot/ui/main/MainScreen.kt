@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -24,9 +25,9 @@ import org.koin.androidx.compose.getViewModel
 fun MainScreen(
     navigator: DestinationsNavigator,
     viewModel: MainViewModel = getViewModel(),
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
     val uiState by viewModel.uiState.collectAsState()
 
@@ -51,6 +52,21 @@ fun MainScreen(
                     }
                 },
                 scrollBehavior = scrollBehavior,
+            )
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                modifier = Modifier.navigationBarsPadding(),
+                text = {
+                    Text(text = stringResource(id = R.string.discover))
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_round_movie_filter_24),
+                        contentDescription = stringResource(id = R.string.discover),
+                    )
+                },
+                onClick = { navigator.navigate(DiscoverDestination) },
             )
         },
         snackbarHost = {

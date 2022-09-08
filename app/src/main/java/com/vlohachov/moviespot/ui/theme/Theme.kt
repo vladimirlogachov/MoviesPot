@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 
 private val LightColorScheme = lightColorScheme(
@@ -89,6 +88,13 @@ fun MoviesPotTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content,
+    )
+
     val view = LocalView.current
 
     if (!view.isInEditMode) {
@@ -96,7 +102,7 @@ fun MoviesPotTheme(
             with((view.context as Activity).window) {
                 setDecorFitsSystemWindows(false)
                 statusBarColor = Color.Transparent.toArgb()
-                navigationBarColor = colorScheme.surfaceColorAtElevation(elevation = 3.dp).toArgb()
+//                navigationBarColor = colorScheme.surfaceColorAtElevation(elevation = 3.dp).toArgb()
                 WindowCompat.getInsetsController(this, view)
                     .isAppearanceLightStatusBars = !darkTheme
                 WindowCompat.getInsetsController(this, view)
@@ -104,10 +110,4 @@ fun MoviesPotTheme(
             }
         }
     }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content,
-    )
 }

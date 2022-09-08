@@ -59,4 +59,12 @@ interface MoviesRepository {
         page: Int,
         language: String?,
     ): Flow<PaginatedData<Movie>>
+
+    fun discoverMovies(
+        page: Int,
+        year: Int?,
+        genres: String?,
+        keywords: String?,
+        language: String?,
+    ): Flow<PaginatedData<Movie>>
 }

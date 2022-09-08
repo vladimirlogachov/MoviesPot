@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.movie.credit.CrewMember
-import com.vlohachov.domain.usecase.CrewUseCase
+import com.vlohachov.domain.usecase.credits.CrewUseCase
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.WhileUiSubscribed
 import kotlinx.coroutines.flow.*

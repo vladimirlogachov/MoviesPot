@@ -7,7 +7,7 @@ import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.domain.model.movie.keyword.Keyword
-import com.vlohachov.domain.usecase.DirectorUseCase
+import com.vlohachov.domain.usecase.credits.DirectorUseCase
 import com.vlohachov.domain.usecase.movie.MovieDetailsUseCase
 import com.vlohachov.domain.usecase.movie.MovieKeywordsUseCase
 import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase

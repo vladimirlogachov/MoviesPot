@@ -158,4 +158,24 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
         }
         return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
     }
+
+    override fun discoverMovies(
+        page: Int,
+        year: Int?,
+        genres: String?,
+        keywords: String?,
+        language: String?
+    ): Flow<PaginatedData<Movie>> {
+        val flow = flow {
+            val response = remote.discoverMovies(
+                page = page,
+                year = year,
+                genres = genres,
+                keywords = keywords,
+                language = language,
+            )
+            emit(value = response)
+        }
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+    }
 }
