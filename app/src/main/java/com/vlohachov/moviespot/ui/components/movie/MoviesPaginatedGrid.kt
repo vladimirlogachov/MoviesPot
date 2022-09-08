@@ -3,8 +3,7 @@ package com.vlohachov.moviespot.ui.components.movie
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -47,18 +46,26 @@ fun MoviesPaginatedGrid(
 
         items(count = movies.itemCount) { index ->
             movies[index]?.let { movie ->
+                var error by remember { mutableStateOf(false) }
+                val painter = rememberAsyncImagePainter(
+                    model = movie.posterPath,
+                    onError = { error = true },
+                )
+
                 if (onClick != null) {
                     Poster(
                         modifier = itemModifier,
-                        painter = rememberAsyncImagePainter(model = movie.posterPath),
+                        painter = painter,
                         contentDescription = movie.title,
                         onClick = { onClick(movie) },
+                        error = error,
                     )
                 } else {
                     Poster(
                         modifier = itemModifier,
-                        painter = rememberAsyncImagePainter(model = movie.posterPath),
+                        painter = painter,
                         contentDescription = movie.title,
+                        error = error,
                     )
                 }
             }

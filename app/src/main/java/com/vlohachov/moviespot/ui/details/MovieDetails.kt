@@ -207,10 +207,17 @@ private fun LazyListScope.details(
                         .padding(all = 16.dp)
                         .fillMaxWidth(),
                     poster = { modifier ->
+                        var error by remember { mutableStateOf(false) }
+                        val painter = rememberAsyncImagePainter(
+                            model = posterPath,
+                            onError = { error = true },
+                        )
+
                         Poster(
                             modifier = modifier,
-                            painter = rememberAsyncImagePainter(model = posterPath),
+                            painter = painter,
                             onClick = { onPoster(posterPath) },
+                            error = error,
                         )
                     },
                     title = { Text(text = title) },
@@ -312,21 +319,36 @@ private fun Production(
                 text = stringResource(id = R.string.production),
             )
         },
+        horizontalAlignment = Alignment.CenterHorizontally,
         textStyles = SectionDefaults.smallTextStyles(
             contentTextStyle = MaterialTheme.typography.bodyMedium,
         ),
     ) {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(all = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
-        ) {
-            items(items = companies) { company ->
-                Company(
-                    modifier = Modifier.width(width = 96.dp),
-                    painter = rememberAsyncImagePainter(model = company.logoPath),
-                    name = company.name
-                )
+        if (companies.isEmpty()) {
+            Text(
+                modifier = Modifier.padding(all = 16.dp),
+                text = stringResource(id = R.string.no_results),
+            )
+        } else {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(all = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
+            ) {
+                items(items = companies) { company ->
+                    var error by remember { mutableStateOf(false) }
+                    val painter = rememberAsyncImagePainter(
+                        model = company.logoPath,
+                        onError = { error = true },
+                    )
+
+                    Company(
+                        modifier = Modifier.width(width = 96.dp),
+                        painter = painter,
+                        name = company.name,
+                        error = error,
+                    )
+                }
             }
         }
     }
@@ -344,28 +366,39 @@ private fun LazyListScope.keywords(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 title = {
-                    SectionTitle(text = stringResource(id = R.string.keywords))
+                    SectionTitle(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(id = R.string.keywords),
+                    )
                 },
                 verticalArrangement = Arrangement.spacedBy(space = 16.dp),
-                textStyles = SectionDefaults.smallTextStyles(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                textStyles = SectionDefaults.smallTextStyles(
+                    contentTextStyle = MaterialTheme.typography.bodyMedium,
+                ),
             ) {
-                FlowRow(
-                    mainAxisSpacing = 8.dp,
-                    crossAxisSpacing = 8.dp,
-                ) {
-                    for (keyword in viewState.data) {
-                        Text(
-                            modifier = Modifier
-                                .border(
-                                    width = 1.dp,
-                                    color = MaterialTheme.colorScheme.outline,
-                                    shape = SuggestionChipDefaults.shape,
-                                )
-                                .clickable { onKeyword(keyword) }
-                                .padding(vertical = 8.dp, horizontal = 16.dp),
-                            text = keyword.name,
-                            style = MaterialTheme.typography.labelMedium,
-                        )
+                if (viewState.data.isEmpty()) {
+                    Text(text = stringResource(id = R.string.no_results))
+                } else {
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        mainAxisSpacing = 8.dp,
+                        crossAxisSpacing = 8.dp,
+                    ) {
+                        for (keyword in viewState.data) {
+                            Text(
+                                modifier = Modifier
+                                    .border(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outline,
+                                        shape = SuggestionChipDefaults.shape,
+                                    )
+                                    .clickable { onKeyword(keyword) }
+                                    .padding(vertical = 8.dp, horizontal = 16.dp),
+                                text = keyword.name,
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        }
                     }
                 }
             }
@@ -388,11 +421,15 @@ private fun Overview(
             )
         },
         verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
         textStyles = SectionDefaults.smallTextStyles(
             contentTextStyle = MaterialTheme.typography.bodyMedium,
         ),
     ) {
-        Text(text = text, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(
+            text = text.ifBlank { stringResource(id = R.string.no_results) },
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 
