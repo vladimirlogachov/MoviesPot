@@ -101,7 +101,12 @@ fun MovieDetails(
                 onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
                 onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
                 onKeyword = { keyword ->
-
+                    navigator.navigate(
+                        KeywordMoviesDestination(
+                            keywordId = keyword.id,
+                            keyword = keyword.name,
+                        )
+                    )
                 },
                 onMoreRecommendations = {
                     navigator.navigate(
