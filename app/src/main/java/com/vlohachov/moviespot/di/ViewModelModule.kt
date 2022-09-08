@@ -3,6 +3,8 @@ package com.vlohachov.moviespot.di
 import com.vlohachov.moviespot.ui.credits.cast.CastViewModel
 import com.vlohachov.moviespot.ui.credits.crew.CrewViewModel
 import com.vlohachov.moviespot.ui.details.MovieDetailsViewModel
+import com.vlohachov.moviespot.ui.discover.DiscoverViewModel
+import com.vlohachov.moviespot.ui.discover.result.DiscoverResultViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
 import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.popular.PopularMoviesViewModel
@@ -73,5 +75,16 @@ val viewModelModule = module {
 
     viewModel {
         SearchViewModel(useCase = get())
+    }
+
+    viewModel {
+        DiscoverViewModel(useCase = get())
+    }
+
+    viewModel { params ->
+        DiscoverResultViewModel(
+            param = params.get(),
+            useCase = get(),
+        )
     }
 }

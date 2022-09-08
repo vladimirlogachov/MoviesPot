@@ -29,4 +29,11 @@
     <string name="search">Search</string>
     <string name="clear">Clear</string>
     <string name="discover">Discover</string>
+    <string name="year">Year</string>
+    <string name="discover_movies">Discover movies</string>
+    <string name="genres">Genres</string>
+    <string name="select_genres">Select genres</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="discover_results">Results</string>
 </resources>

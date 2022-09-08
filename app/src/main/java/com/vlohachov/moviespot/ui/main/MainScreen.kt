@@ -25,9 +25,9 @@ import org.koin.androidx.compose.getViewModel
 fun MainScreen(
     navigator: DestinationsNavigator,
     viewModel: MainViewModel = getViewModel(),
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
     val uiState by viewModel.uiState.collectAsState()
 
@@ -66,7 +66,7 @@ fun MainScreen(
                         contentDescription = stringResource(id = R.string.discover),
                     )
                 },
-                onClick = { /*TODO*/ },
+                onClick = { navigator.navigate(DiscoverDestination) },
             )
         },
         snackbarHost = {

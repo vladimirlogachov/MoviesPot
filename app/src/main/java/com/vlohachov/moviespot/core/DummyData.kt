@@ -1,5 +1,6 @@
 package com.vlohachov.moviespot.core
 
+import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.credit.CastMember
 import com.vlohachov.domain.model.movie.credit.CrewMember
@@ -10,6 +11,11 @@ const val LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
         "rure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pari" +
         "atur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru" +
         "nt mollit anim id est laborum."
+
+val DummyGenres = listOf(
+    Genre(id = 1, name = "Fiction"),
+    Genre(id = 1, name = "Drama"),
+)
 
 val DummyCastMember = CastMember(
     id = 10,
