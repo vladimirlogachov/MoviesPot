@@ -5,6 +5,7 @@ import com.vlohachov.moviespot.ui.credits.crew.CrewViewModel
 import com.vlohachov.moviespot.ui.details.MovieDetailsViewModel
 import com.vlohachov.moviespot.ui.discover.DiscoverViewModel
 import com.vlohachov.moviespot.ui.discover.result.DiscoverResultViewModel
+import com.vlohachov.moviespot.ui.keyword.KeywordMoviesViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
 import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesViewModel
 import com.vlohachov.moviespot.ui.movies.popular.PopularMoviesViewModel
@@ -84,6 +85,13 @@ val viewModelModule = module {
     viewModel { params ->
         DiscoverResultViewModel(
             param = params.get(),
+            useCase = get(),
+        )
+    }
+
+    viewModel { params ->
+        KeywordMoviesViewModel(
+            keywordId = params.get(),
             useCase = get(),
         )
     }

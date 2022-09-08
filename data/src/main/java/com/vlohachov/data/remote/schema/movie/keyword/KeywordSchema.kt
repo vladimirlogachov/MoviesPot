@@ -5,7 +5,7 @@ import com.vlohachov.domain.model.movie.keyword.Keyword
 
 data class KeywordSchema(
     @SerializedName("id")
-    val id: Long,
+    val id: Int,
     @SerializedName("name")
     val name: String,
 )
