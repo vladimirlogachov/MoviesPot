@@ -1,11 +1,9 @@
 package com.vlohachov.moviespot.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +27,7 @@ fun Company(
     painter: Painter,
     name: String,
     modifier: Modifier = Modifier,
+    error: Boolean = false,
     imageSize: Dp = 64.dp,
     imageShape: Shape = CircleShape,
 ) {
@@ -40,15 +39,26 @@ fun Company(
         Surface(
             modifier = Modifier.size(size = imageSize),
             color = Color.White,
-            tonalElevation = 4.dp,
+            shadowElevation = 1.dp,
             shape = imageShape,
         ) {
-            Image(
+            Box(
                 modifier = Modifier.padding(all = 12.dp),
-                painter = painter,
-                contentDescription = name,
-                contentScale = ContentScale.Fit,
-            )
+                contentAlignment = Alignment.Center,
+            ) {
+                Image(
+                    painter = painter,
+                    contentDescription = name,
+                    contentScale = ContentScale.Fit,
+                )
+                if (error) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_round_broken_image_24),
+                        contentDescription = null,
+                        tint = Color.Black,
+                    )
+                }
+            }
         }
         Text(
             text = name,

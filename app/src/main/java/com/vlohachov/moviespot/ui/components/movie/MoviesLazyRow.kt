@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.ui.components.movie
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,18 +31,26 @@ fun MoviesLazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(movies) { movie ->
+            var error by remember { mutableStateOf(false) }
+            val painter = rememberAsyncImagePainter(
+                model = movie.posterPath,
+                onError = { error = true },
+            )
+
             if (onClick != null) {
                 Poster(
                     modifier = itemModifier,
-                    painter = rememberAsyncImagePainter(model = movie.posterPath),
+                    painter = painter,
                     contentDescription = movie.title,
                     onClick = { onClick(movie) },
+                    error = error,
                 )
             } else {
                 Poster(
                     modifier = itemModifier,
-                    painter = rememberAsyncImagePainter(model = movie.posterPath),
+                    painter = painter,
                     contentDescription = movie.title,
+                    error = error,
                 )
             }
         }

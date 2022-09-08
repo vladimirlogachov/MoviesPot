@@ -4,11 +4,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.contentColorFor
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -25,6 +23,7 @@ import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 fun Poster(
     painter: Painter,
     modifier: Modifier = Modifier,
+    error: Boolean = false,
     contentDescription: String? = null,
     shape: Shape = PosterDefaults.Shape,
     color: Color = MaterialTheme.colorScheme.surface,
@@ -42,12 +41,23 @@ fun Poster(
         shadowElevation = shadowElevation,
         border = border,
     ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painter,
-            contentScale = ContentScale.Crop,
-            contentDescription = contentDescription,
-        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painter,
+                contentScale = ContentScale.Crop,
+                contentDescription = contentDescription,
+            )
+            if (error) {
+                Icon(
+                    modifier = Modifier
+                        .size(size = 48.dp)
+                        .align(alignment = Alignment.Center),
+                    painter = painterResource(id = R.drawable.ic_round_broken_image_24),
+                    contentDescription = null,
+                )
+            }
+        }
     }
 }
 
@@ -57,6 +67,7 @@ fun Poster(
     painter: Painter,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    error: Boolean = false,
     contentDescription: String? = null,
     shape: Shape = PosterDefaults.Shape,
     color: Color = MaterialTheme.colorScheme.surface,
@@ -75,12 +86,23 @@ fun Poster(
         shadowElevation = shadowElevation,
         border = border,
     ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painter,
-            contentScale = ContentScale.Crop,
-            contentDescription = contentDescription,
-        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painter,
+                contentScale = ContentScale.Crop,
+                contentDescription = contentDescription,
+            )
+            if (error) {
+                Icon(
+                    modifier = Modifier
+                        .size(size = 48.dp)
+                        .align(alignment = Alignment.Center),
+                    painter = painterResource(id = R.drawable.ic_round_broken_image_24),
+                    contentDescription = null,
+                )
+            }
+        }
     }
 }
 
@@ -106,6 +128,7 @@ fun PosterPreview() {
                     .weight(weight = 1f)
                     .aspectRatio(ratio = .75f),
                 painter = painterResource(id = R.drawable.ic_launcher_background),
+                error = true,
             )
             Poster(
                 modifier = Modifier
