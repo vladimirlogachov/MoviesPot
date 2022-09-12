@@ -22,15 +22,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlin.coroutines.CoroutineContext
 
-class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
+class MoviesRepositoryImpl(
+    private val remote: TmdbApi,
+    private val coroutineContext: CoroutineContext = Dispatchers.IO,
+) : MoviesRepository {
 
     override fun getGenres(language: String?): Flow<List<Genre>> {
         val flow = flow {
             val response = remote.getGenres(language = language)
             emit(value = response)
         }
-        return flow.map(GenresSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(GenresSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getUpcomingMovies(
@@ -46,7 +50,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getNowPlayingMovies(
@@ -62,7 +66,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getPopularMovies(
@@ -78,7 +82,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getTopRatedMovies(
@@ -94,7 +98,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getMovieDetails(id: Long, language: String?): Flow<MovieDetails> {
@@ -105,7 +109,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MovieDetailsSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MovieDetailsSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getMovieCredits(id: Long, language: String?): Flow<MovieCredits> {
@@ -116,7 +120,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MovieCreditsSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MovieCreditsSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getMovieRecommendations(
@@ -132,7 +136,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun getMovieKeywords(id: Long): Flow<List<Keyword>> {
@@ -140,7 +144,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             val response = remote.getMovieKeywords(id = id)
             emit(value = response)
         }
-        return flow.map(MovieKeywordsSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MovieKeywordsSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun searchMovies(
@@ -156,7 +160,7 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = coroutineContext)
     }
 
     override fun discoverMovies(
@@ -176,6 +180,6 @@ class MoviesRepositoryImpl(private val remote: TmdbApi) : MoviesRepository {
             )
             emit(value = response)
         }
-        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = Dispatchers.IO)
+        return flow.map(MoviesPaginatedSchema::toDomain).flowOn(context = coroutineContext)
     }
 }
