@@ -1,7 +1,7 @@
 package com.vlohachov.moviespot
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.asResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,7 +32,7 @@ class ResultTest {
             val expected = Result.Loading
             val actual = awaitItem()
 
-            assertThat(actual).isEqualTo(expected)
+            Truth.assertThat(actual).isEqualTo(expected)
         }
     }
 
@@ -46,7 +46,7 @@ class ResultTest {
             val expected = Result.Success(value = TestValue)
             val actual = awaitItem()
 
-            assertThat(actual).isEqualTo(expected)
+            Truth.assertThat(actual).isEqualTo(expected)
         }
     }
 
@@ -65,7 +65,7 @@ class ResultTest {
 
                 awaitComplete()
 
-                assertThat(actual).isEqualTo(expected)
+                Truth.assertThat(actual).isEqualTo(expected)
             }
     }
 }

@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.repository.MoviesRepository
-import com.vlohachov.domain.usecase.GenresUseCase
-import com.vlohachov.moviespot.data.TestGenres
+import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
+import com.vlohachov.moviespot.data.TestPaginatedData
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -16,22 +16,30 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GenresUseCaseTest {
+class DiscoverMoviesUseCaseTest {
 
     private companion object {
-        val TestParam = GenresUseCase.Param()
+        val TestParam = DiscoverMoviesUseCase.Param()
     }
 
     private val repository = mockk<MoviesRepository>()
 
-    private val useCase = GenresUseCase(
+    private val useCase = DiscoverMoviesUseCase(
         coroutineContext = Dispatchers.IO,
         repository = repository,
     )
 
     @Test
     fun `Result flow emits Loading`() = runTest {
-        every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
+        every {
+            repository.discoverMovies(
+                page = any(),
+                year = any(),
+                genres = any(),
+                keywords = any(),
+                language = any(),
+            )
+        } returns flowOf(TestPaginatedData)
 
         useCase.resultFlow(param = TestParam).test {
             val actual = awaitItem()
@@ -44,31 +52,21 @@ class GenresUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success with all genres`() = runTest {
-        every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
+    fun `Result flow emits Success`() = runTest {
+        every {
+            repository.discoverMovies(
+                page = any(),
+                year = any(),
+                genres = any(),
+                keywords = any(),
+                language = any(),
+            )
+        } returns flowOf(TestPaginatedData)
 
         useCase.resultFlow(param = TestParam).test {
             skipItems(count = 1)
 
-            val expected = Result.Success(value = TestGenres)
-            val actual = awaitItem()
-
-            awaitComplete()
-
-            Truth.assertThat(actual).isEqualTo(expected)
-        }
-    }
-
-    @Test
-    fun `Result flow emits Success with n genres`() = runTest {
-        val genresToTake = 1
-
-        every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
-
-        useCase.resultFlow(param = TestParam.copy(count = genresToTake)).test {
-            skipItems(count = 1)
-
-            val expected = Result.Success(value = TestGenres.take(n = genresToTake))
+            val expected = Result.Success(value = TestPaginatedData)
             val actual = awaitItem()
 
             awaitComplete()
@@ -79,7 +77,15 @@ class GenresUseCaseTest {
 
     @Test
     fun `Result flow emits Error`() = runTest {
-        every { repository.getGenres(language = any()) } returns flow { throw Exception() }
+        every {
+            repository.discoverMovies(
+                page = any(),
+                year = any(),
+                genres = any(),
+                keywords = any(),
+                language = any(),
+            )
+        } returns flow { throw Exception() }
 
         useCase.resultFlow(param = TestParam).test {
             skipItems(count = 1)

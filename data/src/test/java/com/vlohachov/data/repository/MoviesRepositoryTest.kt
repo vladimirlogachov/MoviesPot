@@ -1,6 +1,6 @@
 package com.vlohachov.data.repository
 
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import com.vlohachov.data.data.*
 import com.vlohachov.data.remote.TmdbApi
 import com.vlohachov.data.remote.schema.genre.toDomain
@@ -33,8 +33,8 @@ class MoviesRepositoryTest {
 
         val actual = repository.getGenres(language = null).first()
 
-        assertThat(actual).isNotEmpty()
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isNotEmpty()
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -62,7 +62,7 @@ class MoviesRepositoryTest {
             region = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -100,7 +100,7 @@ class MoviesRepositoryTest {
             region = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -138,7 +138,7 @@ class MoviesRepositoryTest {
             region = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -176,7 +176,7 @@ class MoviesRepositoryTest {
             region = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -212,7 +212,7 @@ class MoviesRepositoryTest {
             language = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -246,7 +246,7 @@ class MoviesRepositoryTest {
             language = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -282,7 +282,7 @@ class MoviesRepositoryTest {
             language = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -310,7 +310,7 @@ class MoviesRepositoryTest {
 
         val actual = repository.getMovieKeywords(id = 1).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -338,7 +338,7 @@ class MoviesRepositoryTest {
             language = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
@@ -380,7 +380,7 @@ class MoviesRepositoryTest {
             language = null,
         ).first()
 
-        assertThat(actual).isEqualTo(expected)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = Exception::class)
