@@ -12,6 +12,7 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import com.vlohachov.moviespot.ui.destinations.MainScreenDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
                     DestinationsNavHost(
                         modifier = Modifier.fillMaxSize(),
                         navGraph = NavGraphs.root,
+                        startRoute = MainScreenDestination,
                         engine = rememberAnimatedNavHostEngine(
                             navHostContentAlignment = Alignment.TopCenter,
                             rootDefaultAnimations = RootNavGraphDefaultAnimations.ACCOMPANIST_FADING,

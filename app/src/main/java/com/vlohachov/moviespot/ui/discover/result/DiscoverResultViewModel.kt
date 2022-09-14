@@ -9,11 +9,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
-import com.vlohachov.moviespot.ui.discover.DiscoverParam
 import kotlinx.coroutines.launch
 
 class DiscoverResultViewModel(
-    param: DiscoverParam,
+    year: Int?,
+    selectedGenres: IntArray?,
     useCase: DiscoverMoviesUseCase,
 ) : ViewModel() {
 
@@ -23,8 +23,8 @@ class DiscoverResultViewModel(
 
     val movies = Pager(config = PagingConfig(pageSize = PageSize)) {
         DiscoverResultSource(
-            selectedGenres = param.selectedGenres,
-            year = param.year,
+            year = year,
+            selectedGenres = selectedGenres?.toList(),
             useCase = useCase,
         )
     }.flow.cachedIn(scope = viewModelScope)

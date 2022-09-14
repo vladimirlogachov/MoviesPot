@@ -93,10 +93,9 @@ fun Discover(
             onDiscover = {
                 navigator.navigate(
                     DiscoverResultDestination(
-                        param = DiscoverParam(
-                            year = uiState.year.toIntOrNull(),
-                            selectedGenres = uiState.selectedGenres.map { genre -> genre.id },
-                        )
+                        year = uiState.year.toIntOrNull(),
+                        selectedGenres = uiState.selectedGenres.map { genre -> genre.id }
+                            .toIntArray(),
                     )
                 )
             }

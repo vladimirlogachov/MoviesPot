@@ -96,9 +96,7 @@ fun Cast(
                 modifier = Modifier.fillMaxSize(),
                 gridState = gridState,
                 viewState = uiState.viewState,
-                onCredit = { creditId ->
-
-                },
+                onCredit = { },
                 onError = viewModel::onError,
             )
 

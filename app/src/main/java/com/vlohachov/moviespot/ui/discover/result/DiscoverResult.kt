@@ -25,7 +25,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
-import com.vlohachov.moviespot.ui.discover.DiscoverParam
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -38,8 +37,9 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun DiscoverResult(
     navigator: DestinationsNavigator,
-    param: DiscoverParam,
-    viewModel: DiscoverResultViewModel = getViewModel { parametersOf(param) },
+    year: Int?,
+    selectedGenres: IntArray?,
+    viewModel: DiscoverResultViewModel = getViewModel { parametersOf(year, selectedGenres) },
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {

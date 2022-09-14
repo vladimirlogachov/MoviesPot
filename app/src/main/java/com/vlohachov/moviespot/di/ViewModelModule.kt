@@ -84,7 +84,8 @@ val viewModelModule = module {
 
     viewModel { params ->
         DiscoverResultViewModel(
-            param = params.get(),
+            year = params.get(),
+            selectedGenres = params.get(),
             useCase = get(),
         )
     }
