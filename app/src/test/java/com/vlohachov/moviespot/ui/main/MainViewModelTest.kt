@@ -2,7 +2,9 @@ package com.vlohachov.moviespot.ui.main
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.Result
+import com.vlohachov.domain.model.PaginatedData
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
 import com.vlohachov.domain.usecase.movie.list.PopularUseCase
 import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
@@ -12,11 +14,9 @@ import com.vlohachov.moviespot.data.TestPaginatedData
 import com.vlohachov.moviespot.util.TestDispatcherRule
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -26,113 +26,86 @@ class MainViewModelTest {
     @get:Rule
     val dispatcherRule = TestDispatcherRule()
 
-//    private val upcomingFlow = MutableSharedFlow<Result<PaginatedData<Movie>>>(
-//        replay = 1,
-//        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-//    )
-//
-//    private val nowPlayingFlow = MutableSharedFlow<Result<PaginatedData<Movie>>>(
-//        replay = 1,
-//        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-//    )
-//
-//    private val popularFlow = MutableSharedFlow<Result<PaginatedData<Movie>>>(
-//        replay = 1,
-//        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-//    )
-//
-//    private val topRatedFlow = MutableSharedFlow<Result<PaginatedData<Movie>>>(
-//        replay = 1,
-//        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-//    )
+    private val upcoming = mockk<UpcomingUseCase>()
+    private val nowPlaying = mockk<NowPlayingUseCase>()
+    private val popular = mockk<PopularUseCase>()
+    private val topRated = mockk<TopRatedUseCase>()
 
-//    private val upcoming = mockk<UpcomingUseCase>(relaxed = true)
-//    private val nowPlaying = mockk<NowPlayingUseCase>(relaxed = true)
-//    private val popular = mockk<PopularUseCase>(relaxed = true)
-//    private val topRated = mockk<TopRatedUseCase>(relaxed = true)
+    private val testFlow = MutableStateFlow<Result<PaginatedData<Movie>>>(value = Result.Loading)
 
-    private val repository = mockk<MoviesRepository>(relaxed = true)
+    private val viewModel by lazy {
+        every { upcoming.resultFlow(param = any()) } returns testFlow
+        every { nowPlaying.resultFlow(param = any()) } returns testFlow
+        every { popular.resultFlow(param = any()) } returns testFlow
+        every { topRated.resultFlow(param = any()) } returns testFlow
 
-    private val upcoming = UpcomingUseCase(
-        coroutineContext = Dispatchers.IO,
-        repository = repository,
-    )
-    private val nowPlaying = NowPlayingUseCase(
-        coroutineContext = Dispatchers.IO,
-        repository = repository,
-    )
-    private val popular = PopularUseCase(
-        coroutineContext = Dispatchers.IO,
-        repository = repository,
-    )
-    private val topRated = TopRatedUseCase(
-        coroutineContext = Dispatchers.IO,
-        repository = repository,
-    )
-
-    private val viewModel = MainViewModel(
-        upcoming = upcoming,
-        nowPlaying = nowPlaying,
-        popular = popular,
-        topRated = topRated,
-    )
-
-    @Before
-    fun setUp() {
-        every {
-            repository.getUpcomingMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } returns flowOf(TestPaginatedData)
-        every {
-            repository.getNowPlayingMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } returns flowOf(TestPaginatedData)
-        every {
-            repository.getPopularMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } returns flowOf(TestPaginatedData)
-        every {
-            repository.getTopRatedMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } returns flowOf(TestPaginatedData)
+        MainViewModel(
+            upcoming = upcoming,
+            nowPlaying = nowPlaying,
+            popular = popular,
+            topRated = topRated,
+        )
     }
 
     @Test
-    fun `uiState initial Loading`() = runTest {
+    fun `uiState content loading`() = runTest {
         viewModel.uiState.test {
-            val state = awaitItem()
-
-            Truth.assertThat(state.upcomingViewState).isEqualTo(ViewState.Loading)
-            Truth.assertThat(state.nowPlayingViewState).isEqualTo(ViewState.Loading)
-            Truth.assertThat(state.popularViewState).isEqualTo(ViewState.Loading)
-            Truth.assertThat(state.topRatedViewState).isEqualTo(ViewState.Loading)
-            Truth.assertThat(state.error).isNull()
-
-            cancelAndIgnoreRemainingEvents()
+            with(awaitItem()) {
+                Truth.assertThat(upcomingViewState).isEqualTo(ViewState.Loading)
+                Truth.assertThat(nowPlayingViewState).isEqualTo(ViewState.Loading)
+                Truth.assertThat(popularViewState).isEqualTo(ViewState.Loading)
+                Truth.assertThat(topRatedViewState).isEqualTo(ViewState.Loading)
+                Truth.assertThat(error).isNull()
+            }
         }
     }
 
     @Test
-    fun `uiState nested view states Success`() = runTest {
-        val vm = viewModel
-        vm.uiState.test {
-            val loading = awaitItem()
-            Truth.assertThat(loading.popularViewState is ViewState.Loading).isTrue()
+    fun `uiState content loading success`() = runTest {
+        viewModel.uiState.test {
+            skipItems(count = 1)
 
-            val state = awaitItem()
-            Truth.assertThat(state.popularViewState is ViewState.Success).isTrue()
+            testFlow.tryEmit(value = Result.Success(value = TestPaginatedData))
+
+            with(awaitItem()) {
+                Truth.assertThat(upcomingViewState is ViewState.Success).isTrue()
+                Truth.assertThat(nowPlayingViewState is ViewState.Success).isTrue()
+                Truth.assertThat(popularViewState is ViewState.Success).isTrue()
+                Truth.assertThat(topRatedViewState is ViewState.Success).isTrue()
+                Truth.assertThat(error).isNull()
+            }
+        }
+    }
+
+    @Test
+    fun `uiState content loading error`() = runTest {
+        viewModel.uiState.test {
+            skipItems(count = 1)
+
+            testFlow.tryEmit(value = Result.Error(exception = Exception()))
+
+            with(awaitItem()) {
+                Truth.assertThat(upcomingViewState is ViewState.Error).isTrue()
+                Truth.assertThat(nowPlayingViewState is ViewState.Error).isTrue()
+                Truth.assertThat(popularViewState is ViewState.Error).isTrue()
+                Truth.assertThat(topRatedViewState is ViewState.Error).isTrue()
+                Truth.assertThat(error).isNull()
+            }
+        }
+    }
+
+    @Test
+    fun `uiState common error consumed`() = runTest {
+        viewModel.uiState.test {
+            skipItems(count = 1)
+
+            viewModel.onError(error = Exception())
+
+            Truth.assertThat(awaitItem().error).isNotNull()
+
+            viewModel.onErrorConsumed()
+
+            Truth.assertThat(awaitItem().error).isNull()
         }
     }
 }
