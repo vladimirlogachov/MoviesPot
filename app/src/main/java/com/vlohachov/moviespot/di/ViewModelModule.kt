@@ -5,6 +5,7 @@ import com.vlohachov.moviespot.ui.credits.crew.CrewViewModel
 import com.vlohachov.moviespot.ui.details.MovieDetailsViewModel
 import com.vlohachov.moviespot.ui.discover.DiscoverViewModel
 import com.vlohachov.moviespot.ui.discover.result.DiscoverResultViewModel
+import com.vlohachov.moviespot.ui.keyword.KeywordMoviesPager
 import com.vlohachov.moviespot.ui.keyword.KeywordMoviesViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
 import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesViewModel
@@ -92,8 +93,10 @@ val viewModelModule = module {
 
     viewModel { params ->
         KeywordMoviesViewModel(
-            keywordId = params.get(),
-            useCase = get(),
+            pager = KeywordMoviesPager(
+                keywordId = params.get(),
+                useCase = get(),
+            )
         )
     }
 }

@@ -47,7 +47,7 @@ class KeywordMoviesSource(
     private suspend fun loadPage(page: Int): PaginatedData<Movie> {
         val param = DiscoverMoviesUseCase.Param(
             keywords = listOf(element = keywordId),
-            page = page
+            page = page,
         )
         return useCase.resultFlow(param = param)
             .filter { result -> result !is Result.Loading }
