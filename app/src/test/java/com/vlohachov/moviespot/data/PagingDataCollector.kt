@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.util
+package com.vlohachov.moviespot.data
 
 import androidx.paging.*
 import kotlinx.coroutines.Dispatchers
