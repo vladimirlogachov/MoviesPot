@@ -49,12 +49,6 @@ class DiscoverViewModel(useCase: GenresUseCase) : ViewModel() {
         initialValue = DiscoverViewState(),
     )
 
-    fun onDiscover() {
-        viewModelScope.launch {
-
-        }
-    }
-
     fun onYear(year: String) {
         viewModelScope.launch {
             this@DiscoverViewModel.year.emit(value = year.take(n = YearInputLength))

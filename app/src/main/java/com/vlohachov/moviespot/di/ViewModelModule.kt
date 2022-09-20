@@ -4,15 +4,23 @@ import com.vlohachov.moviespot.ui.credits.cast.CastViewModel
 import com.vlohachov.moviespot.ui.credits.crew.CrewViewModel
 import com.vlohachov.moviespot.ui.details.MovieDetailsViewModel
 import com.vlohachov.moviespot.ui.discover.DiscoverViewModel
+import com.vlohachov.moviespot.ui.discover.result.DiscoverResultPager
 import com.vlohachov.moviespot.ui.discover.result.DiscoverResultViewModel
+import com.vlohachov.moviespot.ui.keyword.KeywordMoviesPager
 import com.vlohachov.moviespot.ui.keyword.KeywordMoviesViewModel
 import com.vlohachov.moviespot.ui.main.MainViewModel
+import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesPager
 import com.vlohachov.moviespot.ui.movies.now.NowPlayingMoviesViewModel
+import com.vlohachov.moviespot.ui.movies.popular.PopularMoviesPager
 import com.vlohachov.moviespot.ui.movies.popular.PopularMoviesViewModel
+import com.vlohachov.moviespot.ui.movies.similar.SimilarMoviesPager
 import com.vlohachov.moviespot.ui.movies.similar.SimilarMoviesViewModel
+import com.vlohachov.moviespot.ui.movies.top.TopRatedMoviesPager
 import com.vlohachov.moviespot.ui.movies.top.TopRatedMoviesViewModel
+import com.vlohachov.moviespot.ui.movies.upcoming.UpcomingMoviesPager
 import com.vlohachov.moviespot.ui.movies.upcoming.UpcomingMoviesViewModel
-import com.vlohachov.moviespot.ui.search.SearchViewModel
+import com.vlohachov.moviespot.ui.search.SearchMoviesPager
+import com.vlohachov.moviespot.ui.search.SearchMoviesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -28,19 +36,19 @@ val viewModelModule = module {
     }
 
     viewModel {
-        UpcomingMoviesViewModel(useCase = get())
+        UpcomingMoviesViewModel(pager = UpcomingMoviesPager(useCase = get()))
     }
 
     viewModel {
-        NowPlayingMoviesViewModel(useCase = get())
+        NowPlayingMoviesViewModel(pager = NowPlayingMoviesPager(useCase = get()))
     }
 
     viewModel {
-        PopularMoviesViewModel(useCase = get())
+        PopularMoviesViewModel(pager = PopularMoviesPager(useCase = get()))
     }
 
     viewModel {
-        TopRatedMoviesViewModel(useCase = get())
+        TopRatedMoviesViewModel(pager = TopRatedMoviesPager(useCase = get()))
     }
 
     viewModel { params ->
@@ -69,13 +77,15 @@ val viewModelModule = module {
 
     viewModel { params ->
         SimilarMoviesViewModel(
-            movieId = params.get(),
-            useCase = get(),
+            pager = SimilarMoviesPager(
+                movieId = params.get(),
+                useCase = get(),
+            )
         )
     }
 
     viewModel {
-        SearchViewModel(useCase = get())
+        SearchMoviesViewModel(pager = SearchMoviesPager(useCase = get()))
     }
 
     viewModel {
@@ -84,15 +94,20 @@ val viewModelModule = module {
 
     viewModel { params ->
         DiscoverResultViewModel(
-            param = params.get(),
-            useCase = get(),
+            pager = DiscoverResultPager(
+                year = params.get(),
+                selectedGenres = params.get(),
+                useCase = get(),
+            )
         )
     }
 
     viewModel { params ->
         KeywordMoviesViewModel(
-            keywordId = params.get(),
-            useCase = get(),
+            pager = KeywordMoviesPager(
+                keywordId = params.get(),
+                useCase = get(),
+            )
         )
     }
 }

@@ -6,6 +6,6 @@ object DecimalUtils {
 
     private const val DEFAULT_PATTERN = "#.#"
 
-    fun Float.format(pattern: String = DEFAULT_PATTERN): String =
-        DecimalFormat(pattern).format(this)
+    fun format(number: Float, pattern: String = DEFAULT_PATTERN): String =
+        DecimalFormat(pattern).format(number)
 }

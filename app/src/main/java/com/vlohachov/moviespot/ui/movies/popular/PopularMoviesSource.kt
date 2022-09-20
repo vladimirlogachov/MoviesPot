@@ -27,13 +27,19 @@ class PopularMoviesSource(private val useCase: PopularUseCase) : PagingSource<In
             val result = loadPage(page = page)
             LoadResult.Page(
                 data = result.data,
-                prevKey = if (page == 1) null else page.minus(1),
-                nextKey = if (result.data.isEmpty()) null else result.page.plus(1),
+                prevKey = result.prevKey(),
+                nextKey = result.nextKey(),
             )
         } catch (e: Throwable) {
             LoadResult.Error(e)
         }
     }
+
+    private fun PaginatedData<Movie>.prevKey(): Int? =
+        if (page == 1) null else page.minus(1)
+
+    private fun PaginatedData<Movie>.nextKey(): Int? =
+        if (data.isEmpty() || totalPages == 1) null else page.plus(1)
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
         useCase.resultFlow(param = PopularUseCase.Param(page = page))

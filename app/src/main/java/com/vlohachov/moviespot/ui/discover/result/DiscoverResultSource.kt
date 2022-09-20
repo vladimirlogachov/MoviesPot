@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 class DiscoverResultSource(
-    private val selectedGenres: List<Int>?,
     private val year: Int?,
+    private val selectedGenres: List<Int>?,
     private val useCase: DiscoverMoviesUseCase,
 ) : PagingSource<Int, Movie>() {
 

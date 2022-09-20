@@ -88,6 +88,10 @@ class MainViewModel(
         initialValue = MainViewState(),
     )
 
+    fun onError(error: Throwable) {
+        viewModelScope.launch { this@MainViewModel.error.emit(value = error) }
+    }
+
     fun onErrorConsumed() {
         viewModelScope.launch { error.emit(value = null) }
     }

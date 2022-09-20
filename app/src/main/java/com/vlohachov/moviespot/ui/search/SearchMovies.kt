@@ -40,7 +40,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun Search(
     navigator: DestinationsNavigator,
-    viewModel: SearchViewModel = getViewModel(),
+    viewModel: SearchMoviesViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val unknownErrorText = stringResource(id = R.string.uknown_error)
@@ -162,7 +162,7 @@ fun Search(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp, horizontal = 16.dp),
-                value = viewModel.search.collectAsState().value,
+                value = viewModel.search.value,
                 onClear = viewModel::onClear,
                 onValueChange = viewModel::onSearch,
             )

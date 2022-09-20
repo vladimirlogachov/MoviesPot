@@ -31,7 +31,7 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.LoremIpsum
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.utils.DateUtils
-import com.vlohachov.moviespot.core.utils.DecimalUtils.format
+import com.vlohachov.moviespot.core.utils.DecimalUtils
 import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.Company
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
@@ -453,7 +453,7 @@ private fun BriefInfo(
                 modifier = Modifier.weight(weight = 1f),
                 title = {
                     SectionTitle(
-                        text = voteAverage.format(),
+                        text = DecimalUtils.format(number = voteAverage),
                         trailing = {
                             Icon(
                                 imageVector = Icons.Rounded.Star,

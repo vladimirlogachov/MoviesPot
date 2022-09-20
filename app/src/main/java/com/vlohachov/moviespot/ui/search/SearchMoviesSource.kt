@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
-class SearchSource(
+class SearchMoviesSource(
     private val query: String,
     private val useCase: SearchMoviesUseCase,
 ) : PagingSource<Int, Movie>() {
