@@ -48,7 +48,7 @@ fun MainScreen(
                 },
                 actions = {
                     IconButton(
-                        onClick = { navigator.navigate(SearchDestination) },
+                        onClick = { navigator.navigate(SearchMoviesDestination) },
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Search,

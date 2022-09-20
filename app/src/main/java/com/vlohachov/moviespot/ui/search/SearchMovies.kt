@@ -38,7 +38,7 @@ import org.koin.androidx.compose.getViewModel
 )
 @Destination
 @Composable
-fun Search(
+fun SearchMovies(
     navigator: DestinationsNavigator,
     viewModel: SearchMoviesViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -162,7 +162,7 @@ fun Search(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp, horizontal = 16.dp),
-                value = viewModel.search.value,
+                value = viewModel.search.collectAsState(initial = "").value,
                 onClear = viewModel::onClear,
                 onValueChange = viewModel::onSearch,
             )
