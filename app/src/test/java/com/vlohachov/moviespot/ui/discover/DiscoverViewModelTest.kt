@@ -124,10 +124,9 @@ class DiscoverViewModelTest {
         viewModel.uiState.test {
             viewModel.onSelect(genre = genre)
             viewModel.onSelect(genre = TestGenre)
-
-            skipItems(count = 1)
-
             viewModel.onClearSelection(genre = genre)
+
+            skipItems(count = 3)
 
             val actual = awaitItem().selectedGenres
 

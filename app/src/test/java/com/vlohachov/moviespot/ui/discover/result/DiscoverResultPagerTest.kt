@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.keyword
+package com.vlohachov.moviespot.ui.discover.result
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
@@ -11,14 +11,14 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class KeywordMoviesPagerTest {
+class DiscoverResultPagerTest {
 
     private val useCase = mockk<DiscoverMoviesUseCase>()
 
     private val pager by lazy {
         every { useCase.resultFlow(param = any()) } returns flowOf()
 
-        KeywordMoviesPager(keywordId = 0, useCase = useCase)
+        DiscoverResultPager(year = 2022, selectedGenres = intArrayOf(10), useCase = useCase)
     }
 
     @Test

@@ -1,16 +1,21 @@
-package com.vlohachov.moviespot.ui.keyword
+package com.vlohachov.moviespot.ui.discover.result
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
 
-class KeywordMoviesPager(
-    keywordId: Int,
+class DiscoverResultPager(
+    year: Int?,
+    selectedGenres: IntArray?,
     useCase: DiscoverMoviesUseCase,
     config: PagingConfig = PagingConfig(pageSize = 20),
 ) {
 
     val pagingDataFlow = Pager(config = config) {
-        KeywordMoviesSource(keywordId = keywordId, useCase = useCase)
+        DiscoverResultSource(
+            year = year,
+            selectedGenres = selectedGenres?.toList(),
+            useCase = useCase,
+        )
     }.flow
 }

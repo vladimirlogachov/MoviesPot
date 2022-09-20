@@ -5,24 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class UpcomingMoviesViewModel(useCase: UpcomingUseCase) : ViewModel() {
+class UpcomingMoviesViewModel(pager: UpcomingMoviesPager) : ViewModel() {
 
-    private companion object Constants {
-        const val PageSize = 20
-    }
-
-    val movies = Pager(config = PagingConfig(pageSize = PageSize)) {
-        UpcomingMoviesSource(useCase = useCase)
-    }.flow
+    val movies = pager.pagingDataFlow
         .catch { error -> onError(error = error) }
-        .cachedIn(viewModelScope)
+        .cachedIn(scope = viewModelScope)
 
     var error by mutableStateOf<Throwable?>(value = null)
         private set

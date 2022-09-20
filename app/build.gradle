@@ -44,6 +44,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    namespace 'com.vlohachov.moviespot'
 
     applicationVariants.all { variant ->
         kotlin.sourceSets {
