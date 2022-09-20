@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
@@ -75,7 +76,7 @@ fun CompanyPreview() {
     MoviesPotTheme {
         Company(
             modifier = Modifier.padding(all = 16.dp),
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = rememberAsyncImagePainter(model = null),
             name = "Company"
         )
     }

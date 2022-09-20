@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
@@ -26,6 +28,7 @@ fun Profile(
     title: String,
     body: String,
     modifier: Modifier = Modifier,
+    error: Boolean = false,
     footerPadding: PaddingValues = ProfileDefaults.FooterPadding,
     shape: Shape = ProfileDefaults.Shape,
     color: Color = MaterialTheme.colorScheme.surface,
@@ -44,14 +47,27 @@ fun Profile(
         border = border,
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Image(
+            Box(
                 modifier = Modifier
                     .weight(weight = 2f)
-                    .fillMaxWidth(),
-                painter = painter,
-                contentScale = ContentScale.Crop,
-                contentDescription = title,
-            )
+                    .fillMaxWidth()
+            ) {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painter,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = title,
+                )
+                if (error) {
+                    Icon(
+                        modifier = Modifier
+                            .size(size = 48.dp)
+                            .align(alignment = Alignment.Center),
+                        painter = painterResource(id = R.drawable.ic_round_broken_image_24),
+                        contentDescription = null,
+                    )
+                }
+            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -86,6 +102,7 @@ fun Profile(
     body: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    error: Boolean = false,
     footerPadding: PaddingValues = ProfileDefaults.FooterPadding,
     shape: Shape = ProfileDefaults.Shape,
     color: Color = MaterialTheme.colorScheme.surface,
@@ -105,14 +122,27 @@ fun Profile(
         border = border,
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Image(
+            Box(
                 modifier = Modifier
                     .weight(weight = 2f)
-                    .fillMaxWidth(),
-                painter = painter,
-                contentScale = ContentScale.Crop,
-                contentDescription = title,
-            )
+                    .fillMaxWidth()
+            ) {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painter,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = title,
+                )
+                if (error) {
+                    Icon(
+                        modifier = Modifier
+                            .size(size = 48.dp)
+                            .align(alignment = Alignment.Center),
+                        painter = painterResource(id = R.drawable.ic_round_broken_image_24),
+                        contentDescription = null,
+                    )
+                }
+            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -163,7 +193,8 @@ fun ProfilePreview() {
                     .aspectRatio(ratio = .75f),
                 title = "Title",
                 body = "Body",
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = rememberAsyncImagePainter(model = null),
+                error = true,
             )
             Profile(
                 modifier = Modifier
@@ -171,7 +202,7 @@ fun ProfilePreview() {
                     .aspectRatio(ratio = .75f),
                 title = "Title",
                 body = "Body",
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = rememberAsyncImagePainter(model = null),
                 onClick = {},
             )
         }

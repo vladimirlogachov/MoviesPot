@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
@@ -127,14 +128,14 @@ fun PosterPreview() {
                 modifier = Modifier
                     .weight(weight = 1f)
                     .aspectRatio(ratio = .75f),
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = rememberAsyncImagePainter(model = null),
                 error = true,
             )
             Poster(
                 modifier = Modifier
                     .weight(weight = 1f)
                     .aspectRatio(ratio = .75f),
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = rememberAsyncImagePainter(model = null),
                 onClick = {},
             )
         }
