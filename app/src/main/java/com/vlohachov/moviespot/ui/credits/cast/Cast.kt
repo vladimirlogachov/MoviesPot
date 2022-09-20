@@ -136,14 +136,20 @@ private fun Content(
                 viewState.error?.run(onError)
             is ViewState.Success ->
                 items(items = viewState.data) { member ->
+                    var error by remember { mutableStateOf(false) }
+                    val painter = rememberAsyncImagePainter(
+                        model = member.profilePath,
+                        onError = { error = true },
+                    )
                     Profile(
                         modifier = Modifier
                             .width(width = 164.dp)
                             .aspectRatio(ratio = 0.75f),
                         title = member.name,
                         body = member.character,
-                        painter = rememberAsyncImagePainter(model = member.profilePath),
+                        painter = painter,
                         onClick = { onCredit(member.id) },
+                        error = error,
                     )
                 }
         }

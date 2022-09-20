@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
@@ -39,7 +41,10 @@ fun MainScreen(
             CenterAlignedTopAppBar(
                 modifier = Modifier.fillMaxWidth(),
                 title = {
-                    Text(text = stringResource(id = R.string.app_name))
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        fontFamily = FontFamily(Font(resId = R.font.chalkduster))
+                    )
                 },
                 actions = {
                     IconButton(
