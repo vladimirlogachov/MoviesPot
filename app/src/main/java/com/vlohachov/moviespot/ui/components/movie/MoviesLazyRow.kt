@@ -5,18 +5,21 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.core.DummyMovies
+import com.vlohachov.moviespot.ui.components.Poster
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 @Composable
 fun MoviesLazyRow(
     movies: List<Movie>,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(all = 16.dp),
+    contentPadding: PaddingValues = MoviesLazyRowDefaults.ContentPadding,
     onClick: ((movie: Movie) -> Unit)? = null,
 ) {
     val itemModifier = Modifier
@@ -26,7 +29,10 @@ fun MoviesLazyRow(
             matchHeightConstraintsFirst = true,
         )
     LazyRow(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = MoviesLazyRowDefaults.MoviesLazyRowTestTag
+            },
         contentPadding = contentPadding,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -55,6 +61,13 @@ fun MoviesLazyRow(
             }
         }
     }
+}
+
+object MoviesLazyRowDefaults {
+
+    const val MoviesLazyRowTestTag = "movies_lazy_row"
+
+    val ContentPadding = PaddingValues(all = 16.dp)
 }
 
 @Preview(showBackground = true)

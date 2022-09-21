@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -38,7 +40,10 @@ fun Profile(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = ProfileDefaults.ProfileTestTag
+            },
         shape = shape,
         color = color,
         contentColor = contentColor,
@@ -53,7 +58,11 @@ fun Profile(
                     .fillMaxWidth()
             ) {
                 Image(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .semantics {
+                            testTag = ProfileDefaults.ImageTestTag
+                        }
+                        .fillMaxSize(),
                     painter = painter,
                     contentScale = ContentScale.Crop,
                     contentDescription = title,
@@ -61,6 +70,9 @@ fun Profile(
                 if (error) {
                     Icon(
                         modifier = Modifier
+                            .semantics {
+                                testTag = ProfileDefaults.ErrorTestTag
+                            }
                             .size(size = 48.dp)
                             .align(alignment = Alignment.Center),
                         painter = painterResource(id = R.drawable.ic_round_broken_image_24),
@@ -76,6 +88,10 @@ fun Profile(
             ) {
                 ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
                     Text(
+                        modifier = Modifier
+                            .semantics {
+                                testTag = ProfileDefaults.TitleTestTag
+                            },
                         text = title,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -83,6 +99,9 @@ fun Profile(
                 }
                 ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
                     Text(
+                        modifier = Modifier.semantics {
+                            testTag = ProfileDefaults.BodyTestTag
+                        },
                         text = body,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -112,7 +131,10 @@ fun Profile(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = ProfileDefaults.ProfileTestTag
+            },
         onClick = onClick,
         shape = shape,
         color = color,
@@ -128,7 +150,11 @@ fun Profile(
                     .fillMaxWidth()
             ) {
                 Image(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .semantics {
+                            testTag = ProfileDefaults.ImageTestTag
+                        }
+                        .fillMaxSize(),
                     painter = painter,
                     contentScale = ContentScale.Crop,
                     contentDescription = title,
@@ -136,6 +162,9 @@ fun Profile(
                 if (error) {
                     Icon(
                         modifier = Modifier
+                            .semantics {
+                                testTag = ProfileDefaults.ErrorTestTag
+                            }
                             .size(size = 48.dp)
                             .align(alignment = Alignment.Center),
                         painter = painterResource(id = R.drawable.ic_round_broken_image_24),
@@ -151,6 +180,10 @@ fun Profile(
             ) {
                 ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
                     Text(
+                        modifier = Modifier
+                            .semantics {
+                                testTag = ProfileDefaults.TitleTestTag
+                            },
                         text = title,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -158,6 +191,10 @@ fun Profile(
                 }
                 ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
                     Text(
+                        modifier = Modifier
+                            .semantics {
+                                testTag = ProfileDefaults.BodyTestTag
+                            },
                         text = body,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -170,6 +207,12 @@ fun Profile(
 }
 
 object ProfileDefaults {
+
+    const val ProfileTestTag = "profile"
+    const val ImageTestTag = "profile_image"
+    const val ErrorTestTag = "profile_error"
+    const val TitleTestTag = "profile_title"
+    const val BodyTestTag = "profile_body"
 
     val FooterPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
     val Shape = RoundedCornerShape(size = 16.dp)

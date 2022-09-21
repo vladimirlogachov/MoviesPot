@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.components.movie
+package com.vlohachov.moviespot.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -34,7 +36,10 @@ fun Poster(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = PosterDefaults.PosterTestTag
+            },
         shape = shape,
         color = color,
         contentColor = contentColor,
@@ -44,7 +49,11 @@ fun Poster(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = PosterDefaults.ImageTestTag
+                    }
+                    .fillMaxSize(),
                 painter = painter,
                 contentScale = ContentScale.Crop,
                 contentDescription = contentDescription,
@@ -52,6 +61,9 @@ fun Poster(
             if (error) {
                 Icon(
                     modifier = Modifier
+                        .semantics {
+                            testTag = PosterDefaults.ErrorTestTag
+                        }
                         .size(size = 48.dp)
                         .align(alignment = Alignment.Center),
                     painter = painterResource(id = R.drawable.ic_round_broken_image_24),
@@ -78,7 +90,10 @@ fun Poster(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = PosterDefaults.PosterTestTag
+            },
         onClick = onClick,
         shape = shape,
         color = color,
@@ -89,7 +104,11 @@ fun Poster(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = PosterDefaults.ImageTestTag
+                    }
+                    .fillMaxSize(),
                 painter = painter,
                 contentScale = ContentScale.Crop,
                 contentDescription = contentDescription,
@@ -97,6 +116,9 @@ fun Poster(
             if (error) {
                 Icon(
                     modifier = Modifier
+                        .semantics {
+                            testTag = PosterDefaults.ErrorTestTag
+                        }
                         .size(size = 48.dp)
                         .align(alignment = Alignment.Center),
                     painter = painterResource(id = R.drawable.ic_round_broken_image_24),
@@ -108,6 +130,10 @@ fun Poster(
 }
 
 object PosterDefaults {
+
+    const val PosterTestTag = "poster"
+    const val ImageTestTag = "poster_image"
+    const val ErrorTestTag = "poster_error"
 
     val Shape = RoundedCornerShape(size = 16.dp)
     val TonalElevation = 4.dp

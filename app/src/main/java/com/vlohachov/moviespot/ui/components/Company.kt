@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,11 +31,14 @@ fun Company(
     name: String,
     modifier: Modifier = Modifier,
     error: Boolean = false,
-    imageSize: Dp = 64.dp,
-    imageShape: Shape = CircleShape,
+    imageSize: Dp = CompanyDefaults.ImageSize,
+    imageShape: Shape = CompanyDefaults.ImageShape,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = CompanyDefaults.CompanyTestTag
+            },
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -48,12 +53,20 @@ fun Company(
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
+                    modifier = Modifier
+                        .semantics {
+                            testTag = CompanyDefaults.ImageTestTag
+                        },
                     painter = painter,
                     contentDescription = name,
                     contentScale = ContentScale.Fit,
                 )
                 if (error) {
                     Icon(
+                        modifier = Modifier
+                            .semantics {
+                                testTag = CompanyDefaults.ErrorTestTag
+                            },
                         painter = painterResource(id = R.drawable.ic_round_broken_image_24),
                         contentDescription = null,
                         tint = Color.Black,
@@ -62,12 +75,27 @@ fun Company(
             }
         }
         Text(
+            modifier = Modifier
+                .semantics {
+                    testTag = CompanyDefaults.NameTestTag
+                },
             text = name,
             textAlign = TextAlign.Center,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )
     }
+}
+
+object CompanyDefaults {
+
+    const val CompanyTestTag = "company"
+    const val ImageTestTag = "company_image"
+    const val ErrorTestTag = "company_error"
+    const val NameTestTag = "company_name"
+
+    val ImageShape = CircleShape
+    val ImageSize = 64.dp
 }
 
 @Preview(showBackground = true)

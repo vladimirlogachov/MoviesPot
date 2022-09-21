@@ -34,8 +34,8 @@ import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils
 import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.Company
+import com.vlohachov.moviespot.ui.components.Poster
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
-import com.vlohachov.moviespot.ui.components.movie.Poster
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
