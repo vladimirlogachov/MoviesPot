@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.domain.model.movie.Movie
@@ -24,20 +26,30 @@ fun MoviesSection(
     modifier: Modifier = Modifier,
     onMovieClick: ((movie: Movie) -> Unit)? = null,
     onMore: (() -> Unit)? = null,
-    titlePadding: PaddingValues = PaddingValues(start = 16.dp, end = 4.dp),
-    contentPadding: PaddingValues = PaddingValues(all = 16.dp),
+    titlePadding: PaddingValues = MoviesSectionDefaults.TitlePadding,
+    contentPadding: PaddingValues = MoviesSectionDefaults.ContentPadding,
     textStyles: SectionTextStyles = SectionDefaults.mediumTextStyles(),
     colors: SectionColors = SectionDefaults.sectionColors(),
 ) {
     val isNotEmpty = viewState is ViewState.Success && viewState.data.isNotEmpty()
     val moreButton: @Composable (() -> Unit)? =
         if (onMore != null && isNotEmpty) {
-            @Composable { MoreButton(onClick = onMore) }
+            @Composable {
+                MoreButton(
+                    modifier = Modifier.semantics {
+                        testTag = MoviesSectionDefaults.MoreButtonTestTag
+                    },
+                    onClick = onMore,
+                )
+            }
         } else {
             null
         }
     Section(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = MoviesSectionDefaults.MoviesSectionTestTag
+            },
         title = {
             SectionTitle(
                 modifier = Modifier
@@ -52,7 +64,11 @@ fun MoviesSection(
         colors = colors,
     ) {
         Movies(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .semantics {
+                    testTag = MoviesSectionDefaults.ContentTestTag
+                }
+                .fillMaxWidth(),
             viewState = viewState,
             onMovieClick = onMovieClick,
             contentPadding = contentPadding,
@@ -72,13 +88,20 @@ private fun Movies(
             ViewState.Loading ->
                 CircularProgressIndicator(
                     modifier = Modifier
+                        .semantics {
+                            testTag = MoviesSectionDefaults.ProgressTestTag
+                        }
                         .padding(paddingValues = contentPadding)
                         .align(alignment = Alignment.Center)
                 )
             is ViewState.Error ->
                 viewState.error?.message?.run {
                     Text(
-                        modifier = Modifier.padding(paddingValues = contentPadding),
+                        modifier = Modifier
+                            .semantics {
+                                testTag = MoviesSectionDefaults.ErrorTestTag
+                            }
+                            .padding(paddingValues = contentPadding),
                         text = this,
                     )
                 }
@@ -86,6 +109,9 @@ private fun Movies(
                 if (viewState.data.isEmpty()) {
                     Text(
                         modifier = Modifier
+                            .semantics {
+                                testTag = MoviesSectionDefaults.EmptyTestTag
+                            }
                             .padding(paddingValues = contentPadding)
                             .align(alignment = Alignment.Center),
                         text = stringResource(id = R.string.no_results),
@@ -102,6 +128,19 @@ private fun Movies(
                 }
         }
     }
+}
+
+object MoviesSectionDefaults {
+
+    const val MoviesSectionTestTag = "movies_section"
+    const val MoreButtonTestTag = "movies_section_more_button"
+    const val ContentTestTag = "movies_section_content"
+    const val ProgressTestTag = "movies_section_progress"
+    const val ErrorTestTag = "movies_section_error"
+    const val EmptyTestTag = "movies_section_empty"
+
+    val TitlePadding = PaddingValues(start = 16.dp, end = 4.dp)
+    val ContentPadding = PaddingValues(all = 16.dp)
 }
 
 @Preview(showBackground = true)

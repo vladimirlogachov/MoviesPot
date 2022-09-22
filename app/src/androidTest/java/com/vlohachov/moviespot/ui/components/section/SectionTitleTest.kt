@@ -3,10 +3,8 @@ package com.vlohachov.moviespot.ui.components.section
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test
@@ -61,5 +59,18 @@ class SectionTitleTest {
         onNodeWithTag(testTag = SectionTitleDefaults.TitleIconTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No child Icon trailing component found.")
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun previewTest(): Unit = with(composeRule) {
+        setContent {
+            SectionTitlePreview()
+        }
+
+        onAllNodes(hasTestTag(testTag = SectionTitleDefaults.TitleTestTag))
+            .assertCountEquals(expectedSize = 2)
+            .onLast()
+            .onChildren()
+            .assertAny(hasTestTag(testTag = SectionTitleDefaults.TitleIconTestTag))
     }
 }

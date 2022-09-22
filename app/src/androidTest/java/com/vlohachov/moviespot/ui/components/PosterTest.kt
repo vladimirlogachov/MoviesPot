@@ -3,13 +3,10 @@ package com.vlohachov.moviespot.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.test.assertHasClickAction
-import androidx.compose.ui.test.assertHasNoClickAction
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
@@ -43,6 +40,18 @@ class PosterTest {
     fun clickablePosterErrorTest() {
         composeRule.clickablePoster(error = true)
         composeRule.verifyNonClickablePoster(clickable = true, error = true)
+    }
+
+    @Test
+    fun previewTest() {
+        composeRule.setContent {
+            PosterPreview()
+        }
+
+        composeRule.onAllNodes(hasTestTag(testTag = PosterDefaults.PosterTestTag))
+            .assertCountEquals(expectedSize = 2)
+            .onLast()
+            .assertHasClickAction()
     }
 
     private fun ComposeContentTestRule.clickablePoster(error: Boolean) {

@@ -2,12 +2,10 @@ package com.vlohachov.moviespot.ui.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
@@ -29,6 +27,16 @@ class CompanyTest {
     fun companyErrorTest() {
         composeRule.company(error = true)
         composeRule.verifyCompany(error = true)
+    }
+
+    @Test
+    fun previewTest() {
+        composeRule.setContent {
+            CompanyPreview()
+        }
+
+        composeRule.onAllNodes(hasTestTag(testTag = CompanyDefaults.CompanyTestTag))
+            .assertCountEquals(expectedSize = 1)
     }
 
     private fun ComposeContentTestRule.company(error: Boolean) {

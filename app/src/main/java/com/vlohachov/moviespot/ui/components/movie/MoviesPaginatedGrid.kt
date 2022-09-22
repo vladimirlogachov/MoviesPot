@@ -6,6 +6,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -32,17 +34,18 @@ fun MoviesPaginatedGrid(
         .aspectRatio(ratio = .75f)
 
     LazyVerticalGrid(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag
+            },
         state = state,
         columns = columns,
         contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,
         horizontalArrangement = horizontalArrangement,
     ) {
-        progress?.run {
-            if (movies.loadState.refresh is LoadState.Loading) {
-                this()
-            }
+        if (movies.loadState.refresh is LoadState.Loading) {
+            progress?.invoke(this)
         }
 
         items(count = movies.itemCount) { index ->
@@ -73,7 +76,14 @@ fun MoviesPaginatedGrid(
         }
 
         if (movies.loadState.append is LoadState.Loading) {
-            item { Progress(modifier = itemModifier) }
+            item {
+                Progress(
+                    modifier = itemModifier
+                        .semantics {
+                            testTag = MoviesPaginatedGridDefaults.AppendProgressTestTag
+                        }
+                )
+            }
         }
     }
 
@@ -98,6 +108,11 @@ private fun Progress(modifier: Modifier = Modifier) {
 }
 
 object MoviesPaginatedGridDefaults {
+
+    const val MoviesPaginatedGridTestTag = "movies_paginated_grid"
+    const val RefreshProgressTestTag = "movies_paginated_grid_refresh_progress"
+    const val AppendProgressTestTag = "movies_paginated_grid_append_progress"
+
     private val ItemsSpace: Dp = 16.dp
 
     val ContentPadding: PaddingValues = PaddingValues(all = ItemsSpace)
