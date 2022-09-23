@@ -45,6 +45,11 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += 'META-INF/LICENSE.md'
+            excludes += 'META-INF/LICENSE-notice.md'
+        }
+        jniLibs {
+            useLegacyPackaging true // Needed, so Mockk library works under androidTest
         }
     }
     namespace 'com.vlohachov.moviespot'
@@ -95,7 +100,10 @@ dependencies {
     testImplementation "app.cash.turbine:turbine:$turbine_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "junit:junit:$junit_version"
+
+    // Android Test
     androidTestImplementation "com.google.truth:truth:$truth_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
     androidTestImplementation "androidx.test.ext:junit:$junitx_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"

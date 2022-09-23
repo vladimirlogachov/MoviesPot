@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
@@ -66,7 +68,11 @@ fun Cast(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier.navigationBarsPadding(),
+                    modifier = Modifier
+                        .semantics {
+                            testTag = CastDefaults.ScrollToTopTestTag
+                        }
+                        .navigationBarsPadding(),
                     onClick = {
                         coroutineScope.launch {
                             gridState.animateScrollToItem(index = 0)
@@ -82,7 +88,11 @@ fun Cast(
         },
         snackbarHost = {
             SnackbarHost(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = CastDefaults.ContentErrorTestTag
+                    }
+                    .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
@@ -93,7 +103,11 @@ fun Cast(
                 .padding(paddingValues = paddingValues),
         ) {
             Content(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = CastDefaults.ContentTestTag
+                    }
+                    .fillMaxSize(),
                 gridState = gridState,
                 viewState = uiState.viewState,
                 onCredit = { },
@@ -102,8 +116,8 @@ fun Cast(
 
             uiState.error?.run {
                 LaunchedEffect(snackbarHostState) {
-                    snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
                     viewModel.onErrorConsumed()
+                    snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
                 }
             }
         }
@@ -128,7 +142,12 @@ private fun Content(
     ) {
         when (viewState) {
             ViewState.Loading -> item(span = { GridItemSpan(currentLineSpan = 2) }) {
-                Box(contentAlignment = Alignment.TopCenter) {
+                Box(
+                    modifier = Modifier.semantics {
+                        testTag = CastDefaults.ContentLoadingTestTag
+                    },
+                    contentAlignment = Alignment.TopCenter,
+                ) {
                     CircularProgressIndicator()
                 }
             }
@@ -154,4 +173,12 @@ private fun Content(
                 }
         }
     }
+}
+
+object CastDefaults {
+
+    const val ContentTestTag = "content"
+    const val ContentLoadingTestTag = "content_loading"
+    const val ContentErrorTestTag = "content_error"
+    const val ScrollToTopTestTag = "scroll_to_top"
 }
