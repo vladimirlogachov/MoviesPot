@@ -39,7 +39,7 @@ class PopularMoviesSource(private val useCase: PopularUseCase) : PagingSource<In
         if (page == 1) null else page.minus(1)
 
     private fun PaginatedData<Movie>.nextKey(): Int? =
-        if (data.isEmpty() || totalPages == 1) null else page.plus(1)
+        if (page >= totalPages) null else page.plus(1)
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
         useCase.resultFlow(param = PopularUseCase.Param(page = page))

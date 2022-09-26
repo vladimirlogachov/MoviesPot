@@ -41,6 +41,7 @@ class DiscoverViewModel(useCase: GenresUseCase) : ViewModel() {
             year = year,
             genresViewState = genresViewState,
             selectedGenres = selectedGenres,
+            discoverEnabled = year.isNotBlank() || selectedGenres.isNotEmpty(),
             error = error,
         )
     }.stateIn(

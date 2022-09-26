@@ -6,21 +6,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.vlohachov.moviespot.core.WhileUiSubscribed
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SearchMoviesViewModel(pager: SearchMoviesPager) : ViewModel() {
 
     private val _search = MutableStateFlow(value = "")
 
-    val search: StateFlow<String> = _search
-        .onEach(pager::onQuery)
-        .stateIn(
-            scope = viewModelScope,
-            started = WhileUiSubscribed,
-            initialValue = "",
-        )
+    val search: Flow<String> = _search.onEach(pager::onQuery)
 
     val movies = pager.pagingDataFlow
         .catch { error -> onError(error = error) }

@@ -24,7 +24,10 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+)
 @Destination
 @Composable
 fun Crew(
@@ -69,7 +72,7 @@ fun Crew(
                     modifier = Modifier.navigationBarsPadding(),
                     onClick = {
                         coroutineScope.launch {
-                            gridState.animateScrollToItem(index = 0)
+                            gridState.scrollToItem(index = 0)
                         }
                     }
                 ) {
