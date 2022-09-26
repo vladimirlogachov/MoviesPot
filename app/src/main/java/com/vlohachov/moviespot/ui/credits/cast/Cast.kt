@@ -72,7 +72,7 @@ fun Cast(
                     modifier = Modifier.navigationBarsPadding(),
                     onClick = {
                         coroutineScope.launch {
-                            gridState.animateScrollToItem(index = 0)
+                            gridState.scrollToItem(index = 0)
                         }
                     }
                 ) {
