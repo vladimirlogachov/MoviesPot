@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,23 +32,26 @@ import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class,
+)
 @Destination
 @Composable
 fun Discover(
     navigator: DestinationsNavigator,
     viewModel: DiscoverViewModel = getViewModel(),
-    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val keyboardController = LocalSoftwareKeyboardController.current
     val uiState by viewModel.uiState.collectAsState()
 
     uiState.error?.run {
         LaunchedEffect(snackbarHostState) {
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
             viewModel.onErrorConsumed()
+            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
         }
     }
 
@@ -76,7 +81,11 @@ fun Discover(
         },
         snackbarHost = {
             SnackbarHost(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = DiscoverDefaults.GenresErrorTestTag
+                    }
+                    .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
@@ -94,8 +103,9 @@ fun Discover(
                 navigator.navigate(
                     DiscoverResultDestination(
                         year = uiState.year.toIntOrNull(),
-                        selectedGenres = uiState.selectedGenres.map { genre -> genre.id }
-                            .toIntArray(),
+                        selectedGenres = uiState.selectedGenres.map { genre ->
+                            genre.id
+                        }.toIntArray(),
                     )
                 )
             }
@@ -103,7 +113,10 @@ fun Discover(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+)
 @Composable
 private fun Content(
     modifier: Modifier,
@@ -115,11 +128,18 @@ private fun Content(
     onDiscover: () -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = DiscoverDefaults.ContentTestTag
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Genres(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .semantics {
+                    testTag = DiscoverDefaults.GenresTestTag
+                }
+                .fillMaxWidth(),
             viewState = viewState.genresViewState,
             selectedGenres = viewState.selectedGenres,
             onSelect = onSelect,
@@ -128,6 +148,9 @@ private fun Content(
         )
         OutlinedTextField(
             modifier = Modifier
+                .semantics {
+                    testTag = DiscoverDefaults.YearTestTag
+                }
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             value = viewState.year,
@@ -139,7 +162,12 @@ private fun Content(
                     enter = fadeIn() + scaleIn(),
                     exit = fadeOut() + scaleOut(),
                 ) {
-                    IconButton(onClick = { onYear("") }) {
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            testTag = DiscoverDefaults.YearClearTestTag
+                        },
+                        onClick = { onYear("") }
+                    ) {
                         Icon(
                             imageVector = Icons.Rounded.Clear,
                             contentDescription = stringResource(id = R.string.clear),
@@ -150,17 +178,16 @@ private fun Content(
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
-        AnimatedVisibility(
-            visible = viewState.year.isNotBlank() || viewState.selectedGenres.isNotEmpty(),
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut(),
+        Button(
+            modifier = Modifier
+                .semantics {
+                    testTag = DiscoverDefaults.DiscoverButtonTestTag
+                }
+                .padding(all = 16.dp),
+            onClick = onDiscover,
+            enabled = viewState.discoverEnabled,
         ) {
-            Button(
-                modifier = Modifier.padding(all = 16.dp),
-                onClick = onDiscover,
-            ) {
-                Text(text = stringResource(id = R.string.discover_movies))
-            }
+            Text(text = stringResource(id = R.string.discover_movies))
         }
     }
 }
@@ -177,7 +204,11 @@ private fun Genres(
 ) {
     when (viewState) {
         ViewState.Loading ->
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                modifier = Modifier.semantics {
+                    testTag = DiscoverDefaults.GenresLoadingTestTag
+                }
+            )
         is ViewState.Error ->
             viewState.error?.run(onError)
         is ViewState.Success ->
@@ -223,4 +254,15 @@ fun DiscoverContentPreview() {
             onDiscover = {},
         )
     }
+}
+
+object DiscoverDefaults {
+
+    const val ContentTestTag = "content"
+    const val GenresTestTag = "content_genres"
+    const val GenresLoadingTestTag = "content_genres_loading"
+    const val GenresErrorTestTag = "content_genres_error"
+    const val YearTestTag = "content_year"
+    const val YearClearTestTag = "content_year_clear"
+    const val DiscoverButtonTestTag = "content_discover_button"
 }
