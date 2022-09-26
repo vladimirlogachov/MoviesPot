@@ -44,3 +44,8 @@ Browse through large database of movies to find one you'd like to get info about
 - [Retrofit](https://square.github.io/retrofit/)
 - [OkHttp](https://square.github.io/okhttp/)
 - [Coil](https://coil-kt.github.io/coil/)
+
+## TODO
+
+- Offline first repository with Room as caching layer
+- Authorization using TMDB API
