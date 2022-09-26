@@ -95,7 +95,7 @@ val viewModelModule = module {
     viewModel { params ->
         DiscoverResultViewModel(
             pager = DiscoverResultPager(
-                year = params.get(),
+                year = params.getOrNull(),
                 selectedGenres = params.get(),
                 useCase = get(),
             )

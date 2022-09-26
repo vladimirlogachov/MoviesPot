@@ -60,6 +60,9 @@ android {
                 kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
             }
         }
+        variant.outputs.all {
+            outputFileName = "MoviesPot-${defaultConfig.versionName}-${variant.buildType.name}.apk"
+        }
     }
 }
 

@@ -251,7 +251,12 @@ private fun LazyListScope.details(
                 )
             }
             if (tagline.isNotBlank()) {
-                item { Text(text = "\"$tagline\"") }
+                item {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        text = "\"$tagline\"",
+                    )
+                }
             }
             item {
                 BriefInfo(
