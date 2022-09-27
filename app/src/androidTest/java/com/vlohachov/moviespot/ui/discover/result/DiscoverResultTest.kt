@@ -12,7 +12,6 @@ import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
-import com.vlohachov.moviespot.ui.credits.cast.CastDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
@@ -118,7 +117,7 @@ class DiscoverResultTest {
             }
         }
 
-        onNodeWithTag(testTag = CastDefaults.ContentErrorTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = DiscoverResultDefaults.ContentErrorTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
         onNodeWithTag(
@@ -128,7 +127,10 @@ class DiscoverResultTest {
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = 0)
-        onNodeWithTag(testTag = CastDefaults.ContentLoadingTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverResultDefaults.ContentLoadingTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
             .assert(matcher = hasContentDescription(value = true.toString()))
@@ -159,7 +161,7 @@ class DiscoverResultTest {
             }
         }
 
-        onNodeWithTag(testTag = CastDefaults.ContentErrorTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = DiscoverResultDefaults.ContentErrorTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
         onNodeWithTag(
@@ -169,7 +171,10 @@ class DiscoverResultTest {
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size)
-        onNodeWithTag(testTag = CastDefaults.ContentLoadingTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverResultDefaults.ContentLoadingTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
             .assert(matcher = hasContentDescription(value = false.toString()))
@@ -269,7 +274,7 @@ class DiscoverResultTest {
             }
         }
 
-        onNodeWithTag(testTag = CastDefaults.ContentErrorTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = DiscoverResultDefaults.ContentErrorTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(
@@ -279,7 +284,10 @@ class DiscoverResultTest {
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = 0)
-        onNodeWithTag(testTag = CastDefaults.ContentLoadingTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverResultDefaults.ContentLoadingTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
             .assert(matcher = hasContentDescription(value = false.toString()))

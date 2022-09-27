@@ -1,12 +1,15 @@
-package com.vlohachov.moviespot.ui.keyword
+package com.vlohachov.moviespot.ui.movies.similar
 
+import android.content.Context
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
+import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
@@ -18,17 +21,19 @@ import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 
-class KeywordMoviesTest {
+class SimilarMoviesTest {
 
     @get:Rule
     val composeRule = createComposeRule()
 
     private val navigator = mockk<DestinationsNavigator>()
-    private val viewModel = mockk<KeywordMoviesViewModel>()
+    private val viewModel = mockk<SimilarMoviesViewModel>()
+
+    private val context = ApplicationProvider.getApplicationContext<Context>()
 
     @Test
     fun titleTest(): Unit = with(composeRule) {
-        val keyword = "keyword"
+        val title = "Title"
 
         every { viewModel.error } returns null
         every { viewModel.movies } returns flowOf(
@@ -43,17 +48,26 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = keyword,
+                    movieId = 0,
+                    movieTitle = title,
                     viewModel = viewModel,
                 )
             }
         }
 
-        onNodeWithText(text = keyword, useUnmergedTree = true)
-            .assertExists(errorMessageOnFail = "No Title component found.")
+        val titles = onAllNodesWithText(
+            text = context.getString(R.string.similar_to, title),
+            useUnmergedTree = true,
+        )
+
+        titles[0]
+            .assertExists(errorMessageOnFail = "No Title small component found.")
+            .assertIsDisplayed()
+
+        titles[1]
+            .assertExists(errorMessageOnFail = "No Title large component found.")
             .assertIsDisplayed()
     }
 
@@ -73,10 +87,10 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = "",
+                    movieId = 0,
+                    movieTitle = "",
                     viewModel = viewModel,
                 )
             }
@@ -105,17 +119,19 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = "",
+                    movieId = 0,
+                    movieTitle = "",
                     viewModel = viewModel,
                 )
             }
         }
 
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ContentErrorTestTag, useUnmergedTree = true)
-            .assertExists(errorMessageOnFail = "No Error component found.")
+        onNodeWithTag(
+            testTag = SimilarMoviesDefaults.ContentErrorTestTag,
+            useUnmergedTree = true
+        ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
         onNodeWithTag(
             testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
@@ -124,8 +140,10 @@ class KeywordMoviesTest {
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = 0)
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ContentLoadingTestTag, useUnmergedTree = true)
-            .assertExists(errorMessageOnFail = "No Progress component found.")
+        onNodeWithTag(
+            testTag = SimilarMoviesDefaults.ContentLoadingTestTag,
+            useUnmergedTree = true
+        ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
             .assert(matcher = hasContentDescription(value = true.toString()))
     }
@@ -146,17 +164,19 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = "",
+                    movieId = 0,
+                    movieTitle = "",
                     viewModel = viewModel,
                 )
             }
         }
 
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ContentErrorTestTag, useUnmergedTree = true)
-            .assertExists(errorMessageOnFail = "No Error component found.")
+        onNodeWithTag(
+            testTag = SimilarMoviesDefaults.ContentErrorTestTag,
+            useUnmergedTree = true
+        ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
         onNodeWithTag(
             testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
@@ -165,8 +185,10 @@ class KeywordMoviesTest {
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size)
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ContentLoadingTestTag, useUnmergedTree = true)
-            .assertExists(errorMessageOnFail = "No Progress component found.")
+        onNodeWithTag(
+            testTag = SimilarMoviesDefaults.ContentLoadingTestTag,
+            useUnmergedTree = true
+        ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
             .assert(matcher = hasContentDescription(value = false.toString()))
     }
@@ -188,10 +210,10 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = "",
+                    movieId = 0,
+                    movieTitle = "",
                     viewModel = viewModel,
                 )
             }
@@ -228,10 +250,10 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = "",
+                    movieId = 0,
+                    movieTitle = "",
                     viewModel = viewModel,
                 )
             }
@@ -256,17 +278,19 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = "",
+                    movieId = 0,
+                    movieTitle = "",
                     viewModel = viewModel,
                 )
             }
         }
 
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ContentErrorTestTag, useUnmergedTree = true)
-            .assertExists(errorMessageOnFail = "No Error component found.")
+        onNodeWithTag(
+            testTag = SimilarMoviesDefaults.ContentErrorTestTag,
+            useUnmergedTree = true
+        ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(
             testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
@@ -275,8 +299,10 @@ class KeywordMoviesTest {
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = 0)
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ContentLoadingTestTag, useUnmergedTree = true)
-            .assertExists(errorMessageOnFail = "No Progress component found.")
+        onNodeWithTag(
+            testTag = SimilarMoviesDefaults.ContentLoadingTestTag,
+            useUnmergedTree = true
+        ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
             .assert(matcher = hasContentDescription(value = false.toString()))
 
@@ -303,10 +329,10 @@ class KeywordMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                KeywordMovies(
+                SimilarMovies(
                     navigator = navigator,
-                    keywordId = 0,
-                    keyword = "",
+                    movieId = 0,
+                    movieTitle = "",
                     viewModel = viewModel,
                 )
             }
@@ -319,12 +345,12 @@ class KeywordMoviesTest {
             .assertIsDisplayed()
             .performScrollToIndex(index = largeList.size - 1)
 
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = SimilarMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No ScrollToTop component found.")
             .assertIsDisplayed()
             .performClick()
 
-        onNodeWithTag(testTag = KeywordMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = SimilarMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
     }
 }

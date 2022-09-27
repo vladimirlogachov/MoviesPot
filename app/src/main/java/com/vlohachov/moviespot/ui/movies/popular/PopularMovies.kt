@@ -15,9 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -27,7 +31,10 @@ import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+)
 @Destination
 @Composable
 fun PopularMovies(
@@ -43,8 +50,8 @@ fun PopularMovies(
 
     viewModel.error?.run {
         LaunchedEffect(snackbarHostState) {
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
             viewModel.onErrorConsumed()
+            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
         }
     }
 
@@ -76,7 +83,11 @@ fun PopularMovies(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier.navigationBarsPadding(),
+                    modifier = Modifier
+                        .semantics {
+                            testTag = PopularMoviesDefaults.ScrollToTopTestTag
+                        }
+                        .navigationBarsPadding(),
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)
@@ -92,7 +103,11 @@ fun PopularMovies(
         },
         snackbarHost = {
             SnackbarHost(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = PopularMoviesDefaults.ContentErrorTestTag
+                    }
+                    .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
@@ -104,6 +119,16 @@ fun PopularMovies(
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
             state = rememberSwipeRefreshState(isRefreshing = movies.loadState.refresh is LoadState.Loading),
+            indicator = { state, refreshTrigger ->
+                SwipeRefreshIndicator(
+                    modifier = Modifier.semantics {
+                        testTag = PopularMoviesDefaults.ContentLoadingTestTag
+                        contentDescription = state.isRefreshing.toString()
+                    },
+                    state = state,
+                    refreshTriggerDistance = refreshTrigger,
+                )
+            },
             onRefresh = movies::refresh,
         ) {
             MoviesPaginatedGrid(
@@ -123,4 +148,11 @@ fun PopularMovies(
             )
         }
     }
+}
+
+object PopularMoviesDefaults {
+
+    const val ContentLoadingTestTag = "content_loading"
+    const val ContentErrorTestTag = "content_error"
+    const val ScrollToTopTestTag = "scroll_to_top"
 }
