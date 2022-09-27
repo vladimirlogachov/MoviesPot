@@ -8,6 +8,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
+import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -31,10 +32,12 @@ class FullscreenImageTest {
     @Test
     fun imageLoadedTest(): Unit = with(composeRule) {
         setContent {
-            FullscreenImage(
-                navigator = navigator,
-                path = TestImage,
-            )
+            MoviesPotTheme {
+                FullscreenImage(
+                    navigator = navigator,
+                    path = TestImage,
+                )
+            }
         }
 
         onAllNodes(matcher = isImage(), useUnmergedTree = true)
@@ -48,10 +51,12 @@ class FullscreenImageTest {
     @Test
     fun imageNotLoadedTest(): Unit = with(composeRule) {
         setContent {
-            FullscreenImage(
-                navigator = navigator,
-                path = "",
-            )
+            MoviesPotTheme {
+                FullscreenImage(
+                    navigator = navigator,
+                    path = "",
+                )
+            }
         }
 
         onAllNodes(matcher = isImage(), useUnmergedTree = true)
@@ -67,10 +72,12 @@ class FullscreenImageTest {
         every { navigator.navigateUp() } returns true
 
         setContent {
-            FullscreenImage(
-                navigator = navigator,
-                path = TestImage,
-            )
+            MoviesPotTheme {
+                FullscreenImage(
+                    navigator = navigator,
+                    path = TestImage,
+                )
+            }
         }
 
         onNode(matcher = hasClickAction(), useUnmergedTree = true)

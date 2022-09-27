@@ -5,6 +5,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.vlohachov.domain.model.movie.credit.CastMember
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestCastMembers
@@ -144,7 +145,9 @@ class CastTest {
 
     @Test
     fun scrollToTopTest(): Unit = with(composeRule) {
-        val largeList = TestCastMembers + TestCastMembers + TestCastMembers + TestCastMembers
+        val largeList = mutableListOf<CastMember>()
+
+        repeat(times = 4) { largeList += TestCastMembers }
 
         every { viewModel.uiState } returns MutableStateFlow(
             value = CastViewState(
