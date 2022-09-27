@@ -65,6 +65,9 @@ fun Discover(
                 title = { Text(text = stringResource(id = R.string.discover)) },
                 navigationIcon = {
                     IconButton(
+                        modifier = Modifier.semantics {
+                            testTag = DiscoverDefaults.BackButtonTestTag
+                        },
                         onClick = {
                             keyboardController?.hide()
                             navigator.navigateUp()
@@ -245,7 +248,8 @@ fun DiscoverContentPreview() {
             modifier = Modifier.padding(all = 16.dp),
             viewState = DiscoverViewState(
                 year = "2022",
-                selectedGenres = DummyGenres,
+                genresViewState = ViewState.Success(data = DummyGenres),
+                discoverEnabled = true,
             ),
             onYear = {},
             onSelect = {},
@@ -265,4 +269,5 @@ object DiscoverDefaults {
     const val YearTestTag = "content_year"
     const val YearClearTestTag = "content_year_clear"
     const val DiscoverButtonTestTag = "content_discover_button"
+    const val BackButtonTestTag = "back_button"
 }

@@ -32,6 +32,8 @@ class ResultTest {
             val expected = Result.Loading
             val actual = awaitItem()
 
+            skipItems(count = 1)
+
             Truth.assertThat(actual).isEqualTo(expected)
         }
     }

@@ -18,9 +18,9 @@ val TestGenre = Genre(
 )
 
 val TestGenres = listOf(
-    TestGenre,
-    TestGenre,
-    TestGenre,
+    TestGenre.copy(id = 0),
+    TestGenre.copy(id = 1),
+    TestGenre.copy(id = 2),
 )
 
 val TestMovie = Movie(
