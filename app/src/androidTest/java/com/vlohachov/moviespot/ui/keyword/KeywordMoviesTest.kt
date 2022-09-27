@@ -1,18 +1,16 @@
-package com.vlohachov.moviespot.ui.discover.result
+package com.vlohachov.moviespot.ui.keyword
 
-import android.content.Context
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
-import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.moviespot.ui.credits.cast.CastDefaults
+import com.vlohachov.moviespot.ui.discover.result.DiscoverResultDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
@@ -22,18 +20,18 @@ import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 
-class DiscoverResultTest {
+class KeywordMoviesTest {
 
     @get:Rule
     val composeRule = createComposeRule()
 
     private val navigator = mockk<DestinationsNavigator>()
-    private val viewModel = mockk<DiscoverResultViewModel>()
-
-    private val context = ApplicationProvider.getApplicationContext<Context>()
+    private val viewModel = mockk<KeywordMoviesViewModel>()
 
     @Test
     fun titleTest(): Unit = with(composeRule) {
+        val keyword = "keyword"
+
         every { viewModel.error } returns null
         every { viewModel.movies } returns flowOf(
             value = PagingData.empty(
@@ -47,16 +45,16 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = keyword,
                     viewModel = viewModel,
                 )
             }
         }
 
-        onNodeWithText(text = context.getString(R.string.discover_results), useUnmergedTree = true)
+        onNodeWithText(text = keyword, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -77,10 +75,10 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = "",
                     viewModel = viewModel,
                 )
             }
@@ -109,10 +107,10 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = "",
                     viewModel = viewModel,
                 )
             }
@@ -150,10 +148,10 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = "",
                     viewModel = viewModel,
                 )
             }
@@ -192,10 +190,10 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = "",
                     viewModel = viewModel,
                 )
             }
@@ -232,10 +230,10 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = "",
                     viewModel = viewModel,
                 )
             }
@@ -260,10 +258,10 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = "",
                     viewModel = viewModel,
                 )
             }
@@ -307,10 +305,10 @@ class DiscoverResultTest {
 
         setContent {
             MoviesPotTheme {
-                DiscoverResult(
+                KeywordMovies(
                     navigator = navigator,
-                    year = null,
-                    selectedGenres = intArrayOf(),
+                    keywordId = 0,
+                    keyword = "",
                     viewModel = viewModel,
                 )
             }
