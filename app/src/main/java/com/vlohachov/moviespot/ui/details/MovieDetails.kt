@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -56,9 +58,16 @@ fun MovieDetails(
     viewModel: MovieDetailsViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
+
+    uiState.error?.run {
+        LaunchedEffect(snackbarHostState) {
+            viewModel.onErrorConsumed()
+            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
+        }
+    }
 
     Scaffold(
         modifier = Modifier
@@ -69,7 +78,12 @@ fun MovieDetails(
                 modifier = Modifier.fillMaxWidth(),
                 title = { },
                 navigationIcon = {
-                    IconButton(onClick = { navigator.navigateUp() }) {
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            testTag = MovieDetailsDefaults.BackButtonTestTag
+                        },
+                        onClick = { navigator.navigateUp() },
+                    ) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null,
@@ -81,59 +95,55 @@ fun MovieDetails(
         },
         snackbarHost = {
             SnackbarHost(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = MovieDetailsDefaults.ErrorBarTestTag
+                    }
+                    .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
     ) { paddingValues ->
-        Box(
+        Content(
             modifier = Modifier
+                .semantics {
+                    testTag = MovieDetailsDefaults.DetailsContentTestTag
+                }
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-        ) {
-            Content(
-                modifier = Modifier.fillMaxSize(),
-                detailsViewState = uiState.detailsViewState,
-                directorViewState = uiState.directorViewState,
-                keywordsViewState = uiState.keywordsViewState,
-                recommendationsViewState = uiState.recommendationsViewState,
-                onPoster = { path -> navigator.navigate(FullscreenImageDestination(path = path)) },
-                onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
-                onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
-                onKeyword = { keyword ->
-                    navigator.navigate(
-                        KeywordMoviesDestination(
-                            keywordId = keyword.id,
-                            keyword = keyword.name,
-                        )
+            detailsViewState = uiState.detailsViewState,
+            directorViewState = uiState.directorViewState,
+            keywordsViewState = uiState.keywordsViewState,
+            recommendationsViewState = uiState.recommendationsViewState,
+            onPoster = { path -> navigator.navigate(FullscreenImageDestination(path = path)) },
+            onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
+            onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
+            onKeyword = { keyword ->
+                navigator.navigate(
+                    KeywordMoviesDestination(
+                        keywordId = keyword.id,
+                        keyword = keyword.name,
                     )
-                },
-                onMoreRecommendations = {
-                    navigator.navigate(
-                        SimilarMoviesDestination(
-                            movieId = movieId,
-                            movieTitle = movieTitle,
-                        )
+                )
+            },
+            onMoreRecommendations = {
+                navigator.navigate(
+                    SimilarMoviesDestination(
+                        movieId = movieId,
+                        movieTitle = movieTitle,
                     )
-                },
-                onMovieClick = { movie ->
-                    navigator.navigate(
-                        MovieDetailsDestination(
-                            movieId = movie.id,
-                            movieTitle = movie.title,
-                        )
+                )
+            },
+            onMovieClick = { movie ->
+                navigator.navigate(
+                    MovieDetailsDestination(
+                        movieId = movie.id,
+                        movieTitle = movie.title,
                     )
-                },
-                onError = viewModel::onError,
-            )
-
-            uiState.error?.run {
-                LaunchedEffect(snackbarHostState) {
-                    snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
-                    viewModel.onErrorConsumed()
-                }
-            }
-        }
+                )
+            },
+            onError = viewModel::onError,
+        )
     }
 }
 
@@ -197,13 +207,22 @@ private fun LazyListScope.details(
 ) {
     when (detailsViewState) {
         ViewState.Loading -> item {
-            CircularProgressIndicator(modifier = Modifier.padding(all = 16.dp))
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .semantics {
+                        testTag = MovieDetailsDefaults.DetailsLoadingTestTag
+                    }
+                    .padding(all = 16.dp)
+            )
         }
         is ViewState.Error -> detailsViewState.error?.run(onError)
         is ViewState.Success -> with(detailsViewState.data) {
             item {
                 Headline(
                     modifier = Modifier
+                        .semantics {
+                            testTag = MovieDetailsDefaults.HeadlineTestTag
+                        }
                         .padding(all = 16.dp)
                         .fillMaxWidth(),
                     poster = { modifier ->
@@ -253,7 +272,11 @@ private fun LazyListScope.details(
             if (tagline.isNotBlank()) {
                 item {
                     Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
+                        modifier = Modifier
+                            .semantics {
+                                testTag = MovieDetailsDefaults.TaglineTestTag
+                            }
+                            .padding(horizontal = 16.dp),
                         text = "\"$tagline\"",
                     )
                 }
@@ -261,6 +284,9 @@ private fun LazyListScope.details(
             item {
                 BriefInfo(
                     modifier = Modifier
+                        .semantics {
+                            testTag = MovieDetailsDefaults.BriefInfoTestTag
+                        }
                         .fillMaxWidth()
                         .padding(all = 16.dp),
                     voteAverage = voteAverage,
@@ -279,10 +305,20 @@ private fun LazyListScope.details(
                         alignment = Alignment.End,
                     )
                 ) {
-                    OutlinedButton(onClick = onCast) {
+                    OutlinedButton(
+                        modifier = Modifier.semantics {
+                            testTag = MovieDetailsDefaults.CastButtonTestTag
+                        },
+                        onClick = onCast,
+                    ) {
                         Text(text = stringResource(id = R.string.cast))
                     }
-                    OutlinedButton(onClick = onCrew) {
+                    OutlinedButton(
+                        modifier = Modifier.semantics {
+                            testTag = MovieDetailsDefaults.CrewButtonTestTag
+                        },
+                        onClick = onCrew,
+                    ) {
                         Text(text = stringResource(id = R.string.crew))
                     }
                 }
@@ -294,6 +330,9 @@ private fun LazyListScope.details(
             item {
                 Overview(
                     modifier = Modifier
+                        .semantics {
+                            testTag = MovieDetailsDefaults.OverviewTestTag
+                        }
                         .fillMaxWidth()
                         .padding(all = 16.dp),
                     text = overview,
@@ -301,7 +340,11 @@ private fun LazyListScope.details(
             }
             item {
                 Production(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .semantics {
+                            testTag = MovieDetailsDefaults.ProductionTestTag
+                        }
+                        .fillMaxWidth(),
                     companies = productionCompanies,
                 )
             }
@@ -368,6 +411,9 @@ private fun LazyListScope.keywords(
         item {
             Section(
                 modifier = Modifier
+                    .semantics {
+                        testTag = MovieDetailsDefaults.KeywordsTestTag
+                    }
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 title = {
@@ -558,12 +604,32 @@ private fun Headline(
     }
 }
 
+object MovieDetailsDefaults {
+
+    const val BackButtonTestTag = "back_button"
+    const val ErrorBarTestTag = "error_bar"
+    const val DetailsContentTestTag = "details_content"
+    const val DetailsLoadingTestTag = "details_loading"
+    const val HeadlineTestTag = "movie_headline"
+    const val TaglineTestTag = "movie_tagline"
+    const val BriefInfoTestTag = "movie_brief_info"
+    const val CastButtonTestTag = "movie_cast"
+    const val CrewButtonTestTag = "movie_crew"
+    const val OverviewTestTag = "movie_overview"
+    const val ProductionTestTag = "movie_production"
+    const val KeywordsTestTag = "movie_keywords"
+}
+
 @Preview(showBackground = true)
 @Composable
 fun HeadlinePreview() {
     MoviesPotTheme {
         Headline(
-            modifier = Modifier.padding(all = 16.dp),
+            modifier = Modifier
+                .semantics {
+                    testTag = MovieDetailsDefaults.HeadlineTestTag
+                }
+                .padding(all = 16.dp),
             poster = { modifier ->
                 Surface(modifier = modifier, color = Color.Red) {}
             },
@@ -585,7 +651,11 @@ fun HeadlinePreview() {
 fun BriefInfoPreview() {
     MoviesPotTheme {
         BriefInfo(
-            modifier = Modifier.padding(all = 16.dp),
+            modifier = Modifier
+                .semantics {
+                    testTag = MovieDetailsDefaults.BriefInfoTestTag
+                }
+                .padding(all = 16.dp),
             voteAverage = 7.25f,
             voteCount = 567,
             isAdult = true,
@@ -596,10 +666,12 @@ fun BriefInfoPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun AboutPreview() {
+fun OverviewPreview() {
     MoviesPotTheme {
         Overview(
-            modifier = Modifier,
+            modifier = Modifier.semantics {
+                testTag = MovieDetailsDefaults.OverviewTestTag
+            },
             text = LoremIpsum,
         )
     }
