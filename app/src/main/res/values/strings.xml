@@ -36,4 +36,5 @@
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
     <string name="discover_results">Results</string>
+    <string name="image_loading_failed">Image loading failed.</string>
 </resources>

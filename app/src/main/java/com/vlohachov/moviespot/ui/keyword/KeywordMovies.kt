@@ -15,10 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -29,7 +33,10 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalAnimationApi::class,
+)
 @Destination
 @Composable
 fun KeywordMovies(
@@ -37,18 +44,18 @@ fun KeywordMovies(
     keywordId: Int,
     keyword: String,
     viewModel: KeywordMoviesViewModel = getViewModel { parametersOf(keywordId) },
-    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > 3 } }
 
     viewModel.error?.run {
         LaunchedEffect(snackbarHostState) {
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
             viewModel.onErrorConsumed()
+            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
         }
     }
 
@@ -84,7 +91,11 @@ fun KeywordMovies(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier.navigationBarsPadding(),
+                    modifier = Modifier
+                        .semantics {
+                            testTag = KeywordMoviesDefaults.ScrollToTopTestTag
+                        }
+                        .navigationBarsPadding(),
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)
@@ -101,7 +112,11 @@ fun KeywordMovies(
         },
         snackbarHost = {
             SnackbarHost(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = KeywordMoviesDefaults.ContentErrorTestTag
+                    }
+                    .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
@@ -113,6 +128,16 @@ fun KeywordMovies(
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
             state = rememberSwipeRefreshState(isRefreshing = movies.loadState.refresh is LoadState.Loading),
+            indicator = { state, refreshTrigger ->
+                SwipeRefreshIndicator(
+                    modifier = Modifier.semantics {
+                        testTag = KeywordMoviesDefaults.ContentLoadingTestTag
+                        contentDescription = state.isRefreshing.toString()
+                    },
+                    state = state,
+                    refreshTriggerDistance = refreshTrigger,
+                )
+            },
             onRefresh = movies::refresh,
         ) {
             MoviesPaginatedGrid(
@@ -132,4 +157,11 @@ fun KeywordMovies(
             )
         }
     }
+}
+
+object KeywordMoviesDefaults {
+
+    const val ContentLoadingTestTag = "content_loading"
+    const val ContentErrorTestTag = "content_error"
+    const val ScrollToTopTestTag = "scroll_to_top"
 }

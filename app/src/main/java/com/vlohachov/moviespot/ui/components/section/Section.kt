@@ -1,12 +1,9 @@
 package com.vlohachov.moviespot.ui.components.section
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -15,28 +12,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
-
-@Composable
-fun SectionTitle(
-    text: String,
-    modifier: Modifier = Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    trailing: @Composable (() -> Unit)? = null,
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = horizontalArrangement,
-    ) {
-        Text(text = text)
-        trailing?.invoke()
-    }
-}
 
 @Composable
 fun Section(
@@ -49,24 +31,45 @@ fun Section(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .semantics {
+                testTag = SectionDefaults.SectionTestTag
+            },
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
     ) {
         ProvideTextStyle(value = textStyles.titleTextStyle().value) {
             CompositionLocalProvider(LocalContentColor provides colors.titleColor().value) {
-                title()
+                Box(
+                    modifier = Modifier
+                        .semantics {
+                            testTag = SectionDefaults.SectionTitleTestTag
+                        },
+                ) {
+                    this@Column.title()
+                }
             }
         }
         ProvideTextStyle(value = textStyles.contentTextStyle().value) {
             CompositionLocalProvider(LocalContentColor provides colors.contentColor().value) {
-                content()
+                Box(
+                    modifier = Modifier
+                        .semantics {
+                            testTag = SectionDefaults.SectionContentTestTag
+                        },
+                ) {
+                    this@Column.content()
+                }
             }
         }
     }
 }
 
 object SectionDefaults {
+
+    const val SectionTestTag = "section"
+    const val SectionTitleTestTag = "section_title"
+    const val SectionContentTestTag = "section_content"
 
     @Composable
     fun sectionColors(
@@ -107,22 +110,6 @@ object SectionDefaults {
             titleTextStyle = titleTextStyle,
             contentTextStyle = contentTextStyle,
         )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SectionTitlePreview() {
-    MoviesPotTheme {
-        Column(verticalArrangement = Arrangement.spacedBy(space = 16.dp)) {
-            SectionTitle(text = "Section title")
-            SectionTitle(
-                text = "Section with trailing",
-                trailing = {
-                    Icon(imageVector = Icons.Rounded.Info, contentDescription = null)
-                }
-            )
-        }
-    }
 }
 
 @Preview(showBackground = true)

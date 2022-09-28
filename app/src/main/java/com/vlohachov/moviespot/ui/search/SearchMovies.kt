@@ -20,6 +20,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -53,8 +55,8 @@ fun SearchMovies(
 
     viewModel.error?.run {
         LaunchedEffect(snackbarHostState) {
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
             viewModel.onErrorConsumed()
+            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
         }
     }
 
@@ -76,6 +78,9 @@ fun SearchMovies(
                 },
                 navigationIcon = {
                     IconButton(
+                        modifier = Modifier.semantics {
+                            testTag = SearchMoviesDefaults.BackButtonTestTag
+                        },
                         onClick = {
                             keyboardController?.hide()
                             navigator.navigateUp()
@@ -98,6 +103,9 @@ fun SearchMovies(
             ) {
                 FloatingActionButton(
                     modifier = Modifier
+                        .semantics {
+                            testTag = SearchMoviesDefaults.ScrollToTopTestTag
+                        }
                         .imePadding()
                         .navigationBarsPadding(),
                     onClick = {
@@ -116,6 +124,9 @@ fun SearchMovies(
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
+                    .semantics {
+                        testTag = SearchMoviesDefaults.ContentErrorTestTag
+                    }
                     .imePadding()
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
@@ -150,7 +161,11 @@ fun SearchMovies(
                 progress = {
                     item(span = { GridItemSpan(currentLineSpan = 3) }) {
                         Box(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .semantics {
+                                    testTag = SearchMoviesDefaults.ContentLoadingTestTag
+                                }
+                                .fillMaxWidth(),
                             contentAlignment = Alignment.Center,
                         ) {
                             CircularProgressIndicator()
@@ -180,7 +195,9 @@ private fun SearchField(
     keyboardOptions: KeyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
 ) {
     TextField(
-        modifier = modifier,
+        modifier = modifier.semantics {
+            testTag = SearchMoviesDefaults.SearchFieldTestTag
+        },
         value = value,
         onValueChange = onValueChange,
         placeholder = {
@@ -198,7 +215,12 @@ private fun SearchField(
                 enter = fadeIn() + scaleIn(),
                 exit = fadeOut() + scaleOut(),
             ) {
-                IconButton(onClick = onClear) {
+                IconButton(
+                    modifier = Modifier.semantics {
+                        testTag = SearchMoviesDefaults.ClearSearchFieldTestTag
+                    },
+                    onClick = onClear,
+                ) {
                     Icon(
                         imageVector = Icons.Rounded.Clear,
                         contentDescription = stringResource(id = R.string.clear),
@@ -215,4 +237,14 @@ private fun SearchField(
         ),
         keyboardOptions = keyboardOptions,
     )
+}
+
+object SearchMoviesDefaults {
+
+    const val BackButtonTestTag = "back_button"
+    const val SearchFieldTestTag = "search_field"
+    const val ClearSearchFieldTestTag = "clear_search_field"
+    const val ContentLoadingTestTag = "content_loading"
+    const val ContentErrorTestTag = "content_error"
+    const val ScrollToTopTestTag = "scroll_to_top"
 }

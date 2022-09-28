@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.ramcosta.composedestinations.annotation.Destination
@@ -24,13 +26,13 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(start = true)
 @Composable
-fun MainScreen(
+fun Main(
     navigator: DestinationsNavigator,
     viewModel: MainViewModel = getViewModel(),
-    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
@@ -48,6 +50,9 @@ fun MainScreen(
                 },
                 actions = {
                     IconButton(
+                        modifier = Modifier.semantics {
+                            testTag = MainScreenDefaults.SearchButtonTestTag
+                        },
                         onClick = { navigator.navigate(SearchMoviesDestination) },
                     ) {
                         Icon(
@@ -61,7 +66,11 @@ fun MainScreen(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = MainScreenDefaults.DiscoverButtonTestTag
+                    }
+                    .navigationBarsPadding(),
                 text = {
                     Text(text = stringResource(id = R.string.discover))
                 },
@@ -76,7 +85,11 @@ fun MainScreen(
         },
         snackbarHost = {
             SnackbarHost(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier
+                    .semantics {
+                        testTag = MainScreenDefaults.ErrorBarTestTag
+                    }
+                    .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
@@ -88,10 +101,10 @@ fun MainScreen(
             viewState = uiState,
             onError = { error ->
                 LaunchedEffect(snackbarHostState) {
+                    viewModel.onErrorConsumed()
                     snackbarHostState.showSnackbar(
                         message = error.localizedMessage ?: unknownErrorText
                     )
-                    viewModel.onErrorConsumed()
                 }
             },
             onSeeDetails = { movie ->
@@ -126,7 +139,11 @@ private fun Content(
         contentAlignment = Alignment.TopCenter,
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .semantics {
+                    testTag = MainScreenDefaults.SectionsTestTag
+                }
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
@@ -171,4 +188,12 @@ private fun Content(
             onError(error = this)
         }
     }
+}
+
+object MainScreenDefaults {
+
+    const val SearchButtonTestTag = "search_button"
+    const val DiscoverButtonTestTag = "discover_button"
+    const val ErrorBarTestTag = "error_bar"
+    const val SectionsTestTag = "movies_sections"
 }
