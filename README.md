@@ -55,5 +55,7 @@ Browse through large database of movies to find one you'd like to get info about
 
 ## TODO
 
+- App info
+- Settings to toggle dymanic theme
 - Offline first repository with Room as caching layer
 - Authorization using TMDB API
