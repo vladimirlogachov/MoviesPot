@@ -52,6 +52,7 @@ Browse through large database of movies to find one you'd like to get info about
 - [Mockk](https://mockk.io/)
 - [Truth](https://truth.dev/)
 - [Turbine](https://github.com/google/turbine)
+- [Detekt](https://detekt.dev/)
 
 ## TODO
 
