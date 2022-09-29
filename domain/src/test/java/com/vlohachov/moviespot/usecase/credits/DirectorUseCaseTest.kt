@@ -102,7 +102,7 @@ class DirectorUseCaseTest {
                 id = any(),
                 language = any(),
             )
-        } returns flow { throw Exception() }
+        } returns flow { throw NullPointerException() }
 
         useCase.resultFlow(param = TestParam).test {
             skipItems(count = 1)
