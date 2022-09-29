@@ -79,7 +79,7 @@ class GenresUseCaseTest {
 
     @Test
     fun `Result flow emits Error`() = runTest {
-        every { repository.getGenres(language = any()) } returns flow { throw Exception() }
+        every { repository.getGenres(language = any()) } returns flow { throw NullPointerException() }
 
         useCase.resultFlow(param = TestParam).test {
             skipItems(count = 1)
