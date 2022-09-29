@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -437,6 +438,18 @@ private fun LazyListScope.keywords(
                         crossAxisSpacing = 8.dp,
                     ) {
                         for (keyword in viewState.data) {
+//                            ClickableText(
+//                                modifier = Modifier
+//                                    .border(
+//                                        width = 1.dp,
+//                                        color = MaterialTheme.colorScheme.outline,
+//                                        shape = SuggestionChipDefaults.shape,
+//                                    )
+//                                    .padding(vertical = 8.dp, horizontal = 16.dp),
+//                                text = buildAnnotatedString { keyword.name },
+//                                style = MaterialTheme.typography.labelMedium,
+//                                onClick = { onKeyword(keyword) },
+//                            )
                             Text(
                                 modifier = Modifier
                                     .border(
@@ -444,6 +457,7 @@ private fun LazyListScope.keywords(
                                         color = MaterialTheme.colorScheme.outline,
                                         shape = SuggestionChipDefaults.shape,
                                     )
+                                    .clip(shape = SuggestionChipDefaults.shape)
                                     .clickable { onKeyword(keyword) }
                                     .padding(vertical = 8.dp, horizontal = 16.dp),
                                 text = keyword.name,
