@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,7 +32,7 @@ fun Main(
     viewModel: MainViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
 
@@ -58,6 +59,17 @@ fun Main(
                         Icon(
                             imageVector = Icons.Rounded.Search,
                             contentDescription = stringResource(id = R.string.search),
+                        )
+                    }
+                    IconButton(
+                        modifier = Modifier.semantics {
+                            testTag = MainScreenDefaults.SettingsButtonTestTag
+                        },
+                        onClick = { navigator.navigate(SettingsDestination) },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Settings,
+                            contentDescription = stringResource(id = R.string.settings),
                         )
                     }
                 },
@@ -192,6 +204,7 @@ private fun Content(
 
 object MainScreenDefaults {
 
+    const val SettingsButtonTestTag = "settings_button"
     const val SearchButtonTestTag = "search_button"
     const val DiscoverButtonTestTag = "discover_button"
     const val ErrorBarTestTag = "error_bar"

@@ -1,5 +1,6 @@
 package com.vlohachov.data.data
 
+import com.vlohachov.data.local.entity.SettingsEntity
 import com.vlohachov.data.remote.schema.CompanySchema
 import com.vlohachov.data.remote.schema.CountrySchema
 import com.vlohachov.data.remote.schema.LanguageSchema
@@ -13,6 +14,11 @@ import com.vlohachov.data.remote.schema.movie.credit.CrewMemberSchema
 import com.vlohachov.data.remote.schema.movie.credit.MovieCreditsSchema
 import com.vlohachov.data.remote.schema.movie.keyword.KeywordSchema
 import com.vlohachov.data.remote.schema.movie.keyword.MovieKeywordsSchema
+
+val SettingsTestEntity = SettingsEntity(
+    id = 1,
+    dynamicTheme = true,
+)
 
 val GenreTestSchema = GenreSchema(
     id = 0,
