@@ -91,11 +91,9 @@ fun DiscoverResult(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = DiscoverResultDefaults.ScrollToTopTestTag
-                        }
-                        .navigationBarsPadding(),
+                    modifier = Modifier.semantics {
+                        testTag = DiscoverResultDefaults.ScrollToTopTestTag
+                    },
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)

@@ -29,7 +29,7 @@ class SetDynamicThemeUseCaseTest {
 
     @Test
     fun `Result flow emits Loading`() = runTest {
-        coJustRun { repository.updateDynamicTheme(dynamicTheme = any()) }
+        coJustRun { repository.applyDynamicTheme(apply = any()) }
 
         useCase.resultFlow(param = TestParam).test {
             val actual = awaitItem()
@@ -43,7 +43,7 @@ class SetDynamicThemeUseCaseTest {
 
     @Test
     fun `Result flow emits Value`() = runTest {
-        coJustRun { repository.updateDynamicTheme(dynamicTheme = any()) }
+        coJustRun { repository.applyDynamicTheme(apply = any()) }
 
         useCase.resultFlow(param = TestParam).test {
             skipItems(count = 1)
@@ -59,7 +59,7 @@ class SetDynamicThemeUseCaseTest {
 
     @Test
     fun `Result flow emits Error`() = runTest {
-        coEvery { repository.updateDynamicTheme(dynamicTheme = any()) } throws NullPointerException()
+        coEvery { repository.applyDynamicTheme(apply = any()) } throws NullPointerException()
 
         useCase.resultFlow(param = TestParam).test {
             skipItems(count = 1)

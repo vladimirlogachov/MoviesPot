@@ -15,6 +15,6 @@ class SetDynamicThemeUseCase(
     data class Param(val dynamicTheme: Boolean)
 
     override fun execute(param: Param): Flow<Boolean> {
-        return flowOf(value = param.dynamicTheme).onEach(repository::updateDynamicTheme)
+        return flowOf(value = param.dynamicTheme).onEach(repository::applyDynamicTheme)
     }
 }

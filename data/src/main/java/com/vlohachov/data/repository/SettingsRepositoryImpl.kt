@@ -1,27 +1,25 @@
 package com.vlohachov.data.repository
 
-import com.vlohachov.data.local.dao.SettingsDao
-import com.vlohachov.data.local.entity.SettingsEntity
-import com.vlohachov.data.local.entity.toDomain
+import com.vlohachov.data.local.LocalPreferences
 import com.vlohachov.domain.model.settings.Settings
 import com.vlohachov.domain.repository.SettingsRepository
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapLatest
 
-class SettingsRepositoryImpl(private val dao: SettingsDao) : SettingsRepository {
+@OptIn(ExperimentalCoroutinesApi::class)
+class SettingsRepositoryImpl(private val preferences: LocalPreferences) : SettingsRepository {
 
     override fun getSettings(): Flow<Settings> {
-        return dao.querySettings()
-            .distinctUntilChanged()
-            .onEach { entity ->
-                if (entity == null) {
-                    dao.insertSettings(settings = SettingsEntity(id = 0, dynamicTheme = true))
-                }
-            }
-            .filterNotNull()
-            .map(SettingsEntity::toDomain)
+        return preferences.applyDynamicTheme.mapLatest { value ->
+            Settings(
+                dynamicTheme = value,
+                supportsDynamicTheme = preferences.isDynamicThemeAvailable,
+            )
+        }
     }
 
-    override suspend fun updateDynamicTheme(dynamicTheme: Boolean) {
-        dao.updateDynamicTheme(dynamicTheme = dynamicTheme)
+    override suspend fun applyDynamicTheme(apply: Boolean) {
+        preferences.applyDynamicTheme(apply = apply)
     }
 }

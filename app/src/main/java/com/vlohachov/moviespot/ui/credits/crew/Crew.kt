@@ -71,11 +71,9 @@ fun Crew(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = CrewDefaults.ScrollToTopTestTag
-                        }
-                        .navigationBarsPadding(),
+                    modifier = Modifier.semantics {
+                        testTag = CrewDefaults.ScrollToTopTestTag
+                    },
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)

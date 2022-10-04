@@ -106,8 +106,7 @@ fun SearchMovies(
                         .semantics {
                             testTag = SearchMoviesDefaults.ScrollToTopTestTag
                         }
-                        .imePadding()
-                        .navigationBarsPadding(),
+                        .imePadding(),
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)
@@ -150,6 +149,7 @@ fun SearchMovies(
                     bottom = 16.dp,
                 ),
                 onClick = { movie ->
+                    keyboardController?.hide()
                     navigator.navigate(
                         MovieDetailsDestination(
                             movieId = movie.id,

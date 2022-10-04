@@ -55,6 +55,9 @@ dependencies {
 
     implementation "androidx.core:core-ktx:$core_ktx_version"
 
+    // Data Store
+    api "androidx.datastore:datastore-preferences:$data_store_version"
+
     // Networking
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"

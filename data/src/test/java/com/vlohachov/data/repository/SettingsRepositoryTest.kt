@@ -1,12 +1,12 @@
 package com.vlohachov.data.repository
 
 import com.google.common.truth.Truth
-import com.vlohachov.data.data.SettingsTestEntity
-import com.vlohachov.data.local.dao.SettingsDao
-import com.vlohachov.data.local.entity.toDomain
+import com.vlohachov.data.data.TestSettings
+import com.vlohachov.data.local.LocalPreferences
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -14,15 +14,16 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsRepositoryTest {
 
-    private val dao = mockk<SettingsDao>()
+    private val preferences = mockk<LocalPreferences>()
 
-    private val repository = SettingsRepositoryImpl(dao = dao)
+    private val repository = SettingsRepositoryImpl(preferences = preferences)
 
     @Test
     fun `Settings loading success`() = runTest {
-        val expected = SettingsTestEntity.toDomain()
+        val expected = TestSettings
 
-        every { dao.querySettings() } returns flowOf(value = SettingsTestEntity)
+        every { preferences.applyDynamicTheme } returns flowOf(value = TestSettings.dynamicTheme)
+        every { preferences.isDynamicThemeAvailable } returns TestSettings.supportsDynamicTheme
 
         val actual = repository.getSettings().first()
 
@@ -31,24 +32,25 @@ class SettingsRepositoryTest {
 
     @Test(expected = NullPointerException::class)
     fun `Settings loading failure`() = runTest {
-        every { dao.querySettings() } throws NullPointerException()
+        every { preferences.applyDynamicTheme } returns flow { throw NullPointerException() }
+        every { preferences.isDynamicThemeAvailable } returns TestSettings.supportsDynamicTheme
 
         repository.getSettings().first()
     }
 
     @Test
     fun `Update dynamic theme success`() = runTest {
-        coJustRun { dao.updateDynamicTheme(dynamicTheme = any()) }
+        coJustRun { preferences.applyDynamicTheme(apply = any()) }
 
-        repository.updateDynamicTheme(dynamicTheme = true)
+        repository.applyDynamicTheme(apply = true)
 
-        coVerify(exactly = 1) { dao.updateDynamicTheme(dynamicTheme = any()) }
+        coVerify(exactly = 1) { preferences.applyDynamicTheme(apply = any()) }
     }
 
     @Test(expected = NullPointerException::class)
     fun `Update dynamic theme failure`() = runTest {
-        coEvery { dao.updateDynamicTheme(dynamicTheme = any()) } throws NullPointerException()
+        coEvery { preferences.applyDynamicTheme(apply = any()) } throws NullPointerException()
 
-        repository.updateDynamicTheme(dynamicTheme = true)
+        repository.applyDynamicTheme(apply = true)
     }
 }

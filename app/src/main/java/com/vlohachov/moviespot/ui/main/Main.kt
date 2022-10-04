@@ -49,7 +49,7 @@ fun Main(
                         fontFamily = FontFamily(Font(resId = R.font.chalkduster))
                     )
                 },
-                actions = {
+                navigationIcon = {
                     IconButton(
                         modifier = Modifier.semantics {
                             testTag = MainScreenDefaults.SearchButtonTestTag
@@ -61,6 +61,8 @@ fun Main(
                             contentDescription = stringResource(id = R.string.search),
                         )
                     }
+                },
+                actions = {
                     IconButton(
                         modifier = Modifier.semantics {
                             testTag = MainScreenDefaults.SettingsButtonTestTag
@@ -78,11 +80,9 @@ fun Main(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                modifier = Modifier
-                    .semantics {
-                        testTag = MainScreenDefaults.DiscoverButtonTestTag
-                    }
-                    .navigationBarsPadding(),
+                modifier = Modifier.semantics {
+                    testTag = MainScreenDefaults.DiscoverButtonTestTag
+                },
                 text = {
                     Text(text = stringResource(id = R.string.discover))
                 },
