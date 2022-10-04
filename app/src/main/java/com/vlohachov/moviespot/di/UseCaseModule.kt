@@ -14,8 +14,8 @@ import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
 import com.vlohachov.domain.usecase.movie.list.PopularUseCase
 import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
 import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
+import com.vlohachov.domain.usecase.settings.ApplyDynamicThemeUseCase
 import com.vlohachov.domain.usecase.settings.GetSettingsUseCase
-import com.vlohachov.domain.usecase.settings.SetDynamicThemeUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -126,7 +126,7 @@ val useCaseModule = module {
     }
 
     single {
-        SetDynamicThemeUseCase(
+        ApplyDynamicThemeUseCase(
             coroutineContext = get(),
             repository = get(),
         )

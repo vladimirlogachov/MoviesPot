@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.repository.SettingsRepository
-import com.vlohachov.domain.usecase.settings.SetDynamicThemeUseCase
+import com.vlohachov.domain.usecase.settings.ApplyDynamicThemeUseCase
 import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.mockk
@@ -14,15 +14,15 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SetDynamicThemeUseCaseTest {
+class ApplyDynamicThemeUseCaseTest {
 
     private companion object {
-        val TestParam = SetDynamicThemeUseCase.Param(dynamicTheme = true)
+        val TestParam = ApplyDynamicThemeUseCase.Param(apply = true)
     }
 
     private val repository = mockk<SettingsRepository>()
 
-    private val useCase = SetDynamicThemeUseCase(
+    private val useCase = ApplyDynamicThemeUseCase(
         coroutineContext = Dispatchers.IO,
         repository = repository,
     )
@@ -48,7 +48,7 @@ class SetDynamicThemeUseCaseTest {
         useCase.resultFlow(param = TestParam).test {
             skipItems(count = 1)
 
-            val expected = Result.Success(value = TestParam.dynamicTheme)
+            val expected = Result.Success(value = TestParam.apply)
             val actual = awaitItem()
 
             awaitComplete()

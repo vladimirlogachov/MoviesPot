@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 import kotlin.coroutines.CoroutineContext
 
-class SetDynamicThemeUseCase(
+class ApplyDynamicThemeUseCase(
     coroutineContext: CoroutineContext,
     private val repository: SettingsRepository,
-) : UseCase<SetDynamicThemeUseCase.Param, Boolean>(coroutineContext = coroutineContext) {
+) : UseCase<ApplyDynamicThemeUseCase.Param, Boolean>(coroutineContext = coroutineContext) {
 
-    data class Param(val dynamicTheme: Boolean)
+    data class Param(val apply: Boolean)
 
     override fun execute(param: Param): Flow<Boolean> {
-        return flowOf(value = param.dynamicTheme).onEach(repository::applyDynamicTheme)
+        return flowOf(value = param.apply).onEach(repository::applyDynamicTheme)
     }
 }

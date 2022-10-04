@@ -8,16 +8,16 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
 
+private const val PreferencesName = "Settings"
+private const val KeyDynamicTheme = "DynamicTheme"
+
+private val Context.dataStore by preferencesDataStore(name = PreferencesName)
+
 class LocalPreferences(private val context: Context) {
 
     private companion object {
-        const val PreferencesName = "Settings"
-        const val KeyDynamicTheme = "DynamicTheme"
-
         val DynamicTheme = booleanPreferencesKey(name = KeyDynamicTheme)
     }
-
-    private val Context.dataStore by preferencesDataStore(name = PreferencesName)
 
     @get:ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
     val isDynamicThemeAvailable: Boolean

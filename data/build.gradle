@@ -74,6 +74,10 @@ dependencies {
     testImplementation "app.cash.turbine:turbine:$turbine_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "junit:junit:$junit_version"
+
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
+    androidTestImplementation "com.google.truth:truth:$truth_version"
+    androidTestImplementation "app.cash.turbine:turbine:$turbine_version"
     androidTestImplementation "androidx.test.ext:junit:$junitx_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
 }

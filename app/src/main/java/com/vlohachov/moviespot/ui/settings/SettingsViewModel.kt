@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.settings.Settings
+import com.vlohachov.domain.usecase.settings.ApplyDynamicThemeUseCase
 import com.vlohachov.domain.usecase.settings.GetSettingsUseCase
-import com.vlohachov.domain.usecase.settings.SetDynamicThemeUseCase
 import com.vlohachov.moviespot.core.ViewState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     getSettings: GetSettingsUseCase,
-    private val setDynamicTheme: SetDynamicThemeUseCase,
+    private val applyDynamicTheme: ApplyDynamicThemeUseCase,
 ) : ViewModel() {
 
     val viewState: Flow<ViewState<Settings>> = getSettings.resultFlow(param = Unit)
@@ -32,10 +32,10 @@ class SettingsViewModel(
     var error by mutableStateOf<Throwable?>(value = null)
         private set
 
-    fun updateDynamicTheme(dynamicTheme: Boolean) {
+    fun applyDynamicTheme(apply: Boolean) {
         viewModelScope.launch {
-            setDynamicTheme
-                .resultFlow(param = SetDynamicThemeUseCase.Param(dynamicTheme = dynamicTheme))
+            applyDynamicTheme
+                .resultFlow(param = ApplyDynamicThemeUseCase.Param(apply = apply))
                 .collect()
         }
     }

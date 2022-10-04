@@ -115,7 +115,7 @@ val viewModelModule = module {
     viewModel {
         SettingsViewModel(
             getSettings = get(),
-            setDynamicTheme = get(),
+            applyDynamicTheme = get(),
         )
     }
 }

@@ -11,6 +11,12 @@ import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.domain.model.movie.credit.CastMember
 import com.vlohachov.domain.model.movie.credit.CrewMember
 import com.vlohachov.domain.model.movie.keyword.Keyword
+import com.vlohachov.domain.model.settings.Settings
+
+val TestSettings = Settings(
+    dynamicTheme = true,
+    supportsDynamicTheme = true,
+)
 
 val TestGenre = Genre(
     id = 1,
