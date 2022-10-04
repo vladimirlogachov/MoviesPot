@@ -21,6 +21,7 @@ import com.vlohachov.moviespot.ui.movies.upcoming.UpcomingMoviesPager
 import com.vlohachov.moviespot.ui.movies.upcoming.UpcomingMoviesViewModel
 import com.vlohachov.moviespot.ui.search.SearchMoviesPager
 import com.vlohachov.moviespot.ui.search.SearchMoviesViewModel
+import com.vlohachov.moviespot.ui.settings.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -108,6 +109,13 @@ val viewModelModule = module {
                 keywordId = params.get(),
                 useCase = get(),
             )
+        )
+    }
+
+    viewModel {
+        SettingsViewModel(
+            getSettings = get(),
+            applyDynamicTheme = get(),
         )
     }
 }

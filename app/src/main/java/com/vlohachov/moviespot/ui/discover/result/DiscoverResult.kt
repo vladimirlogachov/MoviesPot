@@ -46,7 +46,7 @@ fun DiscoverResult(
     viewModel: DiscoverResultViewModel = getViewModel { parametersOf(year, selectedGenres) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
@@ -91,11 +91,9 @@ fun DiscoverResult(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = DiscoverResultDefaults.ScrollToTopTestTag
-                        }
-                        .navigationBarsPadding(),
+                    modifier = Modifier.semantics {
+                        testTag = DiscoverResultDefaults.ScrollToTopTestTag
+                    },
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)

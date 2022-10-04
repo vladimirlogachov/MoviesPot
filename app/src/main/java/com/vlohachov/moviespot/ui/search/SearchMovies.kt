@@ -45,7 +45,7 @@ fun SearchMovies(
     viewModel: SearchMoviesViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
@@ -106,8 +106,7 @@ fun SearchMovies(
                         .semantics {
                             testTag = SearchMoviesDefaults.ScrollToTopTestTag
                         }
-                        .imePadding()
-                        .navigationBarsPadding(),
+                        .imePadding(),
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)
@@ -150,6 +149,7 @@ fun SearchMovies(
                     bottom = 16.dp,
                 ),
                 onClick = { movie ->
+                    keyboardController?.hide()
                     navigator.navigate(
                         MovieDetailsDestination(
                             movieId = movie.id,

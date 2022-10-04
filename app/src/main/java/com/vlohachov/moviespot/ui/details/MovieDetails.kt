@@ -59,7 +59,7 @@ fun MovieDetails(
     viewModel: MovieDetailsViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
 

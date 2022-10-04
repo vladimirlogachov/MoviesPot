@@ -19,6 +19,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
         buildConfigField("String", "BASE_URL", apikeyProperties['base.url'])
         buildConfigField("String", "BASE_IMAGE_URL", apikeyProperties['base.image.url'])
         buildConfigField("String", "API_KEY", apikeyProperties['api.key'])
@@ -49,6 +55,9 @@ dependencies {
 
     implementation "androidx.core:core-ktx:$core_ktx_version"
 
+    // Data Store
+    api "androidx.datastore:datastore-preferences:$data_store_version"
+
     // Networking
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -65,6 +74,10 @@ dependencies {
     testImplementation "app.cash.turbine:turbine:$turbine_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "junit:junit:$junit_version"
+
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
+    androidTestImplementation "com.google.truth:truth:$truth_version"
+    androidTestImplementation "app.cash.turbine:turbine:$turbine_version"
     androidTestImplementation "androidx.test.ext:junit:$junitx_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
 }

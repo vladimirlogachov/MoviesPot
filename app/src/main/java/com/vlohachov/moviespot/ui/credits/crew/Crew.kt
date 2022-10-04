@@ -38,7 +38,7 @@ fun Crew(
     viewModel: CrewViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
@@ -71,11 +71,9 @@ fun Crew(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = CrewDefaults.ScrollToTopTestTag
-                        }
-                        .navigationBarsPadding(),
+                    modifier = Modifier.semantics {
+                        testTag = CrewDefaults.ScrollToTopTestTag
+                    },
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)

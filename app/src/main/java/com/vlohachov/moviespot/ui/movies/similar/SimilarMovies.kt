@@ -46,7 +46,7 @@ fun SimilarMovies(
     viewModel: SimilarMoviesViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.uknown_error)
+    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
@@ -91,11 +91,9 @@ fun SimilarMovies(
                 exit = fadeOut() + scaleOut(),
             ) {
                 FloatingActionButton(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = SimilarMoviesDefaults.ScrollToTopTestTag
-                        }
-                        .navigationBarsPadding(),
+                    modifier = Modifier.semantics {
+                        testTag = SimilarMoviesDefaults.ScrollToTopTestTag
+                    },
                     onClick = {
                         coroutineScope.launch {
                             gridState.scrollToItem(index = 0)

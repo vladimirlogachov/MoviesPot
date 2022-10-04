@@ -1,7 +1,5 @@
 package com.vlohachov.moviespot.di
 
-import com.vlohachov.data.repository.MoviesRepositoryImpl
-import com.vlohachov.domain.repository.MoviesRepository
 import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
 import com.vlohachov.domain.usecase.GenresUseCase
 import com.vlohachov.domain.usecase.SearchMoviesUseCase
@@ -16,12 +14,11 @@ import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
 import com.vlohachov.domain.usecase.movie.list.PopularUseCase
 import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
 import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
+import com.vlohachov.domain.usecase.settings.ApplyDynamicThemeUseCase
+import com.vlohachov.domain.usecase.settings.GetSettingsUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    single<MoviesRepository> {
-        MoviesRepositoryImpl(remote = get())
-    }
 
     single {
         GenresUseCase(
@@ -116,6 +113,20 @@ val useCaseModule = module {
 
     single {
         DiscoverMoviesUseCase(
+            coroutineContext = get(),
+            repository = get(),
+        )
+    }
+
+    single {
+        GetSettingsUseCase(
+            coroutineContext = get(),
+            repository = get(),
+        )
+    }
+
+    single {
+        ApplyDynamicThemeUseCase(
             coroutineContext = get(),
             repository = get(),
         )
