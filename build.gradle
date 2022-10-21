@@ -3,7 +3,7 @@ import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 buildscript {
     ext {
-        accompanist_version = '0.26.4-beta'
+        accompanist_version = '0.26.5-rc'
         coil_version = '2.2.1'
         core_ktx_version = '1.9.0'
         compose_activity_version = '1.6.0'
