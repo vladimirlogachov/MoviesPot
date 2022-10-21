@@ -13,8 +13,7 @@ updates:
       - "gradle"
       - "dependencies"
       - "update"
-    target-branch:
-      - "master"
+    target-branch: "master"
     reviewers:
       - "vladimirlogachov"
     assignees:
