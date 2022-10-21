@@ -9,4 +9,13 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-      
+    labels:
+      - "gradle"
+      - "dependencies"
+      - "update"
+    target-branch:
+      - "master"
+    reviewers:
+      - "vladimirlogachov"
+    assignees:
+      - "vladimirlogachov"
