@@ -1,15 +1,21 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
+        maven { url { "https://plugins.gradle.org/" } }
+        maven { url { "https://maven.google.com" } }
+        maven { url { "https://repo.maven.apache.org/maven2/" } }
+
+//        gradlePluginPortal()
+//        google()
+//        mavenCentral()
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
-        mavenCentral()
+        maven { url { "https://maven.google.com" } }
+        maven { url { "https://repo.maven.apache.org/maven2/" } }
+//        google()
+//        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 }
