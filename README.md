@@ -60,3 +60,5 @@ Browse through large database of movies to find one you'd like to get info about
 - Authorization using TMDB API
 - Migrate to gradle version catalog
 - Migrate to RenovateBot instead of Dependabot
+- Create workflows to run tests and verify build
+- Create workflow to run detekt analisys 
