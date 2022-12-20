@@ -20,7 +20,7 @@ buildscript {
         lifecycle_ktx_version = '2.5.1'
         mockk_version = '1.13.3'
         koin_version = '3.3.0'
-        koin_compose_version = '3.3.0'
+        koin_compose_version = '3.4.0'
         kotlin_version = '1.7.22'
         kotlin_coroutines_version = '1.6.4'
         material_version = '1.6.1'
