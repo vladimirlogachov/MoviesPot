@@ -58,3 +58,5 @@ Browse through large database of movies to find one you'd like to get info about
 
 - Offline first repository with Room as caching layer
 - Authorization using TMDB API
+- Migrate to gradle version catalog
+- Migrate to RenovateBot instead of Dependabot
