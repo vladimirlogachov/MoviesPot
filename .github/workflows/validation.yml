@@ -20,10 +20,21 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Gradle Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Assemble
         run: ./gradlew assemble
 
   test:
+    needs: [ 'assemble' ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,6 +45,16 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
+
+      - name: Gradle Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Test
         run: ./gradlew test
