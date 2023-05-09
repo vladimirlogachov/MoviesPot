@@ -1,25 +1,26 @@
 pluginManagement {
     repositories {
-        maven { url { "https://plugins.gradle.org/m2/" } }
-        maven { url { "https://maven.google.com/" } }
-        maven { url { "https://repo.maven.apache.org/maven2/" } }
-
-//        gradlePluginPortal()
-//        google()
-//        mavenCentral()
+        gradlePluginPortal()
+        google()
+        mavenCentral()
     }
 }
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.4.0'
+}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven { url { "https://maven.google.com/" } }
-        maven { url { "https://repo.maven.apache.org/maven2/" } }
-//        google()
-//        mavenCentral()
+        google()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 }
+
 rootProject.name = "Movies Pot"
+
 include ':app'
 include ':data'
 include ':domain'
