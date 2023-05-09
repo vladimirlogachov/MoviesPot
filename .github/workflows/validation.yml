@@ -17,6 +17,7 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v3
         with:
+          distribution: 'zulu'
           java-version: '17'
 
       - name: Assemble
@@ -31,6 +32,7 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v3
         with:
+          distribution: 'zulu'
           java-version: '17'
 
       - name: Test
