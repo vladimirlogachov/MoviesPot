@@ -1,6 +1,13 @@
 package com.vlohachov.moviespot.data
 
-import androidx.paging.*
+import androidx.paging.CombinedLoadStates
+import androidx.paging.DifferCallback
+import androidx.paging.ItemSnapshotList
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.NullPaddedList
+import androidx.paging.PagingData
+import androidx.paging.PagingDataDiffer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlin.coroutines.CoroutineContext
@@ -16,17 +23,19 @@ class PagingDataCollector<T : Any>(coroutineContext: CoroutineContext = Dispatch
             IncompleteLoadState,
             IncompleteLoadState,
         )
+
+        private val DefaultLoadStates = CombinedLoadStates(
+            refresh = InitialLoadStates.refresh,
+            prepend = InitialLoadStates.prepend,
+            append = InitialLoadStates.append,
+            source = InitialLoadStates
+        )
     }
 
     var snapshotList = ItemSnapshotList<T>(0, 0, emptyList())
         private set
 
-    var loadStates = CombinedLoadStates(
-        refresh = InitialLoadStates.refresh,
-        prepend = InitialLoadStates.prepend,
-        append = InitialLoadStates.append,
-        source = InitialLoadStates
-    )
+    var loadStates = DefaultLoadStates
         private set
 
     private val differCallback = object : DifferCallback {
@@ -60,7 +69,7 @@ class PagingDataCollector<T : Any>(coroutineContext: CoroutineContext = Dispatch
     }
 
     suspend fun collectStates() {
-        loadStates = dataDiffer.loadStateFlow.first()
+        loadStates = dataDiffer.loadStateFlow.first() ?: DefaultLoadStates
     }
 }
 
