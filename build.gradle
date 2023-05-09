@@ -27,7 +27,7 @@ buildscript {
         koin_version = '3.4.0'
         koin_compose_version = '3.4.4'
         kotlin_version = '1.8.21'
-        kotlin_coroutines_version = '1.6.4'
+        kotlin_coroutines_version = '1.7.0'
         material_version = '1.9.0'
         okhttp_logging_version = '4.11.0'
         retrofit_version = '2.9.0'
