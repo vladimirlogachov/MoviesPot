@@ -21,7 +21,7 @@ buildscript {
         mockk_version = '1.13.4'
         koin_version = '3.3.1'
         koin_compose_version = '3.4.0'
-        kotlin_version = '1.7.22'
+        kotlin_version = '1.8.10'
         kotlin_coroutines_version = '1.6.4'
         material_version = '1.6.1'
         okhttp_logging_version = '4.10.0'
