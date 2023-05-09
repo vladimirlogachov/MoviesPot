@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace 'com.vlohachov.moviespot'
     compileSdk 33
 
     defaultConfig {
@@ -31,14 +32,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_compiler_version
@@ -53,7 +52,6 @@ android {
             useLegacyPackaging true // Needed, so Mockk library works under androidTest
         }
     }
-    namespace 'com.vlohachov.moviespot'
 
     applicationVariants.all { variant ->
         kotlin.sourceSets {
@@ -64,6 +62,12 @@ android {
         variant.outputs.all {
             outputFileName = "MoviesPot-${defaultConfig.versionName}-${variant.buildType.name}.apk"
         }
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
 

@@ -10,6 +10,7 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
+    namespace 'com.vlohachov.data'
     compileSdk 33
 
     defaultConfig {
@@ -23,6 +24,10 @@ android {
             annotationProcessorOptions {
                 arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
+        }
+
+        buildFeatures {
+            buildConfig true
         }
 
         buildConfigField("String", "BASE_URL", apikeyProperties['base.url'])
@@ -41,13 +46,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
-    namespace 'com.vlohachov.data'
 }
 
 dependencies {
