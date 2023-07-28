@@ -9,7 +9,7 @@ buildscript {
         compose_compiler_version = '1.4.7'
         compose_destinations_version = '1.8.38-beta'
         compose_material_3_version = '1.1.1'
-        compose_paging_version = '1.0.0-alpha19'
+        compose_paging_version = '1.0.0-alpha20'
         compose_version = '1.4.3'
         data_store_version = '1.0.0'
         detekt_version = '1.23.0'
