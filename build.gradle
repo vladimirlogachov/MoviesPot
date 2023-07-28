@@ -1,49 +1,31 @@
-buildscript {
-    ext {
-        agp = '8.1.0'
-        ksp = "1.8.21-1.0.11"
-        accompanist_version = '0.30.1'
-        coil_version = '2.4.0'
-        core_ktx_version = '1.10.1'
-        compose_activity_version = '1.7.2'
-        compose_compiler_version = '1.4.7'
-        compose_destinations_version = '1.8.38-beta'
-        compose_material_3_version = '1.1.1'
-        compose_paging_version = '3.2.0'
-        compose_version = '1.4.3'
-        data_store_version = '1.0.0'
-        detekt_version = '1.23.0'
-        espresso_core_version = '3.5.1'
-        junit_version = '4.13.2'
-        junitx_version = '1.1.5'
-        lifecycle_ktx_version = '2.6.1'
-        mockk_version = '1.13.3'
-        koin_version = '3.3.1'
-        koin_compose_version = '3.4.3'
-        mockk_version = '1.13.5'
-        koin_version = '3.4.3'
-        koin_compose_version = '3.4.5'
-        kotlin_version = '1.8.21'
-        kotlin_coroutines_version = '1.7.3'
-        material_version = '1.9.0'
-        okhttp_logging_version = '4.11.0'
-        retrofit_version = '2.9.0'
-        room_version = '2.5.2'
-        truth_version = '1.1.5'
-        turbine_version = '1.0.0'
-    }
-}
+//import io.gitlab.arturbosch.detekt.Detekt
+//import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version "$agp" apply false
-    id 'com.android.library' version "$agp" apply false
-    id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
-    id 'org.jetbrains.kotlin.jvm' version "$kotlin_version" apply false
-    id 'com.google.devtools.ksp' version "$ksp" apply false
-    id 'io.gitlab.arturbosch.detekt' version "$detekt_version" apply false
+    alias(libs.plugins.android.application) apply(false)
+    alias(libs.plugins.android.library) apply(false)
+    alias(libs.plugins.kotlin.android) apply(false)
+    alias(libs.plugins.kotlin.kapt) apply(false)
+    alias(libs.plugins.kotlin.jvm) apply(false)
+    alias(libs.plugins.devtools.ksp) apply(false)
+    alias(libs.plugins.detekt) apply(false)
 }
 
-task clean(type: Delete) {
+//allprojects {
+//    detekt {
+//        buildUponDefaultConfig = true // preconfigure defaults
+//        allRules = true // activate all available (even unstable) rules.
+//    }
+//
+//    tasks.withType(Detekt).configureEach {
+//        jvmTarget = JavaVersion.VERSION_1_8
+//    }
+//    tasks.withType(DetektCreateBaselineTask).configureEach {
+//        jvmTarget = JavaVersion.VERSION_1_8
+//    }
+//}
+
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
