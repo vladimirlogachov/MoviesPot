@@ -30,7 +30,7 @@ buildscript {
         retrofit_version = '2.9.0'
         room_version = '2.5.2'
         truth_version = '1.1.5'
-        turbine_version = '0.13.0'
+        turbine_version = '1.0.0'
     }
 }
 
