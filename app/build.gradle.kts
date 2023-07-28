@@ -6,61 +6,57 @@ plugins {
 }
 
 android {
-    namespace 'com.vlohachov.moviespot'
-    compileSdk 33
+    namespace = "com.vlohachov.moviespot"
+    compileSdk = 33
 
     defaultConfig {
-        applicationId "com.vlohachov.moviespot"
-        minSdk 23
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId = "com.vlohachov.moviespot"
+        minSdk = 23
+        targetSdk = 33
+        versionCode = 1
+        versionName = "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
-            useSupportLibrary true
+            useSupportLibrary = true
         }
     }
 
     buildTypes {
         debug {
-            testCoverageEnabled true
+            enableAndroidTestCoverage = true
         }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
     buildFeatures {
-        compose true
-        buildConfig true
+        compose = true
+        buildConfig = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion "1.4.7"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
-    packagingOptions {
+    packaging {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-            excludes += 'META-INF/LICENSE.md'
-            excludes += 'META-INF/LICENSE-notice.md'
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes.add("META-INF/LICENSE.md")
+            excludes.add("META-INF/LICENSE-notice.md")
         }
         jniLibs {
-            useLegacyPackaging true // Needed, so Mockk library works under androidTest
+            useLegacyPackaging = true // Needed, so Mockk library works under androidTest
         }
     }
 
-    applicationVariants.all { variant ->
-        kotlin.sourceSets {
-            getByName(variant.name) {
-                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
-            }
-        }
-        variant.outputs.all {
-            outputFileName = "MoviesPot-${defaultConfig.versionName}-${variant.buildType.name}.apk"
-        }
+    applicationVariants.all {
+        addJavaSourceFoldersToModel(File(buildDir, "generated/ksp/$name/kotlin"))
     }
 }
 
@@ -71,8 +67,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(path: ':domain'))
-    implementation(project(path: ':data'))
+    implementation(project(":domain"))
+    implementation(project(":data"))
 
     implementation(libs.material)
     implementation(libs.androidx.core.ktx)
@@ -87,7 +83,7 @@ dependencies {
     implementation(libs.coil.compose)
 
     // Compose
-    def composeBOM = platform(libs.androidx.compose.bom)
+    val composeBOM = platform(libs.androidx.compose.bom)
     implementation(composeBOM)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
