@@ -18,7 +18,7 @@ compose-destinations = "1.8.38-beta"
 koin = "3.4.3"
 koin-compose = "3.4.5"
 
-kotlin = "1.8.21"
+kotlin = "1.9.0"
 kotlin-coroutines = "1.7.3"
 
 androidx-junit = "1.1.5"
