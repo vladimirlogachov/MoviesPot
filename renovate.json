@@ -5,6 +5,7 @@
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)"
   ],
+  "configMigration": true,
   "packageRules": [
     {
       "matchFileNames": [
@@ -19,23 +20,56 @@
       "matchPackagePatterns": [
         "androidx.*"
       ],
-      "addLabels": [
-        "androidx"
-      ],
       "groupName": "AndroidX"
     },
     {
       "matchPackagePatterns": [
         ".*compose.*",
         ".*.accompanist.*",
+        ".*devtools.ksp.*",
+        "org.jetbrains.kotlin.*"
+      ],
+      "groupName": "Compose&Kotlin"
+    },
+    {
+      "matchPackagePatterns": [
+        "androidx.*"
+      ],
+      "addLabels": [
+        "androidx"
+      ]
+    },
+    {
+      "matchPackagePatterns": [
+        ".*compose.*"
+      ],
+      "addLabels": [
+        "compose"
+      ]
+    },
+    {
+      "matchPackagePatterns": [
+        ".*.accompanist.*"
+      ],
+      "addLabels": [
+        "accompanist"
+      ]
+    },
+    {
+      "matchPackagePatterns": [
+        ".*devtools.ksp.*"
+      ],
+      "addLabels": [
+        "ksp"
+      ]
+    },
+    {
+      "matchPackagePatterns": [
         "org.jetbrains.kotlin.*"
       ],
       "addLabels": [
-        "accompanist",
-        "compose",
         "kotlin"
-      ],
-      "groupName": "Compose&Kotlin"
+      ]
     }
   ]
 }
