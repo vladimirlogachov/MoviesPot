@@ -7,6 +7,15 @@
   ],
   "packageRules": [
     {
+      "matchFileNames": [
+        ".github/workflows/**"
+      ],
+      "addLabels": [
+        "actions"
+      ],
+      "groupName": "Actions"
+    },
+    {
       "matchPackageNames": [
         "androidx.*"
       ],
