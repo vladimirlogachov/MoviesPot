@@ -3,15 +3,17 @@ package com.vlohachov.data.repository
 import com.google.common.truth.Truth
 import com.vlohachov.data.data.TestSettings
 import com.vlohachov.data.local.LocalPreferences
-import io.mockk.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import io.mockk.coEvery
+import io.mockk.coJustRun
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class SettingsRepositoryTest {
 
     private val preferences = mockk<LocalPreferences>()

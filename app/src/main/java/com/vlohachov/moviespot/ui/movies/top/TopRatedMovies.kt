@@ -1,16 +1,40 @@
 package com.vlohachov.moviespot.ui.movies.top
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -20,9 +44,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
@@ -33,7 +54,7 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class,
+    ExperimentalMaterialApi::class,
 )
 @Destination
 @Composable
@@ -111,23 +132,15 @@ fun TopRatedMovies(
         },
     ) { paddingValues ->
         val movies = viewModel.movies.collectAsLazyPagingItems()
+        val isRefreshing = movies.loadState.refresh is LoadState.Loading
+        val refreshState =
+            rememberPullRefreshState(refreshing = isRefreshing, onRefresh = movies::refresh)
 
-        SwipeRefresh(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues = paddingValues),
-            state = rememberSwipeRefreshState(isRefreshing = movies.loadState.refresh is LoadState.Loading),
-            indicator = { state, refreshTrigger ->
-                SwipeRefreshIndicator(
-                    modifier = Modifier.semantics {
-                        testTag = TopRatedMoviesDefaults.ContentLoadingTestTag
-                        contentDescription = state.isRefreshing.toString()
-                    },
-                    state = state,
-                    refreshTriggerDistance = refreshTrigger,
-                )
-            },
-            onRefresh = movies::refresh,
+                .padding(paddingValues = paddingValues)
+                .pullRefresh(state = refreshState),
         ) {
             MoviesPaginatedGrid(
                 modifier = Modifier.fillMaxSize(),
@@ -143,6 +156,17 @@ fun TopRatedMovies(
                     )
                 },
                 onError = viewModel::onError,
+            )
+
+            PullRefreshIndicator(
+                modifier = Modifier
+                    .align(alignment = Alignment.TopCenter)
+                    .semantics {
+                        testTag = TopRatedMoviesDefaults.ContentLoadingTestTag
+                        contentDescription = isRefreshing.toString()
+                    },
+                refreshing = isRefreshing,
+                state = refreshState,
             )
         }
     }

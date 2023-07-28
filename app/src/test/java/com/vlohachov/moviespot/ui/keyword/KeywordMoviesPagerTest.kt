@@ -5,12 +5,10 @@ import com.google.common.truth.Truth
 import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class KeywordMoviesPagerTest {
 
     private val useCase = mockk<DiscoverMoviesUseCase>()

@@ -9,11 +9,9 @@ import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ApplyDynamicThemeUseCaseTest {
 
     private companion object {

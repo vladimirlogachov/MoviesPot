@@ -17,6 +17,7 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
@@ -25,7 +26,8 @@ import com.vlohachov.moviespot.ui.destinations.*
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Destination(start = true)
+@Destination
+@RootNavGraph(start = true)
 @Composable
 fun Main(
     navigator: DestinationsNavigator,
@@ -197,7 +199,7 @@ private fun Content(
         }
 
         viewState.error?.run {
-            onError(error = this)
+            onError(this)
         }
     }
 }

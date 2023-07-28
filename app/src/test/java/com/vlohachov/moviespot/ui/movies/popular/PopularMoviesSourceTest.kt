@@ -8,12 +8,10 @@ import com.vlohachov.domain.usecase.movie.list.PopularUseCase
 import com.vlohachov.moviespot.data.TestPaginatedData
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class PopularMoviesSourceTest {
 
     private val useCase = mockk<PopularUseCase>()

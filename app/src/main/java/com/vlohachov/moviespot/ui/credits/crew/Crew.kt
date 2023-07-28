@@ -28,7 +28,6 @@ import org.koin.core.parameter.parametersOf
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class,
 )
 @Destination
 @Composable
@@ -152,8 +151,10 @@ private fun Content(
                     CircularProgressIndicator()
                 }
             }
+
             is ViewState.Error ->
                 viewState.error?.run(onError)
+
             is ViewState.Success ->
                 items(items = viewState.data) { member ->
                     var error by remember { mutableStateOf(false) }

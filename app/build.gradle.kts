@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.vlohachov.moviespot"
-        minSdk = 23
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -76,7 +76,6 @@ dependencies {
 
     // Accompanist
     implementation(libs.accompanist.flowlayout)
-    implementation(libs.accompanist.swiperefresh)
     implementation(libs.accompanist.systemuicontroller)
 
     // Coil
@@ -87,6 +86,7 @@ dependencies {
     implementation(composeBOM)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
     implementation(libs.androidx.paging.compose)

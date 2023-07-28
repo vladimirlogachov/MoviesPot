@@ -18,13 +18,11 @@ import com.vlohachov.moviespot.data.TestPaginatedData
 import com.vlohachov.moviespot.util.TestDispatcherRule
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class MovieDetailsViewModelTest {
 
     @get:Rule

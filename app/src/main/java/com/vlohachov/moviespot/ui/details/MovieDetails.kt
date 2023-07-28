@@ -216,6 +216,7 @@ private fun LazyListScope.details(
                     .padding(all = 16.dp)
             )
         }
+
         is ViewState.Error -> detailsViewState.error?.run(onError)
         is ViewState.Success -> with(detailsViewState.data) {
             item {
@@ -403,7 +404,6 @@ private fun Production(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private fun LazyListScope.keywords(
     onKeyword: (keyword: Keyword) -> Unit,
     viewState: ViewState<List<Keyword>>,
@@ -600,7 +600,7 @@ private fun Headline(
         horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         poster(
-            modifier = Modifier
+            Modifier
                 .weight(weight = 1f)
                 .aspectRatio(ratio = .75f),
         )

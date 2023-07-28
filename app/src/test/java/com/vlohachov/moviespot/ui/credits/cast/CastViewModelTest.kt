@@ -10,13 +10,11 @@ import com.vlohachov.moviespot.data.TestMovieCredits
 import com.vlohachov.moviespot.util.TestDispatcherRule
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class CastViewModelTest {
 
     @get:Rule

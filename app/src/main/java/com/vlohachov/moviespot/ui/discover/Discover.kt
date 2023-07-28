@@ -116,10 +116,6 @@ fun Discover(
     }
 }
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalAnimationApi::class,
-)
 @Composable
 private fun Content(
     modifier: Modifier,
@@ -212,8 +208,10 @@ private fun Genres(
                     testTag = DiscoverDefaults.GenresLoadingTestTag
                 }
             )
+
         is ViewState.Error ->
             viewState.error?.run(onError)
+
         is ViewState.Success ->
             LazyRow(
                 modifier = modifier,
