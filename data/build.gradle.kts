@@ -8,19 +8,14 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
-val secretsPropertiesFile = project.file("secrets.properties")
+val secretsPropertiesFile: File = project.file("secrets.properties")
 val secretsProperties = Properties().apply {
     load(FileInputStream(secretsPropertiesFile))
 }
 
-val baseUrl = secretsProperties["base.url"] as String
-val baseImageUrl = secretsProperties["base.image.url"] as String
-val apiKey = secretsProperties["api.key"] as String
-val accessToken = secretsProperties["access.token"] as String
-
 android {
     namespace = "com.vlohachov.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 23
