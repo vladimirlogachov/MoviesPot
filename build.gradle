@@ -7,7 +7,7 @@ buildscript {
         core_ktx_version = '1.10.1'
         compose_activity_version = '1.7.2'
         compose_compiler_version = '1.4.7'
-        compose_destinations_version = '1.8.38-beta'
+        compose_destinations_version = '1.9.50'
         compose_material_3_version = '1.1.1'
         compose_paging_version = '3.2.0'
         compose_version = '1.4.3'
