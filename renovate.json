@@ -25,12 +25,10 @@
       "groupName": "AndroidX"
     },
     {
-      "matchPackageNames": [
-        "androidx.compose.compiler:compiler",
-        "androidx.compose:compose-bom",
+      "matchPackagePatterns": [
         ".*compose.*",
         ".*.accompanist.*",
-        "org.jetbrains.kotlin.*:org.jetbrains.kotlin.*"
+        "org.jetbrains.kotlin.*"
       ],
       "addLabels": [
         "accompanist",
