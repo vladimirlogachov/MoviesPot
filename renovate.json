@@ -17,9 +17,11 @@
     },
     {
       "matchPackageNames": [
-        ".*(.|-)compose.*",
+        "androidx.compose.compiler:compiler",
+        "androidx.compose:compose-bom",
+        ".*compose.*",
         ".*.accompanist.*",
-        "org.jetbrains.kotlin.*"
+        "org.jetbrains.kotlin.*:org.jetbrains.kotlin.*"
       ],
       "addLabels": [
         "accompanist",
