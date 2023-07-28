@@ -22,7 +22,7 @@ buildscript {
         koin_compose_version = '3.4.3'
         mockk_version = '1.13.5'
         koin_version = '3.4.3'
-        koin_compose_version = '3.4.5'
+        koin_compose_version = '3.4.6'
         kotlin_version = '1.8.21'
         kotlin_coroutines_version = '1.7.3'
         material_version = '1.9.0'
