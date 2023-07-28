@@ -29,7 +29,6 @@ androidx-espresso-core = "3.5.1"
 androidx-paging-compose = "3.2.0"
 androidx-activity-compose = "1.7.2"
 
-
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
