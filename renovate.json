@@ -16,7 +16,7 @@
       "groupName": "Actions"
     },
     {
-      "matchPackageNames": [
+      "matchPackagePatterns": [
         "androidx.*"
       ],
       "addLabels": [
