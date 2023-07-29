@@ -75,7 +75,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // Accompanist
-    implementation(libs.accompanist.flowlayout)
     implementation(libs.accompanist.systemuicontroller)
 
     // Coil

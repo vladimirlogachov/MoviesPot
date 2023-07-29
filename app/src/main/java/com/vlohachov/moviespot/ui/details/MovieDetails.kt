@@ -23,7 +23,6 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.google.accompanist.flowlayout.FlowRow
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.Company
@@ -404,6 +403,7 @@ private fun Production(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 private fun LazyListScope.keywords(
     onKeyword: (keyword: Keyword) -> Unit,
     viewState: ViewState<List<Keyword>>,
@@ -434,8 +434,8 @@ private fun LazyListScope.keywords(
                 } else {
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),
-                        mainAxisSpacing = 8.dp,
-                        crossAxisSpacing = 8.dp,
+                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                     ) {
                         for (keyword in viewState.data) {
 //                            ClickableText(
