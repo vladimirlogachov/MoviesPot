@@ -59,7 +59,7 @@ fun Settings(
                     modifier = Modifier.semantics {
                         testTag = SettingsDefaults.BackButtonTestTag
                     },
-                    onClick = { navigator.navigateUp() },
+                    onClick = navigator::navigateUp,
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.ArrowBack,

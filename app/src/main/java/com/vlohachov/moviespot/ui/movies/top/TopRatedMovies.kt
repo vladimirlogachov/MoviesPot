@@ -29,7 +29,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -47,6 +46,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
+import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import kotlinx.coroutines.launch
@@ -63,17 +63,17 @@ fun TopRatedMovies(
     viewModel: TopRatedMoviesViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > 3 } }
 
     viewModel.error?.run {
-        LaunchedEffect(snackbarHostState) {
-            viewModel.onErrorConsumed()
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
-        }
+        ErrorBar(
+            error = this,
+            snackbarHostState = snackbarHostState,
+            onDismissed = viewModel::onErrorConsumed,
+        )
     }
 
     Scaffold(
@@ -87,7 +87,7 @@ fun TopRatedMovies(
                     Text(text = stringResource(id = R.string.top_rated))
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navigator.navigateUp() }) {
+                    IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null,

@@ -21,6 +21,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.credit.CastMember
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.Profile
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -37,7 +38,6 @@ fun Cast(
     viewModel: CastViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
@@ -53,7 +53,7 @@ fun Cast(
                 modifier = Modifier.fillMaxWidth(),
                 title = { Text(text = stringResource(id = R.string.cast)) },
                 navigationIcon = {
-                    IconButton(onClick = { navigator.navigateUp() }) {
+                    IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null,
@@ -115,10 +115,11 @@ fun Cast(
             )
 
             uiState.error?.run {
-                LaunchedEffect(snackbarHostState) {
-                    viewModel.onErrorConsumed()
-                    snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
-                }
+                ErrorBar(
+                    error = this,
+                    snackbarHostState = snackbarHostState,
+                    onDismissed = viewModel::onErrorConsumed,
+                )
             }
         }
     }

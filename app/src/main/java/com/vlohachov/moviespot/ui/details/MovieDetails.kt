@@ -36,6 +36,7 @@ import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils
 import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.Company
+import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.Poster
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.components.section.Section
@@ -58,15 +59,15 @@ fun MovieDetails(
     viewModel: MovieDetailsViewModel = getViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
 
     uiState.error?.run {
-        LaunchedEffect(snackbarHostState) {
-            viewModel.onErrorConsumed()
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
-        }
+        ErrorBar(
+            error = this,
+            snackbarHostState = snackbarHostState,
+            onDismissed = viewModel::onErrorConsumed,
+        )
     }
 
     Scaffold(
@@ -82,7 +83,7 @@ fun MovieDetails(
                         modifier = Modifier.semantics {
                             testTag = MovieDetailsDefaults.BackButtonTestTag
                         },
-                        onClick = { navigator.navigateUp() },
+                        onClick = navigator::navigateUp,
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,

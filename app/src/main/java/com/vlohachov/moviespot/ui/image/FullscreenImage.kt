@@ -29,7 +29,7 @@ fun FullscreenImage(
             CenterAlignedTopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { navigator.navigateUp() }) {
+                    IconButton(onClick = navigator::navigateUp) {
                         Icon(
                             imageVector = Icons.Rounded.ArrowBack,
                             contentDescription = null,

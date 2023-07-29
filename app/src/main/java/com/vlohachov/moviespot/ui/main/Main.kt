@@ -21,6 +21,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
+import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.destinations.*
 import org.koin.androidx.compose.getViewModel
@@ -34,7 +35,6 @@ fun Main(
     viewModel: MainViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
 
@@ -114,12 +114,11 @@ fun Main(
                 .padding(paddingValues = paddingValues),
             viewState = uiState,
             onError = { error ->
-                LaunchedEffect(snackbarHostState) {
-                    viewModel.onErrorConsumed()
-                    snackbarHostState.showSnackbar(
-                        message = error.localizedMessage ?: unknownErrorText
-                    )
-                }
+                ErrorBar(
+                    error = error,
+                    snackbarHostState = snackbarHostState,
+                    onDismissed = viewModel::onErrorConsumed,
+                )
             },
             onSeeDetails = { movie ->
                 navigator.navigate(

@@ -28,6 +28,7 @@ import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyGenres
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.getViewModel
@@ -43,16 +44,16 @@ fun Discover(
     viewModel: DiscoverViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val keyboardController = LocalSoftwareKeyboardController.current
     val uiState by viewModel.uiState.collectAsState()
 
     uiState.error?.run {
-        LaunchedEffect(snackbarHostState) {
-            viewModel.onErrorConsumed()
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
-        }
+        ErrorBar(
+            error = this,
+            snackbarHostState = snackbarHostState,
+            onDismissed = viewModel::onErrorConsumed,
+        )
     }
 
     Scaffold(

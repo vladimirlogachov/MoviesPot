@@ -35,7 +35,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -57,6 +56,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
+import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import kotlinx.coroutines.launch
@@ -73,7 +73,6 @@ fun SearchMovies(
     viewModel: SearchMoviesViewModel = getViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
-    val unknownErrorText = stringResource(id = R.string.unknown_error_remote)
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
@@ -82,10 +81,11 @@ fun SearchMovies(
     val showTitle by remember { derivedStateOf { scrollBehavior.state.overlappedFraction > 0 } }
 
     viewModel.error?.run {
-        LaunchedEffect(snackbarHostState) {
-            viewModel.onErrorConsumed()
-            snackbarHostState.showSnackbar(message = localizedMessage ?: unknownErrorText)
-        }
+        ErrorBar(
+            error = this,
+            snackbarHostState = snackbarHostState,
+            onDismissed = viewModel::onErrorConsumed,
+        )
     }
 
     Scaffold(
