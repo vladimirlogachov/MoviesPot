@@ -26,4 +26,5 @@ class KeywordMoviesViewModel(pager: KeywordMoviesPager) : ViewModel() {
             this@KeywordMoviesViewModel.error = null
         }
     }
+
 }

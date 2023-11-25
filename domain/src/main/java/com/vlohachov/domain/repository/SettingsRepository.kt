@@ -8,4 +8,5 @@ interface SettingsRepository {
     fun getSettings(): Flow<Settings>
 
     suspend fun applyDynamicTheme(apply: Boolean)
+
 }

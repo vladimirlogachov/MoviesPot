@@ -3,14 +3,11 @@ package com.vlohachov.moviespot.ui.credits.cast
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
@@ -21,11 +18,14 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.credit.CastMember
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.Profile
-import kotlinx.coroutines.launch
+import com.vlohachov.moviespot.ui.components.bar.AppBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBar
+import com.vlohachov.moviespot.ui.components.button.ScrollToTop
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+
+private const val VISIBLE_ITEMS_THRESHOLD = 3
 
 @OptIn(
     ExperimentalMaterial3Api::class,
@@ -40,8 +40,7 @@ fun Cast(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
-    val coroutineScope = rememberCoroutineScope()
-    val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > 3 } }
+    val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
@@ -49,42 +48,15 @@ fun Cast(
             .fillMaxSize()
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            AppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = { Text(text = stringResource(id = R.string.cast)) },
-                navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
+                title = stringResource(id = R.string.cast),
                 scrollBehavior = scrollBehavior,
+                onBackClick = navigator::navigateUp,
             )
         },
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = showScrollToTop,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut(),
-            ) {
-                FloatingActionButton(
-                    modifier = Modifier.semantics {
-                        testTag = CastDefaults.ScrollToTopTestTag
-                    },
-                    onClick = {
-                        coroutineScope.launch {
-                            gridState.scrollToItem(index = 0)
-                        }
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_round_arrow_upward_24),
-                        contentDescription = stringResource(id = R.string.scroll_to_top),
-                    )
-                }
-            }
+            ScrollToTop(visible = showScrollToTop, gridState = gridState)
         },
         snackbarHost = {
             SnackbarHost(

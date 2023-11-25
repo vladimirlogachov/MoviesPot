@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -36,13 +35,19 @@ import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.core.utils.DecimalUtils
 import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.Company
-import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.Poster
+import com.vlohachov.moviespot.ui.components.bar.AppBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
-import com.vlohachov.moviespot.ui.destinations.*
+import com.vlohachov.moviespot.ui.destinations.CastDestination
+import com.vlohachov.moviespot.ui.destinations.CrewDestination
+import com.vlohachov.moviespot.ui.destinations.FullscreenImageDestination
+import com.vlohachov.moviespot.ui.destinations.KeywordMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
+import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
 import org.koin.androidx.compose.getViewModel
@@ -75,23 +80,11 @@ fun MovieDetails(
             .fillMaxSize()
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            AppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = { },
-                navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            testTag = MovieDetailsDefaults.BackButtonTestTag
-                        },
-                        onClick = navigator::navigateUp,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
+                title = "",
                 scrollBehavior = scrollBehavior,
+                onBackClick = navigator::navigateUp,
             )
         },
         snackbarHost = {

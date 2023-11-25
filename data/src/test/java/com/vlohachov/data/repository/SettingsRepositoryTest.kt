@@ -21,7 +21,7 @@ class SettingsRepositoryTest {
     private val repository = SettingsRepositoryImpl(preferences = preferences)
 
     @Test
-    fun `Settings loading success`() = runTest {
+    fun `settings loading success`() = runTest {
         val expected = TestSettings
 
         every { preferences.applyDynamicTheme } returns flowOf(value = TestSettings.dynamicTheme)
@@ -33,7 +33,7 @@ class SettingsRepositoryTest {
     }
 
     @Test(expected = NullPointerException::class)
-    fun `Settings loading failure`() = runTest {
+    fun `settings loading failure`() = runTest {
         every { preferences.applyDynamicTheme } returns flow { throw NullPointerException() }
         every { preferences.isDynamicThemeAvailable } returns TestSettings.supportsDynamicTheme
 
@@ -41,7 +41,7 @@ class SettingsRepositoryTest {
     }
 
     @Test
-    fun `Update dynamic theme success`() = runTest {
+    fun `update dynamic theme success`() = runTest {
         coJustRun { preferences.applyDynamicTheme(apply = any()) }
 
         repository.applyDynamicTheme(apply = true)
@@ -50,7 +50,7 @@ class SettingsRepositoryTest {
     }
 
     @Test(expected = NullPointerException::class)
-    fun `Update dynamic theme failure`() = runTest {
+    fun `update dynamic theme failure`() = runTest {
         coEvery { preferences.applyDynamicTheme(apply = any()) } throws NullPointerException()
 
         repository.applyDynamicTheme(apply = true)

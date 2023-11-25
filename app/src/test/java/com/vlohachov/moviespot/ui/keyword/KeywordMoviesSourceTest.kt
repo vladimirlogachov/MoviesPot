@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
+import com.vlohachov.domain.usecase.DiscoverMovies
 import com.vlohachov.moviespot.data.TestPaginatedData
 import io.mockk.every
 import io.mockk.mockk
@@ -14,7 +14,7 @@ import org.junit.Test
 
 class KeywordMoviesSourceTest {
 
-    private val useCase = mockk<DiscoverMoviesUseCase>()
+    private val useCase = mockk<DiscoverMovies>()
 
     @Test
     fun `movies loading success`() = runTest {
@@ -24,7 +24,7 @@ class KeywordMoviesSourceTest {
             nextKey = null,
         )
 
-        every { useCase.resultFlow(param = any()) } returns flowOf(Result.Success(value = TestPaginatedData))
+        every { useCase(param = any()) } returns flowOf(Result.Success(value = TestPaginatedData))
 
         val actual = KeywordMoviesSource(keywordId = 0, useCase = useCase)
             .load(
@@ -44,7 +44,7 @@ class KeywordMoviesSourceTest {
 
         val expected = PagingSource.LoadResult.Error<Int, Movie>(throwable = exception)
 
-        every { useCase.resultFlow(param = any()) } returns flowOf(Result.Error(exception = exception))
+        every { useCase(param = any()) } returns flowOf(Result.Error(exception = exception))
 
         val actual = KeywordMoviesSource(keywordId = 0, useCase = useCase)
             .load(

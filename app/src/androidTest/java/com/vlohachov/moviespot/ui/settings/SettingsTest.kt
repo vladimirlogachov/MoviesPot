@@ -1,15 +1,22 @@
 package com.vlohachov.moviespot.ui.settings
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.BuildConfig
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestSettings
-import com.vlohachov.moviespot.ui.components.ErrorBarDefaults
+import com.vlohachov.moviespot.ui.components.bar.ErrorBarDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun

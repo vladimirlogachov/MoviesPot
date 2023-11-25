@@ -9,7 +9,11 @@ import com.vlohachov.moviespot.data.PagingDataCollector
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.data.collector
 import com.vlohachov.moviespot.util.TestDispatcherRule
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.onEach

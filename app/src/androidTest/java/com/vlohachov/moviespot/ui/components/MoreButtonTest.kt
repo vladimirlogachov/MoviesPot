@@ -3,10 +3,18 @@ package com.vlohachov.moviespot.ui.components
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
+import com.vlohachov.moviespot.ui.components.button.More
+import com.vlohachov.moviespot.ui.components.button.MoreButtonPreview
+import com.vlohachov.moviespot.ui.components.button.MoreDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +28,7 @@ class MoreButtonTest {
     fun moreButtonTest(): Unit = with(composeRule) {
         setContent {
             MoviesPotTheme {
-                MoreButton(onClick = {})
+                More(onClick = {})
             }
         }
 
@@ -31,7 +39,7 @@ class MoreButtonTest {
     fun customizedMoreButtonTest(): Unit = with(composeRule) {
         setContent {
             MoviesPotTheme {
-                MoreButton(
+                More(
                     modifier = Modifier.size(size = 48.dp),
                     onClick = {},
                     tint = Color.Red,
@@ -48,18 +56,18 @@ class MoreButtonTest {
             MoreButtonPreview()
         }
 
-        onAllNodes(hasTestTag(testTag = MoreButtonDefaults.MoreButtonTestTag))
+        onAllNodes(hasTestTag(testTag = MoreDefaults.ButtonTestTag))
             .assertCountEquals(expectedSize = 1)
             .onFirst()
             .assertHasClickAction()
     }
 
     private fun ComposeTestRule.verifyMoreButton() {
-        onNodeWithTag(testTag = MoreButtonDefaults.MoreButtonTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = MoreDefaults.ButtonTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No MoreButton component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
-        onNodeWithTag(testTag = MoreButtonDefaults.IconTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = MoreDefaults.IconTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No child Icon component found.")
             .assertIsDisplayed()
     }

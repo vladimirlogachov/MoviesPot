@@ -5,10 +5,7 @@ import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
-import com.vlohachov.domain.usecase.movie.list.PopularUseCase
-import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
-import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
+import com.vlohachov.domain.usecase.movie.LoadMoviesByCategory
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestPaginatedData
 import com.vlohachov.moviespot.util.TestDispatcherRule
@@ -24,25 +21,14 @@ class MainViewModelTest {
     @get:Rule
     val dispatcherRule = TestDispatcherRule()
 
-    private val upcoming = mockk<UpcomingUseCase>()
-    private val nowPlaying = mockk<NowPlayingUseCase>()
-    private val popular = mockk<PopularUseCase>()
-    private val topRated = mockk<TopRatedUseCase>()
+    private val loadMoviesByCategory = mockk<LoadMoviesByCategory>()
 
     private val testFlow = MutableStateFlow<Result<PaginatedData<Movie>>>(value = Result.Loading)
 
     private val viewModel by lazy {
-        every { upcoming.resultFlow(param = any()) } returns testFlow
-        every { nowPlaying.resultFlow(param = any()) } returns testFlow
-        every { popular.resultFlow(param = any()) } returns testFlow
-        every { topRated.resultFlow(param = any()) } returns testFlow
+        every { loadMoviesByCategory(param = any()) } returns testFlow
 
-        MainViewModel(
-            upcoming = upcoming,
-            nowPlaying = nowPlaying,
-            popular = popular,
-            topRated = topRated,
-        )
+        MainViewModel(loadMoviesByCategory)
     }
 
     @Test

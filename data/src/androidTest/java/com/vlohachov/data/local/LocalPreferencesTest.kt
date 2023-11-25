@@ -14,14 +14,14 @@ class LocalPreferencesTest {
     private val preferences = LocalPreferences(context = context)
 
     @Test
-    fun isDynamicThemeAvailableTest() {
+    fun `dynamic theme available`() {
         val actual = preferences.isDynamicThemeAvailable
 
         Truth.assertThat(actual).isTrue()
     }
 
     @Test
-    fun readApplyDynamicThemeTest() = runTest {
+    fun `get dynamic theme`() = runTest {
         preferences.applyDynamicTheme.test {
             val actual = awaitItem()
 
@@ -30,7 +30,7 @@ class LocalPreferencesTest {
     }
 
     @Test
-    fun applyDynamicThemeTest() = runTest {
+    fun `apply dynamic theme`() = runTest {
         preferences.applyDynamicTheme.test {
             val previous = awaitItem()
 

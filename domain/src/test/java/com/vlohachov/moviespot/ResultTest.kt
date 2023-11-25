@@ -23,7 +23,7 @@ class ResultTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         testFlow.asResult().test {
             testFlow.emit(value = TestValue)
 
@@ -37,7 +37,7 @@ class ResultTest {
     }
 
     @Test
-    fun `Result flow emits Success`() = runTest {
+    fun `result flow emits Success`() = runTest {
         testFlow.asResult().test {
             testFlow.emit(value = TestValue)
 
@@ -51,7 +51,7 @@ class ResultTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         testFlow
             .onEach { throw TestException }
             .asResult()
@@ -68,4 +68,5 @@ class ResultTest {
                 Truth.assertThat(actual).isEqualTo(expected)
             }
     }
+
 }

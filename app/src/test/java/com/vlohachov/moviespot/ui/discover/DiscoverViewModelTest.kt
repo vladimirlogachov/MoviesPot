@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.genre.Genre
-import com.vlohachov.domain.usecase.GenresUseCase
+import com.vlohachov.domain.usecase.LoadGenres
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestGenre
 import com.vlohachov.moviespot.data.TestGenres
@@ -24,14 +24,14 @@ class DiscoverViewModelTest {
     @get:Rule
     val dispatcherRule = TestDispatcherRule(dispatcher = UnconfinedTestDispatcher())
 
-    private val useCase = mockk<GenresUseCase>()
+    private val useCase = mockk<LoadGenres>()
 
     private val genresFlow = MutableStateFlow<Result<List<Genre>>>(value = Result.Loading)
 
     private val viewModel by lazy {
-        every { useCase.resultFlow(param = any()) } returns genresFlow
+        every { useCase(param = any()) } returns genresFlow
 
-        DiscoverViewModel(useCase = useCase)
+        DiscoverViewModel(loadGenres = useCase)
     }
 
     @Test

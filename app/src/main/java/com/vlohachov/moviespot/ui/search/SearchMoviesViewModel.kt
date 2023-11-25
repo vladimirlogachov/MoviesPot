@@ -48,4 +48,5 @@ class SearchMoviesViewModel(pager: SearchMoviesPager) : ViewModel() {
             error = null
         }
     }
+
 }

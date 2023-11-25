@@ -7,10 +7,10 @@ import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.domain.model.movie.keyword.Keyword
-import com.vlohachov.domain.usecase.credits.DirectorUseCase
-import com.vlohachov.domain.usecase.movie.MovieDetailsUseCase
-import com.vlohachov.domain.usecase.movie.MovieKeywordsUseCase
-import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase
+import com.vlohachov.domain.usecase.credits.LoadDirector
+import com.vlohachov.domain.usecase.movie.LoadDetails
+import com.vlohachov.domain.usecase.movie.LoadKeywords
+import com.vlohachov.domain.usecase.movie.LoadRecommendations
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestKeywords
 import com.vlohachov.moviespot.data.TestMovieDetails
@@ -28,10 +28,10 @@ class MovieDetailsViewModelTest {
     @get:Rule
     val dispatcherRule = TestDispatcherRule()
 
-    private val movieDetails = mockk<MovieDetailsUseCase>()
-    private val director = mockk<DirectorUseCase>()
-    private val keywords = mockk<MovieKeywordsUseCase>()
-    private val movieRecommendations = mockk<MovieRecommendationsUseCase>()
+    private val movieDetails = mockk<LoadDetails>()
+    private val director = mockk<LoadDirector>()
+    private val keywords = mockk<LoadKeywords>()
+    private val movieRecommendations = mockk<LoadRecommendations>()
 
     private val detailsFlow =
         MutableStateFlow<Result<MovieDetails>>(value = Result.Loading)
@@ -43,17 +43,17 @@ class MovieDetailsViewModelTest {
         MutableStateFlow<Result<PaginatedData<Movie>>>(value = Result.Loading)
 
     private val viewModel by lazy {
-        every { movieDetails.resultFlow(param = any()) } returns detailsFlow
-        every { director.resultFlow(param = any()) } returns directorFlow
-        every { keywords.resultFlow(param = any()) } returns keywordsFlow
-        every { movieRecommendations.resultFlow(param = any()) } returns movieRecommendationsFlow
+        every { movieDetails(param = any()) } returns detailsFlow
+        every { director(param = any()) } returns directorFlow
+        every { keywords(param = any()) } returns keywordsFlow
+        every { movieRecommendations(param = any()) } returns movieRecommendationsFlow
 
         MovieDetailsViewModel(
             movieId = 0,
-            movieDetails = movieDetails,
-            director = director,
-            keywords = keywords,
-            movieRecommendations = movieRecommendations,
+            loadDetails = movieDetails,
+            loadDirector = director,
+            loadKeywords = keywords,
+            loadRecommendations = movieRecommendations,
         )
     }
 

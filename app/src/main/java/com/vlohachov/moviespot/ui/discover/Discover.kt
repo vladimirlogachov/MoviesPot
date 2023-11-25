@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material3.*
@@ -28,7 +27,8 @@ import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyGenres
 import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.ErrorBar
+import com.vlohachov.moviespot.ui.components.bar.AppBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.getViewModel
@@ -61,26 +61,14 @@ fun Discover(
             .fillMaxSize()
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            AppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = { Text(text = stringResource(id = R.string.discover)) },
-                navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            testTag = DiscoverDefaults.BackButtonTestTag
-                        },
-                        onClick = {
-                            keyboardController?.hide()
-                            navigator.navigateUp()
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
+                title = stringResource(id = R.string.discover),
                 scrollBehavior = scrollBehavior,
+                onBackClick = {
+                    keyboardController?.hide()
+                    navigator.navigateUp()
+                }
             )
         },
         snackbarHost = {
@@ -146,7 +134,7 @@ private fun Content(
             onClearSelection = onClearSelection,
             onError = onError,
         )
-        OutlinedTextField(
+        Input(
             modifier = Modifier
                 .semantics {
                     testTag = DiscoverDefaults.YearTestTag
@@ -155,28 +143,6 @@ private fun Content(
                 .padding(horizontal = 16.dp),
             value = viewState.year,
             onValueChange = onYear,
-            label = { Text(text = stringResource(id = R.string.year)) },
-            trailingIcon = {
-                AnimatedVisibility(
-                    visible = viewState.year.isNotBlank(),
-                    enter = fadeIn() + scaleIn(),
-                    exit = fadeOut() + scaleOut(),
-                ) {
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            testTag = DiscoverDefaults.YearClearTestTag
-                        },
-                        onClick = { onYear("") }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Clear,
-                            contentDescription = stringResource(id = R.string.clear),
-                        )
-                    }
-                }
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
         Button(
             modifier = Modifier
@@ -237,6 +203,41 @@ private fun Genres(
                 }
             }
     }
+}
+
+@Composable
+private fun Input(
+    modifier: Modifier,
+    value: String,
+    onValueChange: (text: String) -> Unit,
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(text = stringResource(id = R.string.year)) },
+        trailingIcon = {
+            AnimatedVisibility(
+                visible = value.isNotBlank(),
+                enter = fadeIn() + scaleIn(),
+                exit = fadeOut() + scaleOut(),
+            ) {
+                IconButton(
+                    modifier = Modifier.semantics {
+                        testTag = DiscoverDefaults.YearClearTestTag
+                    },
+                    onClick = { onValueChange("") }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Clear,
+                        contentDescription = stringResource(id = R.string.clear),
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+    )
 }
 
 @Preview(showBackground = true)

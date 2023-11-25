@@ -1,6 +1,12 @@
 package com.vlohachov.moviespot.ui.components.movie
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,8 +21,12 @@ import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.MoreButton
-import com.vlohachov.moviespot.ui.components.section.*
+import com.vlohachov.moviespot.ui.components.button.More
+import com.vlohachov.moviespot.ui.components.section.Section
+import com.vlohachov.moviespot.ui.components.section.SectionColors
+import com.vlohachov.moviespot.ui.components.section.SectionDefaults
+import com.vlohachov.moviespot.ui.components.section.SectionTextStyles
+import com.vlohachov.moviespot.ui.components.section.SectionTitle
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 @Composable
@@ -35,7 +45,7 @@ fun MoviesSection(
     val moreButton: @Composable (() -> Unit)? =
         if (onMore != null && isNotEmpty) {
             @Composable {
-                MoreButton(
+                More(
                     modifier = Modifier.semantics {
                         testTag = MoviesSectionDefaults.MoreButtonTestTag
                     },
@@ -94,6 +104,7 @@ private fun Movies(
                         .padding(paddingValues = contentPadding)
                         .align(alignment = Alignment.Center)
                 )
+
             is ViewState.Error ->
                 viewState.error?.message?.run {
                     Text(
@@ -105,6 +116,7 @@ private fun Movies(
                         text = this,
                     )
                 }
+
             is ViewState.Success ->
                 if (viewState.data.isEmpty()) {
                     Text(

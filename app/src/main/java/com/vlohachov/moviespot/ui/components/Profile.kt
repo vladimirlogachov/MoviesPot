@@ -67,65 +67,14 @@ fun Profile(
         shadowElevation = shadowElevation,
         border = border,
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(
-                modifier = Modifier
-                    .weight(weight = 2f)
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = ProfileDefaults.ImageTestTag
-                        }
-                        .fillMaxSize(),
-                    painter = painter,
-                    contentScale = ContentScale.Crop,
-                    contentDescription = title,
-                )
-                if (error) {
-                    Icon(
-                        modifier = Modifier
-                            .semantics {
-                                testTag = ProfileDefaults.ErrorTestTag
-                            }
-                            .size(size = 48.dp)
-                            .align(alignment = Alignment.Center),
-                        painter = painterResource(id = R.drawable.ic_round_broken_image_24),
-                        contentDescription = null,
-                    )
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(paddingValues = footerPadding),
-            ) {
-                ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
-                    Text(
-                        modifier = Modifier
-                            .semantics {
-                                testTag = ProfileDefaults.TitleTestTag
-                            },
-                        text = title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
-                    Text(
-                        modifier = Modifier.semantics {
-                            testTag = ProfileDefaults.BodyTestTag
-                        },
-                        text = body,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
-        }
+        Content(
+            modifier = Modifier.fillMaxSize(),
+            painter = painter,
+            title = title,
+            body = body,
+            error = error,
+            footerPadding = footerPadding,
+        )
     }
 }
 
@@ -158,65 +107,110 @@ fun Profile(
         shadowElevation = shadowElevation,
         border = border,
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(
+        Content(
+            modifier = Modifier.fillMaxSize(),
+            painter = painter,
+            title = title,
+            body = body,
+            error = error,
+            footerPadding = footerPadding,
+        )
+    }
+}
+
+@Composable
+private fun Content(
+    modifier: Modifier,
+    painter: Painter,
+    title: String,
+    body: String,
+    error: Boolean,
+    footerPadding: PaddingValues,
+) {
+    Column(modifier = modifier) {
+        Image(
+            modifier = Modifier
+                .weight(weight = 2f)
+                .fillMaxWidth(),
+            painter = painter,
+            title = title,
+            error = error,
+        )
+        Footer(
+            modifier = Modifier.fillMaxWidth(),
+            title = title,
+            body = body,
+            footerPadding = footerPadding,
+        )
+    }
+}
+
+@Composable
+private fun Image(
+    modifier: Modifier,
+    painter: Painter,
+    title: String,
+    error: Boolean,
+) {
+    Box(modifier = modifier) {
+        Image(
+            modifier = Modifier
+                .semantics {
+                    testTag = ProfileDefaults.ImageTestTag
+                }
+                .fillMaxSize(),
+            painter = painter,
+            contentScale = ContentScale.Crop,
+            contentDescription = title,
+        )
+        if (error) {
+            Icon(
                 modifier = Modifier
-                    .weight(weight = 2f)
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = ProfileDefaults.ImageTestTag
-                        }
-                        .fillMaxSize(),
-                    painter = painter,
-                    contentScale = ContentScale.Crop,
-                    contentDescription = title,
-                )
-                if (error) {
-                    Icon(
-                        modifier = Modifier
-                            .semantics {
-                                testTag = ProfileDefaults.ErrorTestTag
-                            }
-                            .size(size = 48.dp)
-                            .align(alignment = Alignment.Center),
-                        painter = painterResource(id = R.drawable.ic_round_broken_image_24),
-                        contentDescription = null,
-                    )
-                }
-            }
-            Column(
+                    .semantics {
+                        testTag = ProfileDefaults.ErrorTestTag
+                    }
+                    .size(size = 48.dp)
+                    .align(alignment = Alignment.Center),
+                painter = painterResource(id = R.drawable.ic_round_broken_image_24),
+                contentDescription = null,
+            )
+        }
+    }
+}
+
+@Composable
+private fun Footer(
+    modifier: Modifier,
+    title: String,
+    body: String,
+    footerPadding: PaddingValues
+) {
+    Column(
+        modifier = modifier
+            .background(color = MaterialTheme.colorScheme.surfaceVariant)
+            .padding(paddingValues = footerPadding),
+    ) {
+        ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
+            Text(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = MaterialTheme.colorScheme.surfaceVariant)
-                    .padding(paddingValues = footerPadding),
-            ) {
-                ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
-                    Text(
-                        modifier = Modifier
-                            .semantics {
-                                testTag = ProfileDefaults.TitleTestTag
-                            },
-                        text = title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
-                    Text(
-                        modifier = Modifier
-                            .semantics {
-                                testTag = ProfileDefaults.BodyTestTag
-                            },
-                        text = body,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+                    .semantics {
+                        testTag = ProfileDefaults.TitleTestTag
+                    },
+                text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+        ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
+            Text(
+                modifier = Modifier.semantics {
+                    testTag = ProfileDefaults.BodyTestTag
+                },
+                text = body,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }

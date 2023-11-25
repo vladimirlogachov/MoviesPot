@@ -24,7 +24,3 @@ plugins {
 //        jvmTarget = JavaVersion.VERSION_1_8
 //    }
 //}
-
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
-}

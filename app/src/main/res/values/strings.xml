@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Movies Pot</string>
     <string name="ok">OK</string>
+    <string name="navigate_back">Navigate back</string>
     <string name="unknown_error_remote">Unknown Error. Check your internet connection.</string>
     <string name="unknown_error_local">Unknown Error.</string>
     <string name="more">More</string>

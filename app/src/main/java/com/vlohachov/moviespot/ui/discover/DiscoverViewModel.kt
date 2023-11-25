@@ -2,15 +2,18 @@ package com.vlohachov.moviespot.ui.discover
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.genre.Genre
-import com.vlohachov.domain.usecase.GenresUseCase
-import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.domain.usecase.LoadGenres
 import com.vlohachov.moviespot.core.WhileUiSubscribed
-import kotlinx.coroutines.flow.*
+import com.vlohachov.moviespot.core.toViewState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DiscoverViewModel(useCase: GenresUseCase) : ViewModel() {
+class DiscoverViewModel(loadGenres: LoadGenres) : ViewModel() {
 
     private companion object Constants {
         const val YearInputLength = 4
@@ -22,24 +25,15 @@ class DiscoverViewModel(useCase: GenresUseCase) : ViewModel() {
 
     private val error = MutableStateFlow<Throwable?>(value = null)
 
-    private val genresResult: Flow<Result<List<Genre>>> =
-        useCase.resultFlow(param = GenresUseCase.Param())
-
     val uiState: StateFlow<DiscoverViewState> = combine(
         year,
-        genresResult,
         selectedGenres,
+        loadGenres(param = LoadGenres.Param()),
         error,
-    ) { year, genresResult, selectedGenres, error ->
-        val genresViewState = when (genresResult) {
-            Result.Loading -> ViewState.Loading
-            is Result.Error -> ViewState.Error(error = genresResult.exception)
-            is Result.Success -> ViewState.Success(data = genresResult.value)
-        }
-
+    ) { year, selectedGenres, genres, error ->
         DiscoverViewState(
             year = year,
-            genresViewState = genresViewState,
+            genresViewState = genres.toViewState(),
             selectedGenres = selectedGenres,
             discoverEnabled = year.isNotBlank() || selectedGenres.isNotEmpty(),
             error = error,
@@ -79,4 +73,5 @@ class DiscoverViewModel(useCase: GenresUseCase) : ViewModel() {
             this@DiscoverViewModel.error.emit(value = null)
         }
     }
+
 }
