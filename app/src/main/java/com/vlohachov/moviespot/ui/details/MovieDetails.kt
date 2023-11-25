@@ -106,15 +106,10 @@ private fun Content(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         details(
-            director = if (directorViewState is ViewState.Success) {
-                directorViewState.data
-            } else {
-                ""
-            },
+            movieId = movieId,
+            directorViewState = directorViewState,
             detailsViewState = detailsViewState,
-            onPoster = { path -> navigator.navigate(FullscreenImageDestination(path = path)) },
-            onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
-            onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
+            navigator = navigator,
             onError = onError,
         )
         item {
@@ -155,12 +150,11 @@ private fun Content(
 }
 
 private fun LazyListScope.details(
-    director: String,
+    movieId: Long,
+    directorViewState: ViewState<String>,
     detailsViewState: ViewState<MovieDetails>,
-    onPoster: (path: String) -> Unit,
-    onCast: () -> Unit,
-    onCrew: () -> Unit,
-    onError: (error: Throwable) -> Unit,
+    navigator: DestinationsNavigator,
+    onError: (Throwable) -> Unit,
 ) {
     when (detailsViewState) {
         ViewState.Loading -> item {
@@ -173,82 +167,88 @@ private fun LazyListScope.details(
             )
         }
 
+        is ViewState.Success -> item {
+            Details(
+                modifier = Modifier.fillMaxWidth(),
+                director = if (directorViewState is ViewState.Success) {
+                    directorViewState.data
+                } else {
+                    ""
+                },
+                details = detailsViewState.data,
+                onPoster = { path ->
+                    navigator.navigate(FullscreenImageDestination(path = path))
+                },
+                onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
+                onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
+            )
+        }
+
         is ViewState.Error -> detailsViewState.error?.run(onError)
-        is ViewState.Success -> with(detailsViewState.data) {
-            item {
-                Headline(
+    }
+}
+
+@Composable
+private fun Details(
+    modifier: Modifier,
+    director: String,
+    details: MovieDetails,
+    onPoster: (path: String) -> Unit,
+    onCast: () -> Unit,
+    onCrew: () -> Unit,
+) = with(details) {
+    Column(modifier = modifier) {
+        Headline(
+            modifier = Modifier
+                .semantics { testTag = MovieDetailsDefaults.HeadlineTestTag }
+                .padding(all = 16.dp)
+                .fillMaxWidth(),
+            director = director,
+            details = this@with,
+            onPosterClick = onPoster,
+        )
+        with(tagline) {
+            if (isNotBlank()) {
+                Text(
                     modifier = Modifier
-                        .semantics {
-                            testTag = MovieDetailsDefaults.HeadlineTestTag
-                        }
-                        .padding(all = 16.dp)
-                        .fillMaxWidth(),
-                    director = director,
-                    details = this@with,
-                    onPosterClick = onPoster,
-                )
-            }
-            if (tagline.isNotBlank()) {
-                item {
-                    Text(
-                        modifier = Modifier
-                            .semantics {
-                                testTag = MovieDetailsDefaults.TaglineTestTag
-                            }
-                            .padding(horizontal = 16.dp),
-                        text = "\"$tagline\"",
-                    )
-                }
-            }
-            item {
-                ShortSummary(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = MovieDetailsDefaults.ShortSummaryTestTag
-                        }
-                        .fillMaxWidth()
-                        .padding(all = 16.dp),
-                    voteAverage = voteAverage,
-                    voteCount = voteCount,
-                    isAdult = isAdult,
-                    runtime = runtime,
-                )
-            }
-            item {
-                Credits(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                        .semantics { testTag = MovieDetailsDefaults.TaglineTestTag }
                         .padding(horizontal = 16.dp),
-                    onCast = onCast,
-                    onCrew = onCrew,
-                )
-                Spacer(modifier = Modifier.height(height = 16.dp))
-            }
-            item {
-                Divider(modifier = Modifier.padding(horizontal = 16.dp))
-            }
-            item {
-                Overview(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = MovieDetailsDefaults.OverviewTestTag
-                        }
-                        .fillMaxWidth()
-                        .padding(all = 16.dp),
-                    text = overview,
-                )
-            }
-            item {
-                Production(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = MovieDetailsDefaults.ProductionTestTag
-                        }
-                        .fillMaxWidth(),
-                    companies = productionCompanies,
+                    text = "\"$this\"",
                 )
             }
         }
+        ShortSummary(
+            modifier = Modifier
+                .semantics { testTag = MovieDetailsDefaults.ShortSummaryTestTag }
+                .fillMaxWidth()
+                .padding(all = 16.dp),
+            voteAverage = voteAverage,
+            voteCount = voteCount,
+            isAdult = isAdult,
+            runtime = runtime,
+        )
+        Credits(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            onCast = onCast,
+            onCrew = onCrew,
+        )
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        Divider(modifier = Modifier.padding(horizontal = 16.dp))
+        Overview(
+            modifier = Modifier
+                .semantics { testTag = MovieDetailsDefaults.OverviewTestTag }
+                .fillMaxWidth()
+                .padding(all = 16.dp),
+            text = overview,
+        )
+        Production(
+            modifier = Modifier
+                .semantics { testTag = MovieDetailsDefaults.ProductionTestTag }
+                .fillMaxWidth(),
+            companies = productionCompanies,
+        )
     }
 }
 
@@ -287,18 +287,6 @@ private fun LazyListScope.keywords(
                         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                     ) {
                         for (keyword in viewState.data) {
-//                            ClickableText(
-//                                modifier = Modifier
-//                                    .border(
-//                                        width = 1.dp,
-//                                        color = MaterialTheme.colorScheme.outline,
-//                                        shape = SuggestionChipDefaults.shape,
-//                                    )
-//                                    .padding(vertical = 8.dp, horizontal = 16.dp),
-//                                text = buildAnnotatedString { keyword.name },
-//                                style = MaterialTheme.typography.labelMedium,
-//                                onClick = { onKeyword(keyword) },
-//                            )
                             Text(
                                 modifier = Modifier
                                     .border(
@@ -320,7 +308,6 @@ private fun LazyListScope.keywords(
         }
     }
 }
-
 
 object MovieDetailsDefaults {
 
