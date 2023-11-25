@@ -1,8 +1,17 @@
 package com.vlohachov.moviespot.ui.details
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onLast
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
@@ -105,7 +114,7 @@ class MovieDetailsTest {
             .assertDoesNotExist()
         onNodeWithTag(testTag = MovieDetailsDefaults.TaglineTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.BriefInfoTestTag)
+        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = MovieDetailsDefaults.CastButtonTestTag)
             .assertDoesNotExist()
@@ -143,7 +152,7 @@ class MovieDetailsTest {
             .assertDoesNotExist()
         onNodeWithTag(testTag = MovieDetailsDefaults.TaglineTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.BriefInfoTestTag)
+        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = MovieDetailsDefaults.CastButtonTestTag)
             .assertDoesNotExist()
@@ -182,7 +191,7 @@ class MovieDetailsTest {
         onNodeWithTag(testTag = MovieDetailsDefaults.TaglineTestTag)
             .assertExists(errorMessageOnFail = "No Tagline component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = MovieDetailsDefaults.BriefInfoTestTag)
+        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
             .assertExists(errorMessageOnFail = "No BriefInfo component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = MovieDetailsDefaults.CastButtonTestTag)
@@ -545,7 +554,7 @@ class MovieDetailsTest {
             BriefInfoPreview()
         }
 
-        onNodeWithTag(testTag = MovieDetailsDefaults.BriefInfoTestTag)
+        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
             .assertExists(errorMessageOnFail = "No Headline component found.")
             .assertIsDisplayed()
     }

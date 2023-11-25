@@ -59,13 +59,11 @@ fun KeywordMovies(
     val gridState = rememberLazyGridState()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
-    viewModel.error?.run {
-        ErrorBar(
-            error = this,
-            snackbarHostState = snackbarHostState,
-            onDismissed = viewModel::onErrorConsumed,
-        )
-    }
+    ErrorBar(
+        error = viewModel.error,
+        snackbarHostState = snackbarHostState,
+        onDismissed = viewModel::onErrorConsumed,
+    )
 
     Scaffold(
         modifier = Modifier

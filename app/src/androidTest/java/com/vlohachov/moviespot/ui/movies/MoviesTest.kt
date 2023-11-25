@@ -1,14 +1,28 @@
-package com.vlohachov.moviespot.ui.movies.upcoming
+package com.vlohachov.moviespot.ui.movies
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.model.movie.MovieCategory
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
@@ -21,13 +35,14 @@ import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 
-class UpcomingMoviesTest {
+@ExperimentalMaterial3Api
+class MoviesTest {
 
     @get:Rule
     val composeRule = createComposeRule()
 
     private val navigator = mockk<DestinationsNavigator>()
-    private val viewModel = mockk<UpcomingMoviesViewModel>()
+    private val viewModel = mockk<MoviesViewModel>()
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
@@ -46,11 +61,15 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
-        onNodeWithText(text = context.getString(R.string.upcoming), useUnmergedTree = true)
+        onNodeWithText(text = context.getString(R.string.now_playing), useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -71,7 +90,11 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
@@ -98,12 +121,16 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
         onNodeWithTag(
-            testTag = UpcomingMoviesDefaults.ContentErrorTestTag,
+            testTag = MoviesDefaults.ContentErrorTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -115,7 +142,7 @@ class UpcomingMoviesTest {
             .onChildren()
             .assertCountEquals(expectedSize = 0)
         onNodeWithTag(
-            testTag = UpcomingMoviesDefaults.ContentLoadingTestTag,
+            testTag = MoviesDefaults.ContentLoadingTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
@@ -138,12 +165,16 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
         onNodeWithTag(
-            testTag = UpcomingMoviesDefaults.ContentErrorTestTag,
+            testTag = MoviesDefaults.ContentErrorTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -155,7 +186,7 @@ class UpcomingMoviesTest {
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size)
         onNodeWithTag(
-            testTag = UpcomingMoviesDefaults.ContentLoadingTestTag,
+            testTag = MoviesDefaults.ContentLoadingTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
@@ -179,7 +210,11 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
@@ -214,7 +249,11 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
@@ -237,12 +276,16 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
         onNodeWithTag(
-            testTag = UpcomingMoviesDefaults.ContentErrorTestTag,
+            testTag = MoviesDefaults.ContentErrorTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
@@ -254,7 +297,7 @@ class UpcomingMoviesTest {
             .onChildren()
             .assertCountEquals(expectedSize = 0)
         onNodeWithTag(
-            testTag = UpcomingMoviesDefaults.ContentLoadingTestTag,
+            testTag = MoviesDefaults.ContentLoadingTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
@@ -283,7 +326,11 @@ class UpcomingMoviesTest {
 
         setContent {
             MoviesPotTheme {
-                UpcomingMovies(navigator = navigator, viewModel = viewModel)
+                Movies(
+                    navigator = navigator,
+                    category = MovieCategory.NOW_PLAYING,
+                    viewModel = viewModel
+                )
             }
         }
 
@@ -294,12 +341,12 @@ class UpcomingMoviesTest {
             .assertIsDisplayed()
             .performScrollToIndex(index = largeList.size - 1)
 
-        onNodeWithTag(testTag = UpcomingMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = MoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No ScrollToTop component found.")
             .assertIsDisplayed()
             .performClick()
 
-        onNodeWithTag(testTag = UpcomingMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = MoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
     }
 }

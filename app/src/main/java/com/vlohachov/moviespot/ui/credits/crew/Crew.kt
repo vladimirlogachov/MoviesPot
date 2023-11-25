@@ -86,13 +86,11 @@ fun Crew(
                 onError = viewModel::onError,
             )
 
-            uiState.error?.run {
-                ErrorBar(
-                    error = this,
-                    snackbarHostState = snackbarHostState,
-                    onDismissed = viewModel::onErrorConsumed,
-                )
-            }
+            ErrorBar(
+                error = uiState.error,
+                snackbarHostState = snackbarHostState,
+                onDismissed = viewModel::onErrorConsumed,
+            )
         }
     }
 }
