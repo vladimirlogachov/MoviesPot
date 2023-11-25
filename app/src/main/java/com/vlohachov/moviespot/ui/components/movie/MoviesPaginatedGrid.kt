@@ -1,9 +1,22 @@
 package com.vlohachov.moviespot.ui.components.movie
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
@@ -50,28 +63,11 @@ fun MoviesPaginatedGrid(
 
         items(count = movies.itemCount) { index ->
             movies[index]?.let { movie ->
-                var error by remember { mutableStateOf(false) }
-                val painter = rememberAsyncImagePainter(
-                    model = movie.posterPath,
-                    onError = { error = true },
+                MovieItem(
+                    modifier = itemModifier,
+                    movie = movie,
+                    onClick = onClick,
                 )
-
-                if (onClick != null) {
-                    Poster(
-                        modifier = itemModifier,
-                        painter = painter,
-                        contentDescription = movie.title,
-                        onClick = { onClick(movie) },
-                        error = error,
-                    )
-                } else {
-                    Poster(
-                        modifier = itemModifier,
-                        painter = painter,
-                        contentDescription = movie.title,
-                        error = error,
-                    )
-                }
             }
         }
 
@@ -91,9 +87,40 @@ fun MoviesPaginatedGrid(
         when {
             movies.loadState.refresh is LoadState.Error ->
                 onError((movies.loadState.refresh as LoadState.Error).error)
+
             movies.loadState.append is LoadState.Error ->
                 onError((movies.loadState.append as LoadState.Error).error)
         }
+    }
+}
+
+@Composable
+private fun MovieItem(
+    modifier: Modifier,
+    movie: Movie,
+    onClick: ((movie: Movie) -> Unit)?,
+) {
+    var error by remember { mutableStateOf(false) }
+    val painter = rememberAsyncImagePainter(
+        model = movie.posterPath,
+        onError = { error = true },
+    )
+
+    if (onClick != null) {
+        Poster(
+            modifier = modifier,
+            painter = painter,
+            contentDescription = movie.title,
+            onClick = { onClick(movie) },
+            error = error,
+        )
+    } else {
+        Poster(
+            modifier = modifier,
+            painter = painter,
+            contentDescription = movie.title,
+            error = error,
+        )
     }
 }
 

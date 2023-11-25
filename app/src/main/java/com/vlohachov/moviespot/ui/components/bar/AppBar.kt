@@ -9,6 +9,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -32,6 +33,43 @@ fun AppBar(
     onBackClick: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
+        modifier = modifier,
+        title = {
+            AnimatedVisibility(
+                visible = showTitle,
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
+                Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            }
+        },
+        navigationIcon = {
+            IconButton(
+                modifier = Modifier.semantics {
+                    testTag = SettingsDefaults.BackButtonTestTag
+                },
+                onClick = onBackClick
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowBack,
+                    contentDescription = stringResource(id = R.string.navigate_back),
+                )
+            }
+        },
+        scrollBehavior = scrollBehavior,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LargeAppBar(
+    modifier: Modifier,
+    title: String,
+    showTitle: Boolean = true,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    onBackClick: () -> Unit,
+) {
+    LargeTopAppBar(
         modifier = modifier,
         title = {
             AnimatedVisibility(

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -42,14 +44,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.components.bar.AppBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
@@ -69,22 +74,18 @@ private const val VISIBLE_ITEMS_THRESHOLD = 3
 fun SearchMovies(
     navigator: DestinationsNavigator,
     viewModel: SearchMoviesViewModel = getViewModel(),
+    gridState: LazyGridState = rememberLazyGridState(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current,
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val gridState = rememberLazyGridState()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
     val showTitle by remember { derivedStateOf { scrollBehavior.state.overlappedFraction > 0 } }
-
-    viewModel.error?.run {
-        ErrorBar(
-            error = this,
-            snackbarHostState = snackbarHostState,
-            onDismissed = viewModel::onErrorConsumed,
-        )
-    }
-
+    ErrorBar(
+        error = viewModel.error,
+        snackbarHostState = snackbarHostState,
+        onDismissed = viewModel::onErrorConsumed,
+    )
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -105,71 +106,82 @@ fun SearchMovies(
             ScrollToTop(
                 modifier = Modifier.imePadding(),
                 visible = showScrollToTop,
-                gridState = gridState,
+                gridState = gridState
             )
         },
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .semantics {
-                        testTag = SearchMoviesDefaults.ContentErrorTestTag
-                    }
+                    .semantics { testTag = SearchMoviesDefaults.ContentErrorTestTag }
                     .imePadding()
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
     ) { paddingValues ->
-        Box(
+        Content(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-        ) {
-            MoviesPaginatedGrid(
-                modifier = Modifier.fillMaxSize(),
-                state = gridState,
-                columns = GridCells.Fixed(count = 3),
-                movies = viewModel.movies.collectAsLazyPagingItems(),
-                contentPadding = PaddingValues(
-                    top = 80.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp,
-                ),
-                onClick = { movie ->
-                    keyboardController?.hide()
-                    navigator.navigate(
-                        MovieDetailsDestination(
-                            movieId = movie.id,
-                            movieTitle = movie.title,
-                        )
-                    )
-                },
-                onError = viewModel::onError,
-                progress = {
-                    item(span = { GridItemSpan(currentLineSpan = 3) }) {
-                        Box(
-                            modifier = Modifier
-                                .semantics {
-                                    testTag = SearchMoviesDefaults.ContentLoadingTestTag
-                                }
-                                .fillMaxWidth(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            CircularProgressIndicator()
-                        }
+            search = viewModel.search.collectAsState(initial = "").value,
+            movies = viewModel.movies.collectAsLazyPagingItems(),
+            gridState = gridState,
+            onSearchChange = viewModel::onSearch,
+            onSearchClear = viewModel::onClear,
+            onMovieClick = { movie ->
+                keyboardController?.hide()
+                navigator.navigate(
+                    MovieDetailsDestination(movieId = movie.id, movieTitle = movie.title)
+                )
+            },
+            onError = viewModel::onError,
+        )
+    }
+}
+
+@Composable
+private fun Content(
+    modifier: Modifier,
+    search: String,
+    movies: LazyPagingItems<Movie>,
+    gridState: LazyGridState,
+    onSearchChange: (String) -> Unit,
+    onSearchClear: () -> Unit,
+    onMovieClick: (Movie) -> Unit,
+    onError: (Throwable) -> Unit,
+) {
+    Box(modifier = modifier) {
+        MoviesPaginatedGrid(
+            modifier = Modifier.fillMaxSize(),
+            state = gridState,
+            columns = GridCells.Fixed(count = 3),
+            movies = movies,
+            contentPadding = PaddingValues(top = 80.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+            onClick = onMovieClick,
+            onError = onError,
+            progress = {
+                item(span = { GridItemSpan(currentLineSpan = 3) }) {
+                    Box(
+                        modifier = Modifier
+                            .semantics {
+                                testTag = SearchMoviesDefaults.ContentLoadingTestTag
+                            }
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
-            )
-            SearchField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp, horizontal = 16.dp),
-                value = viewModel.search.collectAsState(initial = "").value,
-                onClear = viewModel::onClear,
-                onValueChange = viewModel::onSearch,
-            )
-        }
+            }
+        )
+        SearchField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp),
+            value = search,
+            onValueChange = onSearchChange,
+            onClear = onSearchClear,
+        )
     }
 }
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -27,9 +28,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.ui.components.bar.AppBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.button.ScrollToTop
@@ -42,7 +45,6 @@ private const val VISIBLE_ITEMS_THRESHOLD = 3
 
 @OptIn(
     ExperimentalMaterial3Api::class,
-    ExperimentalMaterialApi::class,
 )
 @Destination
 @Composable
@@ -91,43 +93,60 @@ fun KeywordMovies(
             )
         },
     ) { paddingValues ->
-        val movies = viewModel.movies.collectAsLazyPagingItems()
-        val isRefreshing = movies.loadState.refresh is LoadState.Loading
-        val refreshState =
-            rememberPullRefreshState(refreshing = isRefreshing, onRefresh = movies::refresh)
-        Box(
+        Content(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues = paddingValues)
-                .pullRefresh(state = refreshState),
-        ) {
-            MoviesPaginatedGrid(
-                modifier = Modifier.fillMaxSize(),
-                state = gridState,
-                columns = GridCells.Fixed(count = 3),
-                movies = movies,
-                onClick = { movie ->
-                    navigator.navigate(
-                        MovieDetailsDestination(
-                            movieId = movie.id,
-                            movieTitle = movie.title,
-                        )
+                .padding(paddingValues = paddingValues),
+            movies = viewModel.movies.collectAsLazyPagingItems(),
+            gridState = gridState,
+            onMovieClick = { movie ->
+                navigator.navigate(
+                    MovieDetailsDestination(
+                        movieId = movie.id,
+                        movieTitle = movie.title,
                     )
-                },
-                onError = viewModel::onError,
-            )
+                )
+            },
+            onError = viewModel::onError,
+        )
+    }
+}
 
-            PullRefreshIndicator(
-                modifier = Modifier
-                    .align(alignment = Alignment.TopCenter)
-                    .semantics {
-                        testTag = KeywordMoviesDefaults.ContentLoadingTestTag
-                        contentDescription = isRefreshing.toString()
-                    },
-                refreshing = isRefreshing,
-                state = refreshState,
-            )
-        }
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun Content(
+    modifier: Modifier,
+    movies: LazyPagingItems<Movie>,
+    gridState: LazyGridState,
+    onMovieClick: (Movie) -> Unit,
+    onError: (Throwable) -> Unit,
+) {
+    val isRefreshing = movies.loadState.refresh is LoadState.Loading
+    val refreshState =
+        rememberPullRefreshState(refreshing = isRefreshing, onRefresh = movies::refresh)
+    Box(
+        modifier = modifier
+            .pullRefresh(state = refreshState),
+    ) {
+        MoviesPaginatedGrid(
+            modifier = Modifier.fillMaxSize(),
+            state = gridState,
+            columns = GridCells.Fixed(count = 3),
+            movies = movies,
+            onClick = onMovieClick,
+            onError = onError,
+        )
+
+        PullRefreshIndicator(
+            modifier = Modifier
+                .align(alignment = Alignment.TopCenter)
+                .semantics {
+                    testTag = KeywordMoviesDefaults.ContentLoadingTestTag
+                    contentDescription = isRefreshing.toString()
+                },
+            refreshing = isRefreshing,
+            state = refreshState,
+        )
     }
 }
 

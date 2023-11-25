@@ -9,18 +9,19 @@ import com.vlohachov.moviespot.R
 
 @Composable
 fun ErrorBar(
-    error: Throwable,
+    error: Throwable?,
     snackbarHostState: SnackbarHostState,
     onDismissed: (() -> Unit)? = null,
     onActionPerformed: (() -> Unit)? = null,
 ) {
+    if (error == null) return
+
     val unknownErrorText = stringResource(id = R.string.unknown_error_local)
 
     LaunchedEffect(snackbarHostState) {
-        val result = snackbarHostState
-            .showSnackbar(message = error.localizedMessage ?: unknownErrorText)
-
-        when (result) {
+        when (
+            snackbarHostState.showSnackbar(message = error.localizedMessage ?: unknownErrorText)
+        ) {
             SnackbarResult.Dismissed -> onDismissed?.invoke()
             SnackbarResult.ActionPerformed -> onActionPerformed?.invoke()
         }
