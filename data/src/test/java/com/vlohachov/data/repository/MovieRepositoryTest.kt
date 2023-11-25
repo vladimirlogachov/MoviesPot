@@ -1,7 +1,10 @@
 package com.vlohachov.data.repository
 
 import com.google.common.truth.Truth
-import com.vlohachov.data.data.*
+import com.vlohachov.data.data.MovieCreditsTestSchema
+import com.vlohachov.data.data.MovieDetailsTestSchema
+import com.vlohachov.data.data.MovieKeywordsTestSchema
+import com.vlohachov.data.data.MoviesTestPaginatedSchema
 import com.vlohachov.data.remote.api.TmdbMovieApi
 import com.vlohachov.data.remote.schema.movie.credit.toDomain
 import com.vlohachov.data.remote.schema.movie.keyword.toDomain

@@ -54,6 +54,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
+private const val VISIBLE_ITEMS_THRESHOLD = 3
+
 @OptIn(
     ExperimentalMaterial3Api::class,
     ExperimentalMaterialApi::class,
@@ -70,7 +72,7 @@ fun KeywordMovies(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
-    val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > 3 } }
+    val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
     viewModel.error?.run {
         ErrorBar(

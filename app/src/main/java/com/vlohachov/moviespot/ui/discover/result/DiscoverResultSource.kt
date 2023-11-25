@@ -28,16 +28,18 @@ class DiscoverResultSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return if (isValidParam()) {
             LoadResult.Page(data = emptyList(), prevKey = null, nextKey = null)
-        } else try {
-            val page = params.key ?: 1
-            val result = loadPage(page = page)
-            LoadResult.Page(
-                data = result.data,
-                prevKey = result.prevKey(),
-                nextKey = result.nextKey(),
-            )
-        } catch (e: Throwable) {
-            LoadResult.Error(e)
+        } else {
+            runCatching { loadPage(page = params.key ?: 1) }
+                .fold(
+                    onSuccess = { result ->
+                        LoadResult.Page(
+                            data = result.data,
+                            prevKey = result.prevKey(),
+                            nextKey = result.nextKey(),
+                        )
+                    },
+                    onFailure = { e -> LoadResult.Error(e) }
+                )
         }
     }
 

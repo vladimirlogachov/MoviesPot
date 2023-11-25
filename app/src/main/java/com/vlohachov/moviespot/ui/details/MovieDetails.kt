@@ -42,7 +42,12 @@ import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
-import com.vlohachov.moviespot.ui.destinations.*
+import com.vlohachov.moviespot.ui.destinations.CastDestination
+import com.vlohachov.moviespot.ui.destinations.CrewDestination
+import com.vlohachov.moviespot.ui.destinations.FullscreenImageDestination
+import com.vlohachov.moviespot.ui.destinations.KeywordMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
+import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import com.vlohachov.moviespot.ui.theme.Typography
 import org.koin.androidx.compose.getViewModel

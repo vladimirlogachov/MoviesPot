@@ -39,9 +39,17 @@ class PagingDataCollector<T : Any>(coroutineContext: CoroutineContext = Dispatch
         private set
 
     private val differCallback = object : DifferCallback {
-        override fun onChanged(position: Int, count: Int) {}
-        override fun onInserted(position: Int, count: Int) {}
-        override fun onRemoved(position: Int, count: Int) {}
+        override fun onChanged(position: Int, count: Int) {
+            // do nothing
+        }
+
+        override fun onInserted(position: Int, count: Int) {
+            // do nothing
+        }
+
+        override fun onRemoved(position: Int, count: Int) {
+            // do nothing
+        }
     }
 
     private val dataDiffer = object : PagingDataDiffer<T>(

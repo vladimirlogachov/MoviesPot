@@ -23,7 +23,14 @@ import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.components.ErrorBar
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
-import com.vlohachov.moviespot.ui.destinations.*
+import com.vlohachov.moviespot.ui.destinations.DiscoverDestination
+import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
+import com.vlohachov.moviespot.ui.destinations.NowPlayingMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.PopularMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.SearchMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.SettingsDestination
+import com.vlohachov.moviespot.ui.destinations.TopRatedMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.UpcomingMoviesDestination
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

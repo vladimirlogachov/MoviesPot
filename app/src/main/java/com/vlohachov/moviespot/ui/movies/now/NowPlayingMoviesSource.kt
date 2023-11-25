@@ -21,19 +21,18 @@ class NowPlayingMoviesSource(private val useCase: NowPlayingUseCase) : PagingSou
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
-        return try {
-            val page = params.key ?: 1
-            val result = loadPage(page = page)
-            LoadResult.Page(
-                data = result.data,
-                prevKey = result.prevKey(),
-                nextKey = result.nextKey(),
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> =
+        runCatching { loadPage(page = params.key ?: 1) }
+            .fold(
+                onSuccess = { result ->
+                    LoadResult.Page(
+                        data = result.data,
+                        prevKey = result.prevKey(),
+                        nextKey = result.nextKey(),
+                    )
+                },
+                onFailure = { e -> LoadResult.Error(e) }
             )
-        } catch (e: Throwable) {
-            LoadResult.Error(e)
-        }
-    }
 
     private fun PaginatedData<Movie>.prevKey(): Int? =
         if (page == 1) null else page.minus(1)

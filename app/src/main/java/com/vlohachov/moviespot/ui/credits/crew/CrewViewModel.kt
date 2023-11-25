@@ -7,7 +7,11 @@ import com.vlohachov.domain.model.movie.credit.CrewMember
 import com.vlohachov.domain.usecase.credits.CrewUseCase
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.core.WhileUiSubscribed
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class CrewViewModel(
