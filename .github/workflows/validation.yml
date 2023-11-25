@@ -17,12 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
       - name: Gradle Cache
         uses: actions/cache@v3
         with:
@@ -30,24 +24,34 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
 
       - name: Assemble
         run: ./gradlew assemble
 
-  test:
+  detekt:
     needs: [ 'assemble' ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Java
-        uses: actions/setup-java@v3
+      - name: Gradle Cache
+        uses: actions/cache@v3
         with:
-          distribution: 'zulu'
-          java-version: '17'
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Detekt
+        run: ./gradlew detekt
+
+  test:
+    needs: [ 'detekt' ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Gradle Cache
         uses: actions/cache@v3
@@ -56,8 +60,6 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
 
       - name: Test
         run: ./gradlew test
