@@ -67,13 +67,11 @@ fun MovieDetails(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
 
-    uiState.error?.run {
-        ErrorBar(
-            error = this,
-            snackbarHostState = snackbarHostState,
-            onDismissed = viewModel::onErrorConsumed,
-        )
-    }
+    ErrorBar(
+        error = uiState.error,
+        snackbarHostState = snackbarHostState,
+        onDismissed = viewModel::onErrorConsumed,
+    )
 
     Scaffold(
         modifier = Modifier

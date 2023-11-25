@@ -41,13 +41,11 @@ fun Settings(
     val uriHandler = LocalUriHandler.current
     val viewState by viewModel.viewState.collectAsState(initial = ViewState.Loading)
 
-    viewModel.error?.run {
-        ErrorBar(
-            error = this,
-            snackbarHostState = snackbarHostState,
-            onDismissed = viewModel::onErrorConsumed,
-        )
-    }
+    ErrorBar(
+        error = viewModel.error,
+        snackbarHostState = snackbarHostState,
+        onDismissed = viewModel::onErrorConsumed,
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

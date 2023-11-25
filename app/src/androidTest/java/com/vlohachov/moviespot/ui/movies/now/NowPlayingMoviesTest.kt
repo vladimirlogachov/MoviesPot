@@ -1,6 +1,7 @@
 package com.vlohachov.moviespot.ui.movies.now
 
 import android.content.Context
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
@@ -26,8 +27,8 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.moviespot.ui.movies.Movies
+import com.vlohachov.moviespot.ui.movies.MoviesDefaults
 import com.vlohachov.moviespot.ui.movies.MoviesViewModel
-import com.vlohachov.moviespot.ui.movies.NowPlayingMoviesDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
@@ -37,6 +38,7 @@ import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 
+@ExperimentalMaterial3Api
 class NowPlayingMoviesTest {
 
     @get:Rule
@@ -131,7 +133,7 @@ class NowPlayingMoviesTest {
         }
 
         onNodeWithTag(
-            testTag = NowPlayingMoviesDefaults.ContentErrorTestTag,
+            testTag = MoviesDefaults.ContentErrorTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -143,7 +145,7 @@ class NowPlayingMoviesTest {
             .onChildren()
             .assertCountEquals(expectedSize = 0)
         onNodeWithTag(
-            testTag = NowPlayingMoviesDefaults.ContentLoadingTestTag,
+            testTag = MoviesDefaults.ContentLoadingTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
@@ -175,7 +177,7 @@ class NowPlayingMoviesTest {
         }
 
         onNodeWithTag(
-            testTag = NowPlayingMoviesDefaults.ContentErrorTestTag,
+            testTag = MoviesDefaults.ContentErrorTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -187,7 +189,7 @@ class NowPlayingMoviesTest {
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size)
         onNodeWithTag(
-            testTag = NowPlayingMoviesDefaults.ContentLoadingTestTag,
+            testTag = MoviesDefaults.ContentLoadingTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
@@ -286,7 +288,7 @@ class NowPlayingMoviesTest {
         }
 
         onNodeWithTag(
-            testTag = NowPlayingMoviesDefaults.ContentErrorTestTag,
+            testTag = MoviesDefaults.ContentErrorTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
@@ -298,7 +300,7 @@ class NowPlayingMoviesTest {
             .onChildren()
             .assertCountEquals(expectedSize = 0)
         onNodeWithTag(
-            testTag = NowPlayingMoviesDefaults.ContentLoadingTestTag,
+            testTag = MoviesDefaults.ContentLoadingTestTag,
             useUnmergedTree = true
         ).assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
@@ -342,12 +344,12 @@ class NowPlayingMoviesTest {
             .assertIsDisplayed()
             .performScrollToIndex(index = largeList.size - 1)
 
-        onNodeWithTag(testTag = NowPlayingMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = MoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No ScrollToTop component found.")
             .assertIsDisplayed()
             .performClick()
 
-        onNodeWithTag(testTag = NowPlayingMoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = MoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
     }
 }
