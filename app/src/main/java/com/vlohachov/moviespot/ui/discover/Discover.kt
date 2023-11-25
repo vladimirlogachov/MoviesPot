@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material3.*
@@ -28,7 +27,8 @@ import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyGenres
 import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.ErrorBar
+import com.vlohachov.moviespot.ui.components.bar.AppBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.getViewModel
@@ -63,8 +63,9 @@ fun Discover(
         topBar = {
             AppBar(
                 modifier = Modifier.fillMaxWidth(),
+                title = stringResource(id = R.string.discover),
                 scrollBehavior = scrollBehavior,
-                onBack = {
+                onBackClick = {
                     keyboardController?.hide()
                     navigator.navigateUp()
                 }
@@ -155,33 +156,6 @@ private fun Content(
             Text(text = stringResource(id = R.string.discover_movies))
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun AppBar(
-    modifier: Modifier,
-    scrollBehavior: TopAppBarScrollBehavior,
-    onBack: () -> Unit,
-) {
-    CenterAlignedTopAppBar(
-        modifier = modifier,
-        title = { Text(text = stringResource(id = R.string.discover)) },
-        navigationIcon = {
-            IconButton(
-                modifier = Modifier.semantics {
-                    testTag = DiscoverDefaults.BackButtonTestTag
-                },
-                onClick = onBack
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.ArrowBack,
-                    contentDescription = null,
-                )
-            }
-        },
-        scrollBehavior = scrollBehavior,
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

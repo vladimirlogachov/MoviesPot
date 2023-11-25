@@ -2,8 +2,6 @@ package com.vlohachov.moviespot.ui.settings
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,8 +25,9 @@ import com.vlohachov.domain.model.settings.Settings
 import com.vlohachov.moviespot.BuildConfig
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.ErrorBar
-import com.vlohachov.moviespot.ui.components.ErrorBarDefaults
+import com.vlohachov.moviespot.ui.components.bar.AppBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBarDefaults
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,34 +49,27 @@ fun Settings(
         )
     }
 
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        CenterAlignedTopAppBar(
-            modifier = Modifier.fillMaxWidth(),
-            title = { Text(text = stringResource(id = R.string.settings)) },
-            navigationIcon = {
-                IconButton(
-                    modifier = Modifier.semantics {
-                        testTag = SettingsDefaults.BackButtonTestTag
-                    },
-                    onClick = navigator::navigateUp,
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.ArrowBack,
-                        contentDescription = null,
-                    )
-                }
-            },
-        )
-    }, snackbarHost = {
-        SnackbarHost(
-            modifier = Modifier
-                .semantics {
-                    testTag = ErrorBarDefaults.ErrorTestTag
-                }
-                .navigationBarsPadding(),
-            hostState = snackbarHostState,
-        )
-    }) { paddingValues ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            AppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(id = R.string.settings),
+                onBackClick = navigator::navigateUp,
+            )
+
+        },
+        snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier
+                    .semantics {
+                        testTag = ErrorBarDefaults.ErrorTestTag
+                    }
+                    .navigationBarsPadding(),
+                hostState = snackbarHostState,
+            )
+        }
+    ) { paddingValues ->
         Content(
             modifier = Modifier
                 .semantics {
@@ -111,6 +103,7 @@ private fun Content(
             ViewState.Loading -> CircularProgressIndicator(modifier = Modifier.semantics {
                 testTag = SettingsDefaults.LoadingTestTag
             })
+
             is ViewState.Error -> viewState.error?.run(onError)
             is ViewState.Success -> Row(
                 modifier = Modifier

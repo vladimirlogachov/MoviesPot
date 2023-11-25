@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.components
+package com.vlohachov.moviespot.ui.components.button
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -20,7 +20,7 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 @Composable
-fun MoreButton(
+fun More(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     tint: Color = MaterialTheme.colorScheme.primary,
@@ -29,13 +29,13 @@ fun MoreButton(
         IconButton(
             modifier = modifier
                 .semantics {
-                    testTag = MoreButtonDefaults.MoreButtonTestTag
+                    testTag = MoreDefaults.ButtonTestTag
                 },
             onClick = onClick,
         ) {
             Icon(
                 modifier = Modifier.semantics {
-                    testTag = MoreButtonDefaults.IconTestTag
+                    testTag = MoreDefaults.IconTestTag
                 },
                 imageVector = Icons.Rounded.ArrowForward,
                 contentDescription = stringResource(id = R.string.more),
@@ -44,9 +44,9 @@ fun MoreButton(
     }
 }
 
-object MoreButtonDefaults {
+object MoreDefaults {
 
-    const val MoreButtonTestTag = "more_button"
+    const val ButtonTestTag = "more_button"
     const val IconTestTag = "more_button_icon"
 }
 
@@ -54,7 +54,7 @@ object MoreButtonDefaults {
 @Composable
 fun MoreButtonPreview() {
     MoviesPotTheme {
-        MoreButton(
+        More(
             modifier = Modifier.padding(all = 16.dp),
             onClick = { },
         )

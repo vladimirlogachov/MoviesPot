@@ -2,8 +2,6 @@ package com.vlohachov.moviespot.ui.image
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,6 +13,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
+import com.vlohachov.moviespot.ui.components.bar.AppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -26,16 +25,10 @@ fun FullscreenImage(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                }
+            AppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = "",
+                onBackClick = navigator::navigateUp,
             )
         }
     ) { paddingValues ->

@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.components
+package com.vlohachov.moviespot.ui.components.bar
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult

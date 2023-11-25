@@ -21,7 +21,7 @@ import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.MoreButton
+import com.vlohachov.moviespot.ui.components.button.More
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionColors
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
@@ -45,7 +45,7 @@ fun MoviesSection(
     val moreButton: @Composable (() -> Unit)? =
         if (onMore != null && isNotEmpty) {
             @Composable {
-                MoreButton(
+                More(
                     modifier = Modifier.semantics {
                         testTag = MoviesSectionDefaults.MoreButtonTestTag
                     },

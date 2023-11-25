@@ -21,7 +21,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.components.ErrorBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.destinations.DiscoverDestination
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
@@ -50,59 +50,14 @@ fun Main(
             .fillMaxSize()
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            MainAppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        fontFamily = FontFamily(Font(resId = R.font.chalkduster))
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            testTag = MainScreenDefaults.SearchButtonTestTag
-                        },
-                        onClick = { navigator.navigate(SearchMoviesDestination) },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Search,
-                            contentDescription = stringResource(id = R.string.search),
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(
-                        modifier = Modifier.semantics {
-                            testTag = MainScreenDefaults.SettingsButtonTestTag
-                        },
-                        onClick = { navigator.navigate(SettingsDestination) },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Settings,
-                            contentDescription = stringResource(id = R.string.settings),
-                        )
-                    }
-                },
                 scrollBehavior = scrollBehavior,
+                navigator = navigator,
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                modifier = Modifier.semantics {
-                    testTag = MainScreenDefaults.DiscoverButtonTestTag
-                },
-                text = {
-                    Text(text = stringResource(id = R.string.discover))
-                },
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_round_movie_filter_24),
-                        contentDescription = stringResource(id = R.string.discover),
-                    )
-                },
-                onClick = { navigator.navigate(DiscoverDestination) },
-            )
+            Discover(navigator = navigator)
         },
         snackbarHost = {
             SnackbarHost(
@@ -127,18 +82,7 @@ fun Main(
                     onDismissed = viewModel::onErrorConsumed,
                 )
             },
-            onSeeDetails = { movie ->
-                navigator.navigate(
-                    MovieDetailsDestination(
-                        movieId = movie.id,
-                        movieTitle = movie.title,
-                    )
-                )
-            },
-            onMoreUpcoming = { navigator.navigate(UpcomingMoviesDestination) },
-            onMoreNowPlaying = { navigator.navigate(NowPlayingMoviesDestination) },
-            onMorePopular = { navigator.navigate(PopularMoviesDestination) },
-            onMoreTopRated = { navigator.navigate(TopRatedMoviesDestination) },
+            navigator = navigator
         )
     }
 }
@@ -148,12 +92,11 @@ private fun Content(
     modifier: Modifier,
     viewState: MainViewState,
     onError: @Composable (error: Throwable) -> Unit,
-    onSeeDetails: (movie: Movie) -> Unit,
-    onMoreUpcoming: () -> Unit,
-    onMoreNowPlaying: () -> Unit,
-    onMorePopular: () -> Unit,
-    onMoreTopRated: () -> Unit,
+    navigator: DestinationsNavigator,
 ) {
+    val onSeeDetails: (Movie) -> Unit = { movie ->
+        navigator.navigate(MovieDetailsDestination(movieId = movie.id, movieTitle = movie.title))
+    }
     Box(
         modifier = modifier,
         contentAlignment = Alignment.TopCenter,
@@ -172,7 +115,7 @@ private fun Content(
                     title = stringResource(id = R.string.upcoming),
                     viewState = viewState.upcomingViewState,
                     onMovieClick = onSeeDetails,
-                    onMore = onMoreUpcoming,
+                    onMore = { navigator.navigate(UpcomingMoviesDestination) }
                 )
             }
             item {
@@ -181,7 +124,7 @@ private fun Content(
                     title = stringResource(id = R.string.now_playing),
                     viewState = viewState.nowPlayingViewState,
                     onMovieClick = onSeeDetails,
-                    onMore = onMoreNowPlaying,
+                    onMore = { navigator.navigate(NowPlayingMoviesDestination) }
                 )
             }
             item {
@@ -190,7 +133,7 @@ private fun Content(
                     title = stringResource(id = R.string.popular),
                     viewState = viewState.popularViewState,
                     onMovieClick = onSeeDetails,
-                    onMore = onMorePopular,
+                    onMore = { navigator.navigate(PopularMoviesDestination) },
                 )
             }
             item {
@@ -199,7 +142,7 @@ private fun Content(
                     title = stringResource(id = R.string.top_rated),
                     viewState = viewState.topRatedViewState,
                     onMovieClick = onSeeDetails,
-                    onMore = onMoreTopRated,
+                    onMore = { navigator.navigate(TopRatedMoviesDestination) },
                 )
             }
         }
@@ -208,6 +151,70 @@ private fun Content(
             onError(this)
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MainAppBar(
+    modifier: Modifier,
+    scrollBehavior: TopAppBarScrollBehavior,
+    navigator: DestinationsNavigator,
+) {
+    CenterAlignedTopAppBar(
+        modifier = modifier,
+        title = {
+            Text(
+                text = stringResource(id = R.string.app_name),
+                fontFamily = FontFamily(Font(resId = R.font.chalkduster))
+            )
+        },
+        navigationIcon = {
+            IconButton(
+                modifier = Modifier.semantics {
+                    testTag = MainScreenDefaults.SearchButtonTestTag
+                },
+                onClick = { navigator.navigate(SearchMoviesDestination) },
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Search,
+                    contentDescription = stringResource(id = R.string.search),
+                )
+            }
+        },
+        actions = {
+            IconButton(
+                modifier = Modifier.semantics {
+                    testTag = MainScreenDefaults.SettingsButtonTestTag
+                },
+                onClick = { navigator.navigate(SettingsDestination) },
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Settings,
+                    contentDescription = stringResource(id = R.string.settings),
+                )
+            }
+        },
+        scrollBehavior = scrollBehavior,
+    )
+}
+
+@Composable
+private fun Discover(navigator: DestinationsNavigator) {
+    ExtendedFloatingActionButton(
+        modifier = Modifier.semantics {
+            testTag = MainScreenDefaults.DiscoverButtonTestTag
+        },
+        text = {
+            Text(text = stringResource(id = R.string.discover))
+        },
+        icon = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_round_movie_filter_24),
+                contentDescription = stringResource(id = R.string.discover),
+            )
+        },
+        onClick = { navigator.navigate(DiscoverDestination) },
+    )
 }
 
 object MainScreenDefaults {

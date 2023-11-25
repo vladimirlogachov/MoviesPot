@@ -1,10 +1,5 @@
 package com.vlohachov.moviespot.ui.movies.upcoming
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,30 +8,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -46,10 +32,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.components.ErrorBar
+import com.vlohachov.moviespot.ui.components.bar.AppBar
+import com.vlohachov.moviespot.ui.components.bar.ErrorBar
+import com.vlohachov.moviespot.ui.components.button.ScrollToTop
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
@@ -67,7 +54,6 @@ fun UpcomingMovies(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
-    val coroutineScope = rememberCoroutineScope()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
     viewModel.error?.run {
@@ -83,44 +69,15 @@ fun UpcomingMovies(
             .fillMaxSize()
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
+            AppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = {
-                    Text(text = stringResource(id = R.string.upcoming))
-                },
-                navigationIcon = {
-                    IconButton(onClick = navigator::navigateUp) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = null,
-                        )
-                    }
-                },
+                title = stringResource(id = R.string.upcoming),
                 scrollBehavior = scrollBehavior,
+                onBackClick = navigator::navigateUp,
             )
         },
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = showScrollToTop,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut(),
-            ) {
-                FloatingActionButton(
-                    modifier = Modifier.semantics {
-                        testTag = UpcomingMoviesDefaults.ScrollToTopTestTag
-                    },
-                    onClick = {
-                        coroutineScope.launch {
-                            gridState.scrollToItem(index = 0)
-                        }
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_round_arrow_upward_24),
-                        contentDescription = stringResource(id = R.string.scroll_to_top),
-                    )
-                }
-            }
+            ScrollToTop(visible = showScrollToTop, gridState = gridState)
         },
         snackbarHost = {
             SnackbarHost(
