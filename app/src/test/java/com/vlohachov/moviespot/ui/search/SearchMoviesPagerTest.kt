@@ -2,7 +2,7 @@ package com.vlohachov.moviespot.ui.search
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.domain.usecase.SearchMoviesUseCase
+import com.vlohachov.domain.usecase.SearchMovies
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
@@ -11,10 +11,10 @@ import org.junit.Test
 
 class SearchMoviesPagerTest {
 
-    private val useCase = mockk<SearchMoviesUseCase>()
+    private val useCase = mockk<SearchMovies>()
 
     private val pager by lazy {
-        every { useCase.resultFlow(param = any()) } returns flowOf()
+        every { useCase(param = any()) } returns flowOf()
 
         SearchMoviesPager(useCase = useCase)
     }

@@ -1,134 +1,71 @@
 package com.vlohachov.moviespot.di
 
-import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
-import com.vlohachov.domain.usecase.GenresUseCase
-import com.vlohachov.domain.usecase.SearchMoviesUseCase
-import com.vlohachov.domain.usecase.credits.CastUseCase
-import com.vlohachov.domain.usecase.credits.CrewUseCase
-import com.vlohachov.domain.usecase.credits.DirectorUseCase
-import com.vlohachov.domain.usecase.movie.MovieCreditsUseCase
-import com.vlohachov.domain.usecase.movie.MovieDetailsUseCase
-import com.vlohachov.domain.usecase.movie.MovieKeywordsUseCase
-import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase
-import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
-import com.vlohachov.domain.usecase.movie.list.PopularUseCase
-import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
-import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
-import com.vlohachov.domain.usecase.settings.ApplyDynamicThemeUseCase
-import com.vlohachov.domain.usecase.settings.GetSettingsUseCase
+import com.vlohachov.domain.usecase.DiscoverMovies
+import com.vlohachov.domain.usecase.LoadGenres
+import com.vlohachov.domain.usecase.SearchMovies
+import com.vlohachov.domain.usecase.credits.LoadCast
+import com.vlohachov.domain.usecase.credits.LoadCrew
+import com.vlohachov.domain.usecase.credits.LoadDirector
+import com.vlohachov.domain.usecase.movie.LoadCredits
+import com.vlohachov.domain.usecase.movie.LoadDetails
+import com.vlohachov.domain.usecase.movie.LoadKeywords
+import com.vlohachov.domain.usecase.movie.LoadMoviesByCategory
+import com.vlohachov.domain.usecase.movie.LoadRecommendations
+import com.vlohachov.domain.usecase.settings.ApplyDynamicTheme
+import com.vlohachov.domain.usecase.settings.LoadSettings
 import org.koin.dsl.module
 
 val useCaseModule = module {
 
     single {
-        GenresUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadGenres(repository = get())
     }
 
     single {
-        UpcomingUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadMoviesByCategory(repository = get())
     }
 
     single {
-        NowPlayingUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadDetails(repository = get())
     }
 
     single {
-        PopularUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadCredits(repository = get())
     }
 
     single {
-        TopRatedUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadDirector(repository = get())
     }
 
     single {
-        MovieDetailsUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadCast(repository = get())
     }
 
     single {
-        MovieCreditsUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadCrew(repository = get())
     }
 
     single {
-        DirectorUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadRecommendations(repository = get())
     }
 
     single {
-        CastUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadKeywords(repository = get())
     }
 
     single {
-        CrewUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        SearchMovies(repository = get())
     }
 
     single {
-        MovieRecommendationsUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        DiscoverMovies(repository = get())
     }
 
     single {
-        MovieKeywordsUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        LoadSettings(repository = get())
     }
 
     single {
-        SearchMoviesUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
-    }
-
-    single {
-        DiscoverMoviesUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
-    }
-
-    single {
-        GetSettingsUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
-    }
-
-    single {
-        ApplyDynamicThemeUseCase(
-            coroutineContext = get(),
-            repository = get(),
-        )
+        ApplyDynamicTheme(repository = get())
     }
 }

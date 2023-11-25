@@ -29,4 +29,5 @@ class SimilarMoviesViewModel(pager: SimilarMoviesPager) : ViewModel() {
             error = null
         }
     }
+
 }

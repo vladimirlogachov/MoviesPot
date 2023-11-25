@@ -26,4 +26,5 @@ class DiscoverResultViewModel(pager: DiscoverResultPager) : ViewModel() {
             this@DiscoverResultViewModel.error = null
         }
     }
+
 }

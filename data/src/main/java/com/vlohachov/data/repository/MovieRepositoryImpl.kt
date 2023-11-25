@@ -20,40 +20,18 @@ import kotlinx.coroutines.flow.map
 
 class MovieRepositoryImpl(private val remote: TmdbMovieApi) : MovieRepository {
 
-    override fun getUpcomingMovies(
+    override fun getMoviesByCategory(
+        category: String,
         page: Int,
         language: String?,
         region: String?
     ): Flow<PaginatedData<Movie>> = flow {
-        remote.getUpcomingMovies(page = page, language = language, region = region)
-            .also { response -> emit(value = response) }
-    }.map(MoviesPaginatedSchema::toDomain)
-
-    override fun getNowPlayingMovies(
-        page: Int,
-        language: String?,
-        region: String?
-    ): Flow<PaginatedData<Movie>> = flow {
-        remote.getNowPlayingMovies(page = page, language = language, region = region)
-            .also { response -> emit(value = response) }
-    }.map(MoviesPaginatedSchema::toDomain)
-
-    override fun getPopularMovies(
-        page: Int,
-        language: String?,
-        region: String?
-    ): Flow<PaginatedData<Movie>> = flow {
-        remote.getPopularMovies(page = page, language = language, region = region)
-            .also { response -> emit(value = response) }
-    }.map(MoviesPaginatedSchema::toDomain)
-
-    override fun getTopRatedMovies(
-        page: Int,
-        language: String?,
-        region: String?,
-    ): Flow<PaginatedData<Movie>> = flow {
-        remote.getTopRatedMovies(page = page, language = language, region = region)
-            .also { response -> emit(value = response) }
+        remote.getMoviesByCategory(
+            category = category,
+            page = page,
+            language = language,
+            region = region
+        ).also { response -> emit(value = response) }
     }.map(MoviesPaginatedSchema::toDomain)
 
     override fun getMovieDetails(id: Long, language: String?): Flow<MovieDetails> = flow {

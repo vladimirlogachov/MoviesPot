@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.movie.credit.CrewMember
-import com.vlohachov.domain.usecase.credits.CrewUseCase
+import com.vlohachov.domain.usecase.credits.LoadCrew
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestMovieCredits
 import com.vlohachov.moviespot.util.TestDispatcherRule
@@ -20,14 +20,14 @@ class CrewViewModelTest {
     @get:Rule
     val dispatcherRule = TestDispatcherRule()
 
-    private val crew = mockk<CrewUseCase>()
+    private val crew = mockk<LoadCrew>()
 
     private val crewFlow = MutableStateFlow<Result<List<CrewMember>>>(value = Result.Loading)
 
     private val viewModel by lazy {
-        every { crew.resultFlow(param = any()) } returns crewFlow
+        every { crew(param = any()) } returns crewFlow
 
-        CrewViewModel(movieId = 0, crew = crew)
+        CrewViewModel(movieId = 0, loadCrew = crew)
     }
 
     @Test

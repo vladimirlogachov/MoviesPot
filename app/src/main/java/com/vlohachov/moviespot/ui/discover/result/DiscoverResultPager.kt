@@ -2,12 +2,12 @@ package com.vlohachov.moviespot.ui.discover.result
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
+import com.vlohachov.domain.usecase.DiscoverMovies
 
 class DiscoverResultPager(
     year: Int?,
     selectedGenres: IntArray?,
-    useCase: DiscoverMoviesUseCase,
+    useCase: DiscoverMovies,
     config: PagingConfig = PagingConfig(pageSize = 20),
 ) {
 
@@ -18,4 +18,5 @@ class DiscoverResultPager(
             useCase = useCase,
         )
     }.flow
+
 }

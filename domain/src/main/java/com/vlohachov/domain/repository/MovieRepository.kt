@@ -9,25 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    fun getUpcomingMovies(
-        page: Int,
-        language: String?,
-        region: String?,
-    ): Flow<PaginatedData<Movie>>
-
-    fun getNowPlayingMovies(
-        page: Int,
-        language: String?,
-        region: String?,
-    ): Flow<PaginatedData<Movie>>
-
-    fun getPopularMovies(
-        page: Int,
-        language: String?,
-        region: String?,
-    ): Flow<PaginatedData<Movie>>
-
-    fun getTopRatedMovies(
+    fun getMoviesByCategory(
+        category: String,
         page: Int,
         language: String?,
         region: String?,

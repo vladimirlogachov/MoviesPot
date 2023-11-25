@@ -26,18 +26,20 @@ class MovieRepositoryTest {
     private val repository: MovieRepository = MovieRepositoryImpl(remote = api)
 
     @Test
-    fun `get upcoming movies success`() = runTest {
+    fun `get movies success`() = runTest {
         val expected = MoviesTestPaginatedSchema.toDomain()
 
         coEvery {
-            api.getUpcomingMovies(
+            api.getMoviesByCategory(
+                category = any(),
                 page = any(),
                 language = any(),
                 region = any(),
             )
         } returns MoviesTestPaginatedSchema
 
-        val actual = repository.getUpcomingMovies(
+        val actual = repository.getMoviesByCategory(
+            category = "category",
             page = 1,
             language = null,
             region = null,
@@ -47,130 +49,18 @@ class MovieRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `get upcoming movies failure`() = runTest {
+    fun `get movies failure`() = runTest {
         coEvery {
-            api.getUpcomingMovies(
+            api.getMoviesByCategory(
+                category = any(),
                 page = any(),
                 language = any(),
                 region = any(),
             )
         } throws Exception()
 
-        repository.getUpcomingMovies(
-            page = 1,
-            language = null,
-            region = null,
-        ).first()
-    }
-
-    @Test
-    fun `get now playing movies success`() = runTest {
-        val expected = MoviesTestPaginatedSchema.toDomain()
-
-        coEvery {
-            api.getNowPlayingMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } returns MoviesTestPaginatedSchema
-
-        val actual = repository.getNowPlayingMovies(
-            page = 1,
-            language = null,
-            region = null,
-        ).first()
-
-        Truth.assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test(expected = Exception::class)
-    fun `get now playing movies failure`() = runTest {
-        coEvery {
-            api.getNowPlayingMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } throws Exception()
-
-        repository.getNowPlayingMovies(
-            page = 1,
-            language = null,
-            region = null,
-        ).first()
-    }
-
-    @Test
-    fun `get popular movies success`() = runTest {
-        val expected = MoviesTestPaginatedSchema.toDomain()
-
-        coEvery {
-            api.getPopularMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } returns MoviesTestPaginatedSchema
-
-        val actual = repository.getPopularMovies(
-            page = 1,
-            language = null,
-            region = null,
-        ).first()
-
-        Truth.assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test(expected = Exception::class)
-    fun `get popular movies failure`() = runTest {
-        coEvery {
-            api.getPopularMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } throws Exception()
-
-        repository.getPopularMovies(
-            page = 1,
-            language = null,
-            region = null,
-        ).first()
-    }
-
-    @Test
-    fun `get top rated movies success`() = runTest {
-        val expected = MoviesTestPaginatedSchema.toDomain()
-
-        coEvery {
-            api.getTopRatedMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } returns MoviesTestPaginatedSchema
-
-        val actual = repository.getTopRatedMovies(
-            page = 1,
-            language = null,
-            region = null,
-        ).first()
-
-        Truth.assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test(expected = Exception::class)
-    fun `get top rated movies failure`() = runTest {
-        coEvery {
-            api.getTopRatedMovies(
-                page = any(),
-                language = any(),
-                region = any(),
-            )
-        } throws Exception()
-
-        repository.getTopRatedMovies(
+        repository.getMoviesByCategory(
+            category = "category",
             page = 1,
             language = null,
             region = null,

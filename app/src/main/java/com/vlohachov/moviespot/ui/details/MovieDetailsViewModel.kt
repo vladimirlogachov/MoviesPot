@@ -2,75 +2,41 @@ package com.vlohachov.moviespot.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.model.movie.MovieDetails
-import com.vlohachov.domain.model.movie.keyword.Keyword
-import com.vlohachov.domain.usecase.credits.DirectorUseCase
-import com.vlohachov.domain.usecase.movie.MovieDetailsUseCase
-import com.vlohachov.domain.usecase.movie.MovieKeywordsUseCase
-import com.vlohachov.domain.usecase.movie.MovieRecommendationsUseCase
-import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.domain.usecase.credits.LoadDirector
+import com.vlohachov.domain.usecase.movie.LoadDetails
+import com.vlohachov.domain.usecase.movie.LoadKeywords
+import com.vlohachov.domain.usecase.movie.LoadRecommendations
 import com.vlohachov.moviespot.core.WhileUiSubscribed
-import kotlinx.coroutines.flow.*
+import com.vlohachov.moviespot.core.toViewState
+import com.vlohachov.moviespot.core.toViewStatePaginated
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
     movieId: Long,
-    movieDetails: MovieDetailsUseCase,
-    director: DirectorUseCase,
-    keywords: MovieKeywordsUseCase,
-    movieRecommendations: MovieRecommendationsUseCase,
+    loadDetails: LoadDetails,
+    loadDirector: LoadDirector,
+    loadKeywords: LoadKeywords,
+    loadRecommendations: LoadRecommendations,
 ) : ViewModel() {
 
     private val error = MutableStateFlow<Throwable?>(value = null)
 
-    private val detailsResult: Flow<Result<MovieDetails>> =
-        movieDetails.resultFlow(param = MovieDetailsUseCase.Param(id = movieId))
-    private val directorResult: Flow<Result<String>> =
-        director.resultFlow(param = DirectorUseCase.Param(id = movieId))
-    private val keywordsResult: Flow<Result<List<Keyword>>> =
-        keywords.resultFlow(param = MovieKeywordsUseCase.Param(id = movieId))
-    private val recommendationsResult: Flow<Result<PaginatedData<Movie>>> =
-        movieRecommendations.resultFlow(param = MovieRecommendationsUseCase.Param(id = movieId))
-
     val uiState: StateFlow<MovieDetailsViewState> = combine(
-        detailsResult,
-        directorResult,
-        keywordsResult,
-        recommendationsResult,
+        loadDetails(param = LoadDetails.Param(id = movieId)),
+        loadDirector(param = LoadDirector.Param(id = movieId)),
+        loadKeywords(param = LoadKeywords.Param(id = movieId)),
+        loadRecommendations(param = LoadRecommendations.Param(id = movieId)),
         error,
-    ) { detailsResult, directorResult, keywordsResult, recommendationsResult, error ->
-        val detailsViewState = when (detailsResult) {
-            Result.Loading -> ViewState.Loading
-            is Result.Error -> ViewState.Error(error = detailsResult.exception)
-            is Result.Success -> ViewState.Success(data = detailsResult.value)
-        }
-
-        val directorViewState = when (directorResult) {
-            Result.Loading -> ViewState.Loading
-            is Result.Error -> ViewState.Error(error = directorResult.exception)
-            is Result.Success -> ViewState.Success(data = directorResult.value)
-        }
-
-        val keywordsViewState = when (keywordsResult) {
-            Result.Loading -> ViewState.Loading
-            is Result.Error -> ViewState.Error(error = keywordsResult.exception)
-            is Result.Success -> ViewState.Success(data = keywordsResult.value)
-        }
-
-        val recommendationsViewState = when (recommendationsResult) {
-            Result.Loading -> ViewState.Loading
-            is Result.Error -> ViewState.Error(error = recommendationsResult.exception)
-            is Result.Success -> ViewState.Success(data = recommendationsResult.value.data)
-        }
-
+    ) { details, director, keywords, recommendations, error ->
         MovieDetailsViewState(
-            detailsViewState = detailsViewState,
-            directorViewState = directorViewState,
-            keywordsViewState = keywordsViewState,
-            recommendationsViewState = recommendationsViewState,
+            detailsViewState = details.toViewState(),
+            directorViewState = director.toViewState(),
+            keywordsViewState = keywords.toViewState(),
+            recommendationsViewState = recommendations.toViewStatePaginated(),
             error = error,
         )
     }.stateIn(
@@ -86,4 +52,5 @@ class MovieDetailsViewModel(
     fun onErrorConsumed() {
         viewModelScope.launch { this@MovieDetailsViewModel.error.emit(value = null) }
     }
+
 }

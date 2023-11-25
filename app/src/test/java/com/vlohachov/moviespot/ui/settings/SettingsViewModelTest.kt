@@ -4,8 +4,8 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.settings.Settings
-import com.vlohachov.domain.usecase.settings.ApplyDynamicThemeUseCase
-import com.vlohachov.domain.usecase.settings.GetSettingsUseCase
+import com.vlohachov.domain.usecase.settings.ApplyDynamicTheme
+import com.vlohachov.domain.usecase.settings.LoadSettings
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestSettings
 import com.vlohachov.moviespot.util.TestDispatcherRule
@@ -26,13 +26,13 @@ class SettingsViewModelTest {
     @get:Rule
     val dispatcherRule = TestDispatcherRule(dispatcher = UnconfinedTestDispatcher())
 
-    private val getSettings = mockk<GetSettingsUseCase>()
-    private val applyDynamicTheme = mockk<ApplyDynamicThemeUseCase>()
+    private val getSettings = mockk<LoadSettings>()
+    private val applyDynamicTheme = mockk<ApplyDynamicTheme>()
 
     private val settingsFlow = MutableStateFlow<Result<Settings>>(value = Result.Loading)
 
     private val viewModel by lazy {
-        every { getSettings.resultFlow(param = Unit) } returns settingsFlow
+        every { getSettings(param = Unit) } returns settingsFlow
 
         SettingsViewModel(
             getSettings = getSettings,
@@ -79,15 +79,15 @@ class SettingsViewModelTest {
 
     @Test
     fun `apply dynamic theme`() = runTest {
-        val param = ApplyDynamicThemeUseCase.Param(apply = true)
+        val param = ApplyDynamicTheme.Param(apply = true)
 
         every {
-            applyDynamicTheme.resultFlow(param = param)
+            applyDynamicTheme(param = param)
         } returns flowOf(value = Result.Success(value = param.apply))
 
         viewModel.applyDynamicTheme(apply = param.apply)
 
-        verify(exactly = 1) { applyDynamicTheme.resultFlow(param = any()) }
+        verify(exactly = 1) { applyDynamicTheme(param = any()) }
     }
 
     @Test

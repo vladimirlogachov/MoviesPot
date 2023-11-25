@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.SearchMoviesUseCase
+import com.vlohachov.domain.usecase.SearchMovies
 import com.vlohachov.moviespot.data.TestPaginatedData
 import io.mockk.every
 import io.mockk.mockk
@@ -14,7 +14,7 @@ import org.junit.Test
 
 class SearchMoviesSourceTest {
 
-    private val useCase = mockk<SearchMoviesUseCase>()
+    private val useCase = mockk<SearchMovies>()
 
     @Test
     fun `movies empty query loading success`() = runTest {
@@ -24,7 +24,7 @@ class SearchMoviesSourceTest {
             nextKey = null,
         )
 
-        every { useCase.resultFlow(param = any()) } returns flowOf(Result.Success(value = TestPaginatedData))
+        every { useCase(param = any()) } returns flowOf(Result.Success(value = TestPaginatedData))
 
         val actual = SearchMoviesSource(query = "", useCase = useCase)
             .load(
@@ -46,7 +46,7 @@ class SearchMoviesSourceTest {
             nextKey = null,
         )
 
-        every { useCase.resultFlow(param = any()) } returns flowOf(Result.Success(value = TestPaginatedData))
+        every { useCase(param = any()) } returns flowOf(Result.Success(value = TestPaginatedData))
 
         val actual = SearchMoviesSource(query = "test", useCase = useCase)
             .load(
@@ -66,7 +66,7 @@ class SearchMoviesSourceTest {
 
         val expected = PagingSource.LoadResult.Error<Int, Movie>(throwable = exception)
 
-        every { useCase.resultFlow(param = any()) } returns flowOf(Result.Error(exception = exception))
+        every { useCase(param = any()) } returns flowOf(Result.Error(exception = exception))
 
         val actual = SearchMoviesSource(query = "test", useCase = useCase)
             .load(

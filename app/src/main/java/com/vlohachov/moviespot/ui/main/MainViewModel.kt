@@ -2,84 +2,33 @@ package com.vlohachov.moviespot.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.movie.list.NowPlayingUseCase
-import com.vlohachov.domain.usecase.movie.list.PopularUseCase
-import com.vlohachov.domain.usecase.movie.list.TopRatedUseCase
-import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
-import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.domain.model.movie.MovieCategory
+import com.vlohachov.domain.usecase.movie.LoadMoviesByCategory
 import com.vlohachov.moviespot.core.WhileUiSubscribed
-import kotlinx.coroutines.flow.*
+import com.vlohachov.moviespot.core.toViewStatePaginated
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    upcoming: UpcomingUseCase,
-    nowPlaying: NowPlayingUseCase,
-    popular: PopularUseCase,
-    topRated: TopRatedUseCase,
-) : ViewModel() {
+class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ViewModel() {
 
     private val error = MutableStateFlow<Throwable?>(value = null)
 
-    private val upcomingResult: Flow<Result<PaginatedData<Movie>>> =
-        upcoming.resultFlow(param = UpcomingUseCase.Param())
-
-    private val nowPlayingResult: Flow<Result<PaginatedData<Movie>>> =
-        nowPlaying.resultFlow(param = NowPlayingUseCase.Param())
-
-    private val popularResult: Flow<Result<PaginatedData<Movie>>> =
-        popular.resultFlow(param = PopularUseCase.Param())
-
-    private val topRatedResult: Flow<Result<PaginatedData<Movie>>> =
-        topRated.resultFlow(param = TopRatedUseCase.Param())
-
     val uiState: StateFlow<MainViewState> = combine(
-        upcomingResult,
-        nowPlayingResult,
-        popularResult,
-        topRatedResult,
+        loadMoviesByCategory(param = LoadMoviesByCategory.Param(category = MovieCategory.UPCOMING)),
+        loadMoviesByCategory(param = LoadMoviesByCategory.Param(category = MovieCategory.NOW_PLAYING)),
+        loadMoviesByCategory(param = LoadMoviesByCategory.Param(category = MovieCategory.POPULAR)),
+        loadMoviesByCategory(param = LoadMoviesByCategory.Param(category = MovieCategory.TOP_RATED)),
         error,
-    ) { upcomingResult, nowPlayingResult, popularResult, topRatedResult, error ->
-        val upcomingViewState = when (upcomingResult) {
-            Result.Loading ->
-                ViewState.Loading
-            is Result.Error ->
-                ViewState.Error(error = upcomingResult.exception)
-            is Result.Success ->
-                ViewState.Success(data = upcomingResult.value.data)
-        }
-        val nowPlayingViewState = when (nowPlayingResult) {
-            Result.Loading ->
-                ViewState.Loading
-            is Result.Error ->
-                ViewState.Error(error = nowPlayingResult.exception)
-            is Result.Success ->
-                ViewState.Success(data = nowPlayingResult.value.data)
-        }
-        val popularViewState = when (popularResult) {
-            Result.Loading ->
-                ViewState.Loading
-            is Result.Error ->
-                ViewState.Error(error = popularResult.exception)
-            is Result.Success ->
-                ViewState.Success(data = popularResult.value.data)
-        }
-        val topRatedViewState = when (topRatedResult) {
-            Result.Loading ->
-                ViewState.Loading
-            is Result.Error ->
-                ViewState.Error(error = topRatedResult.exception)
-            is Result.Success ->
-                ViewState.Success(data = topRatedResult.value.data)
-        }
+    ) { upcoming, nowPlaying, popular, topRated, error ->
 
         MainViewState(
-            upcomingViewState = upcomingViewState,
-            nowPlayingViewState = nowPlayingViewState,
-            popularViewState = popularViewState,
-            topRatedViewState = topRatedViewState,
+            upcomingViewState = upcoming.toViewStatePaginated(),
+            nowPlayingViewState = nowPlaying.toViewStatePaginated(),
+            popularViewState = popular.toViewStatePaginated(),
+            topRatedViewState = topRated.toViewStatePaginated(),
             error = error,
         )
     }.stateIn(
@@ -95,4 +44,5 @@ class MainViewModel(
     fun onErrorConsumed() {
         viewModelScope.launch { error.emit(value = null) }
     }
+
 }

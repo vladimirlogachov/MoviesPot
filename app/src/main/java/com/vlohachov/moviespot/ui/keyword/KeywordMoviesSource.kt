@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
+import com.vlohachov.domain.usecase.DiscoverMovies
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onEach
 
 class KeywordMoviesSource(
     private val keywordId: Int,
-    private val useCase: DiscoverMoviesUseCase,
+    private val useCase: DiscoverMovies,
 ) : PagingSource<Int, Movie>() {
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
@@ -44,14 +44,15 @@ class KeywordMoviesSource(
         if (page >= totalPages) null else page.plus(1)
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> {
-        val param = DiscoverMoviesUseCase.Param(
+        val param = DiscoverMovies.Param(
             keywords = listOf(element = keywordId),
             page = page,
         )
-        return useCase.resultFlow(param = param)
+        return useCase(param = param)
             .filter { result -> result !is Result.Loading }
             .onEach { result -> if (result is Result.Error) throw result.exception }
             .map { result -> (result as Result.Success).value }
             .first()
     }
+
 }

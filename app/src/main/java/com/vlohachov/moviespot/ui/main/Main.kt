@@ -2,6 +2,7 @@ package com.vlohachov.moviespot.ui.main
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
@@ -20,17 +21,16 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.domain.model.movie.MovieCategory
 import com.vlohachov.moviespot.R
+import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.movie.MoviesSection
 import com.vlohachov.moviespot.ui.destinations.DiscoverDestination
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
-import com.vlohachov.moviespot.ui.destinations.NowPlayingMoviesDestination
-import com.vlohachov.moviespot.ui.destinations.PopularMoviesDestination
+import com.vlohachov.moviespot.ui.destinations.MoviesDestination
 import com.vlohachov.moviespot.ui.destinations.SearchMoviesDestination
 import com.vlohachov.moviespot.ui.destinations.SettingsDestination
-import com.vlohachov.moviespot.ui.destinations.TopRatedMoviesDestination
-import com.vlohachov.moviespot.ui.destinations.UpcomingMoviesDestination
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,40 +109,13 @@ private fun Content(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item {
+            items(MovieCategory.values()) { category ->
                 MoviesSection(
                     modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(id = R.string.upcoming),
-                    viewState = viewState.upcomingViewState,
+                    title = stringResource(id = category.textResId()),
+                    viewState = viewState.moviesState(category = category),
                     onMovieClick = onSeeDetails,
-                    onMore = { navigator.navigate(UpcomingMoviesDestination) }
-                )
-            }
-            item {
-                MoviesSection(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(id = R.string.now_playing),
-                    viewState = viewState.nowPlayingViewState,
-                    onMovieClick = onSeeDetails,
-                    onMore = { navigator.navigate(NowPlayingMoviesDestination) }
-                )
-            }
-            item {
-                MoviesSection(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(id = R.string.popular),
-                    viewState = viewState.popularViewState,
-                    onMovieClick = onSeeDetails,
-                    onMore = { navigator.navigate(PopularMoviesDestination) },
-                )
-            }
-            item {
-                MoviesSection(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(id = R.string.top_rated),
-                    viewState = viewState.topRatedViewState,
-                    onMovieClick = onSeeDetails,
-                    onMore = { navigator.navigate(TopRatedMoviesDestination) },
+                    onMore = { navigator.navigate(MoviesDestination(category = category)) },
                 )
             }
         }
@@ -216,6 +189,21 @@ private fun Discover(navigator: DestinationsNavigator) {
         onClick = { navigator.navigate(DiscoverDestination) },
     )
 }
+
+private fun MovieCategory.textResId(): Int = when (this) {
+    MovieCategory.UPCOMING -> R.string.upcoming
+    MovieCategory.NOW_PLAYING -> R.string.now_playing
+    MovieCategory.POPULAR -> R.string.popular
+    MovieCategory.TOP_RATED -> R.string.top_rated
+}
+
+private fun MainViewState.moviesState(category: MovieCategory): ViewState<List<Movie>> =
+    when (category) {
+        MovieCategory.UPCOMING -> this.upcomingViewState
+        MovieCategory.NOW_PLAYING -> this.nowPlayingViewState
+        MovieCategory.POPULAR -> this.popularViewState
+        MovieCategory.TOP_RATED -> this.topRatedViewState
+    }
 
 object MainScreenDefaults {
 

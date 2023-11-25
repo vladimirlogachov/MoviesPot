@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
 import com.vlohachov.domain.model.movie.credit.CastMember
-import com.vlohachov.domain.usecase.credits.CastUseCase
+import com.vlohachov.domain.usecase.credits.LoadCast
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestMovieCredits
 import com.vlohachov.moviespot.util.TestDispatcherRule
@@ -20,14 +20,14 @@ class CastViewModelTest {
     @get:Rule
     val dispatcherRule = TestDispatcherRule()
 
-    private val cast = mockk<CastUseCase>()
+    private val cast = mockk<LoadCast>()
 
     private val castFlow = MutableStateFlow<Result<List<CastMember>>>(value = Result.Loading)
 
     private val viewModel by lazy {
-        every { cast.resultFlow(param = any()) } returns castFlow
+        every { cast(param = any()) } returns castFlow
 
-        CastViewModel(movieId = 0, cast = cast)
+        CastViewModel(movieId = 0, loadCast = cast)
     }
 
     @Test
