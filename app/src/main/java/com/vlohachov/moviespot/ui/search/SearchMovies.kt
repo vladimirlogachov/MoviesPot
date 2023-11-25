@@ -50,7 +50,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -123,18 +122,14 @@ fun SearchMovies(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-            search = viewModel.search.collectAsState(initial = "").value,
-            movies = viewModel.movies.collectAsLazyPagingItems(),
+            viewModel = viewModel,
             gridState = gridState,
-            onSearchChange = viewModel::onSearch,
-            onSearchClear = viewModel::onClear,
             onMovieClick = { movie ->
                 keyboardController?.hide()
                 navigator.navigate(
                     MovieDetailsDestination(movieId = movie.id, movieTitle = movie.title)
                 )
             },
-            onError = viewModel::onError,
         )
     }
 }
@@ -142,23 +137,19 @@ fun SearchMovies(
 @Composable
 private fun Content(
     modifier: Modifier,
-    search: String,
-    movies: LazyPagingItems<Movie>,
+    viewModel: SearchMoviesViewModel,
     gridState: LazyGridState,
-    onSearchChange: (String) -> Unit,
-    onSearchClear: () -> Unit,
     onMovieClick: (Movie) -> Unit,
-    onError: (Throwable) -> Unit,
 ) {
     Box(modifier = modifier) {
         MoviesPaginatedGrid(
             modifier = Modifier.fillMaxSize(),
             state = gridState,
             columns = GridCells.Fixed(count = 3),
-            movies = movies,
+            movies = viewModel.movies.collectAsLazyPagingItems(),
             contentPadding = PaddingValues(top = 80.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
             onClick = onMovieClick,
-            onError = onError,
+            onError = viewModel::onError,
             progress = {
                 item(span = { GridItemSpan(currentLineSpan = 3) }) {
                     Box(
@@ -178,9 +169,9 @@ private fun Content(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 16.dp),
-            value = search,
-            onValueChange = onSearchChange,
-            onClear = onSearchClear,
+            value = viewModel.search.collectAsState(initial = "").value,
+            onValueChange = viewModel::onSearch,
+            onClear = viewModel::onClear,
         )
     }
 }
