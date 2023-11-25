@@ -26,7 +26,7 @@ class ApplyDynamicThemeUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         coJustRun { repository.applyDynamicTheme(apply = any()) }
 
         useCase.resultFlow(param = TestParam).test {
@@ -40,7 +40,7 @@ class ApplyDynamicThemeUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Value`() = runTest {
+    fun `result flow emits Value`() = runTest {
         coJustRun { repository.applyDynamicTheme(apply = any()) }
 
         useCase.resultFlow(param = TestParam).test {
@@ -56,7 +56,7 @@ class ApplyDynamicThemeUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         coEvery { repository.applyDynamicTheme(apply = any()) } throws NullPointerException()
 
         useCase.resultFlow(param = TestParam).test {
@@ -69,4 +69,5 @@ class ApplyDynamicThemeUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

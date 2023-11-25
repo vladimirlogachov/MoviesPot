@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.usecase
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.DiscoverRepository
 import com.vlohachov.domain.usecase.DiscoverMoviesUseCase
 import com.vlohachov.moviespot.data.TestPaginatedData
 import io.mockk.every
@@ -20,7 +20,7 @@ class DiscoverMoviesUseCaseTest {
         val TestParam = DiscoverMoviesUseCase.Param()
     }
 
-    private val repository = mockk<MoviesRepository>()
+    private val repository = mockk<DiscoverRepository>()
 
     private val useCase = DiscoverMoviesUseCase(
         coroutineContext = Dispatchers.IO,
@@ -28,7 +28,7 @@ class DiscoverMoviesUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         every {
             repository.discoverMovies(
                 page = any(),
@@ -50,7 +50,7 @@ class DiscoverMoviesUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success`() = runTest {
+    fun `result flow emits Success`() = runTest {
         every {
             repository.discoverMovies(
                 page = any(),
@@ -74,7 +74,7 @@ class DiscoverMoviesUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         every {
             repository.discoverMovies(
                 page = any(),
@@ -95,4 +95,5 @@ class DiscoverMoviesUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

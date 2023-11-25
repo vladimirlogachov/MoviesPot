@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.usecase.movie
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import com.vlohachov.domain.usecase.movie.MovieKeywordsUseCase
 import com.vlohachov.moviespot.data.TestKeywords
 import io.mockk.every
@@ -20,7 +20,7 @@ class MovieKeywordsUseCaseTest {
         val TestParam = MovieKeywordsUseCase.Param(id = 0)
     }
 
-    private val repository = mockk<MoviesRepository>()
+    private val repository = mockk<MovieRepository>()
 
     private val useCase = MovieKeywordsUseCase(
         coroutineContext = Dispatchers.IO,
@@ -28,7 +28,7 @@ class MovieKeywordsUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         every { repository.getMovieKeywords(id = any()) } returns flowOf(TestKeywords)
 
         useCase.resultFlow(param = TestParam).test {
@@ -42,7 +42,7 @@ class MovieKeywordsUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success`() = runTest {
+    fun `result flow emits Success`() = runTest {
         every { repository.getMovieKeywords(id = any()) } returns flowOf(TestKeywords)
 
         useCase.resultFlow(param = TestParam).test {
@@ -58,7 +58,7 @@ class MovieKeywordsUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         every { repository.getMovieKeywords(id = any()) } returns flow { throw NullPointerException() }
 
         useCase.resultFlow(param = TestParam).test {
@@ -71,4 +71,5 @@ class MovieKeywordsUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

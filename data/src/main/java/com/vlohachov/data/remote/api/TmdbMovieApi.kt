@@ -1,6 +1,6 @@
-package com.vlohachov.data.remote
+package com.vlohachov.data.remote.api
 
-import com.vlohachov.data.remote.schema.genre.GenresSchema
+import com.vlohachov.data.remote.TmdbConfig
 import com.vlohachov.data.remote.schema.movie.MovieDetailsSchema
 import com.vlohachov.data.remote.schema.movie.MoviesPaginatedSchema
 import com.vlohachov.data.remote.schema.movie.credit.MovieCreditsSchema
@@ -9,13 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface TmdbApi {
-
-    @GET("/3/genre/movie/list")
-    suspend fun getGenres(
-        @Query("language") language: String?,
-        @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
-    ): GenresSchema
+interface TmdbMovieApi {
 
     @GET("/3/movie/upcoming")
     suspend fun getUpcomingMovies(
@@ -77,21 +71,4 @@ interface TmdbApi {
         @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
     ): MovieKeywordsSchema
 
-    @GET("/3/search/movie")
-    suspend fun searchMovies(
-        @Query("query") query: String,
-        @Query("page") page: Int,
-        @Query("language") language: String?,
-        @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
-    ): MoviesPaginatedSchema
-
-    @GET("/3/discover/movie")
-    suspend fun discoverMovies(
-        @Query("page") page: Int,
-        @Query("year") year: Int?,
-        @Query("with_genres") genres: String?,
-        @Query("with_keywords") keywords: String?,
-        @Query("language") language: String?,
-        @Query("api_key") apiKey: String = TmdbConfig.API_KEY,
-    ): MoviesPaginatedSchema
 }

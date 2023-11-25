@@ -24,7 +24,7 @@ class GetSettingsUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
         useCase.resultFlow(param = Unit).test {
@@ -38,7 +38,7 @@ class GetSettingsUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Value`() = runTest {
+    fun `result flow emits Value`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
         useCase.resultFlow(param = Unit).test {
@@ -54,7 +54,7 @@ class GetSettingsUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         every { repository.getSettings() } returns flow { throw NullPointerException() }
 
         useCase.resultFlow(param = Unit).test {
@@ -67,4 +67,5 @@ class GetSettingsUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

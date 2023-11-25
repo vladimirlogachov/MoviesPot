@@ -1,14 +1,14 @@
 package com.vlohachov.domain.usecase.credits
 
 import com.vlohachov.domain.core.UseCase
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
 
 class DirectorUseCase(
     coroutineContext: CoroutineContext,
-    private val repository: MoviesRepository,
+    private val repository: MovieRepository,
 ) : UseCase<DirectorUseCase.Param, String>(coroutineContext = coroutineContext) {
 
     private companion object {

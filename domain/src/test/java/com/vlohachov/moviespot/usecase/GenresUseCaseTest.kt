@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.usecase
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.GenreRepository
 import com.vlohachov.domain.usecase.GenresUseCase
 import com.vlohachov.moviespot.data.TestGenres
 import io.mockk.every
@@ -20,7 +20,7 @@ class GenresUseCaseTest {
         val TestParam = GenresUseCase.Param()
     }
 
-    private val repository = mockk<MoviesRepository>()
+    private val repository = mockk<GenreRepository>()
 
     private val useCase = GenresUseCase(
         coroutineContext = Dispatchers.IO,
@@ -28,7 +28,7 @@ class GenresUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
 
         useCase.resultFlow(param = TestParam).test {
@@ -42,7 +42,7 @@ class GenresUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success with all genres`() = runTest {
+    fun `result flow emits Success with all genres`() = runTest {
         every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
 
         useCase.resultFlow(param = TestParam).test {
@@ -58,7 +58,7 @@ class GenresUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success with n genres`() = runTest {
+    fun `result flow emits Success with n genres`() = runTest {
         val genresToTake = 1
 
         every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
@@ -76,7 +76,7 @@ class GenresUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         every { repository.getGenres(language = any()) } returns flow { throw NullPointerException() }
 
         useCase.resultFlow(param = TestParam).test {
@@ -89,4 +89,5 @@ class GenresUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

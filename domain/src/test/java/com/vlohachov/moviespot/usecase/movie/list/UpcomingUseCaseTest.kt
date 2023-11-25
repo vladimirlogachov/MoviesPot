@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.usecase.movie.list
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import com.vlohachov.domain.usecase.movie.list.UpcomingUseCase
 import com.vlohachov.moviespot.data.TestPaginatedData
 import io.mockk.every
@@ -20,7 +20,7 @@ class UpcomingUseCaseTest {
         val TestParam = UpcomingUseCase.Param()
     }
 
-    private val repository = mockk<MoviesRepository>()
+    private val repository = mockk<MovieRepository>()
 
     private val useCase = UpcomingUseCase(
         coroutineContext = Dispatchers.IO,
@@ -28,7 +28,7 @@ class UpcomingUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         every {
             repository.getUpcomingMovies(
                 page = any(),
@@ -48,7 +48,7 @@ class UpcomingUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success`() = runTest {
+    fun `result flow emits Success`() = runTest {
         every {
             repository.getUpcomingMovies(
                 page = any(),
@@ -70,7 +70,7 @@ class UpcomingUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         every {
             repository.getUpcomingMovies(
                 page = any(),
@@ -89,4 +89,5 @@ class UpcomingUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

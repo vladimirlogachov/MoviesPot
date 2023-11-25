@@ -2,7 +2,7 @@ package com.vlohachov.domain.usecase
 
 import com.vlohachov.domain.core.UseCase
 import com.vlohachov.domain.model.genre.Genre
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.GenreRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
@@ -10,7 +10,7 @@ import kotlin.coroutines.CoroutineContext
 
 class GenresUseCase(
     coroutineContext: CoroutineContext,
-    private val repository: MoviesRepository,
+    private val repository: GenreRepository,
 ) : UseCase<GenresUseCase.Param, List<Genre>>(coroutineContext = coroutineContext) {
 
     data class Param(val count: Int = -1, val language: String? = null)

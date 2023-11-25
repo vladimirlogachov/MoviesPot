@@ -2,12 +2,11 @@ package com.vlohachov.data.repository
 
 import com.google.common.truth.Truth
 import com.vlohachov.data.data.*
-import com.vlohachov.data.remote.TmdbApi
-import com.vlohachov.data.remote.schema.genre.toDomain
+import com.vlohachov.data.remote.api.TmdbMovieApi
 import com.vlohachov.data.remote.schema.movie.credit.toDomain
 import com.vlohachov.data.remote.schema.movie.keyword.toDomain
 import com.vlohachov.data.remote.schema.movie.toDomain
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
@@ -17,33 +16,14 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class MoviesRepositoryTest {
+class MovieRepositoryTest {
 
-    private val api = mockk<TmdbApi>()
+    private val api = mockk<TmdbMovieApi>()
 
-    private val repository: MoviesRepository = MoviesRepositoryImpl(remote = api)
-
-    @Test
-    fun `Get genres success`() = runTest {
-        val expected = GenresTestSchema.toDomain()
-
-        coEvery { api.getGenres(language = any()) } returns GenresTestSchema
-
-        val actual = repository.getGenres(language = null).first()
-
-        Truth.assertThat(actual).isNotEmpty()
-        Truth.assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test(expected = Exception::class)
-    fun `Get genres failure`() = runTest {
-        coEvery { api.getGenres(language = any()) } throws Exception()
-
-        repository.getGenres(language = null).first()
-    }
+    private val repository: MovieRepository = MovieRepositoryImpl(remote = api)
 
     @Test
-    fun `Get upcoming movies success`() = runTest {
+    fun `get upcoming movies success`() = runTest {
         val expected = MoviesTestPaginatedSchema.toDomain()
 
         coEvery {
@@ -64,7 +44,7 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get upcoming movies failure`() = runTest {
+    fun `get upcoming movies failure`() = runTest {
         coEvery {
             api.getUpcomingMovies(
                 page = any(),
@@ -81,7 +61,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `Get now playing movies success`() = runTest {
+    fun `get now playing movies success`() = runTest {
         val expected = MoviesTestPaginatedSchema.toDomain()
 
         coEvery {
@@ -102,7 +82,7 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get now playing movies failure`() = runTest {
+    fun `get now playing movies failure`() = runTest {
         coEvery {
             api.getNowPlayingMovies(
                 page = any(),
@@ -119,7 +99,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `Get popular movies success`() = runTest {
+    fun `get popular movies success`() = runTest {
         val expected = MoviesTestPaginatedSchema.toDomain()
 
         coEvery {
@@ -140,7 +120,7 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get popular movies failure`() = runTest {
+    fun `get popular movies failure`() = runTest {
         coEvery {
             api.getPopularMovies(
                 page = any(),
@@ -157,7 +137,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `Get top rated movies success`() = runTest {
+    fun `get top rated movies success`() = runTest {
         val expected = MoviesTestPaginatedSchema.toDomain()
 
         coEvery {
@@ -178,7 +158,7 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get top rated movies failure`() = runTest {
+    fun `get top rated movies failure`() = runTest {
         coEvery {
             api.getTopRatedMovies(
                 page = any(),
@@ -195,7 +175,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `Get movie details success`() = runTest {
+    fun `get movie details success`() = runTest {
         val expected = MovieDetailsTestSchema.toDomain()
 
         coEvery {
@@ -214,7 +194,7 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get movie details failure`() = runTest {
+    fun `get movie details failure`() = runTest {
         coEvery {
             api.getMovieDetails(
                 id = any(),
@@ -229,7 +209,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `Get movie credits success`() = runTest {
+    fun `get movie credits success`() = runTest {
         val expected = MovieCreditsTestSchema.toDomain()
 
         coEvery {
@@ -248,7 +228,7 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get movie credits failure`() = runTest {
+    fun `get movie credits failure`() = runTest {
         coEvery {
             api.getMovieCredits(
                 id = any(),
@@ -263,7 +243,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `Get movie recommendations success`() = runTest {
+    fun `get movie recommendations success`() = runTest {
         val expected = MoviesTestPaginatedSchema.toDomain()
 
         coEvery {
@@ -284,7 +264,7 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get movie recommendations failure`() = runTest {
+    fun `get movie recommendations failure`() = runTest {
         coEvery {
             api.getMovieRecommendations(
                 id = any(),
@@ -301,7 +281,7 @@ class MoviesRepositoryTest {
     }
 
     @Test
-    fun `Get movie keywords success`() = runTest {
+    fun `get movie keywords success`() = runTest {
         val expected = MovieKeywordsTestSchema.toDomain()
 
         coEvery { api.getMovieKeywords(id = any()) } returns MovieKeywordsTestSchema
@@ -312,93 +292,10 @@ class MoviesRepositoryTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Get movie keywords failure`() = runTest {
+    fun `get movie keywords failure`() = runTest {
         coEvery { api.getMovieKeywords(id = any()) } throws Exception()
 
         repository.getMovieKeywords(id = 1).first()
     }
 
-    @Test
-    fun `Search movies success`() = runTest {
-        val expected = MoviesTestPaginatedSchema.toDomain()
-
-        coEvery {
-            api.searchMovies(
-                page = any(),
-                query = any(),
-                language = any(),
-            )
-        } returns MoviesTestPaginatedSchema
-
-        val actual = repository.searchMovies(
-            page = 1,
-            query = "",
-            language = null,
-        ).first()
-
-        Truth.assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test(expected = Exception::class)
-    fun `Search movies failure`() = runTest {
-        coEvery {
-            api.searchMovies(
-                page = any(),
-                query = any(),
-                language = any(),
-            )
-        } throws Exception()
-
-        repository.searchMovies(
-            page = 1,
-            query = "",
-            language = null,
-        ).first()
-    }
-
-    @Test
-    fun `Discover movies success`() = runTest {
-        val expected = MoviesTestPaginatedSchema.toDomain()
-
-        coEvery {
-            api.discoverMovies(
-                page = any(),
-                year = any(),
-                genres = any(),
-                keywords = any(),
-                language = any(),
-            )
-        } returns MoviesTestPaginatedSchema
-
-        val actual = repository.discoverMovies(
-            page = 1,
-            year = null,
-            genres = null,
-            keywords = null,
-            language = null,
-        ).first()
-
-        Truth.assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test(expected = Exception::class)
-    fun `Discover movies failure`() = runTest {
-        coEvery {
-            api.discoverMovies(
-                page = any(),
-                year = any(),
-                genres = any(),
-                keywords = any(),
-                language = any(),
-            )
-        } throws Exception()
-
-        repository.discoverMovies(
-            page = 1,
-            year = null,
-            genres = null,
-            keywords = null,
-            language = null,
-        ).first()
-    }
 }

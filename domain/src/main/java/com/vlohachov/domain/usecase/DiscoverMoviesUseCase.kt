@@ -3,13 +3,13 @@ package com.vlohachov.domain.usecase
 import com.vlohachov.domain.core.UseCase
 import com.vlohachov.domain.model.PaginatedData
 import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.DiscoverRepository
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
 
 class DiscoverMoviesUseCase(
     coroutineContext: CoroutineContext,
-    private val repository: MoviesRepository,
+    private val repository: DiscoverRepository,
 ) : UseCase<DiscoverMoviesUseCase.Param, PaginatedData<Movie>>(coroutineContext = coroutineContext) {
 
     private companion object {

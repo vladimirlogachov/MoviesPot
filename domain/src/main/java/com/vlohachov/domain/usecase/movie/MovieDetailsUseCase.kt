@@ -2,13 +2,13 @@ package com.vlohachov.domain.usecase.movie
 
 import com.vlohachov.domain.core.UseCase
 import com.vlohachov.domain.model.movie.MovieDetails
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
 
 class MovieDetailsUseCase(
     coroutineContext: CoroutineContext,
-    private val repository: MoviesRepository,
+    private val repository: MovieRepository,
 ) : UseCase<MovieDetailsUseCase.Param, MovieDetails>(coroutineContext = coroutineContext) {
 
     data class Param(

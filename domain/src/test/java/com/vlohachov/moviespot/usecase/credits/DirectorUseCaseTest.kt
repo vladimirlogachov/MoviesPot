@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.usecase.credits
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import com.vlohachov.domain.usecase.credits.DirectorUseCase
 import com.vlohachov.moviespot.data.TestCrewMember
 import com.vlohachov.moviespot.data.TestMovieCredits
@@ -25,7 +25,7 @@ class DirectorUseCaseTest {
         )
     }
 
-    private val repository = mockk<MoviesRepository>()
+    private val repository = mockk<MovieRepository>()
 
     private val useCase = DirectorUseCase(
         coroutineContext = Dispatchers.IO,
@@ -33,7 +33,7 @@ class DirectorUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         every {
             repository.getMovieCredits(
                 id = any(),
@@ -52,7 +52,7 @@ class DirectorUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success with director name`() = runTest {
+    fun `result flow emits Success with director name`() = runTest {
         every {
             repository.getMovieCredits(
                 id = any(),
@@ -73,7 +73,7 @@ class DirectorUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success without director name`() = runTest {
+    fun `result flow emits Success without director name`() = runTest {
         every {
             repository.getMovieCredits(
                 id = any(),
@@ -94,7 +94,7 @@ class DirectorUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         every {
             repository.getMovieCredits(
                 id = any(),
@@ -112,4 +112,5 @@ class DirectorUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

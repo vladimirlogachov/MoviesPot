@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.usecase.credits
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.domain.Result
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import com.vlohachov.domain.usecase.credits.CastUseCase
 import com.vlohachov.moviespot.data.TestMovieCredits
 import io.mockk.every
@@ -20,7 +20,7 @@ class CastUseCaseTest {
         val TestParam = CastUseCase.Param(id = 0)
     }
 
-    private val repository = mockk<MoviesRepository>()
+    private val repository = mockk<MovieRepository>()
 
     private val useCase = CastUseCase(
         coroutineContext = Dispatchers.IO,
@@ -28,7 +28,7 @@ class CastUseCaseTest {
     )
 
     @Test
-    fun `Result flow emits Loading`() = runTest {
+    fun `result flow emits Loading`() = runTest {
         every {
             repository.getMovieCredits(
                 id = any(),
@@ -47,7 +47,7 @@ class CastUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Success`() = runTest {
+    fun `result flow emits Success`() = runTest {
         every {
             repository.getMovieCredits(
                 id = any(),
@@ -68,7 +68,7 @@ class CastUseCaseTest {
     }
 
     @Test
-    fun `Result flow emits Error`() = runTest {
+    fun `result flow emits Error`() = runTest {
         every {
             repository.getMovieCredits(
                 id = any(),
@@ -86,4 +86,5 @@ class CastUseCaseTest {
             Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
+
 }

@@ -2,14 +2,14 @@ package com.vlohachov.domain.usecase.credits
 
 import com.vlohachov.domain.core.UseCase
 import com.vlohachov.domain.model.movie.credit.CastMember
-import com.vlohachov.domain.repository.MoviesRepository
+import com.vlohachov.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
 
 class CastUseCase(
     coroutineContext: CoroutineContext,
-    private val repository: MoviesRepository,
+    private val repository: MovieRepository,
 ) : UseCase<CastUseCase.Param, List<CastMember>>(coroutineContext = coroutineContext) {
 
     data class Param(val id: Long, val language: String? = null)
