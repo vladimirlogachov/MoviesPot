@@ -423,7 +423,7 @@ class MovieDetailsTest {
             .assertIsDisplayed()
             .assertHasClickAction()
             .performClick()
-        onNodeWithTag(testTag = MoviesLazyRowDefaults.MoviesLazyRowTestTag)
+        onNodeWithTag(testTag = MoviesLazyRowDefaults.MoviesLazyRowTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Movies component found.")
             .assertIsDisplayed()
             .onChildren()

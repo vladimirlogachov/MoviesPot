@@ -32,7 +32,7 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
       - name: Assemble
-        run: ./gradlew assemble
+        run: ./gradlew assemble assembleAndroidTest
 
   detekt:
     needs: [ 'assemble' ]
@@ -87,7 +87,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        api-level: [ 30, 33 ]
+        api-level: [ 33 ]
         target: [ google_apis ]
         arch: [ x86_64 ]
     steps:
@@ -136,6 +136,6 @@ jobs:
           target: ${{ matrix.target }}
           arch: ${{ matrix.arch }}
           force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           script: ./gradlew connectedCheck

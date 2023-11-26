@@ -151,7 +151,10 @@ class MainScreenTest {
             }
         }
 
-        val moreButtons = onAllNodesWithTag(testTag = MoviesSectionDefaults.MoreButtonTestTag)
+        val moreButtons = onAllNodesWithTag(
+            testTag = MoviesSectionDefaults.MoreButtonTestTag,
+            useUnmergedTree = true,
+        )
             .assertCountEquals(expectedSize = 4)
 
         repeat(times = 4) { index ->
@@ -177,7 +180,7 @@ class MainScreenTest {
             }
         }
 
-        onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag)
+        onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
             .assertCountEquals(expectedSize = TestMovies.size)
             .onFirst()
             .assertHasClickAction()
