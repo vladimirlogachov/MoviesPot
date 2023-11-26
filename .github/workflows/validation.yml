@@ -88,8 +88,8 @@ jobs:
     strategy:
       matrix:
         api-level: [ '30', '33' ]
-        #        target: [ 'google_apis' ]
-        #        arch: [ 'arm64-v8a' ]
+        target: [ 'google_apis' ]
+        arch: [ 'arm64-v8a' ]
         profile: [ 'Pixel 4' ]
     steps:
       - name: Checkout
@@ -125,8 +125,8 @@ jobs:
           ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 5
         with:
           api-level: ${{ matrix.api-level }}
-          #          target: ${{ matrix.target }}
-          #          arch: ${{ matrix.arch }}
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
           profile: ${{ matrix.profile }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
@@ -137,8 +137,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          #          target: ${{ matrix.target }}
-          #          arch: ${{ matrix.arch }}
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
           profile: ${{ matrix.profile }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
