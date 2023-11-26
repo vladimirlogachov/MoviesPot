@@ -1,8 +1,16 @@
 package com.vlohachov.moviespot.ui.main
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
@@ -100,6 +108,8 @@ class MainScreenTest {
         onNodeWithTag(testTag = MainScreenDefaults.ErrorBarTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
+
+        mainClock.advanceTimeBy(milliseconds = 4_000)
 
         verify(exactly = 1) { viewModel.onErrorConsumed() }
     }

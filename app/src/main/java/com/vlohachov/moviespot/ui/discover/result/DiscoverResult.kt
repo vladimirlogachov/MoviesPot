@@ -154,5 +154,4 @@ object DiscoverResultDefaults {
 
     const val ContentLoadingTestTag = "content_loading"
     const val ContentErrorTestTag = "content_error"
-    const val ScrollToTopTestTag = "scroll_to_top"
 }

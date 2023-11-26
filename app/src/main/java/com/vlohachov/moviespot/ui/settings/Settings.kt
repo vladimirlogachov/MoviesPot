@@ -176,7 +176,6 @@ private fun Author(
 
 object SettingsDefaults {
 
-    const val BackButtonTestTag = "back_button"
     const val ContentTestTag = "settings_content"
     const val LoadingTestTag = "settings_loading"
     const val DynamicThemeTestTag = "settings_dynamic_theme"

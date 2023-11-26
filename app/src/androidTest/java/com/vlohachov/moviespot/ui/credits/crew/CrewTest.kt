@@ -1,14 +1,23 @@
 package com.vlohachov.moviespot.ui.credits.crew
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToIndex
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.movie.credit.CrewMember
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestCrewMembers
+import com.vlohachov.moviespot.ui.components.button.ScrollToTopDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
@@ -123,6 +132,8 @@ class CrewTest {
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
 
+        mainClock.advanceTimeBy(milliseconds = 4_000)
+
         verify(exactly = 1) { viewModel.onErrorConsumed() }
     }
 
@@ -168,12 +179,12 @@ class CrewTest {
             .assertIsDisplayed()
             .performScrollToIndex(index = largeList.size - 1)
 
-        onNodeWithTag(testTag = CrewDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = ScrollToTopDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No ScrollToTop component found.")
             .assertIsDisplayed()
             .performClick()
 
-        onNodeWithTag(testTag = CrewDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = ScrollToTopDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
     }
 }

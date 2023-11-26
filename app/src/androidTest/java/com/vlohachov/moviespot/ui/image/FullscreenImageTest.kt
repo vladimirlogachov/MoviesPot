@@ -1,10 +1,11 @@
 package com.vlohachov.moviespot.ui.image
 
 import android.content.Context
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
@@ -33,38 +34,28 @@ class FullscreenImageTest {
     fun imageLoadedTest(): Unit = with(composeRule) {
         setContent {
             MoviesPotTheme {
-                FullscreenImage(
-                    navigator = navigator,
-                    path = TestImage,
-                )
+                FullscreenImage(navigator = navigator, path = TestImage)
             }
         }
 
-        onAllNodes(matcher = isImage(), useUnmergedTree = true)
-            .assertCountEquals(expectedSize = 1)
-            .onFirst()
+        onNodeWithContentDescription(label = TestImage, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Image component found.")
             .assertIsDisplayed()
-            .assertContentDescriptionEquals(TestImage)
     }
 
     @Test
     fun imageNotLoadedTest(): Unit = with(composeRule) {
         setContent {
             MoviesPotTheme {
-                FullscreenImage(
-                    navigator = navigator,
-                    path = "",
-                )
+                FullscreenImage(navigator = navigator, path = "")
             }
         }
 
-        onAllNodes(matcher = isImage(), useUnmergedTree = true)
-            .assertCountEquals(expectedSize = 2)
-            .onLast()
-            .assertExists(errorMessageOnFail = "No Image error component found.")
+        onNodeWithContentDescription(
+            label = context.getString(R.string.image_loading_failed),
+            useUnmergedTree = true
+        ).assertExists(errorMessageOnFail = "No Image error component found.")
             .assertIsDisplayed()
-            .assertContentDescriptionEquals(context.getString(R.string.image_loading_failed))
     }
 
     @Test
@@ -73,10 +64,7 @@ class FullscreenImageTest {
 
         setContent {
             MoviesPotTheme {
-                FullscreenImage(
-                    navigator = navigator,
-                    path = TestImage,
-                )
+                FullscreenImage(navigator = navigator, path = TestImage)
             }
         }
 
@@ -88,6 +76,4 @@ class FullscreenImageTest {
         verify(exactly = 1) { navigator.navigateUp() }
     }
 
-    private fun isImage(): SemanticsMatcher =
-        SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Image)
 }

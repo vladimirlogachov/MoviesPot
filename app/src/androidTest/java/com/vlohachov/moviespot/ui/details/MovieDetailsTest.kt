@@ -20,6 +20,7 @@ import com.vlohachov.moviespot.data.TestKeywords
 import com.vlohachov.moviespot.data.TestMovieDetails
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.PosterDefaults
+import com.vlohachov.moviespot.ui.components.bar.AppBarDefaults
 import com.vlohachov.moviespot.ui.components.movie.MoviesLazyRowDefaults
 import com.vlohachov.moviespot.ui.components.movie.MoviesSectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
@@ -58,7 +59,7 @@ class MovieDetailsTest {
             }
         }
 
-        onNodeWithTag(testTag = MovieDetailsDefaults.BackButtonTestTag)
+        onNodeWithTag(testTag = AppBarDefaults.BackButtonTestTag)
             .assertExists(errorMessageOnFail = "No Back button component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
@@ -89,6 +90,8 @@ class MovieDetailsTest {
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
 
+        mainClock.advanceTimeBy(milliseconds = 4_000)
+
         verify(exactly = 1) { viewModel.onErrorConsumed() }
     }
 
@@ -110,19 +113,19 @@ class MovieDetailsTest {
         onNodeWithTag(testTag = MovieDetailsDefaults.DetailsLoadingTestTag)
             .assertExists(errorMessageOnFail = "No Loading component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = MovieDetailsDefaults.HeadlineTestTag)
+        onNodeWithTag(testTag = HeadlineDefaults.TestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = MovieDetailsDefaults.TaglineTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
+        onNodeWithTag(testTag = ShortSummaryDefaults.TestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.CastButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CastButtonTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.CrewButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CrewButtonTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.OverviewTestTag)
+        onNodeWithTag(testTag = OverviewDefaults.TestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.ProductionTestTag)
+        onNodeWithTag(testTag = ProductionDefaults.TestTag)
             .assertDoesNotExist()
     }
 
@@ -148,19 +151,19 @@ class MovieDetailsTest {
 
         onNodeWithTag(testTag = MovieDetailsDefaults.DetailsLoadingTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.HeadlineTestTag)
+        onNodeWithTag(testTag = HeadlineDefaults.TestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = MovieDetailsDefaults.TaglineTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
+        onNodeWithTag(testTag = ShortSummaryDefaults.TestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.CastButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CastButtonTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.CrewButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CrewButtonTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.OverviewTestTag)
+        onNodeWithTag(testTag = OverviewDefaults.TestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.ProductionTestTag)
+        onNodeWithTag(testTag = ProductionDefaults.TestTag)
             .assertDoesNotExist()
 
         verify(exactly = 1) { viewModel.onError(error = error) }
@@ -185,25 +188,25 @@ class MovieDetailsTest {
 
         onNodeWithTag(testTag = MovieDetailsDefaults.DetailsLoadingTestTag)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = MovieDetailsDefaults.HeadlineTestTag)
+        onNodeWithTag(testTag = HeadlineDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No Headline component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = MovieDetailsDefaults.TaglineTestTag)
             .assertExists(errorMessageOnFail = "No Tagline component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
+        onNodeWithTag(testTag = ShortSummaryDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No BriefInfo component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = MovieDetailsDefaults.CastButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CastButtonTestTag)
             .assertExists(errorMessageOnFail = "No Cast button component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = MovieDetailsDefaults.CrewButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CrewButtonTestTag)
             .assertExists(errorMessageOnFail = "No Crew button component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = MovieDetailsDefaults.OverviewTestTag)
+        onNodeWithTag(testTag = OverviewDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No Overview component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = MovieDetailsDefaults.ProductionTestTag)
+        onNodeWithTag(testTag = ProductionDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No Production component found.")
             .assertIsDisplayed()
     }
@@ -253,7 +256,7 @@ class MovieDetailsTest {
             }
         }
 
-        onNodeWithTag(testTag = MovieDetailsDefaults.CastButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CastButtonTestTag)
             .assertExists(errorMessageOnFail = "No Cast component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
@@ -280,7 +283,7 @@ class MovieDetailsTest {
             }
         }
 
-        onNodeWithTag(testTag = MovieDetailsDefaults.CrewButtonTestTag)
+        onNodeWithTag(testTag = CreditsDefaults.CrewButtonTestTag)
             .assertExists(errorMessageOnFail = "No Crew component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
@@ -543,18 +546,18 @@ class MovieDetailsTest {
             HeadlinePreview()
         }
 
-        onNodeWithTag(testTag = MovieDetailsDefaults.HeadlineTestTag)
+        onNodeWithTag(testTag = HeadlineDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No Headline component found.")
             .assertIsDisplayed()
     }
 
     @Test
-    fun briefInfoPreviewTest(): Unit = with(composeRule) {
+    fun shortSummaryPreviewTest(): Unit = with(composeRule) {
         setContent {
-            BriefInfoPreview()
+            ShortSummaryPreview()
         }
 
-        onNodeWithTag(testTag = MovieDetailsDefaults.ShortSummaryTestTag)
+        onNodeWithTag(testTag = ShortSummaryDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No Headline component found.")
             .assertIsDisplayed()
     }
@@ -565,7 +568,7 @@ class MovieDetailsTest {
             OverviewPreview()
         }
 
-        onNodeWithTag(testTag = MovieDetailsDefaults.OverviewTestTag)
+        onNodeWithTag(testTag = OverviewDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No Headline component found.")
             .assertIsDisplayed()
     }

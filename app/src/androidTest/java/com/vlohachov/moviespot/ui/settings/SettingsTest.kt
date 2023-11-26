@@ -16,6 +16,7 @@ import com.vlohachov.moviespot.BuildConfig
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestSettings
+import com.vlohachov.moviespot.ui.components.bar.AppBarDefaults
 import com.vlohachov.moviespot.ui.components.bar.ErrorBarDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
@@ -64,7 +65,7 @@ class SettingsTest {
             }
         }
 
-        onNodeWithTag(testTag = SettingsDefaults.BackButtonTestTag)
+        onNodeWithTag(testTag = AppBarDefaults.BackButtonTestTag)
             .assertExists(errorMessageOnFail = "No Back button component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
@@ -203,7 +204,7 @@ class SettingsTest {
     fun errorTest(): Unit = with(composeRule) {
         every { viewModel.viewState } returns flowOf(value = ViewState.Loading)
         every { viewModel.error } returns NullPointerException()
-//        coJustRun { viewModel.onErrorConsumed() }
+        justRun { viewModel.onErrorConsumed() }
 
         setContent {
             MoviesPotTheme {
@@ -215,6 +216,8 @@ class SettingsTest {
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
 
-//        coVerify(exactly = 1) { viewModel.onErrorConsumed() }
+        mainClock.advanceTimeBy(milliseconds = 4_000)
+
+        verify(exactly = 1) { viewModel.onErrorConsumed() }
     }
 }

@@ -200,7 +200,6 @@ private fun Details(
     Column(modifier = modifier) {
         Headline(
             modifier = Modifier
-                .semantics { testTag = MovieDetailsDefaults.HeadlineTestTag }
                 .padding(all = 16.dp)
                 .fillMaxWidth(),
             director = director,
@@ -219,7 +218,6 @@ private fun Details(
         }
         ShortSummary(
             modifier = Modifier
-                .semantics { testTag = MovieDetailsDefaults.ShortSummaryTestTag }
                 .fillMaxWidth()
                 .padding(all = 16.dp),
             voteAverage = voteAverage,
@@ -238,15 +236,12 @@ private fun Details(
         Divider(modifier = Modifier.padding(horizontal = 16.dp))
         Overview(
             modifier = Modifier
-                .semantics { testTag = MovieDetailsDefaults.OverviewTestTag }
                 .fillMaxWidth()
                 .padding(all = 16.dp),
             text = overview,
         )
         Production(
-            modifier = Modifier
-                .semantics { testTag = MovieDetailsDefaults.ProductionTestTag }
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             companies = productionCompanies,
         )
     }
@@ -311,16 +306,9 @@ private fun LazyListScope.keywords(
 
 object MovieDetailsDefaults {
 
-    const val BackButtonTestTag = "back_button"
     const val ErrorBarTestTag = "error_bar"
     const val DetailsContentTestTag = "details_content"
     const val DetailsLoadingTestTag = "details_loading"
-    const val HeadlineTestTag = "movie_headline"
     const val TaglineTestTag = "movie_tagline"
-    const val ShortSummaryTestTag = "movie_short_summary"
-    const val CastButtonTestTag = "movie_cast"
-    const val CrewButtonTestTag = "movie_crew"
-    const val OverviewTestTag = "movie_overview"
-    const val ProductionTestTag = "movie_production"
     const val KeywordsTestTag = "movie_keywords"
 }

@@ -25,7 +25,7 @@ fun Overview(
     modifier: Modifier = Modifier,
 ) {
     Section(
-        modifier = modifier,
+        modifier = modifier.semantics { testTag = OverviewDefaults.TestTag },
         title = {
             SectionTitle(
                 modifier = Modifier.fillMaxWidth(),
@@ -50,10 +50,11 @@ fun Overview(
 fun OverviewPreview() {
     MoviesPotTheme {
         Overview(
-            modifier = Modifier.semantics {
-                testTag = MovieDetailsDefaults.OverviewTestTag
-            },
             text = LoremIpsum,
         )
     }
+}
+
+object OverviewDefaults {
+    const val TestTag = "OverviewTestTag"
 }
