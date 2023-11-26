@@ -1,4 +1,4 @@
-# Movies Pot
+# Movies Pot [![Validation](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml/badge.svg?branch=master&event=push)](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml)
 
 Browse through large database of movies to find one you'd like to get info about.
 
