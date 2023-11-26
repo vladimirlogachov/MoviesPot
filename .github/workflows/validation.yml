@@ -133,6 +133,8 @@ jobs:
 
       - name: Android Test
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL: 5
         with:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
@@ -140,4 +142,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: ./gradlew connectedCheck
+          script: |
+            adb uninstall com.vlohachov.data.test
+            adb uninstall com.vlohachov.app.test
+            ./gradlew connectedCheck
