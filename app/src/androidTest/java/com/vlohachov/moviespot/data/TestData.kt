@@ -47,6 +47,7 @@ val TestMovies = listOf(
     TestMovie,
     TestMovie,
     TestMovie,
+    TestMovie,
 )
 
 val TestPaginatedData = PaginatedData(

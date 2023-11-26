@@ -1,6 +1,7 @@
 package com.vlohachov.data.local
 
 import android.content.Context
+import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import app.cash.turbine.test
 import com.google.common.truth.Truth
@@ -15,9 +16,10 @@ class LocalPreferencesTest {
 
     @Test
     fun `dynamic theme available`() {
+        val expected = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
         val actual = preferences.isDynamicThemeAvailable
 
-        Truth.assertThat(actual).isTrue()
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test

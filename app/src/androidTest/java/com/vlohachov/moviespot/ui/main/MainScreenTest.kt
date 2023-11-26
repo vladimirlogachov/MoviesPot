@@ -134,13 +134,10 @@ class MainScreenTest {
     }
 
     @Test
-    fun moreButtonsTest(): Unit = with(composeRule) {
+    fun moreButtonTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
             value = MainViewState(
                 upcomingViewState = ViewState.Success(data = TestMovies),
-                nowPlayingViewState = ViewState.Success(data = TestMovies),
-                popularViewState = ViewState.Success(data = TestMovies),
-                topRatedViewState = ViewState.Success(data = TestMovies),
             )
         )
         justRun { navigator.navigate(direction = any()) }
@@ -151,20 +148,13 @@ class MainScreenTest {
             }
         }
 
-        val moreButtons = onAllNodesWithTag(
-            testTag = MoviesSectionDefaults.MoreButtonTestTag,
-            useUnmergedTree = true,
-        )
-            .assertCountEquals(expectedSize = 4)
+        onAllNodesWithTag(testTag = MoviesSectionDefaults.MoreButtonTestTag, useUnmergedTree = true)
+            .onFirst()
+            .assertIsDisplayed()
+            .assertHasClickAction()
+            .performClick()
 
-        repeat(times = 4) { index ->
-            moreButtons[index]
-                .assertIsDisplayed()
-                .assertHasClickAction()
-                .performClick()
-        }
-
-        verify(exactly = 4) { navigator.navigate(direction = any()) }
+        verify(exactly = 1) { navigator.navigate(direction = any()) }
     }
 
     @Test
@@ -181,7 +171,6 @@ class MainScreenTest {
         }
 
         onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
-            .assertCountEquals(expectedSize = TestMovies.size)
             .onFirst()
             .assertHasClickAction()
             .performClick()

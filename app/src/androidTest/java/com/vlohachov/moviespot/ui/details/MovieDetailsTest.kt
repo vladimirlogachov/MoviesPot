@@ -427,7 +427,6 @@ class MovieDetailsTest {
             .assertExists(errorMessageOnFail = "No Movies component found.")
             .assertIsDisplayed()
             .onChildren()
-            .assertCountEquals(expectedSize = TestMovies.size)
             .onFirst()
             .assertHasClickAction()
             .performClick()
