@@ -81,3 +81,30 @@ jobs:
 
       - name: Test
         run: ./gradlew test
+
+  android-test:
+    needs: [ 'detekt' ]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install JDK 17 (Zulu)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Gradle Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Android Test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          script: ./gradlew connectedCheck
