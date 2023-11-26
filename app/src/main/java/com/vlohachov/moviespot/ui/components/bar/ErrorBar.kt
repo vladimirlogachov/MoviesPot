@@ -19,11 +19,19 @@ fun ErrorBar(
     val unknownErrorText = stringResource(id = R.string.unknown_error_local)
 
     LaunchedEffect(snackbarHostState) {
+        println("LaunchedEffect running")
         when (
             snackbarHostState.showSnackbar(message = error.localizedMessage ?: unknownErrorText)
         ) {
-            SnackbarResult.Dismissed -> onDismissed?.invoke()
-            SnackbarResult.ActionPerformed -> onActionPerformed?.invoke()
+            SnackbarResult.Dismissed -> {
+                println("SnackbarResult.Dismissed")
+                onDismissed?.invoke()
+            }
+
+            SnackbarResult.ActionPerformed -> {
+                println("SnackbarResult.ActionPerformed")
+                onActionPerformed?.invoke()
+            }
         }
     }
 }

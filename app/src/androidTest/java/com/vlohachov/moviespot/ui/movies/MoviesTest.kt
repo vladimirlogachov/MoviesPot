@@ -25,6 +25,7 @@ import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.domain.model.movie.MovieCategory
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestMovies
+import com.vlohachov.moviespot.ui.components.button.ScrollToTopDefaults
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 import io.mockk.every
@@ -303,6 +304,8 @@ class MoviesTest {
             .assertIsDisplayed()
             .assert(matcher = hasContentDescription(value = false.toString()))
 
+        mainClock.advanceTimeBy(milliseconds = 4_000)
+
         verify(exactly = 1) { viewModel.onErrorConsumed() }
     }
 
@@ -341,12 +344,12 @@ class MoviesTest {
             .assertIsDisplayed()
             .performScrollToIndex(index = largeList.size - 1)
 
-        onNodeWithTag(testTag = MoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = ScrollToTopDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No ScrollToTop component found.")
             .assertIsDisplayed()
             .performClick()
 
-        onNodeWithTag(testTag = MoviesDefaults.ScrollToTopTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = ScrollToTopDefaults.ScrollToTopTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
     }
 }

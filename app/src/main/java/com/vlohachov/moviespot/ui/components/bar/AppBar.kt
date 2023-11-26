@@ -20,7 +20,6 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.settings.SettingsDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,9 +44,7 @@ fun AppBar(
         },
         navigationIcon = {
             IconButton(
-                modifier = Modifier.semantics {
-                    testTag = SettingsDefaults.BackButtonTestTag
-                },
+                modifier = Modifier.semantics { testTag = AppBarDefaults.BackButtonTestTag },
                 onClick = onBackClick
             ) {
                 Icon(
@@ -83,7 +80,7 @@ fun LargeAppBar(
         navigationIcon = {
             IconButton(
                 modifier = Modifier.semantics {
-                    testTag = SettingsDefaults.BackButtonTestTag
+                    testTag = AppBarDefaults.BackButtonTestTag
                 },
                 onClick = onBackClick
             ) {
@@ -110,4 +107,8 @@ fun AppBarPreview() {
             onBackClick = {},
         )
     }
+}
+
+object AppBarDefaults {
+    const val BackButtonTestTag = "BackButtonTestTag"
 }

@@ -1,8 +1,20 @@
 package com.vlohachov.moviespot.ui.discover
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.domain.model.genre.Genre
@@ -10,8 +22,13 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyGenres
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestGenres
+import com.vlohachov.moviespot.ui.components.bar.AppBarDefaults
 import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
-import io.mockk.*
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
@@ -52,7 +69,7 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.BackButtonTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = AppBarDefaults.BackButtonTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Button back component found.")
             .assertIsDisplayed()
             .performClick()
@@ -301,6 +318,8 @@ class DiscoverTest {
         onNodeWithTag(testTag = DiscoverDefaults.GenresErrorTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Error component found")
             .assertIsDisplayed()
+
+        mainClock.advanceTimeBy(milliseconds = 4_000)
 
         verify(exactly = 1) { viewModel.onErrorConsumed() }
     }

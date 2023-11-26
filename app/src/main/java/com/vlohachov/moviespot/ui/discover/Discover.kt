@@ -267,5 +267,5 @@ object DiscoverDefaults {
     const val YearTestTag = "content_year"
     const val YearClearTestTag = "content_year_clear"
     const val DiscoverButtonTestTag = "content_discover_button"
-    const val BackButtonTestTag = "back_button"
+
 }

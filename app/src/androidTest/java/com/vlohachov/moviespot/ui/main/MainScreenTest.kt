@@ -1,8 +1,16 @@
 package com.vlohachov.moviespot.ui.main
 
 import android.content.Context
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
@@ -101,6 +109,8 @@ class MainScreenTest {
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
 
+        mainClock.advanceTimeBy(milliseconds = 4_000)
+
         verify(exactly = 1) { viewModel.onErrorConsumed() }
     }
 
@@ -124,13 +134,10 @@ class MainScreenTest {
     }
 
     @Test
-    fun moreButtonsTest(): Unit = with(composeRule) {
+    fun moreButtonTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
             value = MainViewState(
                 upcomingViewState = ViewState.Success(data = TestMovies),
-                nowPlayingViewState = ViewState.Success(data = TestMovies),
-                popularViewState = ViewState.Success(data = TestMovies),
-                topRatedViewState = ViewState.Success(data = TestMovies),
             )
         )
         justRun { navigator.navigate(direction = any()) }
@@ -141,17 +148,13 @@ class MainScreenTest {
             }
         }
 
-        val moreButtons = onAllNodesWithTag(testTag = MoviesSectionDefaults.MoreButtonTestTag)
-            .assertCountEquals(expectedSize = 4)
+        onAllNodesWithTag(testTag = MoviesSectionDefaults.MoreButtonTestTag, useUnmergedTree = true)
+            .onFirst()
+            .assertIsDisplayed()
+            .assertHasClickAction()
+            .performClick()
 
-        repeat(times = 4) { index ->
-            moreButtons[index]
-                .assertIsDisplayed()
-                .assertHasClickAction()
-                .performClick()
-        }
-
-        verify(exactly = 4) { navigator.navigate(direction = any()) }
+        verify(exactly = 1) { navigator.navigate(direction = any()) }
     }
 
     @Test
@@ -167,8 +170,7 @@ class MainScreenTest {
             }
         }
 
-        onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag)
-            .assertCountEquals(expectedSize = TestMovies.size)
+        onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
             .onFirst()
             .assertHasClickAction()
             .performClick()

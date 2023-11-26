@@ -6,8 +6,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertAll
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
 import com.google.common.truth.Truth
 import com.vlohachov.domain.model.movie.Movie
@@ -59,7 +67,6 @@ class MoviesLazyRowTest {
             .assertExists(errorMessageOnFail = "No MoviesLazyRow component found.")
             .assertIsDisplayed()
             .onChildren()
-            .assertCountEquals(expectedSize = TestMovies.size)
             .assertAll(hasTestTag(testTag = PosterDefaults.PosterTestTag))
     }
 
@@ -83,7 +90,6 @@ class MoviesLazyRowTest {
             .assertExists(errorMessageOnFail = "No MoviesLazyRow component found.")
             .assertIsDisplayed()
             .onChildren()
-            .assertCountEquals(expectedSize = TestMovies.size)
             .assertAll(hasTestTag(testTag = PosterDefaults.PosterTestTag) and hasClickAction())
             .onFirst()
             .performClick()

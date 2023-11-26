@@ -231,10 +231,8 @@ private fun SearchField(
 
 object SearchMoviesDefaults {
 
-    const val BackButtonTestTag = "back_button"
     const val SearchFieldTestTag = "search_field"
     const val ClearSearchFieldTestTag = "clear_search_field"
     const val ContentLoadingTestTag = "content_loading"
     const val ContentErrorTestTag = "content_error"
-    const val ScrollToTopTestTag = "scroll_to_top"
 }

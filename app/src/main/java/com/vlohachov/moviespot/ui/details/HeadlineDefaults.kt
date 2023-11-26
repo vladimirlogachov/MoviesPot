@@ -97,7 +97,7 @@ private fun HeadlineFrame(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.semantics { testTag = HeadlineDefaults.TestTag },
         horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         poster(
@@ -128,7 +128,7 @@ fun HeadlinePreview() {
         Headline(
             modifier = Modifier
                 .semantics {
-                    testTag = MovieDetailsDefaults.HeadlineTestTag
+                    testTag = HeadlineDefaults.TestTag
                 }
                 .padding(all = 16.dp),
             director = "Director",
@@ -174,4 +174,8 @@ fun HeadlinePreview() {
             onPosterClick = {},
         )
     }
+}
+
+object HeadlineDefaults {
+    const val TestTag = "HeadlineTestTag"
 }

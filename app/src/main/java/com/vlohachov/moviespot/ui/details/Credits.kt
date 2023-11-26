@@ -31,7 +31,7 @@ fun Credits(
     ) {
         OutlinedButton(
             modifier = Modifier.semantics {
-                testTag = MovieDetailsDefaults.CastButtonTestTag
+                testTag = CreditsDefaults.CastButtonTestTag
             },
             onClick = onCast,
         ) {
@@ -39,7 +39,7 @@ fun Credits(
         }
         OutlinedButton(
             modifier = Modifier.semantics {
-                testTag = MovieDetailsDefaults.CrewButtonTestTag
+                testTag = CreditsDefaults.CrewButtonTestTag
             },
             onClick = onCrew,
         ) {
@@ -58,4 +58,9 @@ fun CreditsPreview() {
             onCrew = {},
         )
     }
+}
+
+object CreditsDefaults {
+    const val CastButtonTestTag = "CastButtonTestTag"
+    const val CrewButtonTestTag = "CrewButtonTestTag"
 }

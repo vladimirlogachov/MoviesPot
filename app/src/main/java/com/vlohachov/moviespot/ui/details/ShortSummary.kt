@@ -22,6 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.moviespot.R
@@ -45,6 +47,7 @@ fun ShortSummary(
     CompositionLocalProvider(LocalContentColor provides tint) {
         Row(
             modifier = modifier
+                .semantics { testTag = ShortSummaryDefaults.TestTag }
                 .then(other = Modifier.height(intrinsicSize = IntrinsicSize.Min)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -156,7 +159,7 @@ private fun Duration(
 
 @Preview(showBackground = true)
 @Composable
-fun BriefInfoPreview() {
+fun ShortSummaryPreview() {
     MoviesPotTheme {
         ShortSummary(
             modifier = Modifier
@@ -167,4 +170,8 @@ fun BriefInfoPreview() {
             runtime = 127,
         )
     }
+}
+
+object ShortSummaryDefaults {
+    const val TestTag = "ShortSummaryTestTag"
 }
