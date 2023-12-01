@@ -1,6 +1,6 @@
 [versions]
-agp = "8.1.4"
-room = "2.6.0"
+agp = "8.2.0"
+room = "2.6.1"
 coil = "2.5.0"
 truth = "1.1.5"
 mockk = "1.13.8"
