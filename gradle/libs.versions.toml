@@ -10,7 +10,7 @@ turbine = "1.0.0"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
 material = "1.10.0"
-ksp = "1.9.21-1.0.15"
+ksp = "1.9.21-1.0.16"
 accompanist = "0.32.0"
 compose-bom = "2023.10.01"
 compose-destinations = "1.9.55"
@@ -27,7 +27,7 @@ androidx-datastore = "1.0.0"
 androidx-lifecycle-ktx = "2.6.2"
 androidx-espresso-core = "3.5.1"
 androidx-paging-compose = "3.2.1"
-androidx-activity-compose = "1.8.1"
+androidx-activity-compose = "1.8.2"
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
