@@ -2,7 +2,7 @@
 agp = "8.2.0"
 room = "2.6.1"
 coil = "2.5.0"
-truth = "1.1.5"
+truth = "1.2.0"
 mockk = "1.13.8"
 junit = "4.13.2"
 detekt = "1.23.4"
