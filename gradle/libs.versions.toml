@@ -10,15 +10,15 @@ turbine = "1.0.0"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
 material = "1.11.0"
-ksp = "1.9.21-1.0.16"
+ksp = "1.9.22-1.0.16"
 accompanist = "0.32.0"
 compose-bom = "2023.10.01"
-compose-destinations = "1.9.55"
+compose-destinations = "1.9.59"
 
 koin = "3.5.3"
 koin-compose = "3.5.3"
 
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 kotlin-coroutines = "1.7.3"
 
 androidx-junit = "1.1.5"
