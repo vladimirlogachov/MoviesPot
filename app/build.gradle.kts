@@ -56,7 +56,12 @@ android {
     }
 
     applicationVariants.all {
-        addJavaSourceFoldersToModel(File(buildDir, "generated/ksp/$name/kotlin"))
+        addJavaSourceFoldersToModel(
+            File(
+                layout.buildDirectory.asFile.get(),
+                "generated/ksp/$name/kotlin"
+            )
+        )
     }
 }
 
@@ -84,8 +89,8 @@ dependencies {
     val composeBOM = platform(libs.androidx.compose.bom)
     implementation(composeBOM)
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
     implementation(libs.androidx.paging.compose)

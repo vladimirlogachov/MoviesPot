@@ -31,9 +31,10 @@ class MainActivity : ComponentActivity() {
             val preferences = get<LocalPreferences>()
             val applyDynamicTheme by preferences.applyDynamicTheme
                 .collectAsState(initial = preferences.isDynamicThemeAvailable)
-            
+
             MoviesPotTheme(dynamicColor = applyDynamicTheme) {
                 Surface {
+//                    Playground()
                     DestinationsNavHost(
                         modifier = Modifier.fillMaxSize(),
                         navGraph = NavGraphs.root,
