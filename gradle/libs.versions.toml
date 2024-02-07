@@ -12,7 +12,7 @@ retrofit = "2.9.0"
 material = "1.11.0"
 ksp = "1.9.22-1.0.17"
 accompanist = "0.32.0"
-compose-bom = "2023.10.01"
+compose-bom = "2024.02.00"
 compose-destinations = "1.9.62"
 
 koin = "3.5.3"
