@@ -1,9 +1,27 @@
 package com.vlohachov.moviespot.ui.settings
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -28,14 +46,14 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.bar.AppBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBarDefaults
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 fun Settings(
     navigator: DestinationsNavigator,
-    viewModel: SettingsViewModel = getViewModel(),
+    viewModel: SettingsViewModel = koinViewModel(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val uriHandler = LocalUriHandler.current
@@ -102,7 +120,10 @@ private fun Content(
                 testTag = SettingsDefaults.LoadingTestTag
             })
 
-            is ViewState.Error -> viewState.error?.run(onError)
+            is ViewState.Error -> LaunchedEffect(key1 = viewState.error) {
+                viewState.error?.run(onError)
+            }
+
             is ViewState.Success -> Row(
                 modifier = Modifier
                     .semantics {

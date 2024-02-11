@@ -1,10 +1,34 @@
 package com.vlohachov.moviespot.ui.credits.cast
 
-import androidx.compose.animation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -22,7 +46,7 @@ import com.vlohachov.moviespot.ui.components.Profile
 import com.vlohachov.moviespot.ui.components.bar.AppBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.button.ScrollToTop
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
@@ -35,7 +59,7 @@ private const val VISIBLE_ITEMS_THRESHOLD = 3
 fun Cast(
     navigator: DestinationsNavigator,
     movieId: Long,
-    viewModel: CastViewModel = getViewModel { parametersOf(movieId) },
+    viewModel: CastViewModel = koinViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -123,8 +147,11 @@ private fun Content(
                 }
             }
 
-            is ViewState.Error ->
-                viewState.error?.run(onError)
+            is ViewState.Error -> item {
+                LaunchedEffect(key1 = viewState.error) {
+                    viewState.error?.run(onError)
+                }
+            }
 
             is ViewState.Success ->
                 items(items = viewState.data) { member ->

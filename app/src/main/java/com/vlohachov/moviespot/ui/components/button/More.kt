@@ -2,7 +2,7 @@ package com.vlohachov.moviespot.ui.components.button
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowForward
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -37,7 +37,7 @@ fun More(
                 modifier = Modifier.semantics {
                     testTag = MoreDefaults.IconTestTag
                 },
-                imageVector = Icons.Rounded.ArrowForward,
+                imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                 contentDescription = stringResource(id = R.string.more),
             )
         }

@@ -38,7 +38,7 @@ import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.button.ScrollToTop
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
@@ -52,7 +52,7 @@ fun KeywordMovies(
     navigator: DestinationsNavigator,
     keywordId: Int,
     keyword: String,
-    viewModel: KeywordMoviesViewModel = getViewModel { parametersOf(keywordId) },
+    viewModel: KeywordMoviesViewModel = koinViewModel { parametersOf(keywordId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
