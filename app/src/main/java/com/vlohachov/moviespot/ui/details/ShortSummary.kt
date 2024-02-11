@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -57,7 +57,7 @@ fun ShortSummary(
                 voteAverage = voteAverage,
                 voteCount = voteCount,
             )
-            Divider(
+            VerticalDivider(
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(width = 1.dp)
@@ -67,7 +67,7 @@ fun ShortSummary(
                 modifier = Modifier.weight(weight = 1f),
                 isAdult = isAdult
             )
-            Divider(
+            VerticalDivider(
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(width = 1.dp)
@@ -157,7 +157,7 @@ private fun Duration(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, apiLevel = 33)
 @Composable
 fun ShortSummaryPreview() {
     MoviesPotTheme {

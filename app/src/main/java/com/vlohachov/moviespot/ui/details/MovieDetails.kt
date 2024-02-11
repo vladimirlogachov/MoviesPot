@@ -2,11 +2,33 @@ package com.vlohachov.moviespot.ui.details
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SuggestionChipDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +55,7 @@ import com.vlohachov.moviespot.ui.destinations.FullscreenImageDestination
 import com.vlohachov.moviespot.ui.destinations.KeywordMoviesDestination
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +65,7 @@ fun MovieDetails(
     navigator: DestinationsNavigator,
     movieId: Long,
     movieTitle: String,
-    viewModel: MovieDetailsViewModel = getViewModel { parametersOf(movieId) },
+    viewModel: MovieDetailsViewModel = koinViewModel { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -184,7 +206,11 @@ private fun LazyListScope.details(
             )
         }
 
-        is ViewState.Error -> detailsViewState.error?.run(onError)
+        is ViewState.Error -> item {
+            LaunchedEffect(key1 = detailsViewState.error) {
+                detailsViewState.error?.run(onError)
+            }
+        }
     }
 }
 
@@ -233,7 +259,7 @@ private fun Details(
             onCrew = onCrew,
         )
         Spacer(modifier = Modifier.height(height = 16.dp))
-        Divider(modifier = Modifier.padding(horizontal = 16.dp))
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
         Overview(
             modifier = Modifier
                 .fillMaxWidth()

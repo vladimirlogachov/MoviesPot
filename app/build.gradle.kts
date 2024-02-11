@@ -56,7 +56,12 @@ android {
     }
 
     applicationVariants.all {
-        addJavaSourceFoldersToModel(File(buildDir, "generated/ksp/$name/kotlin"))
+        addJavaSourceFoldersToModel(
+            File(
+                layout.buildDirectory.asFile.get(),
+                "generated/ksp/$name/kotlin"
+            )
+        )
     }
 }
 

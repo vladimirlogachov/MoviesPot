@@ -374,8 +374,7 @@ class SearchMoviesTest {
         onNodeWithTag(
             testTag = SearchMoviesDefaults.ContentLoadingTestTag,
             useUnmergedTree = true
-        ).assertExists(errorMessageOnFail = "No Progress component found.")
-            .assertIsNotDisplayed()
+        ).assertDoesNotExist()
 
         mainClock.advanceTimeBy(milliseconds = 4_000)
 

@@ -40,7 +40,7 @@ import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.button.ScrollToTop
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGrid
 import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
@@ -54,7 +54,7 @@ fun DiscoverResult(
     navigator: DestinationsNavigator,
     year: Int?,
     selectedGenres: IntArray?,
-    viewModel: DiscoverResultViewModel = getViewModel { parametersOf(year, selectedGenres) },
+    viewModel: DiscoverResultViewModel = koinViewModel { parametersOf(year, selectedGenres) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
