@@ -12,11 +12,11 @@ retrofit = "2.11.0"
 material = "1.11.0"
 ksp = "1.9.23-1.0.20"
 accompanist = "0.34.0"
-compose-bom = "2024.04.00"
+compose-bom = "2024.04.01"
 compose-destinations = "1.10.2"
 
 koin = "3.5.6"
-koin-compose = "3.5.5"
+koin-compose = "3.5.6"
 
 kotlin = "1.9.23"
 kotlin-coroutines = "1.8.0"
@@ -27,7 +27,7 @@ androidx-datastore = "1.0.0"
 androidx-lifecycle-ktx = "2.7.0"
 androidx-espresso-core = "3.5.1"
 androidx-paging-compose = "3.2.1"
-androidx-activity-compose = "1.8.2"
+androidx-activity-compose = "1.9.0"
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }
