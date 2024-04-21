@@ -15,7 +15,7 @@ accompanist = "0.34.0"
 compose-bom = "2024.04.00"
 compose-destinations = "1.10.2"
 
-koin = "3.5.3"
+koin = "3.5.6"
 koin-compose = "3.5.5"
 
 kotlin = "1.9.23"
