@@ -58,3 +58,4 @@ Browse through large database of movies to find one you'd like to get info about
 
 - Offline first repository with Room as caching layer
 - Authorization using TMDB API
+- Migrate to Compose Multiplatform
