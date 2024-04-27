@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.vlohachov.shared.theme.MoviesPotTheme
 import com.vlohachov.shared.theme.MoviesPotThemeDefaults
-import com.vlohachov.shared.theme.MoviesPotTheme as SharedMoviesPotTheme
 
 @Composable
 fun AppTheme(
@@ -31,7 +31,7 @@ fun AppTheme(
         else -> MoviesPotThemeDefaults.colorScheme
     }
 
-    SharedMoviesPotTheme(colorScheme = colorScheme, content = content)
+    MoviesPotTheme(colorScheme = colorScheme, content = content)
 
     val view = LocalView.current
 

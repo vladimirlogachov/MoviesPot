@@ -1,8 +1,11 @@
 package com.vlohachov.moviespot.ui.main
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,7 +53,7 @@ import com.vlohachov.moviespot.ui.destinations.SearchMoviesDestination
 import com.vlohachov.moviespot.ui.destinations.SettingsDestination
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Destination
 @RootNavGraph(start = true)
 @Composable
@@ -68,7 +71,8 @@ fun Main(
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
             MainAppBar(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 scrollBehavior = scrollBehavior,
                 navigator = navigator,
             )
@@ -86,6 +90,7 @@ fun Main(
                 hostState = snackbarHostState,
             )
         },
+        contentWindowInsets = WindowInsets.ime
     ) { paddingValues ->
         Content(
             modifier = Modifier
@@ -191,9 +196,11 @@ private fun MainAppBar(
 @Composable
 private fun Discover(navigator: DestinationsNavigator) {
     ExtendedFloatingActionButton(
-        modifier = Modifier.semantics {
-            testTag = MainScreenDefaults.DiscoverButtonTestTag
-        },
+        modifier = Modifier
+            .semantics {
+                testTag = MainScreenDefaults.DiscoverButtonTestTag
+            }
+            .navigationBarsPadding(),
         text = {
             Text(text = stringResource(id = R.string.discover))
         },

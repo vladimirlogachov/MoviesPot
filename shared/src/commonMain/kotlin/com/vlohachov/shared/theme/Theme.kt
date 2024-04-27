@@ -16,7 +16,7 @@ public object MoviesPotThemeDefaults {
      * The default [ColorScheme] used for [MoviesPotTheme].
      */
     public val colorScheme: ColorScheme
-        @Composable get() = if (isSystemInDarkTheme()) LightColorScheme else DarkColorScheme
+        @Composable get() = if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
 
     /**
      * The default [Shapes] used for [MoviesPotTheme].
