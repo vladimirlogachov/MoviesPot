@@ -17,7 +17,7 @@ import com.vlohachov.moviespot.core.LoremIpsum
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.theme.MoviesPotTheme
 
 @Composable
 fun Overview(

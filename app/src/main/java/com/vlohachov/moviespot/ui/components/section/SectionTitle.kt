@@ -15,7 +15,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.theme.MoviesPotTheme
 
 @Composable
 fun SectionTitle(

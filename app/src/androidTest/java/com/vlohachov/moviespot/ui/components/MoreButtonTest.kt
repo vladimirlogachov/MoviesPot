@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.vlohachov.moviespot.ui.components.button.More
 import com.vlohachov.moviespot.ui.components.button.MoreButtonPreview
 import com.vlohachov.moviespot.ui.components.button.MoreDefaults
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test
 

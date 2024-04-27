@@ -9,7 +9,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

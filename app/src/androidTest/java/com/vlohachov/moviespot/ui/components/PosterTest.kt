@@ -3,13 +3,19 @@ package com.vlohachov.moviespot.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertHasNoClickAction
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onLast
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test
 

@@ -1,4 +1,8 @@
 [versions]
+android-compileSdk = "34"
+android-minSdk = "30"
+android-targetSdk = "34"
+
 agp = "8.3.2"
 room = "2.6.1"
 coil = "2.6.0"
@@ -13,6 +17,7 @@ material = "1.11.0"
 ksp = "1.9.23-1.0.20"
 accompanist = "0.34.0"
 compose-bom = "2024.04.01"
+jetbrains-compose = "1.6.2"
 compose-destinations = "1.10.2"
 
 koin = "3.5.6"
@@ -46,6 +51,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-corutiens-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-corutiens-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 
@@ -77,9 +83,11 @@ compose-destinations-animationes-core = { module = "io.github.raamcosta.compose-
 [plugins]
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

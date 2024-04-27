@@ -55,7 +55,7 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.bar.AppBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.theme.MoviesPotTheme
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(

@@ -20,7 +20,7 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.moviespot.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,7 +98,7 @@ fun LargeAppBar(
 @Preview(showBackground = true)
 @Composable
 fun AppBarPreview() {
-    MoviesPotTheme {
+    AppTheme {
         AppBar(
             modifier = Modifier,
             title = "Title",

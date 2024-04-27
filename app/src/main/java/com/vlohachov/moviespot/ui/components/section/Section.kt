@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,8 +18,7 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
-import com.vlohachov.moviespot.ui.theme.Typography
+import com.vlohachov.shared.theme.MoviesPotTheme
 
 @Composable
 fun Section(
@@ -83,8 +83,8 @@ object SectionDefaults {
 
     @Composable
     fun largeTextStyles(
-        titleTextStyle: TextStyle = Typography.headlineLarge,
-        contentTextStyle: TextStyle = Typography.bodyLarge,
+        titleTextStyle: TextStyle = MaterialTheme.typography.headlineLarge,
+        contentTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     ): SectionTextStyles =
         DefaultSectionTextStyles(
             titleTextStyle = titleTextStyle,
@@ -93,8 +93,8 @@ object SectionDefaults {
 
     @Composable
     fun mediumTextStyles(
-        titleTextStyle: TextStyle = Typography.headlineMedium,
-        contentTextStyle: TextStyle = Typography.bodyMedium,
+        titleTextStyle: TextStyle = MaterialTheme.typography.headlineMedium,
+        contentTextStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     ): SectionTextStyles =
         DefaultSectionTextStyles(
             titleTextStyle = titleTextStyle,
@@ -103,8 +103,8 @@ object SectionDefaults {
 
     @Composable
     fun smallTextStyles(
-        titleTextStyle: TextStyle = Typography.headlineSmall,
-        contentTextStyle: TextStyle = Typography.bodySmall,
+        titleTextStyle: TextStyle = MaterialTheme.typography.headlineSmall,
+        contentTextStyle: TextStyle = MaterialTheme.typography.bodySmall,
     ): SectionTextStyles =
         DefaultSectionTextStyles(
             titleTextStyle = titleTextStyle,

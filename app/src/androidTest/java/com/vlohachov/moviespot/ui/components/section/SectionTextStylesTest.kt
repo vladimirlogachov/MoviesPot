@@ -1,9 +1,9 @@
 package com.vlohachov.moviespot.ui.components.section
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.google.common.truth.Truth
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
-import com.vlohachov.moviespot.ui.theme.Typography
+import com.vlohachov.shared.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,14 +17,14 @@ class SectionTextStylesTest {
         setContent {
             MoviesPotTheme {
                 val textStyles = DefaultSectionTextStyles(
-                    titleTextStyle = Typography.bodyMedium,
-                    contentTextStyle = Typography.labelMedium,
+                    titleTextStyle = MaterialTheme.typography.bodyMedium,
+                    contentTextStyle = MaterialTheme.typography.labelMedium,
                 )
 
                 Truth.assertThat(textStyles.titleTextStyle().value)
-                    .isEqualTo(Typography.bodyMedium)
+                    .isEqualTo(MaterialTheme.typography.bodyMedium)
                 Truth.assertThat(textStyles.contentTextStyle().value)
-                    .isEqualTo(Typography.labelMedium)
+                    .isEqualTo(MaterialTheme.typography.labelMedium)
             }
         }
     }
@@ -36,9 +36,9 @@ class SectionTextStylesTest {
                 val textStyles = SectionDefaults.largeTextStyles()
 
                 Truth.assertThat(textStyles.titleTextStyle().value)
-                    .isEqualTo(Typography.headlineLarge)
+                    .isEqualTo(MaterialTheme.typography.headlineLarge)
                 Truth.assertThat(textStyles.contentTextStyle().value)
-                    .isEqualTo(Typography.bodyLarge)
+                    .isEqualTo(MaterialTheme.typography.bodyLarge)
             }
         }
     }
@@ -48,14 +48,14 @@ class SectionTextStylesTest {
         setContent {
             MoviesPotTheme {
                 val textStyles = SectionDefaults.largeTextStyles(
-                    titleTextStyle = Typography.bodyLarge,
-                    contentTextStyle = Typography.labelLarge,
+                    titleTextStyle = MaterialTheme.typography.bodyLarge,
+                    contentTextStyle = MaterialTheme.typography.labelLarge,
                 )
 
                 Truth.assertThat(textStyles.titleTextStyle().value)
-                    .isEqualTo(Typography.bodyLarge)
+                    .isEqualTo(MaterialTheme.typography.bodyLarge)
                 Truth.assertThat(textStyles.contentTextStyle().value)
-                    .isEqualTo(Typography.labelLarge)
+                    .isEqualTo(MaterialTheme.typography.labelLarge)
             }
         }
     }
@@ -67,9 +67,9 @@ class SectionTextStylesTest {
                 val textStyles = SectionDefaults.mediumTextStyles()
 
                 Truth.assertThat(textStyles.titleTextStyle().value)
-                    .isEqualTo(Typography.headlineMedium)
+                    .isEqualTo(MaterialTheme.typography.headlineMedium)
                 Truth.assertThat(textStyles.contentTextStyle().value)
-                    .isEqualTo(Typography.bodyMedium)
+                    .isEqualTo(MaterialTheme.typography.bodyMedium)
             }
         }
     }
@@ -79,14 +79,14 @@ class SectionTextStylesTest {
         setContent {
             MoviesPotTheme {
                 val textStyles = SectionDefaults.mediumTextStyles(
-                    titleTextStyle = Typography.bodyMedium,
-                    contentTextStyle = Typography.labelMedium,
+                    titleTextStyle = MaterialTheme.typography.bodyMedium,
+                    contentTextStyle = MaterialTheme.typography.labelMedium,
                 )
 
                 Truth.assertThat(textStyles.titleTextStyle().value)
-                    .isEqualTo(Typography.bodyMedium)
+                    .isEqualTo(MaterialTheme.typography.bodyMedium)
                 Truth.assertThat(textStyles.contentTextStyle().value)
-                    .isEqualTo(Typography.labelMedium)
+                    .isEqualTo(MaterialTheme.typography.labelMedium)
             }
         }
     }
@@ -98,9 +98,9 @@ class SectionTextStylesTest {
                 val textStyles = SectionDefaults.smallTextStyles()
 
                 Truth.assertThat(textStyles.titleTextStyle().value)
-                    .isEqualTo(Typography.headlineSmall)
+                    .isEqualTo(MaterialTheme.typography.headlineSmall)
                 Truth.assertThat(textStyles.contentTextStyle().value)
-                    .isEqualTo(Typography.bodySmall)
+                    .isEqualTo(MaterialTheme.typography.bodySmall)
             }
         }
     }
@@ -110,14 +110,14 @@ class SectionTextStylesTest {
         setContent {
             MoviesPotTheme {
                 val textStyles = SectionDefaults.smallTextStyles(
-                    titleTextStyle = Typography.bodySmall,
-                    contentTextStyle = Typography.labelSmall,
+                    titleTextStyle = MaterialTheme.typography.bodySmall,
+                    contentTextStyle = MaterialTheme.typography.labelSmall,
                 )
 
                 Truth.assertThat(textStyles.titleTextStyle().value)
-                    .isEqualTo(Typography.bodySmall)
+                    .isEqualTo(MaterialTheme.typography.bodySmall)
                 Truth.assertThat(textStyles.contentTextStyle().value)
-                    .isEqualTo(Typography.labelSmall)
+                    .isEqualTo(MaterialTheme.typography.labelSmall)
             }
         }
     }

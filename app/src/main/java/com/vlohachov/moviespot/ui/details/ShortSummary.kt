@@ -32,8 +32,7 @@ import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
-import com.vlohachov.moviespot.ui.theme.Typography
+import com.vlohachov.shared.theme.MoviesPotTheme
 
 @Composable
 fun ShortSummary(
@@ -127,7 +126,7 @@ private fun Audience(
         },
         horizontalAlignment = Alignment.CenterHorizontally,
         textStyles = SectionDefaults.smallTextStyles(
-            titleTextStyle = Typography.titleSmall,
+            titleTextStyle = MaterialTheme.typography.titleSmall,
         ),
     ) {
         Text(text = stringResource(id = R.string.audience))

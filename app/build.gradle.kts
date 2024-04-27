@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.vlohachov.moviespot"
-    compileSdk = 34
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.vlohachov.moviespot"
-        minSdk = 30
-        targetSdk = 34
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -74,6 +74,7 @@ kotlin {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":shared"))
 
     implementation(libs.material)
     implementation(libs.androidx.core.ktx)

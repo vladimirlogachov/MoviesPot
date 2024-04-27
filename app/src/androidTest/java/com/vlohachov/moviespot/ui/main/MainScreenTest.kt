@@ -18,7 +18,7 @@ import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.PosterDefaults
 import com.vlohachov.moviespot.ui.components.movie.MoviesSectionDefaults
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
