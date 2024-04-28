@@ -88,7 +88,8 @@ jobs:
     strategy:
       matrix:
         api-level: [ '30' ]
-        arch: [ 'arm64-v8a' ]
+        target: [ 'google_apis' ]
+        arch: [ 'x86_64' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -117,4 +118,4 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: ./gradlew connectedCheck
+          script: ./gradlew app:connectedCheck data:connectedCheck
