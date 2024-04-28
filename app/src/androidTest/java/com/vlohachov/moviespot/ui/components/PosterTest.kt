@@ -15,7 +15,7 @@ import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.vlohachov.shared.theme.MoviesPotTheme
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test
 

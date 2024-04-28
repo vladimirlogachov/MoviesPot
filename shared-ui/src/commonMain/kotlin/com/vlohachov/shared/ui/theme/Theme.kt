@@ -1,4 +1,4 @@
-package com.vlohachov.shared.theme
+package com.vlohachov.shared.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme

@@ -22,7 +22,7 @@ import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.button.ScrollToTopDefaults
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
-import com.vlohachov.shared.theme.MoviesPotTheme
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk

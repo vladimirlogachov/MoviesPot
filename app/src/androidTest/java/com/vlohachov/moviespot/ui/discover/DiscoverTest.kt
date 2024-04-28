@@ -23,7 +23,7 @@ import com.vlohachov.moviespot.core.DummyGenres
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestGenres
 import com.vlohachov.moviespot.ui.components.bar.AppBarDefaults
-import com.vlohachov.shared.theme.MoviesPotTheme
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk

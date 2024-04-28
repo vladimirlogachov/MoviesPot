@@ -31,7 +31,7 @@ import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.ui.components.Poster
-import com.vlohachov.shared.theme.MoviesPotTheme
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable
 fun Headline(

@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.moviespot.R
-import com.vlohachov.shared.theme.MoviesPotTheme
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable
 fun Profile(

@@ -22,7 +22,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.ui.components.Poster
-import com.vlohachov.shared.theme.MoviesPotTheme
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable
 fun MoviesLazyRow(

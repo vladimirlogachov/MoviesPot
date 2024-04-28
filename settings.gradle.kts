@@ -27,4 +27,4 @@ rootProject.name = "MoviesPot"
 include(":app")
 include(":data")
 include(":domain")
-include(":shared")
+include(":shared-ui")

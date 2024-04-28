@@ -74,7 +74,7 @@ kotlin {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
-    implementation(project(":shared"))
+    implementation(project(":shared-ui"))
 
     implementation(libs.material)
     implementation(libs.androidx.core.ktx)

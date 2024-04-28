@@ -3,7 +3,7 @@ package com.vlohachov.moviespot.ui.components.section
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.google.common.truth.Truth
-import com.vlohachov.shared.theme.MoviesPotTheme
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test
 
