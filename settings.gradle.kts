@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -11,7 +13,6 @@ plugins {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
@@ -21,8 +22,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Movies Pot"
+rootProject.name = "MoviesPot"
 
 include(":app")
 include(":data")
 include(":domain")
+include(":shared-ui")

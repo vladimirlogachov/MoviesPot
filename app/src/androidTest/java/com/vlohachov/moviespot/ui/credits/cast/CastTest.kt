@@ -18,7 +18,7 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestCastMembers
 import com.vlohachov.moviespot.ui.components.button.ScrollToTopDefaults
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
+import com.vlohachov.moviespot.ui.theme.AppTheme
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
@@ -42,7 +42,7 @@ class CastTest {
         every { viewModel.uiState } returns MutableStateFlow(value = CastViewState())
 
         setContent {
-            MoviesPotTheme {
+            AppTheme {
                 Cast(navigator = navigator, movieId = 0, viewModel = viewModel)
             }
         }
@@ -80,7 +80,7 @@ class CastTest {
         )
 
         setContent {
-            MoviesPotTheme {
+            AppTheme {
                 Cast(navigator = navigator, movieId = 0, viewModel = viewModel)
             }
         }
@@ -105,7 +105,7 @@ class CastTest {
         justRun { viewModel.onError(error = any()) }
 
         setContent {
-            MoviesPotTheme {
+            AppTheme {
                 Cast(navigator = navigator, movieId = 0, viewModel = viewModel)
             }
         }
@@ -121,7 +121,7 @@ class CastTest {
         justRun { viewModel.onErrorConsumed() }
 
         setContent {
-            MoviesPotTheme {
+            AppTheme {
                 Cast(navigator = navigator, movieId = 0, viewModel = viewModel)
             }
         }
@@ -141,7 +141,7 @@ class CastTest {
         every { navigator.navigateUp() } returns true
 
         setContent {
-            MoviesPotTheme {
+            AppTheme {
                 Cast(navigator = navigator, movieId = 0, viewModel = viewModel)
             }
         }
@@ -167,7 +167,7 @@ class CastTest {
         )
 
         setContent {
-            MoviesPotTheme {
+            AppTheme {
                 Cast(navigator = navigator, movieId = 0, viewModel = viewModel)
             }
         }

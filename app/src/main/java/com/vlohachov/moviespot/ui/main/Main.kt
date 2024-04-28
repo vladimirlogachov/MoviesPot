@@ -1,8 +1,12 @@
 package com.vlohachov.moviespot.ui.main
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -68,13 +72,17 @@ fun Main(
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
             MainAppBar(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 scrollBehavior = scrollBehavior,
                 navigator = navigator,
             )
         },
         floatingActionButton = {
-            Discover(navigator = navigator)
+            Discover(
+                modifier = Modifier.navigationBarsPadding(),
+                navigator = navigator,
+            )
         },
         snackbarHost = {
             SnackbarHost(
@@ -86,6 +94,7 @@ fun Main(
                 hostState = snackbarHostState,
             )
         },
+        contentWindowInsets = WindowInsets.ime
     ) { paddingValues ->
         Content(
             modifier = Modifier
@@ -125,6 +134,7 @@ private fun Content(
                 }
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
         ) {
             items(MovieCategory.entries) { category ->
                 MoviesSection(
@@ -189,11 +199,15 @@ private fun MainAppBar(
 }
 
 @Composable
-private fun Discover(navigator: DestinationsNavigator) {
+private fun Discover(
+    modifier: Modifier,
+    navigator: DestinationsNavigator,
+) {
     ExtendedFloatingActionButton(
-        modifier = Modifier.semantics {
-            testTag = MainScreenDefaults.DiscoverButtonTestTag
-        },
+        modifier = modifier
+            .semantics {
+                testTag = MainScreenDefaults.DiscoverButtonTestTag
+            },
         text = {
             Text(text = stringResource(id = R.string.discover))
         },

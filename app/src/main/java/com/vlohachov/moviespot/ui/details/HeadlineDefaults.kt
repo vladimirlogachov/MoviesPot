@@ -31,8 +31,7 @@ import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.ui.components.Poster
-import com.vlohachov.moviespot.ui.theme.MoviesPotTheme
-import com.vlohachov.moviespot.ui.theme.Typography
+import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable
 fun Headline(
@@ -63,7 +62,7 @@ fun Headline(
                 text = buildString {
                     if (details.releaseDate.isNotBlank()) {
                         append(DateUtils.format(date = details.releaseDate))
-                        append(" ${kotlin.text.Typography.bullet} ")
+                        append(" ${Typography.bullet} ")
                     }
                     append(details.status)
                 }
@@ -106,11 +105,11 @@ private fun HeadlineFrame(
                 .aspectRatio(ratio = .75f),
         )
         Column(modifier = Modifier.weight(weight = 2f)) {
-            ProvideTextStyle(value = Typography.titleLarge) {
+            ProvideTextStyle(value = MaterialTheme.typography.titleLarge) {
                 title()
             }
             subtitle()
-            ProvideTextStyle(value = Typography.bodyMedium) {
+            ProvideTextStyle(value = MaterialTheme.typography.bodyMedium) {
                 CompositionLocalProvider(
                     LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant,
                 ) {
