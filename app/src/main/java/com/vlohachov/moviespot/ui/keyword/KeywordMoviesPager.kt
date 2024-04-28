@@ -2,7 +2,7 @@ package com.vlohachov.moviespot.ui.keyword
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.vlohachov.domain.usecase.DiscoverMovies
+import com.vlohachov.shared.domain.usecase.DiscoverMovies
 
 class KeywordMoviesPager(
     keywordId: Int,

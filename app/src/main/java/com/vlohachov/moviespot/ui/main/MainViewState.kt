@@ -1,7 +1,7 @@
 package com.vlohachov.moviespot.ui.main
 
-import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.shared.domain.model.movie.Movie
 
 data class MainViewState(
     val upcomingViewState: ViewState<List<Movie>> = ViewState.Loading,

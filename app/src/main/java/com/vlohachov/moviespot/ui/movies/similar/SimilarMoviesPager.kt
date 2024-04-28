@@ -2,7 +2,7 @@ package com.vlohachov.moviespot.ui.movies.similar
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.vlohachov.domain.usecase.movie.LoadRecommendations
+import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
 
 class SimilarMoviesPager(
     movieId: Long,

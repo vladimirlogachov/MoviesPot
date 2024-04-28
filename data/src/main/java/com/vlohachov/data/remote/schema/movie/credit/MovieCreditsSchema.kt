@@ -1,7 +1,7 @@
 package com.vlohachov.data.remote.schema.movie.credit
 
 import com.google.gson.annotations.SerializedName
-import com.vlohachov.domain.model.movie.MovieCredits
+import com.vlohachov.shared.domain.model.movie.MovieCredits
 
 data class MovieCreditsSchema(
     @SerializedName("id")

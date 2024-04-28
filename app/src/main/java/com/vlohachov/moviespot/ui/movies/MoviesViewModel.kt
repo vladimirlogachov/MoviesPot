@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.vlohachov.domain.model.movie.MovieCategory
+import com.vlohachov.shared.domain.model.movie.MovieCategory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 

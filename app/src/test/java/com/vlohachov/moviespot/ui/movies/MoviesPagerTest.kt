@@ -2,8 +2,8 @@ package com.vlohachov.moviespot.ui.movies
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.domain.model.movie.MovieCategory
-import com.vlohachov.domain.usecase.movie.LoadMoviesByCategory
+import com.vlohachov.shared.domain.model.movie.MovieCategory
+import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf

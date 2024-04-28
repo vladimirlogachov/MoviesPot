@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.vlohachov.data.data.MoviesTestPaginatedSchema
 import com.vlohachov.data.remote.api.TmdbSearchApi
 import com.vlohachov.data.remote.schema.movie.toDomain
-import com.vlohachov.domain.repository.SearchRepository
+import com.vlohachov.shared.domain.repository.SearchRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first

@@ -1,7 +1,7 @@
 package com.vlohachov.data.remote.schema.genre
 
 import com.google.gson.annotations.SerializedName
-import com.vlohachov.domain.model.genre.Genre
+import com.vlohachov.shared.domain.model.genre.Genre
 
 data class GenreSchema(
     @SerializedName("id")

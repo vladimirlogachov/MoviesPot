@@ -1,18 +1,18 @@
 package com.vlohachov.moviespot.di
 
-import com.vlohachov.domain.usecase.DiscoverMovies
-import com.vlohachov.domain.usecase.LoadGenres
-import com.vlohachov.domain.usecase.SearchMovies
-import com.vlohachov.domain.usecase.credits.LoadCast
-import com.vlohachov.domain.usecase.credits.LoadCrew
-import com.vlohachov.domain.usecase.credits.LoadDirector
-import com.vlohachov.domain.usecase.movie.LoadCredits
-import com.vlohachov.domain.usecase.movie.LoadDetails
-import com.vlohachov.domain.usecase.movie.LoadKeywords
-import com.vlohachov.domain.usecase.movie.LoadMoviesByCategory
-import com.vlohachov.domain.usecase.movie.LoadRecommendations
-import com.vlohachov.domain.usecase.settings.ApplyDynamicTheme
-import com.vlohachov.domain.usecase.settings.LoadSettings
+import com.vlohachov.shared.domain.usecase.DiscoverMovies
+import com.vlohachov.shared.domain.usecase.LoadGenres
+import com.vlohachov.shared.domain.usecase.SearchMovies
+import com.vlohachov.shared.domain.usecase.credits.LoadCast
+import com.vlohachov.shared.domain.usecase.credits.LoadCrew
+import com.vlohachov.shared.domain.usecase.credits.LoadDirector
+import com.vlohachov.shared.domain.usecase.movie.LoadCredits
+import com.vlohachov.shared.domain.usecase.movie.LoadDetails
+import com.vlohachov.shared.domain.usecase.movie.LoadKeywords
+import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
+import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
+import com.vlohachov.shared.domain.usecase.settings.ApplyDynamicTheme
+import com.vlohachov.shared.domain.usecase.settings.LoadSettings
 import org.koin.dsl.module
 
 val useCaseModule = module {

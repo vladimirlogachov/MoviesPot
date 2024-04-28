@@ -3,9 +3,9 @@ package com.vlohachov.data.repository
 import com.vlohachov.data.remote.api.TmdbDiscoverApi
 import com.vlohachov.data.remote.schema.movie.MoviesPaginatedSchema
 import com.vlohachov.data.remote.schema.movie.toDomain
-import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.repository.DiscoverRepository
+import com.vlohachov.shared.domain.model.PaginatedData
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.repository.DiscoverRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

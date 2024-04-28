@@ -1,7 +1,7 @@
 package com.vlohachov.data.remote.schema.movie.keyword
 
 import com.google.gson.annotations.SerializedName
-import com.vlohachov.domain.model.movie.keyword.Keyword
+import com.vlohachov.shared.domain.model.movie.keyword.Keyword
 
 data class MovieKeywordsSchema(
     @SerializedName("id")

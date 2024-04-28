@@ -1,9 +1,9 @@
 package com.vlohachov.moviespot.core
 
-import com.vlohachov.domain.model.genre.Genre
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.model.movie.credit.CastMember
-import com.vlohachov.domain.model.movie.credit.CrewMember
+import com.vlohachov.shared.domain.model.genre.Genre
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.model.movie.credit.CastMember
+import com.vlohachov.shared.domain.model.movie.credit.CrewMember
 
 const val LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod" +
         " tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nos" +

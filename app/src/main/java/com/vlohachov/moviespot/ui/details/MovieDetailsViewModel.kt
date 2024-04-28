@@ -2,13 +2,13 @@ package com.vlohachov.moviespot.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vlohachov.domain.usecase.credits.LoadDirector
-import com.vlohachov.domain.usecase.movie.LoadDetails
-import com.vlohachov.domain.usecase.movie.LoadKeywords
-import com.vlohachov.domain.usecase.movie.LoadRecommendations
 import com.vlohachov.moviespot.core.WhileUiSubscribed
 import com.vlohachov.moviespot.core.toViewState
 import com.vlohachov.moviespot.core.toViewStatePaginated
+import com.vlohachov.shared.domain.usecase.credits.LoadDirector
+import com.vlohachov.shared.domain.usecase.movie.LoadDetails
+import com.vlohachov.shared.domain.usecase.movie.LoadKeywords
+import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

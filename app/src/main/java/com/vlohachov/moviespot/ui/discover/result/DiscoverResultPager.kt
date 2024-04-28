@@ -2,7 +2,7 @@ package com.vlohachov.moviespot.ui.discover.result
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.vlohachov.domain.usecase.DiscoverMovies
+import com.vlohachov.shared.domain.usecase.DiscoverMovies
 
 class DiscoverResultPager(
     year: Int?,

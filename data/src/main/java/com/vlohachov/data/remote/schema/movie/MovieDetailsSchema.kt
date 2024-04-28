@@ -8,7 +8,7 @@ import com.vlohachov.data.remote.schema.LanguageSchema
 import com.vlohachov.data.remote.schema.genre.GenreSchema
 import com.vlohachov.data.remote.schema.genre.toDomain
 import com.vlohachov.data.remote.schema.toDomain
-import com.vlohachov.domain.model.movie.MovieDetails
+import com.vlohachov.shared.domain.model.movie.MovieDetails
 
 data class MovieDetailsSchema(
     @SerializedName("id")

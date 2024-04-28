@@ -9,7 +9,7 @@ import com.vlohachov.data.remote.api.TmdbMovieApi
 import com.vlohachov.data.remote.schema.movie.credit.toDomain
 import com.vlohachov.data.remote.schema.movie.keyword.toDomain
 import com.vlohachov.data.remote.schema.movie.toDomain
-import com.vlohachov.domain.repository.MovieRepository
+import com.vlohachov.shared.domain.repository.MovieRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first

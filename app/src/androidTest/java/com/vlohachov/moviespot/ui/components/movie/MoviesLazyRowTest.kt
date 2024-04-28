@@ -18,9 +18,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
 import com.google.common.truth.Truth
-import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.ui.components.PosterDefaults
+import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.junit.Rule
 import org.junit.Test

@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.vlohachov.data.data.GenresTestSchema
 import com.vlohachov.data.remote.api.TmdbGenreApi
 import com.vlohachov.data.remote.schema.genre.toDomain
-import com.vlohachov.domain.repository.GenreRepository
+import com.vlohachov.shared.domain.repository.GenreRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first

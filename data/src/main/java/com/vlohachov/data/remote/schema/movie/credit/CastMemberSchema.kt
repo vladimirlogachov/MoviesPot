@@ -2,7 +2,7 @@ package com.vlohachov.data.remote.schema.movie.credit
 
 import com.google.gson.annotations.SerializedName
 import com.vlohachov.data.remote.TmdbConfig
-import com.vlohachov.domain.model.movie.credit.CastMember
+import com.vlohachov.shared.domain.model.movie.credit.CastMember
 
 data class CastMemberSchema(
     @SerializedName("id")

@@ -13,7 +13,7 @@ import com.vlohachov.data.remote.schema.movie.credit.CrewMemberSchema
 import com.vlohachov.data.remote.schema.movie.credit.MovieCreditsSchema
 import com.vlohachov.data.remote.schema.movie.keyword.KeywordSchema
 import com.vlohachov.data.remote.schema.movie.keyword.MovieKeywordsSchema
-import com.vlohachov.domain.model.settings.Settings
+import com.vlohachov.shared.domain.model.settings.Settings
 
 val TestSettings = Settings(
     dynamicTheme = true,

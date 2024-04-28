@@ -24,13 +24,13 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.vlohachov.domain.model.Company
-import com.vlohachov.domain.model.Country
-import com.vlohachov.domain.model.Language
-import com.vlohachov.domain.model.movie.MovieDetails
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.moviespot.ui.components.Poster
+import com.vlohachov.shared.domain.model.Company
+import com.vlohachov.shared.domain.model.Country
+import com.vlohachov.shared.domain.model.Language
+import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable

@@ -3,8 +3,8 @@ package com.vlohachov.data.repository
 import com.vlohachov.data.remote.api.TmdbGenreApi
 import com.vlohachov.data.remote.schema.genre.GenresSchema
 import com.vlohachov.data.remote.schema.genre.toDomain
-import com.vlohachov.domain.model.genre.Genre
-import com.vlohachov.domain.repository.GenreRepository
+import com.vlohachov.shared.domain.model.genre.Genre
+import com.vlohachov.shared.domain.repository.GenreRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

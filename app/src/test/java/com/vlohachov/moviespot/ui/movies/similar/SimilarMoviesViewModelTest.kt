@@ -4,11 +4,11 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.data.PagingDataCollector
 import com.vlohachov.moviespot.data.TestMovies
 import com.vlohachov.moviespot.data.collector
 import com.vlohachov.moviespot.util.TestDispatcherRule
+import com.vlohachov.shared.domain.model.movie.Movie
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

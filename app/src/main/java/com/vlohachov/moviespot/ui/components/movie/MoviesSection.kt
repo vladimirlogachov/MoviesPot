@@ -17,7 +17,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.core.ViewState
@@ -27,6 +26,7 @@ import com.vlohachov.moviespot.ui.components.section.SectionColors
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTextStyles
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
+import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable
