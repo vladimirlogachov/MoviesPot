@@ -2,10 +2,10 @@ package com.vlohachov.moviespot.ui.movies.similar
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.movie.LoadRecommendations
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.model.PaginatedData
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map

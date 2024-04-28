@@ -67,14 +67,14 @@ android {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":shared-ui"))
+    implementation(project(":shared-domain"))
 
     implementation(libs.material)
     implementation(libs.androidx.core.ktx)

@@ -1,8 +1,8 @@
 package com.vlohachov.data.repository
 
 import com.vlohachov.data.local.LocalPreferences
-import com.vlohachov.domain.model.settings.Settings
-import com.vlohachov.domain.repository.SettingsRepository
+import com.vlohachov.shared.domain.model.settings.Settings
+import com.vlohachov.shared.domain.repository.SettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest

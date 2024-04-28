@@ -1,7 +1,7 @@
 package com.vlohachov.data.remote.schema
 
 import com.google.gson.annotations.SerializedName
-import com.vlohachov.domain.model.Country
+import com.vlohachov.shared.domain.model.Country
 
 data class CountrySchema(
     @SerializedName("name")

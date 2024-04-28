@@ -2,9 +2,9 @@ package com.vlohachov.moviespot.ui.credits.cast
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vlohachov.domain.usecase.credits.LoadCast
 import com.vlohachov.moviespot.core.WhileUiSubscribed
 import com.vlohachov.moviespot.core.toViewState
+import com.vlohachov.shared.domain.usecase.credits.LoadCast
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

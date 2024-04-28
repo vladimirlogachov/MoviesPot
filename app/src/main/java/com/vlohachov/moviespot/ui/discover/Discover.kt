@@ -48,13 +48,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyGenres
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.bar.AppBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
+import com.vlohachov.shared.domain.model.genre.Genre
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.koinViewModel
 

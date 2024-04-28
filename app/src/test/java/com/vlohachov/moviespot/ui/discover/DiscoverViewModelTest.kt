@@ -2,13 +2,13 @@ package com.vlohachov.moviespot.ui.discover
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.genre.Genre
-import com.vlohachov.domain.usecase.LoadGenres
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestGenre
 import com.vlohachov.moviespot.data.TestGenres
 import com.vlohachov.moviespot.util.TestDispatcherRule
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.model.genre.Genre
+import com.vlohachov.shared.domain.usecase.LoadGenres
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

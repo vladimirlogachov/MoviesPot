@@ -3,8 +3,8 @@ package com.vlohachov.moviespot.ui.search
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.SearchMovies
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.usecase.SearchMovies
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

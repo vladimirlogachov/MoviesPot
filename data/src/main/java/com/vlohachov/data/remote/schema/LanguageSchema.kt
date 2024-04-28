@@ -1,7 +1,7 @@
 package com.vlohachov.data.remote.schema
 
 import com.google.gson.annotations.SerializedName
-import com.vlohachov.domain.model.Language
+import com.vlohachov.shared.domain.model.Language
 
 data class LanguageSchema(
     @SerializedName("name")

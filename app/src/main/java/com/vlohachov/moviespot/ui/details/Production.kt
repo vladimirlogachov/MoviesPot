@@ -22,12 +22,12 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.vlohachov.domain.model.Company
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.ui.components.Company
 import com.vlohachov.moviespot.ui.components.section.Section
 import com.vlohachov.moviespot.ui.components.section.SectionDefaults
 import com.vlohachov.moviespot.ui.components.section.SectionTitle
+import com.vlohachov.shared.domain.model.Company
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable

@@ -2,13 +2,13 @@ package com.vlohachov.moviespot.ui.settings
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.settings.Settings
-import com.vlohachov.domain.usecase.settings.ApplyDynamicTheme
-import com.vlohachov.domain.usecase.settings.LoadSettings
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestSettings
 import com.vlohachov.moviespot.util.TestDispatcherRule
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.model.settings.Settings
+import com.vlohachov.shared.domain.usecase.settings.ApplyDynamicTheme
+import com.vlohachov.shared.domain.usecase.settings.LoadSettings
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

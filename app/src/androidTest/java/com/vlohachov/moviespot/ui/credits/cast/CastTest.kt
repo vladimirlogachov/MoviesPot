@@ -13,12 +13,12 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
 import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.domain.model.movie.credit.CastMember
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestCastMembers
 import com.vlohachov.moviespot.ui.components.button.ScrollToTopDefaults
 import com.vlohachov.moviespot.ui.theme.AppTheme
+import com.vlohachov.shared.domain.model.movie.credit.CastMember
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk

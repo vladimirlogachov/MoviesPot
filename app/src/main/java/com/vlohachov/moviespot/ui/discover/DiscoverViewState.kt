@@ -1,7 +1,7 @@
 package com.vlohachov.moviespot.ui.discover
 
-import com.vlohachov.domain.model.genre.Genre
 import com.vlohachov.moviespot.core.ViewState
+import com.vlohachov.shared.domain.model.genre.Genre
 
 data class DiscoverViewState(
     val year: String = "",

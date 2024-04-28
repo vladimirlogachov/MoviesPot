@@ -2,7 +2,7 @@ package com.vlohachov.data.remote.schema
 
 import com.google.gson.annotations.SerializedName
 import com.vlohachov.data.remote.TmdbConfig
-import com.vlohachov.domain.model.Company
+import com.vlohachov.shared.domain.model.Company
 
 data class CompanySchema(
     @SerializedName("id")

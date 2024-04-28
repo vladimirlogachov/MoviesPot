@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.compose.rememberAsyncImagePainter
-import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.ui.components.Poster
+import com.vlohachov.shared.domain.model.movie.Movie
 
 @Composable
 fun MoviesPaginatedGrid(

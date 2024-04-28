@@ -41,8 +41,6 @@ import androidx.compose.ui.text.font.FontFamily
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.model.movie.MovieCategory
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
@@ -52,6 +50,8 @@ import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import com.vlohachov.moviespot.ui.destinations.MoviesDestination
 import com.vlohachov.moviespot.ui.destinations.SearchMoviesDestination
 import com.vlohachov.moviespot.ui.destinations.SettingsDestination
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.model.movie.MovieCategory
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

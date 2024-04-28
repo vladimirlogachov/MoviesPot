@@ -2,7 +2,7 @@ package com.vlohachov.moviespot.ui.search
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.domain.usecase.SearchMovies
+import com.vlohachov.shared.domain.usecase.SearchMovies
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf

@@ -39,13 +39,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.domain.model.movie.credit.CrewMember
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.ui.components.Profile
 import com.vlohachov.moviespot.ui.components.bar.AppBar
 import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.components.button.ScrollToTop
+import com.vlohachov.shared.domain.model.movie.credit.CrewMember
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 

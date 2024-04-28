@@ -2,10 +2,10 @@ package com.vlohachov.moviespot.ui.search
 
 import androidx.paging.PagingSource
 import com.google.common.truth.Truth
-import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.usecase.SearchMovies
 import com.vlohachov.moviespot.data.TestPaginatedData
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.usecase.SearchMovies
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf

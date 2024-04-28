@@ -12,11 +12,11 @@ import com.vlohachov.data.repository.GenreRepositoryImpl
 import com.vlohachov.data.repository.MovieRepositoryImpl
 import com.vlohachov.data.repository.SearchRepositoryImpl
 import com.vlohachov.data.repository.SettingsRepositoryImpl
-import com.vlohachov.domain.repository.DiscoverRepository
-import com.vlohachov.domain.repository.GenreRepository
-import com.vlohachov.domain.repository.MovieRepository
-import com.vlohachov.domain.repository.SearchRepository
-import com.vlohachov.domain.repository.SettingsRepository
+import com.vlohachov.shared.domain.repository.DiscoverRepository
+import com.vlohachov.shared.domain.repository.GenreRepository
+import com.vlohachov.shared.domain.repository.MovieRepository
+import com.vlohachov.shared.domain.repository.SearchRepository
+import com.vlohachov.shared.domain.repository.SettingsRepository
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

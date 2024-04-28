@@ -16,6 +16,7 @@ retrofit = "2.11.0"
 material = "1.11.0"
 ksp = "1.9.23-1.0.20"
 accompanist = "0.34.0"
+mokkery = "1.9.23-1.6.1"
 compose-bom = "2024.04.01"
 jetbrains-compose = "1.6.2"
 compose-destinations = "1.10.2"
@@ -81,6 +82,7 @@ compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:
 compose-destinations-animationes-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "compose-destinations" }
 
 [plugins]
+mokkery = { id = "dev.mokkery", version.ref = "mokkery" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }

@@ -1,7 +1,7 @@
 package com.vlohachov.moviespot.core
 
-import com.vlohachov.domain.Result
-import com.vlohachov.domain.model.PaginatedData
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.model.PaginatedData
 
 sealed class ViewState<out T> {
     data object Loading : ViewState<Nothing>()

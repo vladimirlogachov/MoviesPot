@@ -2,8 +2,8 @@ package com.vlohachov.moviespot.ui.movies
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.vlohachov.domain.model.movie.MovieCategory
-import com.vlohachov.domain.usecase.movie.LoadMoviesByCategory
+import com.vlohachov.shared.domain.model.movie.MovieCategory
+import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
 
 class MoviesPager(
     private val useCase: LoadMoviesByCategory,

@@ -1,8 +1,8 @@
 package com.vlohachov.data.remote.schema.movie
 
 import com.google.gson.annotations.SerializedName
-import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.model.movie.Movie
+import com.vlohachov.shared.domain.model.PaginatedData
+import com.vlohachov.shared.domain.model.movie.Movie
 
 data class MoviesPaginatedSchema(
     @SerializedName("page")

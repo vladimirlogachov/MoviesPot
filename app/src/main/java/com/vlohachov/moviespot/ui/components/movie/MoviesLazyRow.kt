@@ -19,9 +19,9 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.vlohachov.domain.model.movie.Movie
 import com.vlohachov.moviespot.core.DummyMovies
 import com.vlohachov.moviespot.ui.components.Poster
+import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable
