@@ -36,7 +36,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { target ->
         target.binaries.framework {
-            baseName = "shared"
+            baseName = "shared-ui"
             isStatic = true
         }
     }
@@ -61,7 +61,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.vlohachov.shared"
+    namespace = "com.vlohachov.shared.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
