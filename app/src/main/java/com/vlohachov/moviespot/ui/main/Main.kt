@@ -1,7 +1,6 @@
 package com.vlohachov.moviespot.ui.main
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -55,7 +54,7 @@ import com.vlohachov.moviespot.ui.destinations.SearchMoviesDestination
 import com.vlohachov.moviespot.ui.destinations.SettingsDestination
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @RootNavGraph(start = true)
 @Composable
