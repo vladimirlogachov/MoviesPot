@@ -45,8 +45,8 @@ kotlin {
             implementation(libs.kotlin.corutiens.core)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
             implementation(libs.turbine)
+            implementation(libs.kotlin.test)
             implementation(libs.kotlin.corutiens.test)
         }
     }

@@ -5,6 +5,7 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
     alias(libs.plugins.build.konfig)
     alias(libs.plugins.mokkery)
@@ -72,10 +73,13 @@ kotlin {
 
             implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.kotlin.corutiens.core)
+            implementation(libs.ktor.serialization)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.cio)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
             implementation(libs.turbine)
+            implementation(libs.kotlin.test)
             implementation(libs.kotlin.corutiens.test)
         }
     }
