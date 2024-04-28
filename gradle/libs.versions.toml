@@ -10,6 +10,7 @@ truth = "1.4.2"
 mockk = "1.13.10"
 junit = "4.13.2"
 detekt = "1.23.6"
+mokkery = "1.9.23-1.6.1"
 turbine = "1.1.0"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
@@ -81,6 +82,7 @@ compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:
 compose-destinations-animationes-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "compose-destinations" }
 
 [plugins]
+mokkery = { id = "dev.mokkery", version.ref = "mokkery" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }

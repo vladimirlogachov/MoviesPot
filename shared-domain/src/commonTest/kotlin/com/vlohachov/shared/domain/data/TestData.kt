@@ -1,17 +1,17 @@
 package com.vlohachov.shared.domain.data
 
-import com.vlohachov.domain.model.Company
-import com.vlohachov.domain.model.Country
-import com.vlohachov.domain.model.Language
-import com.vlohachov.domain.model.PaginatedData
-import com.vlohachov.domain.model.genre.Genre
-import com.vlohachov.domain.model.movie.Movie
-import com.vlohachov.domain.model.movie.MovieCredits
-import com.vlohachov.domain.model.movie.MovieDetails
-import com.vlohachov.domain.model.movie.credit.CastMember
-import com.vlohachov.domain.model.movie.credit.CrewMember
-import com.vlohachov.domain.model.movie.keyword.Keyword
-import com.vlohachov.domain.model.settings.Settings
+import com.vlohachov.shared.domain.model.Company
+import com.vlohachov.shared.domain.model.Country
+import com.vlohachov.shared.domain.model.Language
+import com.vlohachov.shared.domain.model.PaginatedData
+import com.vlohachov.shared.domain.model.genre.Genre
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.model.movie.MovieCredits
+import com.vlohachov.shared.domain.model.movie.MovieDetails
+import com.vlohachov.shared.domain.model.movie.credit.CastMember
+import com.vlohachov.shared.domain.model.movie.credit.CrewMember
+import com.vlohachov.shared.domain.model.movie.keyword.Keyword
+import com.vlohachov.shared.domain.model.settings.Settings
 
 val TestSettings = Settings(
     dynamicTheme = true

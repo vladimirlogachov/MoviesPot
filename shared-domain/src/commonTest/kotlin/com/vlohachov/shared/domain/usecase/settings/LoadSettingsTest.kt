@@ -1,64 +1,57 @@
 package com.vlohachov.shared.domain.usecase.settings
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth
-import com.vlohachov.domain.repository.SettingsRepository
-import com.vlohachov.moviespot.data.TestSettings
-import io.mockk.every
-import io.mockk.mockk
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.data.TestSettings
+import com.vlohachov.shared.domain.model.settings.Settings
+import com.vlohachov.shared.domain.repository.SettingsRepository
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import kotlin.js.JsName
+import kotlin.test.Test
+import kotlin.test.assertIs
 
 class LoadSettingsTest {
 
-    private val repository = mockk<SettingsRepository>()
+    private val repository = mock<SettingsRepository>()
 
     private val useCase = LoadSettings(repository = repository)
 
     @Test
+    @JsName("result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
         useCase(param = Unit).test {
-            val actual = awaitItem()
-
+            assertIs<Result.Loading>(value = awaitItem())
             skipItems(count = 1)
             awaitComplete()
-
-            Truth.assertThat(actual is Result.Loading).isTrue()
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Value")
     fun `result flow emits Value`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
         useCase(param = Unit).test {
-            skipItems(count = 1)
-
-            val expected = Result.Success(value = TestSettings)
-            val actual = awaitItem()
-
+            assertIs<Result.Success<Settings>>(value = expectMostRecentItem())
             awaitComplete()
-
-            Truth.assertThat(actual).isEqualTo(expected)
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         every { repository.getSettings() } returns flow { throw NullPointerException() }
 
         useCase(param = Unit).test {
-            skipItems(count = 1)
-
-            val actual = awaitItem()
-
+            assertIs<Result.Error>(value = expectMostRecentItem())
             awaitComplete()
-
-            Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
 

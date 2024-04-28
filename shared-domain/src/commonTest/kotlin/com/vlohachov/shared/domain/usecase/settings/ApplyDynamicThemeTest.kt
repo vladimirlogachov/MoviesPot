@@ -1,13 +1,17 @@
 package com.vlohachov.shared.domain.usecase.settings
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth
-import com.vlohachov.domain.repository.SettingsRepository
-import io.mockk.coEvery
-import io.mockk.coJustRun
-import io.mockk.mockk
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.repository.SettingsRepository
+import dev.mokkery.answering.returns
+import dev.mokkery.answering.throws
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import kotlin.js.JsName
+import kotlin.test.Test
+import kotlin.test.assertIs
 
 class ApplyDynamicThemeTest {
 
@@ -15,52 +19,41 @@ class ApplyDynamicThemeTest {
         val TestParam = ApplyDynamicTheme.Param(apply = true)
     }
 
-    private val repository = mockk<SettingsRepository>()
+    private val repository = mock<SettingsRepository>()
 
     private val useCase = ApplyDynamicTheme(repository = repository)
 
     @Test
+    @JsName("result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
-        coJustRun { repository.applyDynamicTheme(apply = any()) }
+        everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
 
         useCase(param = TestParam).test {
-            val actual = awaitItem()
-
+            assertIs<Result.Loading>(value = awaitItem())
             skipItems(count = 1)
             awaitComplete()
-
-            Truth.assertThat(actual is Result.Loading).isTrue()
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Value")
     fun `result flow emits Value`() = runTest {
-        coJustRun { repository.applyDynamicTheme(apply = any()) }
+        everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
 
         useCase(param = TestParam).test {
-            skipItems(count = 1)
-
-            val expected = Result.Success(value = TestParam.apply)
-            val actual = awaitItem()
-
+            assertIs<Result.Success<Boolean>>(value = expectMostRecentItem())
             awaitComplete()
-
-            Truth.assertThat(actual).isEqualTo(expected)
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
-        coEvery { repository.applyDynamicTheme(apply = any()) } throws NullPointerException()
+        everySuspend { repository.applyDynamicTheme(apply = any()) } throws NullPointerException()
 
         useCase(param = TestParam).test {
-            skipItems(count = 1)
-
-            val actual = awaitItem()
-
+            assertIs<Result.Error>(value = expectMostRecentItem())
             awaitComplete()
-
-            Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
 

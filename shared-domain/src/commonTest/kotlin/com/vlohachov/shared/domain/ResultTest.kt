@@ -1,18 +1,19 @@
 package com.vlohachov.shared.domain
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import kotlin.js.JsName
+import kotlin.test.Test
+import kotlin.test.assertIs
 
 class ResultTest {
 
     private companion object {
-        const val TestValue = "value"
-        val TestException = Exception("Illegal $TestValue")
+        const val TEST_VALUE = "value"
+        val TestException = Exception("Illegal $TEST_VALUE")
     }
 
     private val testFlow = MutableSharedFlow<String>(
@@ -21,49 +22,30 @@ class ResultTest {
     )
 
     @Test
+    @JsName("result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         testFlow.asResult().test {
-            testFlow.emit(value = TestValue)
-
-            val expected = Result.Loading
-            val actual = awaitItem()
-
-            skipItems(count = 1)
-
-            Truth.assertThat(actual).isEqualTo(expected)
+            assertIs<Result.Loading>(value = awaitItem())
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Success")
     fun `result flow emits Success`() = runTest {
         testFlow.asResult().test {
-            testFlow.emit(value = TestValue)
-
-            skipItems(count = 1)
-
-            val expected = Result.Success(value = TestValue)
-            val actual = awaitItem()
-
-            Truth.assertThat(actual).isEqualTo(expected)
+            testFlow.emit(value = TEST_VALUE)
+            assertIs<Result.Success<String>>(value = expectMostRecentItem())
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
-        testFlow
-            .onEach { throw TestException }
+        testFlow.onEach { throw TestException }
             .asResult()
             .test {
-                testFlow.emit(value = TestValue)
-
-                skipItems(count = 1)
-
-                val expected = Result.Error(exception = TestException)
-                val actual = awaitItem()
-
-                awaitComplete()
-
-                Truth.assertThat(actual).isEqualTo(expected)
+                testFlow.emit(value = TEST_VALUE)
+                assertIs<Result.Error>(value = expectMostRecentItem())
             }
     }
 

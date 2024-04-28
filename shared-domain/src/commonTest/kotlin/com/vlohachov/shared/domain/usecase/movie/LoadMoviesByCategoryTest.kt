@@ -1,93 +1,79 @@
 package com.vlohachov.shared.domain.usecase.movie
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth
-import com.vlohachov.domain.model.movie.MovieCategory
-import com.vlohachov.domain.repository.MovieRepository
-import com.vlohachov.moviespot.data.TestPaginatedData
-import io.mockk.every
-import io.mockk.mockk
+import com.vlohachov.shared.domain.Result
+import com.vlohachov.shared.domain.data.TestPaginatedData
+import com.vlohachov.shared.domain.model.PaginatedData
+import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.domain.model.movie.MovieCategory
+import com.vlohachov.shared.domain.repository.MovieRepository
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import kotlin.js.JsName
+import kotlin.test.Test
+import kotlin.test.assertIs
 
-@RunWith(JUnit4::class)
 class LoadMoviesByCategoryTest {
 
     private companion object {
         val TestParam = LoadMoviesByCategory.Param(category = MovieCategory.UPCOMING)
     }
 
-    private val repository = mockk<MovieRepository>()
+    private val repository = mock<MovieRepository>()
 
     private val useCase = LoadMoviesByCategory(repository = repository)
 
     @Test
+    @JsName("result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         every {
             repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any(),
+                category = any(), page = any(),
+                language = any(), region = any(),
             )
         } returns flowOf(TestPaginatedData)
 
         useCase(TestParam).test {
-            val actual = awaitItem()
-
+            assertIs<Result.Loading>(value = awaitItem())
             skipItems(count = 1)
             awaitComplete()
-
-            Truth.assertThat(actual is Result.Loading).isTrue()
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Success")
     fun `result flow emits Success`() = runTest {
         every {
             repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any(),
+                category = any(), page = any(),
+                language = any(), region = any(),
             )
         } returns flowOf(TestPaginatedData)
 
         useCase(TestParam).test {
-            skipItems(count = 1)
-
-            val expected = Result.Success(value = TestPaginatedData)
-            val actual = awaitItem()
-
+            assertIs<Result.Success<PaginatedData<Movie>>>(value = expectMostRecentItem())
             awaitComplete()
-
-            Truth.assertThat(actual).isEqualTo(expected)
         }
     }
 
     @Test
+    @JsName("result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         every {
             repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any(),
+                category = any(), page = any(),
+                language = any(), region = any(),
             )
         } returns flow { throw NullPointerException() }
 
         useCase(param = TestParam).test {
-            skipItems(count = 1)
-
-            val actual = awaitItem()
-
+            assertIs<Result.Error>(value = expectMostRecentItem())
             awaitComplete()
-
-            Truth.assertThat(actual is Result.Error).isTrue()
         }
     }
 
