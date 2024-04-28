@@ -53,9 +53,3 @@ Browse through large database of movies to find one you'd like to get info about
 - [Truth](https://truth.dev/)
 - [Turbine](https://github.com/google/turbine)
 - [Detekt](https://detekt.dev/)
-
-## TODO
-
-- Offline first repository with Room as caching layer
-- Authorization using TMDB API
-- Migrate to Compose Multiplatform
