@@ -68,6 +68,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":shared-domain"))
+
+            implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.kotlin.corutiens.core)
         }
         commonTest.dependencies {

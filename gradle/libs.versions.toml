@@ -21,6 +21,7 @@ mokkery = "1.9.23-1.6.1"
 compose-bom = "2024.04.01"
 jetbrains-compose = "1.6.2"
 compose-destinations = "1.10.2"
+multiplatform-settings = "1.1.1"
 
 koin = "3.5.6"
 koin-compose = "3.5.6"
@@ -42,6 +43,7 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
 
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose" }
