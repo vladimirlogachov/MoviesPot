@@ -14,7 +14,7 @@ internal data class CastMemberScheme(
     @SerialName("character")
     val character: String,
     @SerialName("profile_path")
-    val profilePath: String,
+    val profilePath: String?,
 )
 
 internal fun CastMemberScheme.toDomain(): CastMember =

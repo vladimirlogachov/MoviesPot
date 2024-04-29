@@ -26,7 +26,7 @@ buildkonfig {
     val accessToken = secretsProperties["access.token"] as String
 
     defaultConfigs {
-        buildConfigField(FieldSpec.Type.STRING, "BASE_URL", baseUrl)
+        buildConfigField(FieldSpec.Type.STRING, "HOST", baseUrl)
         buildConfigField(FieldSpec.Type.STRING, "BASE_IMAGE_URL", baseImageUrl)
         buildConfigField(FieldSpec.Type.STRING, "API_KEY", apiKey)
         buildConfigField(FieldSpec.Type.STRING, "ACCESS_TOKEN", accessToken)
@@ -68,12 +68,15 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            api(libs.ktor.client.cio)
+        }
         commonMain.dependencies {
             implementation(project(":shared-domain"))
 
-            implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.kotlin.corutiens.core)
 
+            api(libs.multiplatform.settings.no.arg)
             api(libs.ktor.serialization)
             api(libs.ktor.client.logging)
             api(libs.ktor.client.core)

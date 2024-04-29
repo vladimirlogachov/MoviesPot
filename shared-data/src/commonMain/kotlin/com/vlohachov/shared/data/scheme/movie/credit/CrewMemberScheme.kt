@@ -14,7 +14,7 @@ internal class CrewMemberScheme(
     @SerialName("job")
     val job: String,
     @SerialName("profile_path")
-    val profilePath: String,
+    val profilePath: String?,
 )
 
 internal fun CrewMemberScheme.toDomain(): CrewMember =

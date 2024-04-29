@@ -29,7 +29,7 @@ public class RemoteMovieRepository(private val client: HttpClient) : MovieReposi
         language: String?,
         region: String?
     ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedScheme> {
-        url(host = TmdbConfig.BASE_URL, path = "/3/movie/$category") {
+        url(host = TmdbConfig.HOST, path = "/3/movie/$category") {
             parameter(key = "api_key", value = TmdbConfig.API_KEY)
             parameter(key = "page", value = page)
             parameter(key = "language", value = language)
@@ -39,7 +39,7 @@ public class RemoteMovieRepository(private val client: HttpClient) : MovieReposi
 
     override fun getMovieDetails(id: Long, language: String?): Flow<MovieDetails> =
         client.getFlow<MovieDetailsScheme> {
-            url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id") {
+            url(host = TmdbConfig.HOST, path = "/3/movie/$id") {
                 parameter(key = "api_key", value = TmdbConfig.API_KEY)
                 parameter(key = "language", value = language)
             }
@@ -47,7 +47,7 @@ public class RemoteMovieRepository(private val client: HttpClient) : MovieReposi
 
     override fun getMovieCredits(id: Long, language: String?): Flow<MovieCredits> =
         client.getFlow<MovieCreditsScheme> {
-            url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id/credits") {
+            url(host = TmdbConfig.HOST, path = "/3/movie/$id/credits") {
                 parameter(key = "api_key", value = TmdbConfig.API_KEY)
                 parameter(key = "language", value = language)
             }
@@ -58,7 +58,7 @@ public class RemoteMovieRepository(private val client: HttpClient) : MovieReposi
         page: Int,
         language: String?,
     ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedScheme> {
-        url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id/recommendations") {
+        url(host = TmdbConfig.HOST, path = "/3/movie/$id/recommendations") {
             parameter(key = "api_key", value = TmdbConfig.API_KEY)
             parameter(key = "page", value = page)
             parameter(key = "language", value = language)
@@ -67,7 +67,7 @@ public class RemoteMovieRepository(private val client: HttpClient) : MovieReposi
 
     override fun getMovieKeywords(id: Long): Flow<List<Keyword>> =
         client.getFlow<MovieKeywordsScheme> {
-            url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id/keywords") {
+            url(host = TmdbConfig.HOST, path = "/3/movie/$id/keywords") {
                 parameter(key = "api_key", value = TmdbConfig.API_KEY)
             }
         }.map(MovieKeywordsScheme::toDomain)

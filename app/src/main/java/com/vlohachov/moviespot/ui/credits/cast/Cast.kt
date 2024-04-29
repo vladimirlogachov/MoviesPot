@@ -110,6 +110,8 @@ fun Cast(
                 onError = viewModel::onError,
             )
 
+            uiState.error?.printStackTrace()
+
             ErrorBar(
                 error = uiState.error,
                 snackbarHostState = snackbarHostState,

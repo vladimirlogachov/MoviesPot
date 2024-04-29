@@ -12,7 +12,7 @@ internal data class CompanyScheme(
     @SerialName("name")
     val name: String,
     @SerialName("logo_path")
-    val logoPath: String,
+    val logoPath: String?,
     @SerialName("origin_country")
     val originCountry: String,
 )
