@@ -14,9 +14,9 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
-import com.vlohachov.data.local.LocalPreferences
 import com.vlohachov.moviespot.ui.destinations.MainDestination
 import com.vlohachov.moviespot.ui.theme.AppTheme
+import com.vlohachov.shared.data.local.LocalPreferences
 import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
@@ -29,8 +29,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val preferences = get<LocalPreferences>()
-            val applyDynamicTheme by preferences.applyDynamicTheme
-                .collectAsState(initial = preferences.isDynamicThemeAvailable)
+            val applyDynamicTheme by preferences.applyDynamicThemeFlow
+                .collectAsState(initial = false)
 
             AppTheme(dynamicColor = applyDynamicTheme) {
                 Surface {

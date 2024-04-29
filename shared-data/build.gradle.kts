@@ -1,9 +1,36 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.build.konfig)
     alias(libs.plugins.mokkery)
+}
+
+val secretsPropertiesFile: File = project.file("secrets.properties")
+val secretsProperties = Properties().apply {
+    load(FileInputStream(secretsPropertiesFile))
+}
+
+buildkonfig {
+    packageName = "com.vlohachov.shared.data"
+    objectName = "TmdbConfig"
+
+    val baseUrl = secretsProperties["base.url"] as String
+    val baseImageUrl = secretsProperties["base.image.url"] as String
+    val apiKey = secretsProperties["api.key"] as String
+    val accessToken = secretsProperties["access.token"] as String
+
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.STRING, "HOST", baseUrl)
+        buildConfigField(FieldSpec.Type.STRING, "BASE_IMAGE_URL", baseImageUrl)
+        buildConfigField(FieldSpec.Type.STRING, "API_KEY", apiKey)
+        buildConfigField(FieldSpec.Type.STRING, "ACCESS_TOKEN", accessToken)
+    }
 }
 
 kotlin {
@@ -35,25 +62,38 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { target ->
         target.binaries.framework {
-            baseName = "shared-domain"
+            baseName = "shared-data"
             isStatic = true
         }
     }
 
     sourceSets {
+        androidMain.dependencies {
+            api(libs.ktor.client.cio)
+        }
         commonMain.dependencies {
+            implementation(project(":shared-domain"))
+
             implementation(libs.kotlin.corutiens.core)
+
+            api(libs.multiplatform.settings.no.arg)
+            api(libs.ktor.serialization)
+            api(libs.ktor.client.logging)
+            api(libs.ktor.client.core)
+            api(libs.ktor.client.json)
+            api(libs.ktor.client.content.negotiation)
         }
         commonTest.dependencies {
             implementation(libs.turbine)
             implementation(libs.kotlin.test)
             implementation(libs.kotlin.corutiens.test)
+            implementation(libs.ktor.client.mock)
         }
     }
 }
 
 android {
-    namespace = "com.vlohachov.shared.domain"
+    namespace = "com.vlohachov.shared.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

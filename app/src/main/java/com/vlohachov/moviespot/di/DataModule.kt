@@ -1,97 +1,79 @@
 package com.vlohachov.moviespot.di
 
-import android.content.Context
-import com.vlohachov.data.local.LocalPreferences
-import com.vlohachov.data.remote.TmdbConfig
-import com.vlohachov.data.remote.api.TmdbDiscoverApi
-import com.vlohachov.data.remote.api.TmdbGenreApi
-import com.vlohachov.data.remote.api.TmdbMovieApi
-import com.vlohachov.data.remote.api.TmdbSearchApi
-import com.vlohachov.data.repository.DiscoverRepositoryImpl
-import com.vlohachov.data.repository.GenreRepositoryImpl
-import com.vlohachov.data.repository.MovieRepositoryImpl
-import com.vlohachov.data.repository.SearchRepositoryImpl
-import com.vlohachov.data.repository.SettingsRepositoryImpl
+import com.russhwolf.settings.Settings
+import com.vlohachov.moviespot.BuildConfig
+import com.vlohachov.shared.data.local.LocalPreferences
+import com.vlohachov.shared.data.repository.LocalSettingsRepository
+import com.vlohachov.shared.data.repository.RemoteDiscoverRepository
+import com.vlohachov.shared.data.repository.RemoteGenreRepository
+import com.vlohachov.shared.data.repository.RemoteMovieRepository
+import com.vlohachov.shared.data.repository.RemoteSearchRepository
 import com.vlohachov.shared.domain.repository.DiscoverRepository
 import com.vlohachov.shared.domain.repository.GenreRepository
 import com.vlohachov.shared.domain.repository.MovieRepository
 import com.vlohachov.shared.domain.repository.SearchRepository
 import com.vlohachov.shared.domain.repository.SettingsRepository
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.cache.HttpCache
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
-private const val CACHE_MAX_SIZE = 20L * 1024 * 1024
-
+@OptIn(ExperimentalSerializationApi::class)
 val dataModule = module {
     single {
-        HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+        HttpClient {
+            install(HttpCache)
+            install(ContentNegotiation) {
+                json(
+                    json = Json {
+                        ignoreUnknownKeys = true
+                        prettyPrint = true
+                        isLenient = true
+                    }
+                )
+            }
+            install(Logging) {
+                logger = if (BuildConfig.DEBUG) {
+                    Logger.SIMPLE
+                } else {
+                    Logger.DEFAULT
+                }
+            }
         }
     }
 
-    single {
-        Cache(directory = get<Context>().cacheDir, maxSize = CACHE_MAX_SIZE)
-    }
-
-    single {
-        OkHttpClient.Builder()
-            .addInterceptor(get<HttpLoggingInterceptor>())
-            .cache(get())
-            .build()
-    }
-
-    single {
-        GsonConverterFactory.create()
-    }
-
-    single {
-        Retrofit.Builder()
-            .baseUrl(TmdbConfig.BASE_URL)
-            .addConverterFactory(get<GsonConverterFactory>())
-            .client(get())
-            .build()
-    }
-
-    single<TmdbDiscoverApi> {
-        get<Retrofit>().create()
-    }
-
-    single<TmdbGenreApi> {
-        get<Retrofit>().create()
-    }
-
-    single<TmdbMovieApi> {
-        get<Retrofit>().create()
-    }
-
-    single<TmdbSearchApi> {
-        get<Retrofit>().create()
-    }
-
     single<DiscoverRepository> {
-        DiscoverRepositoryImpl(remote = get())
+        RemoteDiscoverRepository(client = get())
     }
 
     single<GenreRepository> {
-        GenreRepositoryImpl(remote = get())
+        RemoteGenreRepository(client = get())
     }
 
     single<MovieRepository> {
-        MovieRepositoryImpl(remote = get())
+        RemoteMovieRepository(client = get())
     }
 
     single<SearchRepository> {
-        SearchRepositoryImpl(remote = get())
+        RemoteSearchRepository(client = get())
     }
 
-    single { LocalPreferences(context = get()) }
+    single {
+        Settings()
+    }
+
+    single {
+        LocalPreferences(settings = get())
+    }
 
     single<SettingsRepository> {
-        SettingsRepositoryImpl(preferences = get())
+        LocalSettingsRepository(preferences = get())
     }
 }
