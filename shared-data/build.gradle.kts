@@ -77,7 +77,7 @@ kotlin {
             api(libs.ktor.serialization)
             api(libs.ktor.client.logging)
             api(libs.ktor.client.core)
-            api(libs.ktor.client.cio)
+            api(libs.ktor.client.json)
             api(libs.ktor.client.content.negotiation)
         }
         commonTest.dependencies {
