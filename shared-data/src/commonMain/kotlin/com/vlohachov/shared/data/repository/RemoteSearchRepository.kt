@@ -1,9 +1,9 @@
 package com.vlohachov.shared.data.repository
 
 import com.vlohachov.shared.data.TmdbConfig
-import com.vlohachov.shared.data.getFlow
-import com.vlohachov.shared.data.remote.scheme.movie.MoviesPaginatedSchema
-import com.vlohachov.shared.data.remote.scheme.movie.toDomain
+import com.vlohachov.shared.data.extensions.getFlow
+import com.vlohachov.shared.data.scheme.movie.MoviesPaginatedScheme
+import com.vlohachov.shared.data.scheme.movie.toDomain
 import com.vlohachov.shared.domain.model.PaginatedData
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.repository.SearchRepository
@@ -19,13 +19,13 @@ public class RemoteSearchRepository(private val client: HttpClient) : SearchRepo
         query: String,
         page: Int,
         language: String?
-    ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedSchema> {
+    ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedScheme> {
         url(host = TmdbConfig.BASE_URL, path = "/3/search/movie") {
             parameter(key = "query", value = query)
             parameter(key = "page", value = page)
             parameter(key = "language", value = language)
             parameter(key = "api_key", value = TmdbConfig.API_KEY)
         }
-    }.map(MoviesPaginatedSchema::toDomain)
+    }.map(MoviesPaginatedScheme::toDomain)
 
 }

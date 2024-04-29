@@ -1,4 +1,4 @@
-package com.vlohachov.shared.data.remote.scheme.movie.credit
+package com.vlohachov.shared.data.scheme.movie.credit
 
 import com.vlohachov.shared.data.TmdbConfig
 import com.vlohachov.shared.domain.model.movie.credit.CastMember
@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CastMemberSchema(
+internal data class CastMemberScheme(
     @SerialName("id")
     val id: Long,
     @SerialName("name")
@@ -17,7 +17,7 @@ internal data class CastMemberSchema(
     val profilePath: String,
 )
 
-internal fun CastMemberSchema.toDomain(): CastMember =
+internal fun CastMemberScheme.toDomain(): CastMember =
     CastMember(
         id = id,
         name = name,

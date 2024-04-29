@@ -1,14 +1,14 @@
 package com.vlohachov.shared.data.repository
 
 import com.vlohachov.shared.data.TmdbConfig
-import com.vlohachov.shared.data.getFlow
-import com.vlohachov.shared.data.remote.scheme.movie.MovieDetailsSchema
-import com.vlohachov.shared.data.remote.scheme.movie.MoviesPaginatedSchema
-import com.vlohachov.shared.data.remote.scheme.movie.credit.MovieCreditsSchema
-import com.vlohachov.shared.data.remote.scheme.movie.credit.toDomain
-import com.vlohachov.shared.data.remote.scheme.movie.keyword.MovieKeywordsSchema
-import com.vlohachov.shared.data.remote.scheme.movie.keyword.toDomain
-import com.vlohachov.shared.data.remote.scheme.movie.toDomain
+import com.vlohachov.shared.data.extensions.getFlow
+import com.vlohachov.shared.data.scheme.movie.MovieDetailsScheme
+import com.vlohachov.shared.data.scheme.movie.MoviesPaginatedScheme
+import com.vlohachov.shared.data.scheme.movie.credit.MovieCreditsScheme
+import com.vlohachov.shared.data.scheme.movie.credit.toDomain
+import com.vlohachov.shared.data.scheme.movie.keyword.MovieKeywordsScheme
+import com.vlohachov.shared.data.scheme.movie.keyword.toDomain
+import com.vlohachov.shared.data.scheme.movie.toDomain
 import com.vlohachov.shared.domain.model.PaginatedData
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCredits
@@ -28,48 +28,48 @@ public class RemoteMovieRepository(private val client: HttpClient) : MovieReposi
         page: Int,
         language: String?,
         region: String?
-    ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedSchema> {
+    ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedScheme> {
         url(host = TmdbConfig.BASE_URL, path = "/3/movie/$category") {
             parameter(key = "api_key", value = TmdbConfig.API_KEY)
             parameter(key = "page", value = page)
             parameter(key = "language", value = language)
             parameter(key = "region", value = region)
         }
-    }.map(MoviesPaginatedSchema::toDomain)
+    }.map(MoviesPaginatedScheme::toDomain)
 
     override fun getMovieDetails(id: Long, language: String?): Flow<MovieDetails> =
-        client.getFlow<MovieDetailsSchema> {
+        client.getFlow<MovieDetailsScheme> {
             url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id") {
                 parameter(key = "api_key", value = TmdbConfig.API_KEY)
                 parameter(key = "language", value = language)
             }
-        }.map(MovieDetailsSchema::toDomain)
+        }.map(MovieDetailsScheme::toDomain)
 
     override fun getMovieCredits(id: Long, language: String?): Flow<MovieCredits> =
-        client.getFlow<MovieCreditsSchema> {
+        client.getFlow<MovieCreditsScheme> {
             url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id/credits") {
                 parameter(key = "api_key", value = TmdbConfig.API_KEY)
                 parameter(key = "language", value = language)
             }
-        }.map(MovieCreditsSchema::toDomain)
+        }.map(MovieCreditsScheme::toDomain)
 
     override fun getMovieRecommendations(
         id: Long,
         page: Int,
         language: String?,
-    ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedSchema> {
+    ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedScheme> {
         url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id/recommendations") {
             parameter(key = "api_key", value = TmdbConfig.API_KEY)
             parameter(key = "page", value = page)
             parameter(key = "language", value = language)
         }
-    }.map(MoviesPaginatedSchema::toDomain)
+    }.map(MoviesPaginatedScheme::toDomain)
 
     override fun getMovieKeywords(id: Long): Flow<List<Keyword>> =
-        client.getFlow<MovieKeywordsSchema> {
+        client.getFlow<MovieKeywordsScheme> {
             url(host = TmdbConfig.BASE_URL, path = "/3/movie/$id/keywords") {
                 parameter(key = "api_key", value = TmdbConfig.API_KEY)
             }
-        }.map(MovieKeywordsSchema::toDomain)
+        }.map(MovieKeywordsScheme::toDomain)
 
 }

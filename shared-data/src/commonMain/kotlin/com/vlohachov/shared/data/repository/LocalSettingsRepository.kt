@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
 
 @OptIn(ExperimentalCoroutinesApi::class)
-public class RemoteSettingsRepository(private val preferences: LocalPreferences) :
-    SettingsRepository {
+public class LocalSettingsRepository(
+    private val preferences: LocalPreferences
+) : SettingsRepository {
 
-    override fun getSettings(): Flow<Settings> {
-        return preferences.applyDynamicThemeFlow.mapLatest { value ->
+    override fun getSettings(): Flow<Settings> =
+        preferences.applyDynamicThemeFlow.mapLatest { value ->
             Settings(
                 dynamicTheme = value,
                 supportsDynamicTheme = isDynamicThemeAvailable(),
             )
         }
-    }
 
     override suspend fun applyDynamicTheme(apply: Boolean) {
         preferences.applyDynamicTheme(apply = apply)

@@ -1,4 +1,4 @@
-package com.vlohachov.shared.data.remote.scheme
+package com.vlohachov.shared.data.scheme
 
 import com.vlohachov.shared.data.TmdbConfig
 import com.vlohachov.shared.domain.model.Company
@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CompanySchema(
+internal data class CompanyScheme(
     @SerialName("id")
     val id: Int,
     @SerialName("name")
@@ -17,7 +17,7 @@ internal data class CompanySchema(
     val originCountry: String,
 )
 
-internal fun CompanySchema.toDomain(): Company =
+internal fun CompanyScheme.toDomain(): Company =
     Company(
         id = id,
         name = name,

@@ -1,11 +1,11 @@
-package com.vlohachov.shared.data.remote.scheme
+package com.vlohachov.shared.data.scheme
 
 import com.vlohachov.shared.domain.model.Language
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class LanguageSchema(
+internal data class LanguageScheme(
     @SerialName("name")
     val name: String,
     @SerialName("english_name")
@@ -14,5 +14,5 @@ internal data class LanguageSchema(
     val iso: String,
 )
 
-internal fun LanguageSchema.toDomain(): Language =
+internal fun LanguageScheme.toDomain(): Language =
     Language(name = name, englishName = englishName, iso = iso)

@@ -1,4 +1,4 @@
-package com.vlohachov.shared.data
+package com.vlohachov.shared.data.extensions
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

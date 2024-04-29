@@ -3,8 +3,8 @@ package com.vlohachov.shared.data.local
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.get
 import com.russhwolf.settings.set
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 internal expect fun isDynamicThemeAvailable(): Boolean
 
@@ -17,7 +17,7 @@ public class LocalPreferences(private val settings: Settings) {
     private val _dynamicThemeFlow =
         MutableStateFlow(value = settings[KEY_DYNAMIC_THEME] ?: isDynamicThemeAvailable())
 
-    public val applyDynamicThemeFlow: StateFlow<Boolean> =
+    public val applyDynamicThemeFlow: Flow<Boolean> =
         _dynamicThemeFlow
 
     public fun applyDynamicTheme(apply: Boolean) {

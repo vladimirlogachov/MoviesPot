@@ -1,4 +1,4 @@
-package com.vlohachov.shared.data.remote.scheme.movie
+package com.vlohachov.shared.data.scheme.movie
 
 import com.vlohachov.shared.data.TmdbConfig
 import com.vlohachov.shared.domain.model.movie.Movie
@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class MovieSchema(
+internal data class MovieScheme(
     @SerialName("id")
     val id: Long,
     @SerialName("title")
@@ -29,10 +29,10 @@ internal data class MovieSchema(
     val voteAverage: Float,
 )
 
-internal fun List<MovieSchema>.toDomain(): List<Movie> =
-    map(MovieSchema::toDomain)
+internal fun List<MovieScheme>.toDomain(): List<Movie> =
+    map(MovieScheme::toDomain)
 
-internal fun MovieSchema.toDomain(): Movie =
+internal fun MovieScheme.toDomain(): Movie =
     Movie(
         id = id,
         title = title,

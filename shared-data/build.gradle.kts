@@ -73,14 +73,18 @@ kotlin {
 
             implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.kotlin.corutiens.core)
-            implementation(libs.ktor.serialization)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.cio)
+
+            api(libs.ktor.serialization)
+            api(libs.ktor.client.logging)
+            api(libs.ktor.client.core)
+            api(libs.ktor.client.cio)
+            api(libs.ktor.client.content.negotiation)
         }
         commonTest.dependencies {
             implementation(libs.turbine)
             implementation(libs.kotlin.test)
             implementation(libs.kotlin.corutiens.test)
+            implementation(libs.ktor.client.mock)
         }
     }
 }

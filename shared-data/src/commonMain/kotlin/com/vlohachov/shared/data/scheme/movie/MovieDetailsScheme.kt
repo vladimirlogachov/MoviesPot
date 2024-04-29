@@ -1,18 +1,18 @@
-package com.vlohachov.shared.data.remote.scheme.movie
+package com.vlohachov.shared.data.scheme.movie
 
 import com.vlohachov.shared.data.TmdbConfig
-import com.vlohachov.shared.data.remote.scheme.CompanySchema
-import com.vlohachov.shared.data.remote.scheme.CountrySchema
-import com.vlohachov.shared.data.remote.scheme.LanguageSchema
-import com.vlohachov.shared.data.remote.scheme.genre.GenreSchema
-import com.vlohachov.shared.data.remote.scheme.genre.toDomain
-import com.vlohachov.shared.data.remote.scheme.toDomain
+import com.vlohachov.shared.data.scheme.CompanyScheme
+import com.vlohachov.shared.data.scheme.CountryScheme
+import com.vlohachov.shared.data.scheme.LanguageScheme
+import com.vlohachov.shared.data.scheme.genre.GenreScheme
+import com.vlohachov.shared.data.scheme.genre.toDomain
+import com.vlohachov.shared.data.scheme.toDomain
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class MovieDetailsSchema(
+internal data class MovieDetailsScheme(
     @SerialName("id")
     val id: Int,
     @SerialName("title")
@@ -38,7 +38,7 @@ internal data class MovieDetailsSchema(
     @SerialName("vote_count")
     val voteCount: Int,
     @SerialName("genres")
-    val genres: List<GenreSchema>,
+    val genres: List<GenreScheme>,
     @SerialName("adult")
     val isAdult: Boolean,
     @SerialName("homepage")
@@ -46,14 +46,14 @@ internal data class MovieDetailsSchema(
     @SerialName("original_language")
     val originalLanguage: String,
     @SerialName("spoken_languages")
-    val spokenLanguages: List<LanguageSchema>,
+    val spokenLanguages: List<LanguageScheme>,
     @SerialName("production_countries")
-    val productionCountries: List<CountrySchema>,
+    val productionCountries: List<CountryScheme>,
     @SerialName("production_companies")
-    val productionCompanies: List<CompanySchema>,
+    val productionCompanies: List<CompanyScheme>,
 )
 
-internal fun MovieDetailsSchema.toDomain(): MovieDetails =
+internal fun MovieDetailsScheme.toDomain(): MovieDetails =
     MovieDetails(
         id = id,
         title = title,
@@ -67,11 +67,11 @@ internal fun MovieDetailsSchema.toDomain(): MovieDetails =
         status = status,
         voteAverage = voteAverage,
         voteCount = voteCount,
-        genres = genres.map(GenreSchema::toDomain),
+        genres = genres.map(GenreScheme::toDomain),
         isAdult = isAdult,
         homepage = homepage,
         originalLanguage = originalLanguage,
-        spokenLanguages = spokenLanguages.map(LanguageSchema::toDomain),
-        productionCountries = productionCountries.map(CountrySchema::toDomain),
-        productionCompanies = productionCompanies.map(CompanySchema::toDomain),
+        spokenLanguages = spokenLanguages.map(LanguageScheme::toDomain),
+        productionCountries = productionCountries.map(CountryScheme::toDomain),
+        productionCompanies = productionCompanies.map(CompanyScheme::toDomain),
     )
