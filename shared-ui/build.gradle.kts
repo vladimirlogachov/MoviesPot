@@ -47,8 +47,11 @@ kotlin {
             implementation(compose.uiTooling)
         }
         commonMain.dependencies {
+            implementation(project(":shared-domain"))
+            implementation(libs.coil.compose)
             implementation(compose.ui)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
         }
