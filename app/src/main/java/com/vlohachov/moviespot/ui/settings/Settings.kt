@@ -41,11 +41,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.BuildConfig
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.bar.AppBar
-import com.vlohachov.moviespot.ui.components.bar.ErrorBar
-import com.vlohachov.moviespot.ui.components.bar.ErrorBarDefaults
 import com.vlohachov.shared.domain.model.settings.Settings
+import com.vlohachov.shared.ui.component.bar.AppBar
+import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.state.ViewState
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,13 +72,12 @@ fun Settings(
                 title = stringResource(id = R.string.settings),
                 onBackClick = navigator::navigateUp,
             )
-
         },
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
                     .semantics {
-                        testTag = ErrorBarDefaults.ErrorTestTag
+                        testTag = SettingsDefaults.ErrorBarTestTag
                     }
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
@@ -200,6 +198,7 @@ object SettingsDefaults {
     const val ContentTestTag = "settings_content"
     const val LoadingTestTag = "settings_loading"
     const val DynamicThemeTestTag = "settings_dynamic_theme"
+    const val ErrorBarTestTag = "error_bar"
     const val DynamicThemeToggleTestTag = "settings_dynamic_theme_toggle"
     const val AuthorTestTag = "app_author"
 }

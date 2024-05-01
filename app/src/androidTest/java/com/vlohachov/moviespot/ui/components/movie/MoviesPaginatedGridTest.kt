@@ -27,8 +27,8 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.common.truth.Truth
 import com.vlohachov.moviespot.data.TestMovies
-import com.vlohachov.moviespot.ui.components.PosterDefaults
 import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.ui.component.PosterDefaults
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule

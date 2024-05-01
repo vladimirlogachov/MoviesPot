@@ -36,7 +36,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -50,18 +49,15 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyGenres
-import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.bar.AppBar
-import com.vlohachov.moviespot.ui.components.bar.ErrorBar
 import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
 import com.vlohachov.shared.domain.model.genre.Genre
+import com.vlohachov.shared.ui.component.bar.AppBar
+import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalComposeUiApi::class,
-)
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 fun Discover(

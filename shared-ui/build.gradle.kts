@@ -47,8 +47,13 @@ kotlin {
             implementation(compose.uiTooling)
         }
         commonMain.dependencies {
+            implementation(project(":shared-domain"))
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.ktor.client.core)
             implementation(compose.ui)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
         }
@@ -56,6 +61,11 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             implementation(libs.kotlin.test)
+        }
+        val desktopTest by getting
+        desktopTest.dependencies {
+            implementation(libs.kotlin.corutiens.swing)
+            implementation(compose.desktop.currentOs)
         }
     }
 }

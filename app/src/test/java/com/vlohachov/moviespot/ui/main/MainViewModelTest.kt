@@ -2,13 +2,13 @@ package com.vlohachov.moviespot.ui.main
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestPaginatedData
 import com.vlohachov.moviespot.util.TestDispatcherRule
 import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.model.PaginatedData
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
+import com.vlohachov.shared.ui.state.ViewState
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow

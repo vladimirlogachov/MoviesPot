@@ -1,9 +1,9 @@
 package com.vlohachov.moviespot.ui.details
 
-import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.domain.model.movie.keyword.Keyword
+import com.vlohachov.shared.ui.state.ViewState
 
 data class MovieDetailsViewState(
     val detailsViewState: ViewState<MovieDetails> = ViewState.Loading,

@@ -3,9 +3,9 @@ package com.vlohachov.moviespot.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.moviespot.core.WhileUiSubscribed
-import com.vlohachov.moviespot.core.toViewStatePaginated
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
+import com.vlohachov.shared.ui.state.toViewStatePaginated
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

@@ -3,9 +3,9 @@ package com.vlohachov.moviespot.ui.discover
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.moviespot.core.WhileUiSubscribed
-import com.vlohachov.moviespot.core.toViewState
 import com.vlohachov.shared.domain.model.genre.Genre
 import com.vlohachov.shared.domain.usecase.LoadGenres
+import com.vlohachov.shared.ui.state.toViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

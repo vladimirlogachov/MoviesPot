@@ -4,7 +4,7 @@ android-minSdk = "30"
 android-targetSdk = "34"
 
 agp = "8.4.0"
-coil = "2.6.0"
+coil = "3.0.0-alpha06"
 ktor = "3.0.0-wasm2"
 truth = "1.4.2"
 mockk = "1.13.10"
@@ -38,9 +38,11 @@ androidx-activity-compose = "1.9.0"
 junit = { module = "junit:junit", version.ref = "junit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
+
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil" }
 
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose" }
@@ -59,6 +61,7 @@ mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-corutiens-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-corutiens-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
+kotlin-corutiens-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
