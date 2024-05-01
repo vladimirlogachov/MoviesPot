@@ -31,8 +31,13 @@ jobs:
             ~/.gradle/wrapper
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
-      - name: Assemble
-        run: ./gradlew assemble
+      - name: Assemble Debug
+        if: ${{ github.event_name == 'pull_request' }}
+        run: ./gradlew assembleDebug
+
+      - name: Assemble Release
+        if: ${{ github.event_name == 'push' }}
+        run: ./gradlew assembleRelease
 
   detekt:
     needs: [ 'assemble' ]
