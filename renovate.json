@@ -9,7 +9,6 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "Non-Major Deps",
       "automerge": true
     },
     {
