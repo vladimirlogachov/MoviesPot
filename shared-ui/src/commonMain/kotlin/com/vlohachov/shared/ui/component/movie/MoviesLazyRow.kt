@@ -70,7 +70,7 @@ public fun MoviesLazyRow(
 
 public object MoviesLazyRowDefaults {
 
-    internal const val MoviesLazyRowTestTag = "movies_lazy_row"
+    public const val MoviesLazyRowTestTag: String = "movies_lazy_row"
 
     public val ContentPadding: PaddingValues = PaddingValues(all = 16.dp)
 

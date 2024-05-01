@@ -133,12 +133,12 @@ private fun Movies(
 
 public object MoviesSectionDefaults {
 
-    internal const val MoviesSectionTestTag = "movies_section"
-    internal const val MoreButtonTestTag = "movies_section_more_button"
-    internal const val ContentTestTag = "movies_section_content"
-    internal const val ProgressTestTag = "movies_section_progress"
-    internal const val ErrorTestTag = "movies_section_error"
-    internal const val EmptyTestTag = "movies_section_empty"
+    public const val MoviesSectionTestTag: String = "movies_section"
+    public const val MoreButtonTestTag: String = "movies_section_more_button"
+    public const val ContentTestTag: String = "movies_section_content"
+    public const val ProgressTestTag: String = "movies_section_progress"
+    public const val ErrorTestTag: String = "movies_section_error"
+    public const val EmptyTestTag: String = "movies_section_empty"
 
     public val TitlePadding: PaddingValues = PaddingValues(start = 16.dp, end = 4.dp)
     public val ContentPadding: PaddingValues = PaddingValues(all = 16.dp)

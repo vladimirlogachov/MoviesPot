@@ -19,9 +19,9 @@ import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.data.TestMovies
-import com.vlohachov.moviespot.ui.components.button.ScrollToTopDefaults
 import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.shared.domain.model.movie.Movie
+import com.vlohachov.shared.ui.component.button.ScrollToTopDefaults
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun

@@ -50,6 +50,6 @@ public fun ScrollToTop(
 
 public object ScrollToTopDefaults {
 
-    internal const val ScrollToTopTestTag = "scroll_to_top"
+    public const val ScrollToTopTestTag: String = "scroll_to_top"
 
 }

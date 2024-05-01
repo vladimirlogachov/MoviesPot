@@ -57,9 +57,9 @@ public fun Section(
 
 public object SectionDefaults {
 
-    internal const val SectionTestTag = "section"
-    internal const val SectionTitleTestTag = "section_title"
-    internal const val SectionContentTestTag = "section_content"
+    public const val SectionTestTag: String = "section"
+    public const val SectionTitleTestTag: String = "section_title"
+    public const val SectionContentTestTag: String = "section_content"
 
     @Composable
     public fun sectionColors(

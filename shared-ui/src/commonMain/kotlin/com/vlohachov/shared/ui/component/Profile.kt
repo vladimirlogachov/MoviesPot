@@ -201,11 +201,11 @@ private fun Footer(
 
 public object ProfileDefaults {
 
-    internal const val ProfileTestTag = "profile"
-    internal const val ImageTestTag = "profile_image"
-    internal const val ErrorTestTag = "profile_error"
-    internal const val TitleTestTag = "profile_title"
-    internal const val BodyTestTag = "profile_body"
+    public const val ProfileTestTag: String = "profile"
+    public const val ImageTestTag: String = "profile_image"
+    public const val ErrorTestTag: String = "profile_error"
+    public const val TitleTestTag: String = "profile_title"
+    public const val BodyTestTag: String = "profile_body"
 
     public val FooterPadding: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
     public val Shape: Shape = RoundedCornerShape(size = 16.dp)

@@ -44,9 +44,9 @@ public fun SectionTitle(
 
 public object SectionTitleDefaults {
 
-    internal const val TitleTestTag = "title"
-    internal const val TitleTextTestTag = "title_text"
-    internal const val TitleIconTestTag = "title_icon"
+    public const val TitleTestTag: String = "title"
+    public const val TitleTextTestTag: String = "title_text"
+    public const val TitleIconTestTag: String = "title_icon"
 
 }
 
