@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.build.konfig)
     alias(libs.plugins.mokkery)
+    alias(libs.plugins.detekt)
 }
 
 val secretsPropertiesFile: File = project.file("secrets.properties")
