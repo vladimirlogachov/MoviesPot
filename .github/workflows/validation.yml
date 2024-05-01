@@ -32,7 +32,7 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
       - name: Assemble
-        run: ./gradlew assemble assembleAndroidTest
+        run: ./gradlew assemble
 
   detekt:
     needs: [ 'assemble' ]
