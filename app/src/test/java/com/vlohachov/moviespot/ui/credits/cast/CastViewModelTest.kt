@@ -2,12 +2,12 @@ package com.vlohachov.moviespot.ui.credits.cast
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth
-import com.vlohachov.moviespot.core.ViewState
 import com.vlohachov.moviespot.data.TestMovieCredits
 import com.vlohachov.moviespot.util.TestDispatcherRule
 import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.model.movie.credit.CastMember
 import com.vlohachov.shared.domain.usecase.credits.LoadCast
+import com.vlohachov.shared.ui.state.ViewState
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow

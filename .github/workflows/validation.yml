@@ -80,7 +80,7 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew test -x shared-ui:test
 
   test-ui:
     needs: [ 'detekt' ]
