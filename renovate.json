@@ -8,6 +8,10 @@
   "configMigration": true,
   "packageRules": [
     {
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
       "matchFileNames": [
         ".github/workflows/**"
       ],
