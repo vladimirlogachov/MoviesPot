@@ -12,8 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.button.More
@@ -48,8 +47,7 @@ public fun MoviesSection(
         if (onMore != null && isNotEmpty) {
             @Composable {
                 More(
-                    modifier = Modifier
-                        .semantics { testTag = MoviesSectionDefaults.MoreButtonTestTag },
+                    modifier = Modifier.testTag(tag = MoviesSectionDefaults.MoreButtonTestTag),
                     onClick = onMore,
                 )
             }
@@ -57,8 +55,7 @@ public fun MoviesSection(
             null
         }
     Section(
-        modifier = modifier
-            .semantics { testTag = MoviesSectionDefaults.MoviesSectionTestTag },
+        modifier = modifier.testTag(tag = MoviesSectionDefaults.MoviesSectionTestTag),
         title = {
             SectionTitle(
                 modifier = Modifier
@@ -74,9 +71,7 @@ public fun MoviesSection(
     ) {
         Movies(
             modifier = Modifier
-                .semantics {
-                    testTag = MoviesSectionDefaults.ContentTestTag
-                }
+                .testTag(tag = MoviesSectionDefaults.ContentTestTag)
                 .fillMaxWidth(),
             viewState = viewState,
             onMovieClick = onMovieClick,
@@ -98,9 +93,7 @@ private fun Movies(
             ViewState.Loading ->
                 CircularProgressIndicator(
                     modifier = Modifier
-                        .semantics {
-                            testTag = MoviesSectionDefaults.ProgressTestTag
-                        }
+                        .testTag(tag = MoviesSectionDefaults.ProgressTestTag)
                         .padding(paddingValues = contentPadding)
                         .align(alignment = Alignment.Center)
                 )
@@ -109,9 +102,7 @@ private fun Movies(
                 viewState.error?.message?.run {
                     Text(
                         modifier = Modifier
-                            .semantics {
-                                testTag = MoviesSectionDefaults.ErrorTestTag
-                            }
+                            .testTag(tag = MoviesSectionDefaults.ErrorTestTag)
                             .padding(paddingValues = contentPadding),
                         text = this,
                     )
@@ -121,9 +112,7 @@ private fun Movies(
                 if (viewState.data.isEmpty()) {
                     Text(
                         modifier = Modifier
-                            .semantics {
-                                testTag = MoviesSectionDefaults.EmptyTestTag
-                            }
+                            .testTag(tag = MoviesSectionDefaults.EmptyTestTag)
                             .padding(paddingValues = contentPadding)
                             .align(alignment = Alignment.Center),
                         text = stringResource(resource = Res.string.no_results),

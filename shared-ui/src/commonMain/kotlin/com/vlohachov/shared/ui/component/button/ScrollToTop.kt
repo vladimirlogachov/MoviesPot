@@ -13,8 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import moviespot.shared_ui.generated.resources.Res
@@ -28,7 +27,7 @@ public fun ScrollToTop(
     visible: Boolean,
     gridState: LazyGridState,
     modifier: Modifier = Modifier,
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) {
     AnimatedVisibility(
         visible = visible,
@@ -36,8 +35,7 @@ public fun ScrollToTop(
         exit = fadeOut() + scaleOut(),
     ) {
         FloatingActionButton(
-            modifier = modifier
-                .semantics { testTag = ScrollToTopDefaults.ScrollToTopTestTag },
+            modifier = modifier.testTag(tag = ScrollToTopDefaults.ScrollToTopTestTag),
             onClick = {
                 coroutineScope.launch { gridState.scrollToItem(index = 0) }
             }
@@ -52,6 +50,6 @@ public fun ScrollToTop(
 
 public object ScrollToTopDefaults {
 
-    internal const val ScrollToTopTestTag = "ScrollToTopTestTag"
+    internal const val ScrollToTopTestTag = "scroll_to_top"
 
 }

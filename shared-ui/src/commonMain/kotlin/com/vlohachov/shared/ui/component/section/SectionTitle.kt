@@ -11,8 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -25,20 +24,17 @@ public fun SectionTitle(
     trailing: @Composable (() -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier
-            .semantics { testTag = SectionTitleDefaults.TitleTestTag },
+        modifier = modifier.testTag(tag = SectionTitleDefaults.TitleTestTag),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = horizontalArrangement,
     ) {
         Text(
-            modifier = Modifier
-                .semantics { testTag = SectionTitleDefaults.TitleTextTestTag },
+            modifier = Modifier.testTag(tag = SectionTitleDefaults.TitleTextTestTag),
             text = text,
         )
         trailing?.run {
             Box(
-                modifier = Modifier
-                    .semantics { testTag = SectionTitleDefaults.TitleIconTestTag },
+                modifier = Modifier.testTag(tag = SectionTitleDefaults.TitleIconTestTag),
             ) {
                 this@run()
             }

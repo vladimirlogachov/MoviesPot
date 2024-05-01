@@ -11,8 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import moviespot.shared_ui.generated.resources.Res
@@ -30,16 +29,11 @@ public fun More(
 ) {
     CompositionLocalProvider(LocalContentColor provides tint) {
         IconButton(
-            modifier = modifier
-                .semantics {
-                    testTag = MoreDefaults.ButtonTestTag
-                },
+            modifier = modifier.testTag(tag = MoreDefaults.ButtonTestTag),
             onClick = onClick,
         ) {
             Icon(
-                modifier = Modifier.semantics {
-                    testTag = MoreDefaults.IconTestTag
-                },
+                modifier = Modifier.testTag(tag = MoreDefaults.IconTestTag),
                 imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                 contentDescription = stringResource(resource = Res.string.more),
             )

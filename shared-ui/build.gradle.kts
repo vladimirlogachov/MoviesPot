@@ -60,6 +60,11 @@ kotlin {
             implementation(compose.uiTest)
             implementation(libs.kotlin.test)
         }
+        val desktopTest by getting
+        desktopTest.dependencies {
+            implementation(libs.kotlin.corutiens.swing)
+            implementation(compose.desktop.currentOs)
+        }
     }
 }
 

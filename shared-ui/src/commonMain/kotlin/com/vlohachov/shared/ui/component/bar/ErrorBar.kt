@@ -1,5 +1,6 @@
 package com.vlohachov.shared.ui.component.bar
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import org.jetbrains.compose.resources.stringResource
 public fun ErrorBar(
     error: Throwable?,
     snackbarHostState: SnackbarHostState,
+    duration: SnackbarDuration = SnackbarDuration.Short,
     onDismissed: (() -> Unit)? = null,
     onActionPerformed: (() -> Unit)? = null,
 ) {
@@ -22,7 +24,12 @@ public fun ErrorBar(
     val unknownErrorText = stringResource(resource = Res.string.unknown_error_local)
 
     LaunchedEffect(snackbarHostState) {
-        when (snackbarHostState.showSnackbar(message = error.message ?: unknownErrorText)) {
+        when (
+            snackbarHostState.showSnackbar(
+                message = error.message ?: unknownErrorText,
+                duration = duration,
+            )
+        ) {
             SnackbarResult.Dismissed -> onDismissed?.invoke()
             SnackbarResult.ActionPerformed -> onActionPerformed?.invoke()
         }

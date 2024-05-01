@@ -13,8 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
@@ -31,16 +30,14 @@ public fun Section(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .semantics { testTag = SectionDefaults.SectionTestTag },
+        modifier = modifier.testTag(tag = SectionDefaults.SectionTestTag),
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
     ) {
         ProvideTextStyle(value = textStyles.titleTextStyle().value) {
             CompositionLocalProvider(LocalContentColor provides colors.titleColor().value) {
                 Box(
-                    modifier = Modifier
-                        .semantics { testTag = SectionDefaults.SectionTitleTestTag },
+                    modifier = Modifier.testTag(tag = SectionDefaults.SectionTitleTestTag)
                 ) {
                     this@Column.title()
                 }
@@ -49,10 +46,7 @@ public fun Section(
         ProvideTextStyle(value = textStyles.contentTextStyle().value) {
             CompositionLocalProvider(LocalContentColor provides colors.contentColor().value) {
                 Box(
-                    modifier = Modifier
-                        .semantics {
-                            testTag = SectionDefaults.SectionContentTestTag
-                        },
+                    modifier = Modifier.testTag(tag = SectionDefaults.SectionContentTestTag)
                 ) {
                     this@Column.content()
                 }

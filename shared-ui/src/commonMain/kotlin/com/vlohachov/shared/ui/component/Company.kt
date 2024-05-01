@@ -19,8 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -39,8 +38,7 @@ public fun Company(
     imageShape: Shape = CompanyDefaults.ImageShape,
 ) {
     Column(
-        modifier = modifier
-            .semantics { testTag = CompanyDefaults.CompanyTestTag },
+        modifier = modifier.testTag(tag = CompanyDefaults.CompanyTestTag),
         verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -55,16 +53,14 @@ public fun Company(
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
-                    modifier = Modifier
-                        .semantics { testTag = CompanyDefaults.ImageTestTag },
+                    modifier = Modifier.testTag(tag = CompanyDefaults.ImageTestTag),
                     painter = painter,
                     contentDescription = name,
                     contentScale = ContentScale.Fit,
                 )
                 if (error) {
                     Icon(
-                        modifier = Modifier
-                            .semantics { testTag = CompanyDefaults.ErrorTestTag },
+                        modifier = Modifier.testTag(tag = CompanyDefaults.ErrorTestTag),
                         imageVector = Icons.Rounded.BrokenImage,
                         contentDescription = null,
                         tint = Color.Black,
@@ -73,8 +69,7 @@ public fun Company(
             }
         }
         Text(
-            modifier = Modifier
-                .semantics { testTag = CompanyDefaults.NameTestTag },
+            modifier = Modifier.testTag(tag = CompanyDefaults.NameTestTag),
             text = name,
             textAlign = TextAlign.Center,
             maxLines = 2,

@@ -31,8 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -56,8 +55,7 @@ public fun Profile(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier
-            .semantics { testTag = ProfileDefaults.ProfileTestTag },
+        modifier = modifier.testTag(tag = ProfileDefaults.ProfileTestTag),
         shape = shape,
         color = color,
         contentColor = contentColor,
@@ -93,8 +91,7 @@ public fun Profile(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier
-            .semantics { testTag = ProfileDefaults.ProfileTestTag },
+        modifier = modifier.testTag(tag = ProfileDefaults.ProfileTestTag),
         onClick = onClick,
         shape = shape,
         color = color,
@@ -151,7 +148,7 @@ private fun Image(
     Box(modifier = modifier) {
         Image(
             modifier = Modifier
-                .semantics { testTag = ProfileDefaults.ImageTestTag }
+                .testTag(tag = ProfileDefaults.ImageTestTag)
                 .fillMaxSize(),
             painter = painter,
             contentScale = ContentScale.Crop,
@@ -160,7 +157,7 @@ private fun Image(
         if (error) {
             Icon(
                 modifier = Modifier
-                    .semantics { testTag = ProfileDefaults.ErrorTestTag }
+                    .testTag(tag = ProfileDefaults.ErrorTestTag)
                     .size(size = 48.dp)
                     .align(alignment = Alignment.Center),
                 imageVector = Icons.Rounded.BrokenImage,
@@ -175,7 +172,7 @@ private fun Footer(
     modifier: Modifier,
     title: String,
     body: String,
-    footerPadding: PaddingValues
+    footerPadding: PaddingValues,
 ) {
     Column(
         modifier = modifier
@@ -184,8 +181,7 @@ private fun Footer(
     ) {
         ProvideTextStyle(value = MaterialTheme.typography.bodySmall) {
             Text(
-                modifier = Modifier
-                    .semantics { testTag = ProfileDefaults.TitleTestTag },
+                modifier = Modifier.testTag(tag = ProfileDefaults.TitleTestTag),
                 text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -193,8 +189,7 @@ private fun Footer(
         }
         ProvideTextStyle(value = MaterialTheme.typography.labelSmall) {
             Text(
-                modifier = Modifier
-                    .semantics { testTag = ProfileDefaults.BodyTestTag },
+                modifier = Modifier.testTag(tag = ProfileDefaults.BodyTestTag),
                 text = body,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

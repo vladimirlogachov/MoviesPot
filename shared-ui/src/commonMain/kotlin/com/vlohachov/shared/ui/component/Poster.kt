@@ -25,8 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
@@ -47,8 +46,7 @@ public fun Poster(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier
-            .semantics { testTag = PosterDefaults.PosterTestTag },
+        modifier = modifier.testTag(tag = PosterDefaults.PosterTestTag),
         shape = shape,
         color = color,
         contentColor = contentColor,
@@ -59,7 +57,7 @@ public fun Poster(
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 modifier = Modifier
-                    .semantics { testTag = PosterDefaults.ImageTestTag }
+                    .testTag(tag = PosterDefaults.ImageTestTag)
                     .fillMaxSize(),
                 painter = painter,
                 contentScale = ContentScale.Crop,
@@ -68,7 +66,7 @@ public fun Poster(
             if (error) {
                 Icon(
                     modifier = Modifier
-                        .semantics { testTag = PosterDefaults.ErrorTestTag }
+                        .testTag(tag = PosterDefaults.ErrorTestTag)
                         .size(size = 48.dp)
                         .align(alignment = Alignment.Center),
                     imageVector = Icons.Rounded.BrokenImage,
@@ -94,8 +92,7 @@ public fun Poster(
     border: BorderStroke? = null,
 ) {
     Surface(
-        modifier = modifier
-            .semantics { testTag = PosterDefaults.PosterTestTag },
+        modifier = modifier.testTag(tag = PosterDefaults.PosterTestTag),
         onClick = onClick,
         shape = shape,
         color = color,
@@ -107,7 +104,7 @@ public fun Poster(
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 modifier = Modifier
-                    .semantics { testTag = PosterDefaults.ImageTestTag }
+                    .testTag(tag = PosterDefaults.ImageTestTag)
                     .fillMaxSize(),
                 painter = painter,
                 contentScale = ContentScale.Crop,
@@ -116,7 +113,7 @@ public fun Poster(
             if (error) {
                 Icon(
                     modifier = Modifier
-                        .semantics { testTag = PosterDefaults.ErrorTestTag }
+                        .testTag(tag = PosterDefaults.ErrorTestTag)
                         .size(size = 48.dp)
                         .align(alignment = Alignment.Center),
                     imageVector = Icons.Rounded.BrokenImage,
