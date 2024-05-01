@@ -40,13 +40,6 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.core.ViewState
-import com.vlohachov.moviespot.ui.components.bar.AppBar
-import com.vlohachov.moviespot.ui.components.bar.ErrorBar
-import com.vlohachov.moviespot.ui.components.movie.MoviesSection
-import com.vlohachov.moviespot.ui.components.section.Section
-import com.vlohachov.moviespot.ui.components.section.SectionDefaults
-import com.vlohachov.moviespot.ui.components.section.SectionTitle
 import com.vlohachov.moviespot.ui.destinations.CastDestination
 import com.vlohachov.moviespot.ui.destinations.CrewDestination
 import com.vlohachov.moviespot.ui.destinations.FullscreenImageDestination
@@ -55,6 +48,13 @@ import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
 import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.domain.model.movie.keyword.Keyword
+import com.vlohachov.shared.ui.component.bar.AppBar
+import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.component.movie.MoviesSection
+import com.vlohachov.shared.ui.component.section.Section
+import com.vlohachov.shared.ui.component.section.SectionDefaults
+import com.vlohachov.shared.ui.component.section.SectionTitle
+import com.vlohachov.shared.ui.state.ViewState
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 

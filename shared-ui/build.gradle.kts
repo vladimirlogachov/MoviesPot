@@ -49,6 +49,8 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":shared-domain"))
             implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.ktor.client.core)
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)

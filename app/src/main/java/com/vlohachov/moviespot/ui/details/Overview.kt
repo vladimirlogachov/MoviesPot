@@ -14,9 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.LoremIpsum
-import com.vlohachov.moviespot.ui.components.section.Section
-import com.vlohachov.moviespot.ui.components.section.SectionDefaults
-import com.vlohachov.moviespot.ui.components.section.SectionTitle
+import com.vlohachov.shared.ui.component.section.Section
+import com.vlohachov.shared.ui.component.section.SectionDefaults
+import com.vlohachov.shared.ui.component.section.SectionTitle
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 
 @Composable
