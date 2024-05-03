@@ -102,7 +102,7 @@ dependencies {
 
     // DI
     implementation(libs.koin.android)
-    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.old)
 
     // Test
     testImplementation(libs.junit)

@@ -16,6 +16,7 @@
     <string name="format_duration">%1$dh %2$dm</string>
     <string name="reviews">%d reviews</string>
     <string name="duration">Duration</string>
+    <string name="decimal_format">%.1f</string>
     <string name="audience">Audience</string>
     <string name="overview">Overview</string>
     <string name="credits">Credits</string>

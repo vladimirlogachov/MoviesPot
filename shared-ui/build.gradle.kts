@@ -48,10 +48,18 @@ kotlin {
             implementation(compose.uiTooling)
         }
         commonMain.dependencies {
+            implementation(project(":shared-data"))
             implementation(project(":shared-domain"))
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
+            implementation(libs.androidx.lifecycle.runtime)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.androidx.navigation.common)
             implementation(libs.ktor.client.core)
+            implementation(libs.kotlin.datetime)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.coil.compose)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.core)
+
             implementation(compose.ui)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
@@ -61,6 +69,7 @@ kotlin {
         commonTest.dependencies {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
+            implementation(libs.koin.test)
             implementation(libs.kotlin.test)
         }
         val desktopTest by getting
