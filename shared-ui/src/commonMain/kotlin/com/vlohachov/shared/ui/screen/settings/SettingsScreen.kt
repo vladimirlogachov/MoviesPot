@@ -35,6 +35,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.internal.BackHandler
 import com.vlohachov.shared.domain.model.settings.Settings
 import com.vlohachov.shared.ui.BuildConfig
 import com.vlohachov.shared.ui.component.bar.AppBar
@@ -52,7 +57,17 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+internal object SettingsScreen : Screen {
+
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        SettingsScreen(onBack = navigator::pop)
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class, InternalVoyagerApi::class)
 @Composable
 internal fun SettingsScreen(
     onBack: () -> Unit,
@@ -62,28 +77,36 @@ internal fun SettingsScreen(
     val uriHandler = LocalUriHandler.current
     val viewState by viewModel.viewState.collectAsState(initial = ViewState.Loading)
 
+    BackHandler(enabled = true, onBack = onBack)
+
     ErrorBar(
         error = viewModel.error,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )
 
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        AppBar(
-            modifier = Modifier.fillMaxWidth(),
-            title = stringResource(resource = Res.string.settings),
-            onBackClick = onBack,
-        )
-    }, snackbarHost = {
-        SnackbarHost(
-            modifier = Modifier.testTag(tag = ErrorBarDefaults.ErrorTestTag)
-                .navigationBarsPadding(),
-            hostState = snackbarHostState,
-        )
-    }) { paddingValues ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            AppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(resource = Res.string.settings),
+                onBackClick = onBack,
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier.testTag(tag = ErrorBarDefaults.ErrorTestTag)
+                    .navigationBarsPadding(),
+                hostState = snackbarHostState,
+            )
+        }
+    ) { paddingValues ->
         Content(
-            modifier = Modifier.testTag(tag = SettingsDefaults.ContentTestTag).fillMaxSize()
-                .padding(paddingValues = paddingValues).padding(all = 16.dp),
+            modifier = Modifier.testTag(tag = SettingsDefaults.ContentTestTag)
+                .fillMaxSize()
+                .padding(paddingValues = paddingValues)
+                .padding(all = 16.dp),
             viewState = viewState,
             onDynamicTheme = viewModel::applyDynamicTheme,
             onAuthorLink = uriHandler::openUri,

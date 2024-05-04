@@ -35,10 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontFamily
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.movie.MoviesSection
+import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.app_name
@@ -55,6 +59,22 @@ import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+
+public object MainScreen : Screen {
+
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        MainScreen(
+            onSearch = { },
+            onSettings = { navigator.push(item = SettingsScreen) },
+            onMovieDetails = { },
+            onMore = { },
+            onDiscover = { },
+        )
+    }
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

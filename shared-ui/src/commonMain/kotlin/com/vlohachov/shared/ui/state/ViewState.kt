@@ -1,8 +1,10 @@
 package com.vlohachov.shared.ui.state
 
+import androidx.compose.runtime.Stable
 import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.model.PaginatedData
 
+@Stable
 public sealed class ViewState<out T> {
     public data object Loading : ViewState<Nothing>()
     public data class Success<T>(val data: T) : ViewState<T>()

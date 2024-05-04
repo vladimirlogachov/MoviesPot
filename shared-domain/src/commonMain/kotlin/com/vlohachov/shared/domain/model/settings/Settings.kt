@@ -1,6 +1,6 @@
 package com.vlohachov.shared.domain.model.settings
 
 public data class Settings(
-    val dynamicTheme: Boolean = false,
+    val dynamicTheme: Boolean = true,
     val supportsDynamicTheme: Boolean = false,
 )

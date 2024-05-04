@@ -1,8 +1,8 @@
 package com.vlohachov.shared.ui.screen.main
 
 import androidx.compose.runtime.Stable
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
 import com.vlohachov.shared.ui.core.WhileUiSubscribed
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @Stable
-internal class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ViewModel() {
+internal class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ScreenModel {
 
     private val error = MutableStateFlow<Throwable?>(value = null)
 
@@ -34,17 +34,17 @@ internal class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ViewM
             error = error,
         )
     }.stateIn(
-        scope = viewModelScope,
+        scope = screenModelScope,
         started = WhileUiSubscribed,
         initialValue = MainViewState(),
     )
 
     fun onError(error: Throwable) {
-        viewModelScope.launch { this@MainViewModel.error.emit(value = error) }
+        screenModelScope.launch { this@MainViewModel.error.emit(value = error) }
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch { error.emit(value = null) }
+        screenModelScope.launch { error.emit(value = null) }
     }
 
 }

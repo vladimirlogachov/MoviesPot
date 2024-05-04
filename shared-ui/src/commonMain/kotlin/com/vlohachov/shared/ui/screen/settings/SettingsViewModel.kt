@@ -4,8 +4,8 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.vlohachov.shared.domain.model.settings.Settings
 import com.vlohachov.shared.domain.usecase.settings.ApplyDynamicTheme
 import com.vlohachov.shared.domain.usecase.settings.LoadSettings
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 internal class SettingsViewModel(
     getSettings: LoadSettings,
     private val applyDynamicTheme: ApplyDynamicTheme,
-) : ViewModel() {
+) : ScreenModel {
 
     val viewState: Flow<ViewState<Settings>> = getSettings(param = Unit)
         .map { result -> result.toViewState() }
@@ -29,20 +29,20 @@ internal class SettingsViewModel(
         private set
 
     fun applyDynamicTheme(apply: Boolean) {
-        viewModelScope.launch {
+        screenModelScope.launch {
             applyDynamicTheme(param = ApplyDynamicTheme.Param(apply = apply))
                 .collect()
         }
     }
 
     fun onError(error: Throwable) {
-        viewModelScope.launch {
+        screenModelScope.launch {
             this@SettingsViewModel.error = error
         }
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch {
+        screenModelScope.launch {
             this@SettingsViewModel.error = null
         }
     }
