@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.settings
+package com.vlohachov.shared.ui.screen.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,31 +28,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.moviespot.BuildConfig
-import com.vlohachov.moviespot.R
 import com.vlohachov.shared.domain.model.settings.Settings
+import com.vlohachov.shared.ui.BuildConfig
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.state.ViewState
-import org.koin.androidx.compose.koinViewModel
+import moviespot.shared_ui.generated.resources.Res
+import moviespot.shared_ui.generated.resources.app_version
+import moviespot.shared_ui.generated.resources.author
+import moviespot.shared_ui.generated.resources.author_link
+import moviespot.shared_ui.generated.resources.author_name
+import moviespot.shared_ui.generated.resources.dynamic_theme
+import moviespot.shared_ui.generated.resources.settings
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Destination
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
-fun Settings(
-    navigator: DestinationsNavigator,
-    viewModel: SettingsViewModel = koinViewModel(),
+internal fun SettingsScreen(
+    onBack: () -> Unit,
+    viewModel: SettingsViewModel = koinInject(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val uriHandler = LocalUriHandler.current
@@ -64,43 +68,31 @@ fun Settings(
         onDismissed = viewModel::onErrorConsumed,
     )
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            AppBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = stringResource(id = R.string.settings),
-                onBackClick = navigator::navigateUp,
-            )
-        },
-        snackbarHost = {
-            SnackbarHost(
-                modifier = Modifier
-                    .semantics {
-                        testTag =
-                            SettingsDefaults.ErrorBarTestTag
-                    }
-                    .navigationBarsPadding(),
-                hostState = snackbarHostState,
-            )
-        }
-    ) { paddingValues ->
+    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+        AppBar(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(resource = Res.string.settings),
+            onBackClick = onBack,
+        )
+    }, snackbarHost = {
+        SnackbarHost(
+            modifier = Modifier.testTag(tag = ErrorBarDefaults.ErrorTestTag)
+                .navigationBarsPadding(),
+            hostState = snackbarHostState,
+        )
+    }) { paddingValues ->
         Content(
-            modifier = Modifier
-                .semantics {
-                    testTag = SettingsDefaults.ContentTestTag
-                }
-                .fillMaxSize()
-                .padding(paddingValues = paddingValues)
-                .padding(all = 16.dp),
+            modifier = Modifier.testTag(tag = SettingsDefaults.ContentTestTag).fillMaxSize()
+                .padding(paddingValues = paddingValues).padding(all = 16.dp),
             viewState = viewState,
             onDynamicTheme = viewModel::applyDynamicTheme,
-            onAuthorLink = { uri -> uriHandler.openUri(uri = uri) },
+            onAuthorLink = uriHandler::openUri,
             onError = viewModel::onError,
         )
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Content(
     modifier: Modifier,
@@ -115,32 +107,25 @@ private fun Content(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         when (viewState) {
-            ViewState.Loading -> CircularProgressIndicator(modifier = Modifier.semantics {
-                testTag = SettingsDefaults.LoadingTestTag
-            })
+            ViewState.Loading -> CircularProgressIndicator(
+                modifier = Modifier.testTag(tag = SettingsDefaults.LoadingTestTag)
+            )
 
             is ViewState.Error -> LaunchedEffect(key1 = viewState.error) {
                 viewState.error?.run(onError)
             }
 
             is ViewState.Success -> Row(
-                modifier = Modifier
-                    .semantics {
-                        testTag =
-                            SettingsDefaults.DynamicThemeTestTag
-                    }
+                modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeTestTag)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 ProvideTextStyle(value = MaterialTheme.typography.titleLarge) {
-                    Text(text = stringResource(id = R.string.dynamic_theme))
+                    Text(text = stringResource(resource = Res.string.dynamic_theme))
                 }
                 Switch(
-                    modifier = Modifier.semantics {
-                        testTag =
-                            SettingsDefaults.DynamicThemeToggleTestTag
-                    },
+                    modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeToggleTestTag),
                     checked = viewState.data.dynamicTheme,
                     enabled = viewState.data.supportsDynamicTheme,
                     onCheckedChange = onDynamicTheme,
@@ -149,15 +134,14 @@ private fun Content(
         }
         Spacer(modifier = Modifier.weight(weight = 1f))
         Author(
-            modifier = Modifier.semantics {
-                testTag = SettingsDefaults.AuthorTestTag
-            },
+            modifier = Modifier.testTag(tag = SettingsDefaults.AuthorTestTag),
             onClick = onAuthorLink,
         )
-        Text(text = stringResource(id = R.string.app_version, BuildConfig.VERSION_NAME))
+        Text(text = stringResource(resource = Res.string.app_version) + " ${BuildConfig.VERSION_NAME}")
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Author(
     onClick: (uri: String) -> Unit,
@@ -166,10 +150,10 @@ private fun Author(
 ) {
     val annotatedText = buildAnnotatedString {
         withStyle(style = style.toSpanStyle().copy(color = LocalContentColor.current)) {
-            append(stringResource(id = R.string.author))
+            append(stringResource(resource = Res.string.author))
         }
         pushStringAnnotation(
-            tag = "URL", annotation = stringResource(id = R.string.author_link)
+            tag = "URL", annotation = stringResource(resource = Res.string.author_link)
         )
         withStyle(
             style = style.toSpanStyle().copy(
@@ -178,7 +162,7 @@ private fun Author(
                 textDecoration = TextDecoration.Underline,
             )
         ) {
-            append(stringResource(id = R.string.author_name))
+            append(stringResource(resource = Res.string.author_name))
         }
         pop()
     }
@@ -196,12 +180,12 @@ private fun Author(
     )
 }
 
-object SettingsDefaults {
+internal object SettingsDefaults {
 
     const val ContentTestTag = "settings_content"
     const val LoadingTestTag = "settings_loading"
     const val DynamicThemeTestTag = "settings_dynamic_theme"
-    const val ErrorBarTestTag = "error_bar"
     const val DynamicThemeToggleTestTag = "settings_dynamic_theme_toggle"
     const val AuthorTestTag = "app_author"
+
 }

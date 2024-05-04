@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.vlohachov.shared.data.local.LocalPreferences
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.main.MainScreen
+import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
@@ -18,14 +19,24 @@ public fun MoviesPotApp(): Unit = KoinContext {
     val preferences: LocalPreferences = koinInject()
     val applyDynamicTheme by preferences.applyDynamicThemeFlow
         .collectAsState(initial = false)
+    val navController = rememberNavController()
 
     MoviesPotTheme(dynamicColor = applyDynamicTheme) {
         NavHost(
-            navController = rememberNavController(),
+            navController = navController,
             startDestination = Screen.Main.route
         ) {
-            composable(Screen.Main.route) {
-                MainScreen()
+            composable(route = Screen.Main.route) {
+                MainScreen(
+                    onSearch = {},
+                    onSettings = { navController.navigate(route = Screen.Settings.route) },
+                    onMovieDetails = {},
+                    onMore = {},
+                    onDiscover = {}
+                )
+            }
+            composable(route = Screen.Settings.route) {
+                SettingsScreen(onBack = navController::navigateUp)
             }
         }
     }

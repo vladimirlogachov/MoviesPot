@@ -34,11 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontFamily
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
@@ -63,13 +59,16 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MainScreen(
+    onSearch: () -> Unit,
+    onSettings: () -> Unit,
+    onMovieDetails: (Movie) -> Unit,
+    onMore: (MovieCategory) -> Unit,
+    onDiscover: () -> Unit,
     viewModel: MainViewModel = koinInject(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
-
-    val navController = rememberNavController()
 
     Scaffold(
         modifier = Modifier
@@ -79,22 +78,21 @@ internal fun MainScreen(
             MainAppBar(
                 modifier = Modifier
                     .fillMaxWidth(),
+                onSearch = onSearch,
+                onSettings = onSettings,
                 scrollBehavior = scrollBehavior,
-                navController = navController,
             )
         },
         floatingActionButton = {
             Discover(
                 modifier = Modifier.navigationBarsPadding(),
-                navController = navController,
+                onClick = onDiscover,
             )
         },
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .semantics {
-                        testTag = MainScreenDefaults.ErrorBarTestTag
-                    }
+                    .testTag(tag = MainScreenDefaults.ErrorBarTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -113,7 +111,8 @@ internal fun MainScreen(
                     onDismissed = viewModel::onErrorConsumed,
                 )
             },
-            navController = navController
+            onMovieDetails = onMovieDetails,
+            onMore = onMore
         )
     }
 }
@@ -123,21 +122,17 @@ internal fun MainScreen(
 private fun Content(
     modifier: Modifier,
     viewState: MainViewState,
+    onMovieDetails: (movie: Movie) -> Unit,
+    onMore: (category: MovieCategory) -> Unit,
     onError: @Composable (error: Throwable) -> Unit,
-    navController: NavController,
 ) {
-    val onSeeDetails: (Movie) -> Unit = { movie ->
-//        navController.navigate(MovieDetailsDestination(movieId = movie.id, movieTitle = movie.title))
-    }
     Box(
         modifier = modifier,
         contentAlignment = Alignment.TopCenter,
     ) {
         LazyColumn(
             modifier = Modifier
-                .semantics {
-                    testTag = MainScreenDefaults.SectionsTestTag
-                }
+                .testTag(tag = MainScreenDefaults.SectionsTestTag)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = WindowInsets.navigationBars.asPaddingValues(),
@@ -147,10 +142,8 @@ private fun Content(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(resource = category.stringRes()),
                     viewState = viewState.moviesState(category = category),
-                    onMovieClick = onSeeDetails,
-                    onMore = {
-//                        navigator.navigate(MoviesDestination(category = category))
-                    },
+                    onMovieClick = onMovieDetails,
+                    onMore = { onMore(category) },
                 )
             }
         }
@@ -165,8 +158,9 @@ private fun Content(
 @Composable
 private fun MainAppBar(
     modifier: Modifier,
+    onSearch: () -> Unit,
+    onSettings: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-    navController: NavController,
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -179,9 +173,7 @@ private fun MainAppBar(
         navigationIcon = {
             IconButton(
                 modifier = Modifier.testTag(tag = MainScreenDefaults.SearchButtonTestTag),
-                onClick = {
-//                    navigator.navigate(SearchMoviesDestination)
-                },
+                onClick = onSearch,
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Search,
@@ -192,9 +184,7 @@ private fun MainAppBar(
         actions = {
             IconButton(
                 modifier = Modifier.testTag(tag = MainScreenDefaults.SettingsButtonTestTag),
-                onClick = {
-//                    navigator.navigate(SettingsDestination)
-                },
+                onClick = onSettings,
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Settings,
@@ -210,7 +200,7 @@ private fun MainAppBar(
 @Composable
 private fun Discover(
     modifier: Modifier,
-    navController: NavController,
+    onClick: () -> Unit,
 ) {
     ExtendedFloatingActionButton(
         modifier = modifier.testTag(tag = MainScreenDefaults.DiscoverButtonTestTag),
@@ -221,9 +211,7 @@ private fun Discover(
                 contentDescription = stringResource(resource = Res.string.discover),
             )
         },
-        onClick = {
-//            navController.navigate(DiscoverDestination)
-        },
+        onClick = onClick,
     )
 }
 

@@ -1,11 +1,13 @@
 package com.vlohachov.shared.ui.di
 
 import com.vlohachov.shared.ui.screen.main.MainViewModel
+import com.vlohachov.shared.ui.screen.settings.SettingsViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal val viewModelModule = module {
     singleOf(::MainViewModel)
+    singleOf(::SettingsViewModel)
 //    viewModel { params ->
 //        MoviesViewModel(category = params.get(), pager = MoviesPager(useCase = get()))
 //    }
@@ -69,11 +71,5 @@ internal val viewModelModule = module {
 //            )
 //        )
 //    }
-//
-//    viewModel {
-//        SettingsViewModel(
-//            getSettings = get(),
-//            applyDynamicTheme = get(),
-//        )
-//    }
+
 }

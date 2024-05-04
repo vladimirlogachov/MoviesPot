@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
@@ -5,7 +6,21 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.build.konfig)
     alias(libs.plugins.detekt)
+}
+
+buildkonfig {
+    packageName = "com.vlohachov.shared.ui"
+    objectName = "BuildConfig"
+
+    defaultConfigs {
+        buildConfigField(
+            FieldSpec.Type.STRING,
+            "VERSION_NAME",
+            System.getenv("VERSION_NAME") ?: "1.0.0"
+        )
+    }
 }
 
 kotlin {
