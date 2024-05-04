@@ -62,14 +62,14 @@ internal object SettingsScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        SettingsScreen(onBack = navigator::pop)
+        Settings(onBack = navigator::pop)
     }
 
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class, InternalVoyagerApi::class)
 @Composable
-internal fun SettingsScreen(
+internal fun Settings(
     onBack: () -> Unit,
     viewModel: SettingsViewModel = koinInject(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -139,7 +139,8 @@ private fun Content(
             }
 
             is ViewState.Success -> Row(
-                modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeTestTag)
+                modifier = Modifier
+                    .testTag(tag = SettingsDefaults.DynamicThemeTestTag)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,

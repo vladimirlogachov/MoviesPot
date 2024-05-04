@@ -42,6 +42,7 @@ import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.movie.MoviesSection
+import com.vlohachov.shared.ui.screen.discover.DiscoverScreen
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
@@ -65,12 +66,12 @@ public object MainScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        MainScreen(
+        Main(
             onSearch = { },
             onSettings = { navigator.push(item = SettingsScreen) },
             onMovieDetails = { },
             onMore = { },
-            onDiscover = { },
+            onDiscover = { navigator.push(item = DiscoverScreen) },
         )
     }
 
@@ -78,7 +79,7 @@ public object MainScreen : Screen {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MainScreen(
+internal fun Main(
     onSearch: () -> Unit,
     onSettings: () -> Unit,
     onMovieDetails: (Movie) -> Unit,

@@ -87,7 +87,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.DiscoverButtonTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.DiscoverButtonTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Button back component found.")
             .assertIsDisplayed()
             .assertIsNotEnabled()
@@ -106,7 +109,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.DiscoverButtonTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.DiscoverButtonTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Button back component found.")
             .assertIsDisplayed()
             .assertIsEnabled()
@@ -125,7 +131,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.GenresLoadingTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.GenresLoadingTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Progress component found.")
             .assertIsDisplayed()
     }
@@ -142,7 +151,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.GenresTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Genres component found.")
             .assertIsDisplayed()
             .onChildren()
@@ -164,7 +176,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.GenresTestTag,
+            useUnmergedTree = true
+        )
             .assertDoesNotExist()
 
         verify(exactly = 1) { viewModel.onError(error = error) }
@@ -187,17 +202,29 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.YearClearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearClearTestTag,
+            useUnmergedTree = true
+        )
             .assertDoesNotExist()
-        onNodeWithTag(testTag = DiscoverDefaults.YearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Year input component found")
             .assertIsDisplayed()
             .assertTextEquals("")
             .performTextInput(text = year)
-        onNodeWithTag(testTag = DiscoverDefaults.YearClearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearClearTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Clear input component found")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = DiscoverDefaults.YearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Year input component found")
             .assertIsDisplayed()
             .assertTextEquals(year)
@@ -222,19 +249,31 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.YearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Year input component found")
             .assertIsDisplayed()
             .assertTextEquals(year)
-        onNodeWithTag(testTag = DiscoverDefaults.YearClearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearClearTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Clear input component found")
             .assertIsDisplayed()
             .performClick()
-        onNodeWithTag(testTag = DiscoverDefaults.YearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Year input component found")
             .assertIsDisplayed()
             .assertTextEquals("")
-        onNodeWithTag(testTag = DiscoverDefaults.YearClearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearClearTestTag,
+            useUnmergedTree = true
+        )
             .assertDoesNotExist()
 
         verify(exactly = 1) { viewModel.onYear(year = "") }
@@ -258,7 +297,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.GenresTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Genres component found.")
             .assertIsDisplayed()
             .onChildren()
@@ -290,7 +332,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.GenresTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Genres component found.")
             .assertIsDisplayed()
             .onChildren()
@@ -315,7 +360,10 @@ class DiscoverTest {
             }
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.GenresErrorTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.GenresErrorTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Error component found")
             .assertIsDisplayed()
 
@@ -330,19 +378,31 @@ class DiscoverTest {
             DiscoverContentPreview()
         }
 
-        onNodeWithTag(testTag = DiscoverDefaults.ContentTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.ContentTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()
-        onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.GenresTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Genres component found.")
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = DummyGenres.size)
-        onNodeWithTag(testTag = DiscoverDefaults.YearTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.YearTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Year input component found")
             .assertIsDisplayed()
             .assertTextEquals("2022")
-        onNodeWithTag(testTag = DiscoverDefaults.DiscoverButtonTestTag, useUnmergedTree = true)
+        onNodeWithTag(
+            testTag = DiscoverDefaults.DiscoverButtonTestTag,
+            useUnmergedTree = true
+        )
             .assertExists(errorMessageOnFail = "No Button back component found.")
             .assertIsDisplayed()
             .assertIsEnabled()

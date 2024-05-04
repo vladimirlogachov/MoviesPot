@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.discover
+package com.vlohachov.shared.ui.screen.discover
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -39,30 +39,51 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.core.DummyGenres
-import com.vlohachov.moviespot.ui.destinations.DiscoverResultDestination
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.internal.BackHandler
 import com.vlohachov.shared.domain.model.genre.Genre
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.core.DummyGenres
 import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
-import org.koin.androidx.compose.koinViewModel
+import moviespot.shared_ui.generated.resources.Res
+import moviespot.shared_ui.generated.resources.clear
+import moviespot.shared_ui.generated.resources.discover
+import moviespot.shared_ui.generated.resources.discover_movies
+import moviespot.shared_ui.generated.resources.year
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.koinInject
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Destination
+internal object DiscoverScreen : Screen {
+
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        Discover(
+            onBack = navigator::pop,
+            onDiscoverResult = { year, selectedGenres ->
+
+            },
+        )
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class, InternalVoyagerApi::class)
 @Composable
-fun Discover(
-    navigator: DestinationsNavigator,
-    viewModel: DiscoverViewModel = koinViewModel(),
+internal fun Discover(
+    onBack: () -> Unit,
+    onDiscoverResult: (year: Int?, selectedGenres: List<Int>) -> Unit,
+    viewModel: DiscoverViewModel = koinInject(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -75,6 +96,8 @@ fun Discover(
         onDismissed = viewModel::onErrorConsumed,
     )
 
+    BackHandler(enabled = true, onBack = onBack)
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -82,21 +105,18 @@ fun Discover(
         topBar = {
             AppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = stringResource(id = R.string.discover),
+                title = stringResource(resource = Res.string.discover),
                 scrollBehavior = scrollBehavior,
                 onBackClick = {
                     keyboardController?.hide()
-                    navigator.navigateUp()
+                    onBack()
                 }
             )
         },
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .semantics {
-                        testTag =
-                            DiscoverDefaults.GenresErrorTestTag
-                    }
+                    .testTag(tag = DiscoverDefaults.GenresErrorTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -112,19 +132,16 @@ fun Discover(
             onClearSelection = viewModel::onClearSelection,
             onError = viewModel::onError,
             onDiscover = {
-                navigator.navigate(
-                    DiscoverResultDestination(
-                        year = uiState.year.toIntOrNull(),
-                        selectedGenres = uiState.selectedGenres.map { genre ->
-                            genre.id
-                        }.toIntArray(),
-                    )
+                onDiscoverResult(
+                    uiState.year.toIntOrNull(),
+                    uiState.selectedGenres.map(Genre::id),
                 )
             }
         )
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Content(
     modifier: Modifier,
@@ -136,17 +153,12 @@ private fun Content(
     onDiscover: () -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .semantics {
-                testTag = DiscoverDefaults.ContentTestTag
-            },
+        modifier = modifier.testTag(tag = DiscoverDefaults.ContentTestTag),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Genres(
             modifier = Modifier
-                .semantics {
-                    testTag = DiscoverDefaults.GenresTestTag
-                }
+                .testTag(tag = DiscoverDefaults.GenresTestTag)
                 .fillMaxWidth(),
             viewState = viewState.genresViewState,
             selectedGenres = viewState.selectedGenres,
@@ -156,9 +168,7 @@ private fun Content(
         )
         Input(
             modifier = Modifier
-                .semantics {
-                    testTag = DiscoverDefaults.YearTestTag
-                }
+                .testTag(tag = DiscoverDefaults.YearTestTag)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             value = viewState.year,
@@ -166,20 +176,16 @@ private fun Content(
         )
         Button(
             modifier = Modifier
-                .semantics {
-                    testTag =
-                        DiscoverDefaults.DiscoverButtonTestTag
-                }
+                .testTag(tag = DiscoverDefaults.DiscoverButtonTestTag)
                 .padding(all = 16.dp),
             onClick = onDiscover,
             enabled = viewState.discoverEnabled,
         ) {
-            Text(text = stringResource(id = R.string.discover_movies))
+            Text(text = stringResource(resource = Res.string.discover_movies))
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Genres(
     modifier: Modifier,
@@ -192,10 +198,7 @@ private fun Genres(
     when (viewState) {
         ViewState.Loading ->
             CircularProgressIndicator(
-                modifier = Modifier.semantics {
-                    testTag =
-                        DiscoverDefaults.GenresLoadingTestTag
-                }
+                modifier = Modifier.testTag(tag = DiscoverDefaults.GenresLoadingTestTag)
             )
 
         is ViewState.Error -> LaunchedEffect(key1 = viewState.error) {
@@ -228,6 +231,7 @@ private fun Genres(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Input(
     modifier: Modifier,
@@ -238,7 +242,7 @@ private fun Input(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        label = { Text(text = stringResource(id = R.string.year)) },
+        label = { Text(text = stringResource(resource = Res.string.year)) },
         trailingIcon = {
             AnimatedVisibility(
                 visible = value.isNotBlank(),
@@ -246,15 +250,12 @@ private fun Input(
                 exit = fadeOut() + scaleOut(),
             ) {
                 IconButton(
-                    modifier = Modifier.semantics {
-                        testTag =
-                            DiscoverDefaults.YearClearTestTag
-                    },
+                    modifier = Modifier.testTag(tag = DiscoverDefaults.YearClearTestTag),
                     onClick = { onValueChange("") }
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Clear,
-                        contentDescription = stringResource(id = R.string.clear),
+                        contentDescription = stringResource(resource = Res.string.clear),
                     )
                 }
             }
@@ -264,9 +265,9 @@ private fun Input(
     )
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun DiscoverContentPreview() {
+private fun DiscoverContentPreview() {
     MoviesPotTheme {
         Content(
             modifier = Modifier.padding(all = 16.dp),
@@ -284,7 +285,7 @@ fun DiscoverContentPreview() {
     }
 }
 
-object DiscoverDefaults {
+internal object DiscoverDefaults {
 
     const val ContentTestTag = "content"
     const val GenresTestTag = "content_genres"
