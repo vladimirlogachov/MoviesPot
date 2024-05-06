@@ -96,9 +96,7 @@ private fun VoteAverage(
         title = {
             SectionTitle(
                 text = DecimalUtils.format(number = voteAverage),
-                trailing = {
-                    Icon(imageVector = Icons.Rounded.Star, contentDescription = null)
-                }
+                trailing = { Icon(imageVector = Icons.Rounded.Star, contentDescription = null) }
             )
         },
         horizontalAlignment = Alignment.CenterHorizontally,
