@@ -1,6 +1,5 @@
 package com.vlohachov.moviespot.ui.details
 
-import androidx.compose.ui.layout.RootMeasurePolicy.error
 import app.cash.turbine.test
 import com.google.common.truth.Truth
 import com.vlohachov.moviespot.data.TestKeywords
@@ -23,11 +22,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import kotlin.Exception
-import kotlin.String
-import kotlin.getValue
-import kotlin.lazy
-import kotlin.with
 
 class MovieDetailsViewModelTest {
 
@@ -54,7 +48,7 @@ class MovieDetailsViewModelTest {
         every { keywords(param = any()) } returns keywordsFlow
         every { movieRecommendations(param = any()) } returns movieRecommendationsFlow
 
-        com.vlohachov.shared.ui.screen.details.MovieDetailsViewModel(
+        MovieDetailsViewModel(
             movieId = 0,
             loadDetails = movieDetails,
             loadDirector = director,
