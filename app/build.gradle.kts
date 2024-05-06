@@ -78,7 +78,6 @@ dependencies {
 
     implementation(libs.material)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // Accompanist
     implementation(libs.accompanist.systemuicontroller)

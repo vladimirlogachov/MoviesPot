@@ -16,8 +16,8 @@ ksp = "1.9.23-1.0.20"
 accompanist = "0.34.0"
 build-konfig = "0.15.1"
 mokkery = "1.9.23-1.6.1"
-compose-bom = "2024.05.00"
-jetbrains-compose = "1.6.2"
+compose-bom = "2024.05.00" # Maps to Compose 1.6.7
+jetbrains-compose = "1.6.10-rc01" # This plugin acts as BoM on Multiplatform. Maps to Compose 1.6.7 on Android
 compose-destinations = "1.10.2"
 multiplatform-settings = "1.1.1"
 
@@ -30,9 +30,8 @@ kotlin-coroutines = "1.8.0"
 
 androidx-junit = "1.1.5"
 androidx-core-ktx = "1.13.1"
-androidx-lifecycle = "2.8.0-beta02"
-androidx-navigation = "2.8.0-alpha02"
-androidx-lifecycle-ktx = "2.7.0"
+androidx-lifecycle = "2.8.0-rc01"
+androidx-navigation = "2.7.0-alpha04" # 2.8.* is not compatiable with Compose 1.6.*
 androidx-espresso-core = "3.5.1"
 androidx-paging-compose = "3.2.1"
 androidx-activity-compose = "1.9.0"
@@ -80,7 +79,6 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-navigation-common = { module = "org.jetbrains.androidx.navigation:navigation-common", version.ref = "androidx-navigation" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-ktx" }
 
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 androidx-compose-material = { module = "androidx.compose.material:material" }
