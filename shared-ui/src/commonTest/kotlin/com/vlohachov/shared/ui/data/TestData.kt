@@ -15,7 +15,6 @@ import com.vlohachov.shared.domain.model.settings.Settings
 
 val TestSettings = Settings(
     dynamicTheme = true,
-    supportsDynamicTheme = true,
 )
 
 val TestGenre = Genre(
