@@ -81,8 +81,7 @@ internal fun FullscreenImage(
         )
 
         Image(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             painter = painter,
             contentDescription = path,
         )

@@ -54,6 +54,7 @@ import com.vlohachov.shared.ui.component.section.Section
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTitle
 import com.vlohachov.shared.ui.screen.Screen
+import com.vlohachov.shared.ui.screen.credits.cast.CastScreen
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
@@ -87,10 +88,14 @@ internal data object MovieDetailsScreen : Screen {
                 onFullscreenImage = { imagePath ->
                     navController.navigate(route = "${FullscreenImageScreen.path}=$imagePath")
                 },
-                onCast = { },
+                onCast = {
+                    navController.navigate(route = "${CastScreen.path}=$movieId")
+                },
                 onCrew = { },
                 onSimilar = { },
-                onMovieDetails = { movie -> navController.navigate(route = "$path/${movie.id}") },
+                onMovieDetails = { movie ->
+                    navController.navigate(route = "$path/${movie.id}")
+                },
                 onKeywordMovies = { },
             )
         }
