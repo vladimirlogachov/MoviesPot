@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.details
+package com.vlohachov.shared.ui.screen.details
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -21,21 +21,25 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.core.utils.DecimalUtils
-import com.vlohachov.moviespot.core.utils.TimeUtils
 import com.vlohachov.shared.ui.component.section.Section
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTitle
+import com.vlohachov.shared.ui.core.utils.DecimalUtils
+import com.vlohachov.shared.ui.core.utils.TimeUtils
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
+import moviespot.shared_ui.generated.resources.Res
+import moviespot.shared_ui.generated.resources.audience
+import moviespot.shared_ui.generated.resources.duration
+import moviespot.shared_ui.generated.resources.format_duration
+import moviespot.shared_ui.generated.resources.reviews
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ShortSummary(
+internal fun ShortSummary(
     voteAverage: Float,
     voteCount: Int,
     isAdult: Boolean,
@@ -46,10 +50,8 @@ fun ShortSummary(
     CompositionLocalProvider(LocalContentColor provides tint) {
         Row(
             modifier = modifier
-                .semantics {
-                    testTag = ShortSummaryDefaults.TestTag
-                }
-                .then(other = Modifier.height(intrinsicSize = IntrinsicSize.Min)),
+                .testTag(tag = ShortSummaryDefaults.TestTag)
+                .height(intrinsicSize = IntrinsicSize.Min),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -82,6 +84,7 @@ fun ShortSummary(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun VoteAverage(
     modifier: Modifier,
@@ -101,10 +104,11 @@ private fun VoteAverage(
         horizontalAlignment = Alignment.CenterHorizontally,
         textStyles = SectionDefaults.smallTextStyles(),
     ) {
-        Text(text = stringResource(id = R.string.reviews, voteCount))
+        Text(text = stringResource(resource = Res.string.reviews, voteCount))
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Audience(
     modifier: Modifier,
@@ -131,10 +135,11 @@ private fun Audience(
             titleTextStyle = MaterialTheme.typography.titleSmall,
         ),
     ) {
-        Text(text = stringResource(id = R.string.audience))
+        Text(text = stringResource(resource = Res.string.audience))
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Duration(
     modifier: Modifier,
@@ -145,7 +150,7 @@ private fun Duration(
         title = {
             SectionTitle(
                 text = stringResource(
-                    id = R.string.format_duration,
+                    resource = Res.string.format_duration,
                     TimeUtils.hours(runtime),
                     TimeUtils.minutes(runtime),
                 ),
@@ -154,13 +159,13 @@ private fun Duration(
         horizontalAlignment = Alignment.CenterHorizontally,
         textStyles = SectionDefaults.smallTextStyles(),
     ) {
-        Text(text = stringResource(id = R.string.duration))
+        Text(text = stringResource(resource = Res.string.duration))
     }
 }
 
-@Preview(showBackground = true, apiLevel = 33)
+@Preview
 @Composable
-fun ShortSummaryPreview() {
+internal fun ShortSummaryPreview() {
     MoviesPotTheme {
         ShortSummary(
             modifier = Modifier
@@ -173,6 +178,8 @@ fun ShortSummaryPreview() {
     }
 }
 
-object ShortSummaryDefaults {
+internal object ShortSummaryDefaults {
+
     const val TestTag = "ShortSummaryTestTag"
+
 }

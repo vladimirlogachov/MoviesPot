@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.details
+package com.vlohachov.shared.ui.screen.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,35 +16,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
-import com.vlohachov.moviespot.R
 import com.vlohachov.shared.domain.model.Company
 import com.vlohachov.shared.ui.component.Company
 import com.vlohachov.shared.ui.component.section.Section
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTitle
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
+import moviespot.shared_ui.generated.resources.Res
+import moviespot.shared_ui.generated.resources.no_results
+import moviespot.shared_ui.generated.resources.production
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
-fun Production(
+internal fun Production(
     companies: List<Company>,
     modifier: Modifier = Modifier,
 ) {
     Section(
-        modifier = modifier.semantics {
-            testTag = ProductionDefaults.TestTag
-        },
+        modifier = modifier.testTag(tag = ProductionDefaults.TestTag),
         title = {
             SectionTitle(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                text = stringResource(id = R.string.production),
+                text = stringResource(resource = Res.string.production),
             )
         },
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -55,7 +56,7 @@ fun Production(
         if (companies.isEmpty()) {
             Text(
                 modifier = Modifier.padding(all = 16.dp),
-                text = stringResource(id = R.string.no_results),
+                text = stringResource(resource = Res.string.no_results),
             )
         } else {
             LazyRow(
@@ -82,9 +83,9 @@ fun Production(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun ProductionPreview() {
+internal fun ProductionPreview() {
     MoviesPotTheme {
         Production(
             companies = listOf(
@@ -99,6 +100,8 @@ fun ProductionPreview() {
     }
 }
 
-object ProductionDefaults {
+internal object ProductionDefaults {
+
     const val TestTag = "ProductionTestTag"
+
 }

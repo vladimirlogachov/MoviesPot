@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.details
+package com.vlohachov.shared.ui.screen.details
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,19 +33,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.ui.destinations.CastDestination
-import com.vlohachov.moviespot.ui.destinations.CrewDestination
-import com.vlohachov.moviespot.ui.destinations.FullscreenImageDestination
-import com.vlohachov.moviespot.ui.destinations.KeywordMoviesDestination
-import com.vlohachov.moviespot.ui.destinations.MovieDetailsDestination
-import com.vlohachov.moviespot.ui.destinations.SimilarMoviesDestination
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.internal.BackHandler
+import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.domain.model.movie.keyword.Keyword
 import com.vlohachov.shared.ui.component.bar.AppBar
@@ -55,30 +51,66 @@ import com.vlohachov.shared.ui.component.section.Section
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTitle
 import com.vlohachov.shared.ui.state.ViewState
-import org.koin.androidx.compose.koinViewModel
+import moviespot.shared_ui.generated.resources.Res
+import moviespot.shared_ui.generated.resources.keywords
+import moviespot.shared_ui.generated.resources.no_results
+import moviespot.shared_ui.generated.resources.recommendations
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Destination
-@Composable
-fun MovieDetails(
-    navigator: DestinationsNavigator,
-    movieId: Long,
-    movieTitle: String,
-    viewModel: MovieDetailsViewModel = koinViewModel {
-        parametersOf(
-            movieId
+internal data class MovieDetailsScreen(
+    private val movieId: Long,
+) : Screen {
+
+    override val key: ScreenKey
+        get() = "${super.key}/$movieId"
+
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        MovieDetailsScreen(
+            movieId = movieId,
+            onBack = navigator::pop,
+            onFullscreenImage = {},
+            onCast = {},
+            onCrew = {},
+            onSimilar = {},
+            onMovieDetails = { movie ->
+                navigator.push(item = MovieDetailsScreen(movieId = movie.id))
+            },
+            onKeywordMovies = {},
         )
-    },
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class, InternalVoyagerApi::class)
+@Composable
+internal fun MovieDetailsScreen(
+    movieId: Long,
+    onBack: () -> Unit,
+    onFullscreenImage: (path: String) -> Unit,
+    onCast: () -> Unit,
+    onCrew: () -> Unit,
+    onSimilar: () -> Unit,
+    onMovieDetails: (movie: Movie) -> Unit,
+    onKeywordMovies: (keyword: Keyword) -> Unit,
+    viewModel: MovieDetailsViewModel = koinInject { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
+
     ErrorBar(
         error = uiState.error,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )
+
+    BackHandler(enabled = true, onBack = onBack)
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -88,16 +120,13 @@ fun MovieDetails(
                 modifier = Modifier.fillMaxWidth(),
                 title = "",
                 scrollBehavior = scrollBehavior,
-                onBackClick = navigator::navigateUp,
+                onBackClick = onBack,
             )
         },
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .semantics {
-                        testTag =
-                            MovieDetailsDefaults.ErrorBarTestTag
-                    }
+                    .testTag(tag = MovieDetailsDefaults.ErrorBarTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -105,93 +134,75 @@ fun MovieDetails(
     ) { paddingValues ->
         Content(
             modifier = Modifier
-                .semantics {
-                    testTag =
-                        MovieDetailsDefaults.DetailsContentTestTag
-                }
+                .testTag(tag = MovieDetailsDefaults.DetailsContentTestTag)
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-            movieId = movieId,
-            movieTitle = movieTitle,
             viewState = uiState,
-            navigator = navigator,
+            onFullscreenImage = onFullscreenImage,
+            onCast = onCast,
+            onCrew = onCrew,
+            onSimilar = onSimilar,
+            onMovieDetails = onMovieDetails,
+            onKeywordMovies = onKeywordMovies,
             onError = viewModel::onError,
         )
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Content(
-    modifier: Modifier,
-    movieId: Long,
-    movieTitle: String,
     viewState: MovieDetailsViewState,
-    navigator: DestinationsNavigator,
+    onFullscreenImage: (path: String) -> Unit,
+    onCast: () -> Unit,
+    onCrew: () -> Unit,
+    onSimilar: () -> Unit,
+    onMovieDetails: (movie: Movie) -> Unit,
+    onKeywordMovies: (keyword: Keyword) -> Unit,
     onError: (error: Throwable) -> Unit,
+    modifier: Modifier = Modifier,
 ) = with(viewState) {
     LazyColumn(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         details(
-            movieId = movieId,
             directorViewState = directorViewState,
             detailsViewState = detailsViewState,
-            navigator = navigator,
+            onFullscreenImage = onFullscreenImage,
+            onCast = onCast,
+            onCrew = onCrew,
             onError = onError,
         )
         item {
             MoviesSection(
                 modifier = Modifier.fillMaxWidth(),
-                title = stringResource(id = R.string.recommendations),
+                title = stringResource(resource = Res.string.recommendations),
                 viewState = recommendationsViewState,
-                onMore = {
-                    navigator.navigate(
-                        SimilarMoviesDestination(movieId = movieId, movieTitle = movieTitle)
-                    )
-                },
-                onMovieClick = { movie ->
-                    navigator.navigate(
-                        MovieDetailsDestination(
-                            movieId = movie.id,
-                            movieTitle = movie.title,
-                        )
-                    )
-                },
+                onMore = onSimilar,
+                onMovieClick = onMovieDetails,
                 textStyles = SectionDefaults.smallTextStyles(
                     contentTextStyle = MaterialTheme.typography.bodyMedium
                 ),
             )
         }
-        keywords(
-            onKeyword = { keyword ->
-                navigator.navigate(
-                    KeywordMoviesDestination(
-                        keywordId = keyword.id,
-                        keyword = keyword.name,
-                    )
-                )
-            },
-            viewState = keywordsViewState,
-        )
+        keywords(onKeyword = onKeywordMovies, viewState = keywordsViewState)
     }
 }
 
 private fun LazyListScope.details(
-    movieId: Long,
     directorViewState: ViewState<String>,
     detailsViewState: ViewState<MovieDetails>,
-    navigator: DestinationsNavigator,
+    onFullscreenImage: (path: String) -> Unit,
+    onCast: () -> Unit,
+    onCrew: () -> Unit,
     onError: (Throwable) -> Unit,
 ) {
     when (detailsViewState) {
         ViewState.Loading -> item {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .semantics {
-                        testTag =
-                            MovieDetailsDefaults.DetailsLoadingTestTag
-                    }
+                    .testTag(tag = MovieDetailsDefaults.DetailsLoadingTestTag)
                     .padding(all = 16.dp)
             )
         }
@@ -205,11 +216,9 @@ private fun LazyListScope.details(
                     ""
                 },
                 details = detailsViewState.data,
-                onPoster = { path ->
-                    navigator.navigate(FullscreenImageDestination(path = path))
-                },
-                onCast = { navigator.navigate(CastDestination(movieId = movieId)) },
-                onCrew = { navigator.navigate(CrewDestination(movieId = movieId)) },
+                onPoster = onFullscreenImage,
+                onCast = onCast,
+                onCrew = onCrew,
             )
         }
 
@@ -243,10 +252,7 @@ private fun Details(
             if (isNotBlank()) {
                 Text(
                     modifier = Modifier
-                        .semantics {
-                            testTag =
-                                MovieDetailsDefaults.TaglineTestTag
-                        }
+                        .testTag(tag = MovieDetailsDefaults.TaglineTestTag)
                         .padding(horizontal = 16.dp),
                     text = "\"$this\"",
                 )
@@ -283,7 +289,7 @@ private fun Details(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalResourceApi::class)
 private fun LazyListScope.keywords(
     onKeyword: (keyword: Keyword) -> Unit,
     viewState: ViewState<List<Keyword>>,
@@ -292,16 +298,13 @@ private fun LazyListScope.keywords(
         item {
             Section(
                 modifier = Modifier
-                    .semantics {
-                        testTag =
-                            MovieDetailsDefaults.KeywordsTestTag
-                    }
+                    .testTag(tag = MovieDetailsDefaults.KeywordsTestTag)
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 title = {
                     SectionTitle(
                         modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.keywords),
+                        text = stringResource(resource = Res.string.keywords),
                     )
                 },
                 verticalArrangement = Arrangement.spacedBy(space = 16.dp),
@@ -311,7 +314,7 @@ private fun LazyListScope.keywords(
                 ),
             ) {
                 if (viewState.data.isEmpty()) {
-                    Text(text = stringResource(id = R.string.no_results))
+                    Text(text = stringResource(resource = Res.string.no_results))
                 } else {
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),
@@ -341,11 +344,12 @@ private fun LazyListScope.keywords(
     }
 }
 
-object MovieDetailsDefaults {
+internal object MovieDetailsDefaults {
 
     const val ErrorBarTestTag = "error_bar"
     const val DetailsContentTestTag = "details_content"
     const val DetailsLoadingTestTag = "details_loading"
     const val TaglineTestTag = "movie_tagline"
     const val KeywordsTestTag = "movie_keywords"
+
 }

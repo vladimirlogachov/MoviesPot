@@ -1,4 +1,4 @@
-package com.vlohachov.moviespot.ui.details
+package com.vlohachov.shared.ui.screen.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,23 +18,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
-import com.vlohachov.moviespot.R
-import com.vlohachov.moviespot.core.utils.DateUtils
 import com.vlohachov.shared.domain.model.Company
 import com.vlohachov.shared.domain.model.Country
 import com.vlohachov.shared.domain.model.Language
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.ui.component.Poster
+import com.vlohachov.shared.ui.core.utils.DateUtils
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
+import moviespot.shared_ui.generated.resources.Res
+import moviespot.shared_ui.generated.resources.directed_by
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
-fun Headline(
+internal fun Headline(
     director: String,
     details: MovieDetails,
     onPosterClick: (String) -> Unit,
@@ -81,7 +83,7 @@ fun Headline(
                 }
             )
             if (director.isNotBlank()) {
-                Text(text = stringResource(id = R.string.directed_by, director))
+                Text(text = stringResource(resource = Res.string.directed_by, director))
             }
         },
     )
@@ -96,9 +98,7 @@ private fun HeadlineFrame(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.semantics {
-            testTag = HeadlineDefaults.TestTag
-        },
+        modifier = modifier.testTag(tag = HeadlineDefaults.TestTag),
         horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         poster(
@@ -122,16 +122,12 @@ private fun HeadlineFrame(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun HeadlinePreview() {
+internal fun HeadlinePreview() {
     MoviesPotTheme {
         Headline(
-            modifier = Modifier
-                .semantics {
-                    testTag = HeadlineDefaults.TestTag
-                }
-                .padding(all = 16.dp),
+            modifier = Modifier.padding(all = 16.dp),
             director = "Director",
             details = MovieDetails(
                 id = 0,
@@ -151,17 +147,10 @@ fun HeadlinePreview() {
                 homepage = "homepage",
                 originalLanguage = "language",
                 spokenLanguages = listOf(
-                    Language(
-                        name = "name",
-                        englishName = "english_name",
-                        iso = "iso",
-                    )
+                    Language(name = "name", englishName = "english_name", iso = "iso")
                 ),
                 productionCountries = listOf(
-                    Country(
-                        name = "name",
-                        iso = "iso",
-                    )
+                    Country(name = "name", iso = "iso")
                 ),
                 productionCompanies = listOf(
                     Company(
@@ -177,6 +166,8 @@ fun HeadlinePreview() {
     }
 }
 
-object HeadlineDefaults {
+internal object HeadlineDefaults {
+
     const val TestTag = "HeadlineTestTag"
+
 }

@@ -42,6 +42,7 @@ import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.movie.MoviesSection
+import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import com.vlohachov.shared.ui.screen.discover.DiscoverScreen
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.state.ViewState
@@ -69,7 +70,9 @@ public object MainScreen : Screen {
         Main(
             onSearch = { },
             onSettings = { navigator.push(item = SettingsScreen) },
-            onMovieDetails = { },
+            onMovieDetails = { movie ->
+                navigator.push(item = MovieDetailsScreen(movieId = movie.id))
+            },
             onMore = { },
             onDiscover = { navigator.push(item = DiscoverScreen) },
         )

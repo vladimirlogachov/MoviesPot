@@ -1,5 +1,6 @@
 package com.vlohachov.shared.ui.screen.discover
 
+import androidx.compose.runtime.Stable
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.vlohachov.shared.domain.model.genre.Genre
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 private const val YearInputLength = 4
 
+@Stable
 internal class DiscoverViewModel(loadGenres: LoadGenres) : ScreenModel {
 
     private val year = MutableStateFlow(value = "")

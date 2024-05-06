@@ -45,7 +45,7 @@ class MovieDetailsTest {
 
     @Test
     fun navigateUpTest(): Unit = with(composeRule) {
-        every { viewModel.uiState } returns MutableStateFlow(value = MovieDetailsViewState())
+        every { viewModel.uiState } returns MutableStateFlow(value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState())
         every { navigator.navigateUp() } returns true
 
         setContent {
@@ -71,7 +71,7 @@ class MovieDetailsTest {
     @Test
     fun errorTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(error = Exception())
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(error = Exception())
         )
         justRun { viewModel.onErrorConsumed() }
 
@@ -97,7 +97,7 @@ class MovieDetailsTest {
 
     @Test
     fun detailsLoadingTest(): Unit = with(composeRule) {
-        every { viewModel.uiState } returns MutableStateFlow(value = MovieDetailsViewState())
+        every { viewModel.uiState } returns MutableStateFlow(value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState())
 
         setContent {
             MoviesPotTheme {
@@ -134,7 +134,11 @@ class MovieDetailsTest {
         val error = Exception()
 
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(detailsViewState = ViewState.Error(error = error))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                detailsViewState = ViewState.Error(
+                    error = error
+                )
+            )
         )
         justRun { viewModel.onError(error = any()) }
 
@@ -172,7 +176,11 @@ class MovieDetailsTest {
     @Test
     fun detailsLoadedTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(detailsViewState = ViewState.Success(data = TestMovieDetails))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                detailsViewState = ViewState.Success(
+                    data = TestMovieDetails
+                )
+            )
         )
 
         setContent {
@@ -214,7 +222,11 @@ class MovieDetailsTest {
     @Test
     fun posterTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(detailsViewState = ViewState.Success(data = TestMovieDetails))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                detailsViewState = ViewState.Success(
+                    data = TestMovieDetails
+                )
+            )
         )
         justRun { navigator.navigate(direction = any()) }
 
@@ -241,7 +253,11 @@ class MovieDetailsTest {
     @Test
     fun castButtonTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(detailsViewState = ViewState.Success(data = TestMovieDetails))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                detailsViewState = ViewState.Success(
+                    data = TestMovieDetails
+                )
+            )
         )
         justRun { navigator.navigate(direction = any()) }
 
@@ -268,7 +284,11 @@ class MovieDetailsTest {
     @Test
     fun crewButtonTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(detailsViewState = ViewState.Success(data = TestMovieDetails))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                detailsViewState = ViewState.Success(
+                    data = TestMovieDetails
+                )
+            )
         )
         justRun { navigator.navigate(direction = any()) }
 
@@ -295,7 +315,7 @@ class MovieDetailsTest {
     @Test
     fun emptyDirectorTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
                 detailsViewState = ViewState.Success(data = TestMovieDetails),
                 directorViewState = ViewState.Success(data = "")
             )
@@ -321,7 +341,7 @@ class MovieDetailsTest {
         val director = "Director"
 
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
                 detailsViewState = ViewState.Success(data = TestMovieDetails),
                 directorViewState = ViewState.Success(data = director)
             )
@@ -345,7 +365,7 @@ class MovieDetailsTest {
 
     @Test
     fun recommendationsLoadingTest(): Unit = with(composeRule) {
-        every { viewModel.uiState } returns MutableStateFlow(value = MovieDetailsViewState())
+        every { viewModel.uiState } returns MutableStateFlow(value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState())
 
         setContent {
             MoviesPotTheme {
@@ -369,7 +389,9 @@ class MovieDetailsTest {
     @Test
     fun emptyRecommendationsTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(recommendationsViewState = ViewState.Success(data = listOf()))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                recommendationsViewState = ViewState.Success(data = listOf())
+            )
         )
 
         setContent {
@@ -396,7 +418,9 @@ class MovieDetailsTest {
     @Test
     fun nonEmptyRecommendationsTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(recommendationsViewState = ViewState.Success(data = TestMovies))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                recommendationsViewState = ViewState.Success(data = TestMovies)
+            )
         )
         justRun { navigator.navigate(direction = any()) }
 
@@ -436,7 +460,7 @@ class MovieDetailsTest {
 
     @Test
     fun keywordsLoadingTest(): Unit = with(composeRule) {
-        every { viewModel.uiState } returns MutableStateFlow(value = MovieDetailsViewState())
+        every { viewModel.uiState } returns MutableStateFlow(value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState())
 
         setContent {
             MoviesPotTheme {
@@ -456,7 +480,11 @@ class MovieDetailsTest {
     @Test
     fun emptyKeywordsTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(keywordsViewState = ViewState.Success(data = listOf()))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                keywordsViewState = ViewState.Success(
+                    data = listOf()
+                )
+            )
         )
 
         setContent {
@@ -481,7 +509,11 @@ class MovieDetailsTest {
     @Test
     fun keywordsTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(keywordsViewState = ViewState.Success(data = TestKeywords))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                keywordsViewState = ViewState.Success(
+                    data = TestKeywords
+                )
+            )
         )
 
         setContent {
@@ -509,7 +541,11 @@ class MovieDetailsTest {
     @Test
     fun keywordClickTest(): Unit = with(composeRule) {
         every { viewModel.uiState } returns MutableStateFlow(
-            value = MovieDetailsViewState(keywordsViewState = ViewState.Success(data = TestKeywords))
+            value = com.vlohachov.shared.ui.screen.details.MovieDetailsViewState(
+                keywordsViewState = ViewState.Success(
+                    data = TestKeywords
+                )
+            )
         )
         justRun { navigator.navigate(direction = any()) }
 
