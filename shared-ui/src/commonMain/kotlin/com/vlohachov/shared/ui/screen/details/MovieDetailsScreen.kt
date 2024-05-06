@@ -54,6 +54,7 @@ import com.vlohachov.shared.ui.component.section.Section
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTitle
 import com.vlohachov.shared.ui.screen.Screen
+import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.keywords
@@ -72,18 +73,20 @@ internal data object MovieDetailsScreen : Screen {
         navArgument(name = "movieId") { type = NavType.LongType }
     )
 
-    override val path: String = "movie/details"
+    override val path: String = "movie"
 
     fun NavGraphBuilder.movieDetails(navController: NavController) {
-        composable(route = "$path/{${ArgMovieId}}", arguments = arguments) { backStackEntry ->
-            val movieId = requireNotNull(backStackEntry.arguments?.getLong(ArgMovieId)) {
+        composable(route = "$path/{$ArgMovieId}", arguments = arguments) { backStackEntry ->
+            val movieId = requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {
                 "Missing required argument $ArgMovieId"
             }
 
             MovieDetails(
                 movieId = movieId,
                 onBack = navController::navigateUp,
-                onFullscreenImage = { },
+                onFullscreenImage = { imagePath ->
+                    navController.navigate(route = "${FullscreenImageScreen.path}=$imagePath")
+                },
                 onCast = { },
                 onCrew = { },
                 onSimilar = { },

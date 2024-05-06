@@ -55,7 +55,7 @@ public fun MoviesPotTheme(
  */
 @Composable
 public expect fun MoviesPotTheme(
-    dynamicColor: Boolean = isDynamicThemeAvailable(),
+    dynamicColor: Boolean,
     content: @Composable () -> Unit,
 )
 
