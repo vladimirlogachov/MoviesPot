@@ -21,9 +21,9 @@ import com.vlohachov.shared.ui.component.section.SectionColors
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTextStyles
 import com.vlohachov.shared.ui.component.section.SectionTitle
+import com.vlohachov.shared.ui.core.DummyMovies
 import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
-import com.vlohachov.shared.ui.utils.DummyMovies
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.no_results
 import org.jetbrains.compose.resources.ExperimentalResourceApi

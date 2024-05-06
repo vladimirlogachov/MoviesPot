@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.vlohachov.shared.data.local.LocalPreferences
+import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen.movieDetails
 import com.vlohachov.shared.ui.screen.main.MainScreen
 import com.vlohachov.shared.ui.screen.main.MainScreen.mainScreen
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen.settingsScreen
@@ -27,6 +28,7 @@ public fun MoviesPotApp(): Unit = KoinContext {
         ) {
             mainScreen(navController = navController)
             settingsScreen(navController = navController)
+            movieDetails(navController = navController)
         }
     }
 }

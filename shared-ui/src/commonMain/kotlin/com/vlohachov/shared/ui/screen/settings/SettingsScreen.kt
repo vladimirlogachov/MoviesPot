@@ -56,7 +56,7 @@ import moviespot.shared_ui.generated.resources.settings
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-internal object SettingsScreen : Screen {
+internal data object SettingsScreen : Screen {
 
     override val path: String = "settings"
 

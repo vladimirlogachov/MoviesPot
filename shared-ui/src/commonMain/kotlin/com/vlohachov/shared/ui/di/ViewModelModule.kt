@@ -1,13 +1,16 @@
 package com.vlohachov.shared.ui.di
 
+import com.vlohachov.shared.ui.screen.details.MovieDetailsViewModel
 import com.vlohachov.shared.ui.screen.main.MainViewModel
 import com.vlohachov.shared.ui.screen.settings.SettingsViewModel
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal val viewModelModule = module {
     singleOf(::MainViewModel)
     singleOf(::SettingsViewModel)
+    factoryOf(::MovieDetailsViewModel)
 //    viewModel { params ->
 //        MoviesViewModel(category = params.get(), pager = MoviesPager(useCase = get()))
 //    }

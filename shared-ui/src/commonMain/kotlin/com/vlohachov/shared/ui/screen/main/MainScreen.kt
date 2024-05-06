@@ -43,6 +43,7 @@ import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.movie.MoviesSection
 import com.vlohachov.shared.ui.screen.Screen
+import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
@@ -60,7 +61,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-internal object MainScreen : Screen {
+internal data object MainScreen : Screen {
 
     override val path: String = "main"
 
@@ -69,7 +70,9 @@ internal object MainScreen : Screen {
             Main(
                 onSearch = { },
                 onSettings = { navController.navigate(route = SettingsScreen.path) },
-                onMovieDetails = { },
+                onMovieDetails = { movie ->
+                    navController.navigate(route = "${MovieDetailsScreen.path}/${movie.id}")
+                },
                 onMore = { },
                 onDiscover = { },
             )

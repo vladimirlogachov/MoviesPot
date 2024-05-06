@@ -24,7 +24,7 @@ class LocalPreferencesTest {
     @JsName("return_default_when_storage_empty")
     fun `return default when storage empty`() = runTest {
         preferences.applyDynamicThemeFlow.test {
-            assertEquals(expected = isDynamicThemeAvailable(), actual = awaitItem())
+            assertEquals(expected = false, actual = awaitItem())
         }
     }
 

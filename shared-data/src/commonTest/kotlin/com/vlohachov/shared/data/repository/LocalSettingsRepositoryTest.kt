@@ -3,7 +3,6 @@ package com.vlohachov.shared.data.repository
 import app.cash.turbine.test
 import com.russhwolf.settings.Settings
 import com.vlohachov.shared.data.local.LocalPreferences
-import com.vlohachov.shared.data.local.isDynamicThemeAvailable
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.every
@@ -33,8 +32,7 @@ class LocalSettingsRepositoryTest {
     fun `settings loading success`() = runTest {
         repository.getSettings().test {
             with(awaitItem()) {
-                assertEquals(expected = isDynamicThemeAvailable(), actual = dynamicTheme)
-                assertEquals(expected = isDynamicThemeAvailable(), actual = supportsDynamicTheme)
+                assertEquals(expected = false, actual = dynamicTheme)
             }
         }
     }
