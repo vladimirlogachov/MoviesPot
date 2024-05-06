@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.vlohachov.shared.data.local.LocalPreferences
 import com.vlohachov.shared.ui.screen.credits.cast.CastScreen.cast
+import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen.crew
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen.movieDetails
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen.fullscreenImage
 import com.vlohachov.shared.ui.screen.main.MainScreen
@@ -33,6 +34,7 @@ public fun MoviesPotApp(): Unit = KoinContext {
             movieDetails(navController = navController)
             fullscreenImage(navController = navController)
             cast(navController = navController)
+            crew(navController = navController)
         }
     }
 }

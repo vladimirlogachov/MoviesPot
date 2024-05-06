@@ -55,6 +55,7 @@ import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTitle
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.credits.cast.CastScreen
+import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
@@ -91,7 +92,9 @@ internal data object MovieDetailsScreen : Screen {
                 onCast = {
                     navController.navigate(route = "${CastScreen.path}=$movieId")
                 },
-                onCrew = { },
+                onCrew = {
+                    navController.navigate(route = "${CrewScreen.path}=$movieId")
+                },
                 onSimilar = { },
                 onMovieDetails = { movie ->
                     navController.navigate(route = "$path/${movie.id}")
