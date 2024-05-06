@@ -6,8 +6,6 @@ import com.russhwolf.settings.set
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-internal expect fun isDynamicThemeAvailable(): Boolean
-
 public class LocalPreferences(private val settings: Settings) {
 
     internal companion object {
@@ -15,7 +13,7 @@ public class LocalPreferences(private val settings: Settings) {
     }
 
     private val _dynamicThemeFlow =
-        MutableStateFlow(value = settings[KEY_DYNAMIC_THEME] ?: isDynamicThemeAvailable())
+        MutableStateFlow(value = settings[KEY_DYNAMIC_THEME] ?: false)
 
     public val applyDynamicThemeFlow: Flow<Boolean> =
         _dynamicThemeFlow

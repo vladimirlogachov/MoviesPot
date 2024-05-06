@@ -142,7 +142,7 @@ private fun Content(
                             SettingsDefaults.DynamicThemeToggleTestTag
                     },
                     checked = viewState.data.dynamicTheme,
-                    enabled = viewState.data.supportsDynamicTheme,
+                    enabled = false,
                     onCheckedChange = onDynamicTheme,
                 )
             }

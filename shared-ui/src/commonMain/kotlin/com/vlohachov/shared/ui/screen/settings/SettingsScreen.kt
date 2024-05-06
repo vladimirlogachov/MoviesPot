@@ -41,6 +41,7 @@ import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.ui.theme.isDynamicThemeAvailable
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.app_version
 import moviespot.shared_ui.generated.resources.author
@@ -48,11 +49,10 @@ import moviespot.shared_ui.generated.resources.author_link
 import moviespot.shared_ui.generated.resources.author_name
 import moviespot.shared_ui.generated.resources.dynamic_theme
 import moviespot.shared_ui.generated.resources.settings
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsScreen(
     onBack: () -> Unit,
@@ -92,7 +92,6 @@ internal fun SettingsScreen(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Content(
     modifier: Modifier,
@@ -127,7 +126,7 @@ private fun Content(
                 Switch(
                     modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeToggleTestTag),
                     checked = viewState.data.dynamicTheme,
-                    enabled = viewState.data.supportsDynamicTheme,
+                    enabled = isDynamicThemeAvailable(),
                     onCheckedChange = onDynamicTheme,
                 )
             }
@@ -141,7 +140,6 @@ private fun Content(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Author(
     onClick: (uri: String) -> Unit,

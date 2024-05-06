@@ -13,6 +13,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+/**
+ * A [MoviesPotTheme] that uses the provided [dynamicColor] and [content].
+ */
 @Composable
 public actual fun MoviesPotTheme(
     dynamicColor: Boolean,
@@ -46,3 +49,9 @@ public actual fun MoviesPotTheme(
         }
     }
 }
+
+/**
+ * Returns whether the dynamic theme is available.
+ */
+internal actual fun isDynamicThemeAvailable(): Boolean =
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
