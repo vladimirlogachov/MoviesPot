@@ -35,11 +35,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.vlohachov.shared.domain.model.settings.Settings
 import com.vlohachov.shared.ui.BuildConfig
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
+import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.isDynamicThemeAvailable
 import moviespot.shared_ui.generated.resources.Res
@@ -52,9 +56,21 @@ import moviespot.shared_ui.generated.resources.settings
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
+internal object SettingsScreen : Screen {
+
+    override val path: String = "settings"
+
+    fun NavGraphBuilder.settingsScreen(navController: NavController) {
+        composable(route = path) {
+            Settings(onBack = navController::navigateUp)
+        }
+    }
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingsScreen(
+internal fun Settings(
     onBack: () -> Unit,
     viewModel: SettingsViewModel = koinInject(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
@@ -99,45 +115,43 @@ private fun Content(
     onDynamicTheme: (dynamicTheme: Boolean) -> Unit,
     onAuthorLink: (uri: String) -> Unit,
     onError: (error: Throwable) -> Unit,
+) = Column(
+    modifier = modifier,
+    verticalArrangement = Arrangement.spacedBy(space = 16.dp),
+    horizontalAlignment = Alignment.CenterHorizontally,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        when (viewState) {
-            ViewState.Loading -> CircularProgressIndicator(
-                modifier = Modifier.testTag(tag = SettingsDefaults.LoadingTestTag)
-            )
-
-            is ViewState.Error -> LaunchedEffect(key1 = viewState.error) {
-                viewState.error?.run(onError)
-            }
-
-            is ViewState.Success -> Row(
-                modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeTestTag)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                ProvideTextStyle(value = MaterialTheme.typography.titleLarge) {
-                    Text(text = stringResource(resource = Res.string.dynamic_theme))
-                }
-                Switch(
-                    modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeToggleTestTag),
-                    checked = viewState.data.dynamicTheme,
-                    enabled = isDynamicThemeAvailable(),
-                    onCheckedChange = onDynamicTheme,
-                )
-            }
-        }
-        Spacer(modifier = Modifier.weight(weight = 1f))
-        Author(
-            modifier = Modifier.testTag(tag = SettingsDefaults.AuthorTestTag),
-            onClick = onAuthorLink,
+    when (viewState) {
+        ViewState.Loading -> CircularProgressIndicator(
+            modifier = Modifier.testTag(tag = SettingsDefaults.LoadingTestTag)
         )
-        Text(text = stringResource(resource = Res.string.app_version) + " ${BuildConfig.VERSION_NAME}")
+
+        is ViewState.Error -> LaunchedEffect(key1 = viewState.error) {
+            viewState.error?.run(onError)
+        }
+
+        is ViewState.Success -> Row(
+            modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeTestTag)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            ProvideTextStyle(value = MaterialTheme.typography.titleLarge) {
+                Text(text = stringResource(resource = Res.string.dynamic_theme))
+            }
+            Switch(
+                modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeToggleTestTag),
+                checked = viewState.data.dynamicTheme,
+                enabled = isDynamicThemeAvailable(),
+                onCheckedChange = onDynamicTheme,
+            )
+        }
     }
+    Spacer(modifier = Modifier.weight(weight = 1f))
+    Author(
+        modifier = Modifier.testTag(tag = SettingsDefaults.AuthorTestTag),
+        onClick = onAuthorLink,
+    )
+    Text(text = stringResource(resource = Res.string.app_version) + " ${BuildConfig.VERSION_NAME}")
 }
 
 @Composable

@@ -35,10 +35,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontFamily
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.movie.MoviesSection
+import com.vlohachov.shared.ui.screen.Screen
+import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.app_name
@@ -50,15 +55,32 @@ import moviespot.shared_ui.generated.resources.search
 import moviespot.shared_ui.generated.resources.settings
 import moviespot.shared_ui.generated.resources.top_rated
 import moviespot.shared_ui.generated.resources.upcoming
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
+internal object MainScreen : Screen {
+
+    override val path: String = "main"
+
+    fun NavGraphBuilder.mainScreen(navController: NavController) {
+        composable(route = path) {
+            Main(
+                onSearch = { },
+                onSettings = { navController.navigate(route = SettingsScreen.path) },
+                onMovieDetails = { },
+                onMore = { },
+                onDiscover = { },
+            )
+        }
+    }
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MainScreen(
+internal fun Main(
     onSearch: () -> Unit,
     onSettings: () -> Unit,
     onMovieDetails: (Movie) -> Unit,
@@ -76,8 +98,7 @@ internal fun MainScreen(
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
             MainAppBar(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 onSearch = onSearch,
                 onSettings = onSettings,
                 scrollBehavior = scrollBehavior,
@@ -117,7 +138,6 @@ internal fun MainScreen(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Content(
     modifier: Modifier,
@@ -125,97 +145,89 @@ private fun Content(
     onMovieDetails: (movie: Movie) -> Unit,
     onMore: (category: MovieCategory) -> Unit,
     onError: @Composable (error: Throwable) -> Unit,
+) = Box(
+    modifier = modifier,
+    contentAlignment = Alignment.TopCenter,
 ) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.TopCenter,
+    LazyColumn(
+        modifier = Modifier
+            .testTag(tag = MainScreenDefaults.SectionsTestTag)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = WindowInsets.navigationBars.asPaddingValues(),
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .testTag(tag = MainScreenDefaults.SectionsTestTag)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-        ) {
-            items(MovieCategory.entries) { category ->
-                MoviesSection(
-                    modifier = Modifier.fillMaxWidth(),
-                    title = stringResource(resource = category.stringRes()),
-                    viewState = viewState.moviesState(category = category),
-                    onMovieClick = onMovieDetails,
-                    onMore = { onMore(category) },
-                )
-            }
+        items(MovieCategory.entries) { category ->
+            MoviesSection(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(resource = category.stringRes()),
+                viewState = viewState.moviesState(category = category),
+                onMovieClick = onMovieDetails,
+                onMore = { onMore(category) },
+            )
         }
+    }
 
-        viewState.error?.run {
-            onError(this)
-        }
+    viewState.error?.run {
+        onError(this)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainAppBar(
     modifier: Modifier,
     onSearch: () -> Unit,
     onSettings: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
-) {
-    CenterAlignedTopAppBar(
-        modifier = modifier,
-        title = {
-            Text(
-                text = stringResource(resource = Res.string.app_name),
-                fontFamily = FontFamily(Font(resource = Res.font.chalkduster))
+) = CenterAlignedTopAppBar(
+    modifier = modifier,
+    title = {
+        Text(
+            text = stringResource(resource = Res.string.app_name),
+            fontFamily = FontFamily(Font(resource = Res.font.chalkduster))
+        )
+    },
+    navigationIcon = {
+        IconButton(
+            modifier = Modifier.testTag(tag = MainScreenDefaults.SearchButtonTestTag),
+            onClick = onSearch,
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Search,
+                contentDescription = stringResource(resource = Res.string.search),
             )
-        },
-        navigationIcon = {
-            IconButton(
-                modifier = Modifier.testTag(tag = MainScreenDefaults.SearchButtonTestTag),
-                onClick = onSearch,
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Search,
-                    contentDescription = stringResource(resource = Res.string.search),
-                )
-            }
-        },
-        actions = {
-            IconButton(
-                modifier = Modifier.testTag(tag = MainScreenDefaults.SettingsButtonTestTag),
-                onClick = onSettings,
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Settings,
-                    contentDescription = stringResource(resource = Res.string.settings),
-                )
-            }
-        },
-        scrollBehavior = scrollBehavior,
-    )
-}
+        }
+    },
+    actions = {
+        IconButton(
+            modifier = Modifier.testTag(tag = MainScreenDefaults.SettingsButtonTestTag),
+            onClick = onSettings,
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Settings,
+                contentDescription = stringResource(resource = Res.string.settings),
+            )
+        }
+    },
+    scrollBehavior = scrollBehavior,
+)
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Discover(
     modifier: Modifier,
     onClick: () -> Unit,
-) {
-    ExtendedFloatingActionButton(
-        modifier = modifier.testTag(tag = MainScreenDefaults.DiscoverButtonTestTag),
-        text = { Text(text = stringResource(resource = Res.string.discover)) },
-        icon = {
-            Icon(
-                imageVector = Icons.Rounded.MovieFilter,
-                contentDescription = stringResource(resource = Res.string.discover),
-            )
-        },
-        onClick = onClick,
-    )
-}
+) = ExtendedFloatingActionButton(
+    modifier = modifier.testTag(tag = MainScreenDefaults.DiscoverButtonTestTag),
+    text = { Text(text = stringResource(resource = Res.string.discover)) },
+    icon = {
+        Icon(
+            imageVector = Icons.Rounded.MovieFilter,
+            contentDescription = stringResource(resource = Res.string.discover),
+        )
+    },
+    onClick = onClick,
+)
 
-@OptIn(ExperimentalResourceApi::class)
 private fun MovieCategory.stringRes(): StringResource = when (this) {
     MovieCategory.UPCOMING -> Res.string.upcoming
     MovieCategory.NOW_PLAYING -> Res.string.now_playing

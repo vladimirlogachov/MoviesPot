@@ -1,15 +1,15 @@
 package com.vlohachov.shared.ui.screen
 
-internal sealed interface Screen {
+import androidx.compose.runtime.Composable
 
-    val route: String
+/**
+ * Defines [Composable] screen.
+ */
+internal interface Screen {
 
-    data object Main : Screen {
-        override val route: String = "main"
-    }
-
-    data object Settings : Screen {
-        override val route: String = "settings"
-    }
+    /**
+     * Path to screen.
+     */
+    val path: String
 
 }
