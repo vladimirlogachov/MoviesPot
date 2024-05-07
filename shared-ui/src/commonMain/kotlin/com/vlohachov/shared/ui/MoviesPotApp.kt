@@ -9,6 +9,7 @@ import com.vlohachov.shared.data.local.LocalPreferences
 import com.vlohachov.shared.ui.screen.credits.cast.CastScreen.cast
 import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen.crew
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen.movieDetails
+import com.vlohachov.shared.ui.screen.discover.DiscoverMoviesScreen.discoverMovies
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen.fullscreenImage
 import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesScreen.keywordMovies
 import com.vlohachov.shared.ui.screen.main.MainScreen
@@ -34,6 +35,7 @@ public fun MoviesPotApp(): Unit = KoinContext {
             moviesSearch(navController = navController)
             settingsScreen(navController = navController)
             movies(navController = navController)
+            discoverMovies(navController = navController)
             movieDetails(navController = navController)
             fullscreenImage(navController = navController)
             cast(navController = navController)
