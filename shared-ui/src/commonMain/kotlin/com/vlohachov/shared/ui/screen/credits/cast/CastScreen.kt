@@ -3,9 +3,11 @@ package com.vlohachov.shared.ui.screen.credits.cast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -103,7 +105,11 @@ internal fun Cast(
             )
         },
         floatingActionButton = {
-            ScrollToTop(visible = showScrollToTop, gridState = gridState)
+            ScrollToTop(
+                modifier = Modifier.navigationBarsPadding(),
+                visible = showScrollToTop,
+                gridState = gridState
+            )
         },
         snackbarHost = {
             SnackbarHost(
@@ -113,6 +119,7 @@ internal fun Cast(
                 hostState = snackbarHostState,
             )
         },
+        contentWindowInsets = WindowInsets.ime
     ) { paddingValues ->
         Box(
             modifier = Modifier
