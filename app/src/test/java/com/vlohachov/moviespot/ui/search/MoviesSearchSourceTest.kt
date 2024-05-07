@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-class SearchMoviesSourceTest {
+class MoviesSearchSourceTest {
 
     private val useCase = mockk<SearchMovies>()
 

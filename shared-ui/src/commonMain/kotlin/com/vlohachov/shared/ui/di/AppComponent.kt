@@ -1,6 +1,13 @@
 package com.vlohachov.shared.ui.di
 
+import com.vlohachov.shared.ui.screen.search.moviesSearchModule
 import org.koin.core.module.Module
 
 public val appComponent: List<Module> =
-    listOf(appModule, dataModule, useCaseModule, viewModelModule)
+    listOf(
+        appModule,
+        dataModule,
+        useCaseModule,
+        viewModelModule,
+        moviesSearchModule
+    )

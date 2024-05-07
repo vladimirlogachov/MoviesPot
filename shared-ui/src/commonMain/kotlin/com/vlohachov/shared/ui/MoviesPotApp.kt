@@ -12,6 +12,7 @@ import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen.movieDetails
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen.fullscreenImage
 import com.vlohachov.shared.ui.screen.main.MainScreen
 import com.vlohachov.shared.ui.screen.main.MainScreen.mainScreen
+import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen.moviesSearch
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen.settingsScreen
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.koin.compose.KoinContext
@@ -30,6 +31,7 @@ public fun MoviesPotApp(): Unit = KoinContext {
             startDestination = MainScreen.path,
         ) {
             mainScreen(navController = navController)
+            moviesSearch(navController = navController)
             settingsScreen(navController = navController)
             movieDetails(navController = navController)
             fullscreenImage(navController = navController)

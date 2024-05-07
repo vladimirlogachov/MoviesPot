@@ -60,6 +60,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.paging.compose)
             implementation(compose.uiTooling)
         }
         commonMain.dependencies {

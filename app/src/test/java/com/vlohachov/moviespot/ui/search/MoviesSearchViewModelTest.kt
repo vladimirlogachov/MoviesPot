@@ -23,7 +23,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SearchMoviesViewModelTest {
+class MoviesSearchViewModelTest {
 
     @get:Rule
     val dispatcherRule = TestDispatcherRule(dispatcher = UnconfinedTestDispatcher())

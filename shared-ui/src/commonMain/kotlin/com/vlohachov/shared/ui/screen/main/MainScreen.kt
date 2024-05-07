@@ -44,6 +44,7 @@ import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.movie.MoviesSection
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
+import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
@@ -68,8 +69,12 @@ internal data object MainScreen : Screen {
     fun NavGraphBuilder.mainScreen(navController: NavController) {
         composable(route = path) {
             Main(
-                onSearch = { },
-                onSettings = { navController.navigate(route = SettingsScreen.path) },
+                onSearch = {
+                    navController.navigate(route = MoviesSearchScreen.path)
+                },
+                onSettings = {
+                    navController.navigate(route = SettingsScreen.path)
+                },
                 onMovieDetails = { movie ->
                     navController.navigate(route = "${MovieDetailsScreen.path}/${movie.id}")
                 },

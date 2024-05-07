@@ -22,7 +22,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestMovies
-import com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.button.ScrollToTopDefaults
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
@@ -134,7 +133,7 @@ class DiscoverResultTest {
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
         onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
+            testTag = com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
             useUnmergedTree = true,
         ).assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()
@@ -178,7 +177,7 @@ class DiscoverResultTest {
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
         onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
+            testTag = com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
             useUnmergedTree = true,
         ).assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()
@@ -219,7 +218,7 @@ class DiscoverResultTest {
         }
 
         onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
+            testTag = com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
             useUnmergedTree = true,
         ).assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()
@@ -290,7 +289,7 @@ class DiscoverResultTest {
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
+            testTag = com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
             useUnmergedTree = true,
         ).assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()
@@ -338,7 +337,7 @@ class DiscoverResultTest {
         }
 
         onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
+            testTag = com.vlohachov.moviespot.ui.components.movie.MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
             useUnmergedTree = true,
         ).assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()

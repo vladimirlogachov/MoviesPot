@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-class SearchMoviesPagerTest {
+class MoviesSearchPagerTest {
 
     private val useCase = mockk<SearchMovies>()
 

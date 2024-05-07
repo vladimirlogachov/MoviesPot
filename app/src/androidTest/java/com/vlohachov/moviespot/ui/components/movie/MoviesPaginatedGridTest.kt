@@ -85,7 +85,8 @@ class MoviesPaginatedGridTest {
                         item(span = { GridItemSpan(currentLineSpan = 3) }) {
                             CircularProgressIndicator(
                                 modifier = Modifier.semantics {
-                                    testTag = MoviesPaginatedGridDefaults.RefreshProgressTestTag
+                                    testTag =
+                                        MoviesPaginatedGridDefaults.RefreshProgressTestTag
                                 }
                             )
                         }
@@ -130,7 +131,8 @@ class MoviesPaginatedGridTest {
                         item(span = { GridItemSpan(currentLineSpan = 3) }) {
                             CircularProgressIndicator(
                                 modifier = Modifier.semantics {
-                                    testTag = MoviesPaginatedGridDefaults.RefreshProgressTestTag
+                                    testTag =
+                                        MoviesPaginatedGridDefaults.RefreshProgressTestTag
                                 }
                             )
                         }
