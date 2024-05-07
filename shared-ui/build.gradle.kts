@@ -62,6 +62,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.paging.compose)
             implementation(compose.uiTooling)
+            implementation(compose.material)
         }
         commonMain.dependencies {
             implementation(project(":shared-data"))

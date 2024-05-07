@@ -44,6 +44,7 @@ import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.movie.MoviesSection
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
+import com.vlohachov.shared.ui.screen.movies.MoviesScreen
 import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen
 import com.vlohachov.shared.ui.state.ViewState
@@ -78,7 +79,9 @@ internal data object MainScreen : Screen {
                 onMovieDetails = { movie ->
                     navController.navigate(route = "${MovieDetailsScreen.path}/${movie.id}")
                 },
-                onMore = { },
+                onMore = { category ->
+                    navController.navigate(route = "${MoviesScreen.path}/$category")
+                },
                 onDiscover = { },
             )
         }

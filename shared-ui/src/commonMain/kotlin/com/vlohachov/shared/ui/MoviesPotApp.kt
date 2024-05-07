@@ -12,6 +12,7 @@ import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen.movieDetails
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen.fullscreenImage
 import com.vlohachov.shared.ui.screen.main.MainScreen
 import com.vlohachov.shared.ui.screen.main.MainScreen.mainScreen
+import com.vlohachov.shared.ui.screen.movies.MoviesScreen.movies
 import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen.moviesSearch
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen.settingsScreen
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
@@ -26,13 +27,11 @@ public fun MoviesPotApp(): Unit = KoinContext {
     val navController = rememberNavController()
 
     MoviesPotTheme(dynamicColor = applyDynamicTheme) {
-        NavHost(
-            navController = navController,
-            startDestination = MainScreen.path,
-        ) {
+        NavHost(navController = navController, startDestination = MainScreen.path) {
             mainScreen(navController = navController)
             moviesSearch(navController = navController)
             settingsScreen(navController = navController)
+            movies(navController = navController)
             movieDetails(navController = navController)
             fullscreenImage(navController = navController)
             cast(navController = navController)

@@ -58,7 +58,7 @@ internal data object CastScreen : Screen {
     private const val ArgMovieId = "movieId"
 
     private val arguments = listOf(
-        navArgument(name = "movieId") { type = NavType.LongType }
+        navArgument(name = ArgMovieId) { type = NavType.LongType }
     )
 
     override val path: String = "credits/cast?$ArgMovieId"
