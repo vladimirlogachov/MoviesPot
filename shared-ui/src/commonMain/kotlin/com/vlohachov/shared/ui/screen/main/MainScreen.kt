@@ -77,7 +77,12 @@ internal data object MainScreen : Screen {
                     navController.navigate(route = SettingsScreen.path)
                 },
                 onMovieDetails = { movie ->
-                    navController.navigate(route = "${MovieDetailsScreen.path}/${movie.id}")
+                    navController.navigate(
+                        route = MovieDetailsScreen.path(
+                            movieId = movie.id,
+                            movieTitle = movie.title
+                        )
+                    )
                 },
                 onMore = { category ->
                     navController.navigate(route = "${MoviesScreen.path}/$category")

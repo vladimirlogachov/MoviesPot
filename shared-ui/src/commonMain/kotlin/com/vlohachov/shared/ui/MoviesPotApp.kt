@@ -13,6 +13,7 @@ import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen.fullscreenImag
 import com.vlohachov.shared.ui.screen.main.MainScreen
 import com.vlohachov.shared.ui.screen.main.MainScreen.mainScreen
 import com.vlohachov.shared.ui.screen.movies.MoviesScreen.movies
+import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesScreen.similarMovies
 import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen.moviesSearch
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen.settingsScreen
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
@@ -36,6 +37,7 @@ public fun MoviesPotApp(): Unit = KoinContext {
             fullscreenImage(navController = navController)
             cast(navController = navController)
             crew(navController = navController)
+            similarMovies(navController = navController)
         }
     }
 }

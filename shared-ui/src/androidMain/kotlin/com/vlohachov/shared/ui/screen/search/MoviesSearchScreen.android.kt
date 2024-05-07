@@ -65,7 +65,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
@@ -243,7 +242,6 @@ private fun SearchBar(
 
 internal actual val moviesSearchModule: Module = module {
     single { PagingConfig(pageSize = 20) }
-    singleOf(::MoviesSearchPager)
-    singleOf(::MoviesSearchSource)
+    factoryOf(::MoviesSearchPager)
     factoryOf(::MoviesSearchViewModel)
 }

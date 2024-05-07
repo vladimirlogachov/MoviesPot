@@ -1,6 +1,7 @@
 package com.vlohachov.shared.ui.di
 
 import com.vlohachov.shared.ui.screen.movies.moviesModule
+import com.vlohachov.shared.ui.screen.movies.similar.similarMoviesModule
 import com.vlohachov.shared.ui.screen.search.moviesSearchModule
 import org.koin.core.module.Module
 
@@ -12,4 +13,5 @@ public val appComponent: List<Module> =
         viewModelModule,
         moviesSearchModule,
         moviesModule,
+        similarMoviesModule,
     )

@@ -41,7 +41,12 @@ internal data object MoviesScreen : Screen {
                 category = category,
                 onBack = navController::navigateUp,
                 onMovieDetails = { movie ->
-                    navController.navigate(route = "${MovieDetailsScreen.path}/${movie.id}")
+                    navController.navigate(
+                        route = MovieDetailsScreen.path(
+                            movieId = movie.id,
+                            movieTitle = movie.title
+                        )
+                    )
                 }
             )
         }

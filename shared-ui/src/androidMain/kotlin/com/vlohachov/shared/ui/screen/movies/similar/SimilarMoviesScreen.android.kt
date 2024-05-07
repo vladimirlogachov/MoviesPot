@@ -1,4 +1,4 @@
-package com.vlohachov.shared.ui.screen.movies
+package com.vlohachov.shared.ui.screen.movies.similar
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -23,22 +23,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.paging.PagingConfig
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
-import com.vlohachov.shared.domain.model.movie.MovieCategory
-import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.component.bar.LargeAppBar
 import com.vlohachov.shared.ui.component.button.ScrollToTop
 import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGrid
 import moviespot.shared_ui.generated.resources.Res
-import moviespot.shared_ui.generated.resources.now_playing
-import moviespot.shared_ui.generated.resources.popular
-import moviespot.shared_ui.generated.resources.top_rated
-import moviespot.shared_ui.generated.resources.upcoming
-import org.jetbrains.compose.resources.StringResource
+import moviespot.shared_ui.generated.resources.similar_to
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
@@ -46,15 +40,16 @@ private const val VISIBLE_ITEMS_THRESHOLD = 3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal actual fun Movies(
-    category: MovieCategory,
+internal actual fun SimilarMovies(
+    movieId: Long,
+    movieTitle: String,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
-    gridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
-    scrollBehavior: TopAppBarScrollBehavior,
 ) {
-    val viewModel = koinInject<MoviesViewModel> { parametersOf(category) }
+    val viewModel = koinInject<SimilarMoviesViewModel> { parametersOf(movieId) }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val gridState = rememberLazyGridState()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
     ErrorBar(
@@ -68,9 +63,9 @@ internal actual fun Movies(
             .fillMaxSize()
             .nestedScroll(connection = scrollBehavior.nestedScrollConnection),
         topBar = {
-            AppBar(
+            LargeAppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = stringResource(resource = category.titleRes()),
+                title = stringResource(resource = Res.string.similar_to, movieTitle),
                 scrollBehavior = scrollBehavior,
                 onBackClick = onBack,
             )
@@ -79,13 +74,13 @@ internal actual fun Movies(
             ScrollToTop(
                 modifier = Modifier.navigationBarsPadding(),
                 visible = showScrollToTop,
-                gridState = gridState
+                gridState = gridState,
             )
         },
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .testTag(tag = MoviesDefaults.ContentErrorTestTag)
+                    .testTag(tag = SimilarMoviesDefaults.ContentErrorTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -105,15 +100,8 @@ internal actual fun Movies(
     }
 }
 
-private fun MovieCategory.titleRes(): StringResource = when (this) {
-    MovieCategory.NOW_PLAYING -> Res.string.now_playing
-    MovieCategory.POPULAR -> Res.string.popular
-    MovieCategory.TOP_RATED -> Res.string.top_rated
-    MovieCategory.UPCOMING -> Res.string.upcoming
-}
-
-internal actual val moviesModule: Module = module {
+internal actual val similarMoviesModule: Module = module {
     single { PagingConfig(pageSize = 20) }
-    singleOf(::MoviesPager)
-    factoryOf(::MoviesViewModel)
+    factoryOf(::SimilarMoviesPager)
+    factoryOf(::SimilarMoviesViewModel)
 }

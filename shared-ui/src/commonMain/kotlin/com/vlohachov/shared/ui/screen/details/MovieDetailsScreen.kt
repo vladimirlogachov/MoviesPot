@@ -57,6 +57,7 @@ import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.credits.cast.CastScreen
 import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen
+import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.keywords
@@ -70,18 +71,28 @@ import org.koin.core.parameter.parametersOf
 internal data object MovieDetailsScreen : Screen {
 
     private const val ArgMovieId = "movieId"
+    private const val ArgMovieTitle = "movieTitle"
 
     private val arguments = listOf(
-        navArgument(name = ArgMovieId) { type = NavType.LongType }
+        navArgument(name = ArgMovieId) { type = NavType.LongType },
+        navArgument(name = ArgMovieTitle) { type = NavType.StringType }
     )
 
-    override val path: String = "movie"
+    override val path: String = "movie/{$ArgMovieId}?$ArgMovieTitle={$ArgMovieTitle}"
+
+    fun path(movieId: Long, movieTitle: String): String =
+        "movie/$movieId?$ArgMovieTitle=$movieTitle"
 
     fun NavGraphBuilder.movieDetails(navController: NavController) {
-        composable(route = "$path/{$ArgMovieId}", arguments = arguments) { backStackEntry ->
-            val movieId = requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {
-                "Missing required argument $ArgMovieId"
-            }
+        composable(route = path, arguments = arguments) { backStackEntry ->
+            val movieId =
+                requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {
+                    "Missing required argument $ArgMovieId"
+                }
+            val movieTitle =
+                requireNotNull(value = backStackEntry.arguments?.getString(ArgMovieTitle)) {
+                    "Missing required argument $ArgMovieTitle"
+                }
 
             MovieDetails(
                 movieId = movieId,
@@ -95,9 +106,21 @@ internal data object MovieDetailsScreen : Screen {
                 onCrew = {
                     navController.navigate(route = "${CrewScreen.path}=$movieId")
                 },
-                onSimilar = { },
+                onSimilar = {
+                    navController.navigate(
+                        route = SimilarMoviesScreen.path(
+                            movieId = movieId,
+                            movieTitle = movieTitle
+                        )
+                    )
+                },
                 onMovieDetails = { movie ->
-                    navController.navigate(route = "$path/${movie.id}")
+                    navController.navigate(
+                        route = path(
+                            movieId = movie.id,
+                            movieTitle = movie.title
+                        )
+                    )
                 },
                 onKeywordMovies = { },
             )
