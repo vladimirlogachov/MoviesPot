@@ -57,6 +57,7 @@ import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.credits.cast.CastScreen
 import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen
+import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesScreen
 import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesScreen
 import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
@@ -122,7 +123,14 @@ internal data object MovieDetailsScreen : Screen {
                         )
                     )
                 },
-                onKeywordMovies = { },
+                onKeywordMovies = { keyword ->
+                    navController.navigate(
+                        route = KeywordMoviesScreen.path(
+                            keywordId = keyword.id,
+                            keyword = keyword.name
+                        )
+                    )
+                },
             )
         }
     }
