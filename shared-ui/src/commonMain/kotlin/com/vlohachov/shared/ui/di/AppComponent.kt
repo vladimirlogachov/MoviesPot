@@ -1,5 +1,6 @@
 package com.vlohachov.shared.ui.di
 
+import com.vlohachov.shared.ui.screen.discover.result.discoverResultModule
 import com.vlohachov.shared.ui.screen.keyword.keywordMoviesModule
 import com.vlohachov.shared.ui.screen.movies.moviesModule
 import com.vlohachov.shared.ui.screen.movies.similar.similarMoviesModule
@@ -15,6 +16,7 @@ public val appComponent: List<Module> =
         // TODO: To be removed once paging multiplatform supports all targets
         moviesSearchModule,
         moviesModule,
+        discoverResultModule,
         similarMoviesModule,
         keywordMoviesModule,
     )

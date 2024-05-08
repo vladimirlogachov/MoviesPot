@@ -67,3 +67,10 @@ internal expect fun KeywordMoviesScreen(
 )
 
 internal expect val keywordMoviesModule: Module
+
+internal object KeywordMoviesDefaults {
+
+    const val ContentLoadingTestTag = "content_loading"
+    const val ContentErrorTestTag = "content_error"
+
+}

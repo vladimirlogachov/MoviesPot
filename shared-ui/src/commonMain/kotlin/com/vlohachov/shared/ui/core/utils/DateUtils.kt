@@ -20,6 +20,8 @@ internal object DateUtils {
         dayOfMonth()
         char(' ')
         monthName(names = MonthNames.ENGLISH_ABBREVIATED)
+        char(' ')
+        year()
     }
 
     fun format(date: String, format: DateTimeFormat<LocalDate> = LocalDateFormat): String =

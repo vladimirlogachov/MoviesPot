@@ -50,6 +50,7 @@ import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.core.DummyGenres
 import com.vlohachov.shared.ui.screen.Screen
+import com.vlohachov.shared.ui.screen.discover.result.DiscoverResultScreen
 import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import moviespot.shared_ui.generated.resources.Res
@@ -61,16 +62,19 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 
-internal data object DiscoverMoviesScreen : Screen {
+internal data object DiscoverScreen : Screen {
 
-    override val path: String = "movie/discover"
+    override val path: String = "discover"
 
     fun NavGraphBuilder.discoverMovies(navController: NavController) {
         composable(route = path) {
-            DiscoverMovies(
+            Discover(
                 onBack = navController::navigateUp,
                 onDiscover = { year, genres ->
-
+                    println("onDiscover: year = $year, genres = ${genres?.joinToString(",")}")
+                    navController.navigate(
+                        route = DiscoverResultScreen.path(year = year, genres = genres)
+                    )
                 },
             )
         }
@@ -80,7 +84,7 @@ internal data object DiscoverMoviesScreen : Screen {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun DiscoverMovies(
+internal fun Discover(
     onBack: () -> Unit,
     onDiscover: (year: Int?, genres: IntArray?) -> Unit,
     viewModel: DiscoverViewModel = koinInject(),
@@ -114,7 +118,7 @@ internal fun DiscoverMovies(
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .testTag(tag = DiscoverMoviesDefaults.GenresErrorTestTag)
+                    .testTag(tag = DiscoverDefaults.GenresErrorTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -150,12 +154,12 @@ private fun Content(
     onDiscover: () -> Unit,
 ) {
     Column(
-        modifier = modifier.testTag(tag = DiscoverMoviesDefaults.ContentTestTag),
+        modifier = modifier.testTag(tag = DiscoverDefaults.ContentTestTag),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Genres(
             modifier = Modifier
-                .testTag(tag = DiscoverMoviesDefaults.GenresTestTag)
+                .testTag(tag = DiscoverDefaults.GenresTestTag)
                 .fillMaxWidth(),
             viewState = viewState.genresViewState,
             selectedGenres = viewState.selectedGenres,
@@ -165,7 +169,7 @@ private fun Content(
         )
         Input(
             modifier = Modifier
-                .testTag(tag = DiscoverMoviesDefaults.YearTestTag)
+                .testTag(tag = DiscoverDefaults.YearTestTag)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             value = viewState.year,
@@ -173,7 +177,7 @@ private fun Content(
         )
         Button(
             modifier = Modifier
-                .testTag(tag = DiscoverMoviesDefaults.DiscoverButtonTestTag)
+                .testTag(tag = DiscoverDefaults.DiscoverButtonTestTag)
                 .padding(all = 16.dp),
             onClick = onDiscover,
             enabled = viewState.discoverEnabled,
@@ -194,7 +198,7 @@ private fun Genres(
 ) {
     when (viewState) {
         ViewState.Loading -> CircularProgressIndicator(
-            modifier = Modifier.testTag(tag = DiscoverMoviesDefaults.GenresLoadingTestTag)
+            modifier = Modifier.testTag(tag = DiscoverDefaults.GenresLoadingTestTag)
         )
 
         is ViewState.Error -> LaunchedEffect(key1 = viewState.error) {
@@ -245,7 +249,7 @@ private fun Input(
                 exit = fadeOut() + scaleOut(),
             ) {
                 IconButton(
-                    modifier = Modifier.testTag(tag = DiscoverMoviesDefaults.YearClearTestTag),
+                    modifier = Modifier.testTag(tag = DiscoverDefaults.YearClearTestTag),
                     onClick = { onValueChange("") }
                 ) {
                     Icon(
@@ -280,7 +284,7 @@ internal fun DiscoverContentPreview() {
     }
 }
 
-internal object DiscoverMoviesDefaults {
+internal object DiscoverDefaults {
 
     const val ContentTestTag = "content"
     const val GenresTestTag = "content_genres"
