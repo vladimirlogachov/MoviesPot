@@ -30,9 +30,7 @@ import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.discover_results
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import org.koin.core.module.Module
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -94,18 +92,6 @@ internal actual fun DiscoverResult(
             movies = viewModel.movies.collectAsLazyPagingItems(),
             onClick = onMovieDetails,
             onError = viewModel::onError,
-        )
-    }
-}
-
-internal actual val discoverResultModule: Module = module {
-    factory { params ->
-        DiscoverResultViewModel(
-            pager = DiscoverResultPager(
-                year = params.getOrNull(),
-                selectedGenres = params.get(),
-                useCase = get(),
-            )
         )
     }
 }

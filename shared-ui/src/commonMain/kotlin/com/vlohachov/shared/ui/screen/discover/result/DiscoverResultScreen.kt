@@ -11,7 +11,6 @@ import androidx.navigation.navArgument
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
-import org.koin.core.module.Module
 
 internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>() {
 
@@ -70,8 +69,6 @@ internal expect fun DiscoverResult(
     onMovieDetails: (movie: Movie) -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 )
-
-internal expect val discoverResultModule: Module
 
 internal object DiscoverResultDefaults {
 

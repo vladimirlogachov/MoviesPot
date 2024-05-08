@@ -4,7 +4,17 @@ import com.vlohachov.shared.ui.screen.credits.cast.CastViewModel
 import com.vlohachov.shared.ui.screen.credits.crew.CrewViewModel
 import com.vlohachov.shared.ui.screen.details.MovieDetailsViewModel
 import com.vlohachov.shared.ui.screen.discover.DiscoverViewModel
+import com.vlohachov.shared.ui.screen.discover.result.DiscoverResultPager
+import com.vlohachov.shared.ui.screen.discover.result.DiscoverResultViewModel
+import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesPager
+import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesViewModel
 import com.vlohachov.shared.ui.screen.main.MainViewModel
+import com.vlohachov.shared.ui.screen.movies.MoviesPager
+import com.vlohachov.shared.ui.screen.movies.MoviesViewModel
+import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesPager
+import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesViewModel
+import com.vlohachov.shared.ui.screen.search.MoviesSearchPager
+import com.vlohachov.shared.ui.screen.search.MoviesSearchViewModel
 import com.vlohachov.shared.ui.screen.settings.SettingsViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -17,4 +27,40 @@ internal val viewModelModule = module {
     factoryOf(::CastViewModel)
     factoryOf(::CrewViewModel)
     factoryOf(::DiscoverViewModel)
+    factory { params ->
+        DiscoverResultViewModel(
+            pager = DiscoverResultPager(
+                year = params.getOrNull(),
+                selectedGenres = params.get(),
+                useCase = get(),
+            )
+        )
+    }
+    factory {
+        MoviesSearchViewModel(
+            pager = MoviesSearchPager(useCase = get()),
+        )
+    }
+    factory { params ->
+        MoviesViewModel(
+            category = params.get(),
+            pager = MoviesPager(useCase = get()),
+        )
+    }
+    factory { params ->
+        SimilarMoviesViewModel(
+            pager = SimilarMoviesPager(
+                movieId = params.get(),
+                useCase = get(),
+            )
+        )
+    }
+    factory { params ->
+        KeywordMoviesViewModel(
+            pager = KeywordMoviesPager(
+                keywordId = params.get(),
+                useCase = get(),
+            )
+        )
+    }
 }

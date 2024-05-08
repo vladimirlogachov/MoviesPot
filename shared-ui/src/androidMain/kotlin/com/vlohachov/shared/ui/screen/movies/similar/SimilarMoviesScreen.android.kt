@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
-import androidx.paging.PagingConfig
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.bar.ErrorBar
@@ -31,10 +30,7 @@ import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.similar_to
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -98,10 +94,4 @@ internal actual fun SimilarMovies(
             onError = viewModel::onError,
         )
     }
-}
-
-internal actual val similarMoviesModule: Module = module {
-    single { PagingConfig(pageSize = 20) }
-    factoryOf(::SimilarMoviesPager)
-    factoryOf(::SimilarMoviesViewModel)
 }

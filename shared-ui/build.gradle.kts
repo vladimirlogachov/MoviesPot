@@ -1,6 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -30,10 +29,10 @@ kotlin {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-    }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//    }
 
     androidTarget {
         compilations.all {
@@ -69,6 +68,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.navigation.common)
+            implementation(libs.androidx.paging.common)
             implementation(libs.ktor.client.core)
             implementation(libs.kotlin.datetime)
             implementation(libs.coil.network.ktor)

@@ -18,7 +18,6 @@ import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
-import org.koin.core.module.Module
 
 internal data object MoviesScreen : Screen<MoviesScreen.Params>() {
 
@@ -67,8 +66,6 @@ internal expect fun Movies(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
 )
-
-internal expect val moviesModule: Module
 
 internal object MoviesDefaults {
 

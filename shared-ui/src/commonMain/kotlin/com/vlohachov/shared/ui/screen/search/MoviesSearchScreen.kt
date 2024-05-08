@@ -17,7 +17,6 @@ import androidx.navigation.compose.composable
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
-import org.koin.core.module.Module
 
 internal data object MoviesSearchScreen : Screen<Unit>() {
 
@@ -53,8 +52,6 @@ internal expect fun MoviesSearch(
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current,
 )
-
-internal expect val moviesSearchModule: Module
 
 internal object SearchMoviesDefaults {
 

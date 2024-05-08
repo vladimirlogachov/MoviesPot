@@ -51,7 +51,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import androidx.paging.PagingConfig
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.bar.ErrorBar
@@ -63,9 +62,6 @@ import moviespot.shared_ui.generated.resources.navigate_back
 import moviespot.shared_ui.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.factoryOf
-import org.koin.dsl.module
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -238,10 +234,4 @@ private fun SearchBar(
             colors = SearchBarDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         )
     }
-}
-
-internal actual val moviesSearchModule: Module = module {
-    single { PagingConfig(pageSize = 20) }
-    factoryOf(::MoviesSearchPager)
-    factoryOf(::MoviesSearchViewModel)
 }

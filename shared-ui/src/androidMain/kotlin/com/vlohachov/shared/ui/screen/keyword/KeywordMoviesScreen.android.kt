@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
-import androidx.paging.PagingConfig
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.bar.AppBar
@@ -28,10 +27,7 @@ import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.button.ScrollToTop
 import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGrid
 import org.koin.compose.koinInject
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -95,10 +91,4 @@ internal actual fun KeywordMoviesScreen(
             onError = viewModel::onError,
         )
     }
-}
-
-internal actual val keywordMoviesModule: Module = module {
-    single { PagingConfig(pageSize = 20) }
-    factoryOf(::KeywordMoviesPager)
-    factoryOf(::KeywordMoviesViewModel)
 }

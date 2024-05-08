@@ -12,7 +12,6 @@ import androidx.navigation.navArgument
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
-import org.koin.core.module.Module
 
 internal data object SimilarMoviesScreen : Screen<SimilarMoviesScreen.Params>() {
 
@@ -65,8 +64,6 @@ internal expect fun SimilarMovies(
     onMovieDetails: (movie: Movie) -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 )
-
-internal expect val similarMoviesModule: Module
 
 internal object SimilarMoviesDefaults {
 
