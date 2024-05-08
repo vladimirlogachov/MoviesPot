@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -56,11 +57,15 @@ import moviespot.shared_ui.generated.resources.settings
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-internal data object SettingsScreen : Screen {
+internal data object SettingsScreen : Screen<Unit>() {
 
     override val path: String = "settings"
 
-    fun NavGraphBuilder.settingsScreen(navController: NavController) {
+    override val arguments: List<NamedNavArgument> = emptyList()
+
+    override fun route(params: Unit): String = path
+
+    override fun NavGraphBuilder.screen(navController: NavController) {
         composable(route = path) {
             Settings(onBack = navController::navigateUp)
         }

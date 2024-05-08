@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -69,22 +70,25 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 
-internal data object MovieDetailsScreen : Screen {
+internal data object MovieDetailsScreen : Screen<MovieDetailsScreen.Params>() {
+
+    internal data class Params(val movieId: Long, val movieTitle: String)
 
     private const val ArgMovieId = "movieId"
     private const val ArgMovieTitle = "movieTitle"
 
-    private val arguments = listOf(
+    override val path: String = "movie/{$ArgMovieId}?$ArgMovieTitle={$ArgMovieTitle}"
+
+    override val arguments: List<NamedNavArgument> = listOf(
         navArgument(name = ArgMovieId) { type = NavType.LongType },
         navArgument(name = ArgMovieTitle) { type = NavType.StringType }
     )
 
-    override val path: String = "movie/{$ArgMovieId}?$ArgMovieTitle={$ArgMovieTitle}"
+    override fun route(params: Params): String =
+        path.replace(oldValue = "{$ArgMovieId}", newValue = params.movieId.toString())
+            .replace(oldValue = "{$ArgMovieTitle}", newValue = params.movieTitle)
 
-    fun path(movieId: Long, movieTitle: String): String =
-        "movie/$movieId?$ArgMovieTitle=$movieTitle"
-
-    fun NavGraphBuilder.movieDetails(navController: NavController) {
+    override fun NavGraphBuilder.screen(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val movieId =
                 requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {
@@ -99,37 +103,34 @@ internal data object MovieDetailsScreen : Screen {
                 movieId = movieId,
                 onBack = navController::navigateUp,
                 onFullscreenImage = { imagePath ->
-                    navController.navigate(route = "${FullscreenImageScreen.path}=$imagePath")
+                    FullscreenImageScreen.Params(path = imagePath)
+                        .run(FullscreenImageScreen::route)
+                        .run(navController::navigate)
                 },
                 onCast = {
-                    navController.navigate(route = "${CastScreen.path}=$movieId")
+                    CastScreen.Params(movieId = movieId)
+                        .run(CastScreen::route)
+                        .run(navController::navigate)
                 },
                 onCrew = {
-                    navController.navigate(route = "${CrewScreen.path}=$movieId")
+                    CrewScreen.Params(movieId = movieId)
+                        .run(CrewScreen::route)
+                        .run(navController::navigate)
                 },
                 onSimilar = {
-                    navController.navigate(
-                        route = SimilarMoviesScreen.path(
-                            movieId = movieId,
-                            movieTitle = movieTitle
-                        )
-                    )
+                    SimilarMoviesScreen.Params(movieId = movieId, movieTitle = movieTitle)
+                        .run(SimilarMoviesScreen::route)
+                        .run(navController::navigate)
                 },
                 onMovieDetails = { movie ->
-                    navController.navigate(
-                        route = path(
-                            movieId = movie.id,
-                            movieTitle = movie.title
-                        )
-                    )
+                    Params(movieId = movie.id, movieTitle = movie.title)
+                        .run(MovieDetailsScreen::route)
+                        .run(navController::navigate)
                 },
                 onKeywordMovies = { keyword ->
-                    navController.navigate(
-                        route = KeywordMoviesScreen.path(
-                            keywordId = keyword.id,
-                            keyword = keyword.name
-                        )
-                    )
+                    KeywordMoviesScreen.Params(keywordId = keyword.id, keyword = keyword.name)
+                        .run(KeywordMoviesScreen::route)
+                        .run(navController::navigate)
                 },
             )
         }

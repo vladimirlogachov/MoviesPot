@@ -8,6 +8,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -19,19 +20,24 @@ import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import org.koin.core.module.Module
 
-internal data object MoviesScreen : Screen {
+internal data object MoviesScreen : Screen<MoviesScreen.Params>() {
+
+    internal data class Params(val category: MovieCategory)
 
     private const val ArgCategory = "category"
 
-    private val arguments = listOf(
+    override val path: String = "movies/{$ArgCategory}"
+
+    override val arguments: List<NamedNavArgument> = listOf(
         navArgument(name = ArgCategory) { type = NavType.StringType }
     )
 
-    override val path: String = "movies"
+    override fun route(params: Params): String =
+        path.replace(oldValue = "{$ArgCategory}", newValue = "${params.category}")
 
     @OptIn(ExperimentalMaterial3Api::class)
-    fun NavGraphBuilder.movies(navController: NavController) {
-        composable(route = "$path/{$ArgCategory}", arguments = arguments) { backStackEntry ->
+    override fun NavGraphBuilder.screen(navController: NavController) {
+        composable(route = path, arguments = arguments) { backStackEntry ->
             val category =
                 requireNotNull(value = backStackEntry.arguments?.getString(ArgCategory)) {
                     "Missing required argument $ArgCategory"
@@ -41,12 +47,9 @@ internal data object MoviesScreen : Screen {
                 category = category,
                 onBack = navController::navigateUp,
                 onMovieDetails = { movie ->
-                    navController.navigate(
-                        route = MovieDetailsScreen.path(
-                            movieId = movie.id,
-                            movieTitle = movie.title
-                        )
-                    )
+                    MovieDetailsScreen.Params(movieId = movie.id, movieTitle = movie.title)
+                        .run(MovieDetailsScreen::route)
+                        .run(navController::navigate)
                 }
             )
         }

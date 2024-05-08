@@ -3,6 +3,7 @@ package com.vlohachov.shared.ui.screen.keyword
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -13,22 +14,25 @@ import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import org.koin.core.module.Module
 
-internal data object KeywordMoviesScreen : Screen {
+internal data object KeywordMoviesScreen : Screen<KeywordMoviesScreen.Params>() {
+
+    internal data class Params(val keyword: String, val keywordId: Int)
 
     private const val ArgKeyword = "keyword"
     private const val ArgKeywordId = "keywordId"
 
-    private val arguments = listOf(
+    override val path: String = "movie/{$ArgKeyword}?$ArgKeywordId={$ArgKeywordId}"
+
+    override val arguments: List<NamedNavArgument> = listOf(
         navArgument(name = ArgKeyword) { type = NavType.StringType },
         navArgument(name = ArgKeywordId) { type = NavType.IntType },
     )
 
-    override val path: String = "movie/{$ArgKeyword}?$ArgKeywordId={$ArgKeywordId}"
+    override fun route(params: Params): String =
+        path.replace(oldValue = "{$ArgKeyword}", newValue = params.keyword)
+            .replace(oldValue = "{$ArgKeywordId}", newValue = params.keywordId.toString())
 
-    fun path(keyword: String, keywordId: Int): String =
-        "movie/$keyword?$ArgKeywordId=$keywordId"
-
-    fun NavGraphBuilder.keywordMovies(navController: NavController) {
+    override fun NavGraphBuilder.screen(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val keyword =
                 requireNotNull(value = backStackEntry.arguments?.getString(ArgKeyword)) {
@@ -44,12 +48,9 @@ internal data object KeywordMoviesScreen : Screen {
                 keywordId = keywordId,
                 onBack = navController::navigateUp,
                 onMovieDetails = { movie ->
-                    navController.navigate(
-                        route = MovieDetailsScreen.path(
-                            movieId = movie.id,
-                            movieTitle = movie.title
-                        )
-                    )
+                    MovieDetailsScreen.Params(movieId = movie.id, movieTitle = movie.title)
+                        .run(MovieDetailsScreen::route)
+                        .run(navController::navigate)
                 }
             )
         }

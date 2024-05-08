@@ -1,15 +1,39 @@
 package com.vlohachov.shared.ui.screen
 
-import androidx.compose.runtime.Composable
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 
 /**
- * Defines [Composable] screen.
+ * Abstract class representing a screen in a navigation graph.
+ *
+ * @param Params The type of parameters that can be passed to the screen.
  */
-internal interface Screen {
+internal abstract class Screen<in Params> {
 
     /**
-     * Path to screen.
+     * The path of the screen in the navigation graph.
      */
-    val path: String
+    protected abstract val path: String
+
+    /**
+     * The list of named navigation arguments that the screen accepts.
+     */
+    protected abstract val arguments: List<NamedNavArgument>
+
+    /**
+     * Generates the route for the screen based on the given parameters.
+     *
+     * @param params The parameters to use for route generation.
+     * @return The generated route.
+     */
+    abstract fun route(params: Params): String
+
+    /**
+     * Adds the screen to the navigation graph.
+     *
+     * @param navController The NavController used to perform navigation to the other screens.
+     */
+    abstract fun NavGraphBuilder.screen(navController: NavController)
 
 }

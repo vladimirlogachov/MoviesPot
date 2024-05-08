@@ -13,23 +13,31 @@ import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import org.koin.core.module.Module
 
-internal data object DiscoverResultScreen : Screen {
+internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>() {
+
+    internal data class Params(val year: Int?, val genres: List<Int>?)
 
     private const val ArgYear = "year"
     private const val ArgGenres = "genres"
 
-    private val arguments = listOf(
+    override val path: String =
+        "discover/result?$ArgYear={$ArgYear}&$ArgGenres={$ArgGenres}"
+
+    override val arguments = listOf(
         navArgument(name = ArgYear) { type = NavType.StringType; nullable = true },
         navArgument(name = ArgGenres) { type = NavType.StringType; nullable = true },
     )
 
-    override val path: String =
-        "discover/result?$ArgYear={$ArgYear}&$ArgGenres={$ArgGenres}"
+    override fun route(params: Params): String =
+        path.replace(
+            oldValue = "{$ArgYear}",
+            newValue = params.year.toString()
+        ).replace(
+            oldValue = "{$ArgGenres}",
+            newValue = params.genres?.joinToString(separator = ",").toString()
+        )
 
-    fun path(year: Int?, genres: IntArray?): String =
-        "discover/result?$ArgYear=${year}&$ArgGenres=${genres?.joinToString(",")}"
-
-    fun NavGraphBuilder.discoverResult(navController: NavController) {
+    override fun NavGraphBuilder.screen(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val year = backStackEntry.arguments?.getString(ArgYear)
             val genres = backStackEntry.arguments?.getString(ArgGenres)
@@ -39,12 +47,9 @@ internal data object DiscoverResultScreen : Screen {
                 genres = genres?.parseGenres(),
                 onBack = navController::navigateUp,
                 onMovieDetails = { movie ->
-                    navController.navigate(
-                        route = MovieDetailsScreen.path(
-                            movieId = movie.id,
-                            movieTitle = movie.title,
-                        )
-                    )
+                    MovieDetailsScreen.Params(movieId = movie.id, movieTitle = movie.title)
+                        .run(MovieDetailsScreen::route)
+                        .run(navController::navigate)
                 },
             )
         }

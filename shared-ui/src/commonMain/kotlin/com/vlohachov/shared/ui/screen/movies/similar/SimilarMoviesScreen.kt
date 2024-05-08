@@ -3,6 +3,7 @@ package com.vlohachov.shared.ui.screen.movies.similar
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -13,22 +14,25 @@ import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import org.koin.core.module.Module
 
-internal data object SimilarMoviesScreen : Screen {
+internal data object SimilarMoviesScreen : Screen<SimilarMoviesScreen.Params>() {
+
+    internal data class Params(val movieId: Long, val movieTitle: String)
 
     private const val ArgMovieId = "movieId"
     private const val ArgMovieTitle = "movieTitle"
 
-    private val arguments = listOf(
+    override val path: String = "movie/{$ArgMovieId}/similar?$ArgMovieTitle={$ArgMovieTitle}"
+
+    override val arguments: List<NamedNavArgument> = listOf(
         navArgument(name = ArgMovieId) { type = NavType.LongType },
         navArgument(name = ArgMovieTitle) { type = NavType.StringType }
     )
 
-    override val path: String = "movie/{$ArgMovieId}/similar?$ArgMovieTitle={$ArgMovieTitle}"
+    override fun route(params: Params): String =
+        path.replace(oldValue = "{$ArgMovieId}", newValue = params.movieId.toString())
+            .replace(oldValue = "{$ArgMovieTitle}", newValue = params.movieTitle)
 
-    fun path(movieId: Long, movieTitle: String): String =
-        "movie/$movieId/similar?$ArgMovieTitle=$movieTitle"
-
-    fun NavGraphBuilder.similarMovies(navController: NavController) {
+    override fun NavGraphBuilder.screen(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val movieId =
                 requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {
@@ -43,12 +47,9 @@ internal data object SimilarMoviesScreen : Screen {
                 movieTitle = movieTitle,
                 onBack = navController::navigateUp,
                 onMovieDetails = { movie ->
-                    navController.navigate(
-                        route = MovieDetailsScreen.path(
-                            movieId = movie.id,
-                            movieTitle = movie.title
-                        )
-                    )
+                    MovieDetailsScreen.Params(movieId = movie.id, movieTitle = movie.title)
+                        .run(MovieDetailsScreen::route)
+                        .run(navController::navigate)
                 }
             )
         }

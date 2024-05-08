@@ -42,6 +42,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -62,19 +63,21 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 
-internal data object DiscoverScreen : Screen {
+internal data object DiscoverScreen : Screen<Unit>() {
 
     override val path: String = "discover"
+    override val arguments: List<NamedNavArgument> = emptyList()
 
-    fun NavGraphBuilder.discoverMovies(navController: NavController) {
-        composable(route = path) {
+    override fun route(params: Unit): String = path
+
+    override fun NavGraphBuilder.screen(navController: NavController) {
+        composable(route = path, arguments = arguments) {
             Discover(
                 onBack = navController::navigateUp,
                 onDiscover = { year, genres ->
-                    println("onDiscover: year = $year, genres = ${genres?.joinToString(",")}")
-                    navController.navigate(
-                        route = DiscoverResultScreen.path(year = year, genres = genres)
-                    )
+                    DiscoverResultScreen.Params(year = year, genres = genres)
+                        .run(DiscoverResultScreen::route)
+                        .run(navController::navigate)
                 },
             )
         }
@@ -86,7 +89,7 @@ internal data object DiscoverScreen : Screen {
 @Composable
 internal fun Discover(
     onBack: () -> Unit,
-    onDiscover: (year: Int?, genres: IntArray?) -> Unit,
+    onDiscover: (year: Int?, genres: List<Int>?) -> Unit,
     viewModel: DiscoverViewModel = koinInject(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
@@ -136,7 +139,7 @@ internal fun Discover(
             onDiscover = {
                 onDiscover(
                     uiState.year.toIntOrNull(),
-                    uiState.selectedGenres.map(Genre::id).toIntArray()
+                    uiState.selectedGenres.map(Genre::id)
                 )
             }
         )

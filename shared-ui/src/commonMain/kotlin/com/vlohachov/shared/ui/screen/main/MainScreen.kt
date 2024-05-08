@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontFamily
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -64,32 +65,38 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-internal data object MainScreen : Screen {
+internal data object MainScreen : Screen<Unit>() {
 
     override val path: String = "main"
 
-    fun NavGraphBuilder.mainScreen(navController: NavController) {
-        composable(route = path) {
+    override val arguments: List<NamedNavArgument> = emptyList()
+
+    override fun route(params: Unit): String = path
+
+    override fun NavGraphBuilder.screen(navController: NavController) {
+        composable(route = path, arguments = arguments) {
             Main(
                 onSearch = {
-                    navController.navigate(route = MoviesSearchScreen.path)
+                    MoviesSearchScreen.route(params = Unit)
+                        .run(navController::navigate)
                 },
                 onSettings = {
-                    navController.navigate(route = SettingsScreen.path)
+                    SettingsScreen.route(params = Unit)
+                        .run(navController::navigate)
                 },
                 onMovieDetails = { movie ->
-                    navController.navigate(
-                        route = MovieDetailsScreen.path(
-                            movieId = movie.id,
-                            movieTitle = movie.title
-                        )
-                    )
+                    MovieDetailsScreen.Params(movieId = movie.id, movieTitle = movie.title)
+                        .run(MovieDetailsScreen::route)
+                        .run(navController::navigate)
                 },
                 onMore = { category ->
-                    navController.navigate(route = "${MoviesScreen.path}/$category")
+                    MoviesScreen.Params(category = category)
+                        .run(MoviesScreen::route)
+                        .run(navController::navigate)
                 },
                 onDiscover = {
-                    navController.navigate(route = DiscoverScreen.path)
+                    DiscoverScreen.route(params = Unit)
+                        .run(navController::navigate)
                 },
             )
         }

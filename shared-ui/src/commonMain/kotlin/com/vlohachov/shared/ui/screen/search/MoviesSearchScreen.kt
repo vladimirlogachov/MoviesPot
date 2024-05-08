@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -18,22 +19,23 @@ import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import org.koin.core.module.Module
 
-internal data object MoviesSearchScreen : Screen {
+internal data object MoviesSearchScreen : Screen<Unit>() {
 
     override val path: String = "search"
 
+    override val arguments: List<NamedNavArgument> = emptyList()
+
+    override fun route(params: Unit): String = path
+
     @OptIn(ExperimentalMaterial3Api::class)
-    fun NavGraphBuilder.moviesSearch(navController: NavController) {
-        composable(route = path) {
+    override fun NavGraphBuilder.screen(navController: NavController) {
+        composable(route = path, arguments = arguments) {
             MoviesSearch(
                 onBack = navController::navigateUp,
                 onMovieDetails = { movie ->
-                    navController.navigate(
-                        route = MovieDetailsScreen.path(
-                            movieId = movie.id,
-                            movieTitle = movie.title
-                        )
-                    )
+                    MovieDetailsScreen.Params(movieId = movie.id, movieTitle = movie.title)
+                        .run(MovieDetailsScreen::route)
+                        .run(navController::navigate)
                 },
             )
         }

@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -31,18 +32,23 @@ import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.image_loading_failed
 import org.jetbrains.compose.resources.stringResource
 
-internal data object FullscreenImageScreen : Screen {
+internal data object FullscreenImageScreen : Screen<FullscreenImageScreen.Params>() {
+
+    internal data class Params(val path: String)
 
     private const val ArgPath = "path"
 
-    private val arguments = listOf(
+    override val path: String = "image?$ArgPath={$ArgPath}"
+
+    override val arguments: List<NamedNavArgument> = listOf(
         navArgument(name = ArgPath) { type = NavType.StringType }
     )
 
-    override val path: String = "image?$ArgPath"
+    override fun route(params: Params): String =
+        path.replace(oldValue = "{$ArgPath}", newValue = params.path)
 
-    fun NavGraphBuilder.fullscreenImage(navController: NavController) {
-        composable(route = "$path={$ArgPath}", arguments = arguments) { backStackEntry ->
+    override fun NavGraphBuilder.screen(navController: NavController) {
+        composable(route = path, arguments = arguments) { backStackEntry ->
             val imagePath = requireNotNull(value = backStackEntry.arguments?.getString(ArgPath)) {
                 "Missing required argument $ArgPath"
             }
