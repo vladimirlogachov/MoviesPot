@@ -39,6 +39,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
@@ -49,7 +50,6 @@ import com.vlohachov.shared.ui.screen.discover.DiscoverScreen
 import com.vlohachov.shared.ui.screen.movies.MoviesScreen
 import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen
 import com.vlohachov.shared.ui.screen.settings.SettingsScreen
-import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.app_name
 import moviespot.shared_ui.generated.resources.chalkduster

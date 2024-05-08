@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.Poster
-import com.vlohachov.shared.ui.core.DummyMovies
+import com.vlohachov.shared.utils.DummyMovies
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

@@ -8,7 +8,7 @@ import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.model.settings.Settings
 import com.vlohachov.shared.domain.usecase.settings.ApplyDynamicTheme
 import com.vlohachov.shared.domain.usecase.settings.LoadSettings
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

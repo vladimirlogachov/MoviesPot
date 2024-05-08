@@ -46,14 +46,14 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.genre.Genre
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
-import com.vlohachov.shared.ui.core.DummyGenres
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.discover.result.DiscoverResultScreen
-import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.utils.DummyGenres
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.clear
 import moviespot.shared_ui.generated.resources.discover

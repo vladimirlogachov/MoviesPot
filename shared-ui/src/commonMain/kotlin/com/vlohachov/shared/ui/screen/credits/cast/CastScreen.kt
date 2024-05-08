@@ -43,13 +43,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import coil3.compose.rememberAsyncImagePainter
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.movie.credit.CastMember
 import com.vlohachov.shared.ui.component.Profile
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.button.ScrollToTop
 import com.vlohachov.shared.ui.screen.Screen
-import com.vlohachov.shared.ui.state.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.cast
 import org.jetbrains.compose.resources.stringResource

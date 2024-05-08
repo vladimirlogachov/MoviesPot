@@ -1,7 +1,7 @@
 package com.vlohachov.shared.ui.screen.discover
 
 import com.vlohachov.shared.domain.model.genre.Genre
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 
 internal data class DiscoverViewState(
     val year: String = "",

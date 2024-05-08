@@ -6,33 +6,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vlohachov.shared.core.ViewState
+import com.vlohachov.shared.core.toViewState
 import com.vlohachov.shared.domain.model.settings.Settings
 import com.vlohachov.shared.domain.usecase.settings.ApplyDynamicTheme
 import com.vlohachov.shared.domain.usecase.settings.LoadSettings
-import com.vlohachov.shared.ui.state.ViewState
-import com.vlohachov.shared.ui.state.toViewState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @Stable
 internal class SettingsViewModel(
-    getSettings: LoadSettings,
+    loadSettings: LoadSettings,
     private val applyDynamicTheme: ApplyDynamicTheme,
 ) : ViewModel() {
 
-    val viewState: Flow<ViewState<Settings>> = getSettings(param = Unit)
+    val viewState: Flow<ViewState<Settings>> = loadSettings(param = Unit)
         .map { result -> result.toViewState() }
 
     var error by mutableStateOf<Throwable?>(value = null)
         private set
 
-    fun applyDynamicTheme(apply: Boolean) {
-        viewModelScope.launch {
-            applyDynamicTheme(param = ApplyDynamicTheme.Param(apply = apply))
-                .collect()
-        }
+    fun applyDynamicTheme(apply: Boolean): Unit = runBlocking(viewModelScope.coroutineContext) {
+        applyDynamicTheme(param = ApplyDynamicTheme.Param(apply = apply))
+            .collect()
     }
 
     fun onError(error: Throwable) {

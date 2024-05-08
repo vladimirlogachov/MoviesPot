@@ -60,7 +60,7 @@ import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen
 import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesScreen
 import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesScreen
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.keywords
 import moviespot.shared_ui.generated.resources.no_results

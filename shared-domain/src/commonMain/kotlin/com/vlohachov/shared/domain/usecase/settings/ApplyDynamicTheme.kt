@@ -15,7 +15,8 @@ public class ApplyDynamicTheme(
     public data class Param(val apply: Boolean)
 
     override fun invoke(param: Param): Flow<Result<Boolean>> =
-        flowOf(value = param.apply).onEach(repository::applyDynamicTheme)
+        flowOf(value = param.apply)
+            .onEach(repository::applyDynamicTheme)
             .asResult()
 
 }

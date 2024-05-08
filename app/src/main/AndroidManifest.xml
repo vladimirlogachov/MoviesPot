@@ -16,7 +16,7 @@
         android:name=".MoviesPotApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MoviesPot">
             <intent-filter>

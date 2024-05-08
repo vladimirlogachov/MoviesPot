@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.ui.component.section.Section
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTitle
-import com.vlohachov.shared.ui.core.LoremIpsum
+import com.vlohachov.shared.utils.LoremIpsum
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.no_results

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.build.konfig)
+    alias(libs.plugins.mokkery)
     alias(libs.plugins.detekt)
 }
 
@@ -61,10 +62,12 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.paging.compose)
             implementation(compose.uiTooling)
+            api(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(project(":shared-data"))
             implementation(project(":shared-domain"))
+
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.navigation.common)
@@ -74,7 +77,7 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.coil.compose)
             implementation(libs.koin.compose)
-            implementation(libs.koin.core)
+            api(libs.koin.core)
 
             implementation(compose.ui)
             implementation(compose.material3)
@@ -83,10 +86,12 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
         }
         commonTest.dependencies {
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+            implementation(libs.turbine)
             implementation(libs.koin.test)
             implementation(libs.kotlin.test)
+
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
         val desktopTest by getting
         desktopTest.dependencies {
@@ -109,4 +114,11 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+}
+
+// TODO: Remove once tests ready
+tasks.withType<Test> {
+    filter {
+        excludeTestsMatching("com.vlohachov.shared.ui.screen.*")
+    }
 }

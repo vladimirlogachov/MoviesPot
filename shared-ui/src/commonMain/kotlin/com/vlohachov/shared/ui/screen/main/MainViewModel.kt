@@ -3,10 +3,10 @@ package com.vlohachov.shared.ui.screen.main
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vlohachov.shared.core.WhileUiSubscribed
+import com.vlohachov.shared.core.toViewStatePaginated
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
-import com.vlohachov.shared.ui.core.WhileUiSubscribed
-import com.vlohachov.shared.ui.state.toViewStatePaginated
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

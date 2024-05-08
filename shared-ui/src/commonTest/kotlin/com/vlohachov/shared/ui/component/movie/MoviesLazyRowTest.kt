@@ -20,7 +20,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.PosterDefaults
-import com.vlohachov.shared.ui.data.TestMovies
+import com.vlohachov.shared.TestMovies
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import kotlin.js.JsName
 import kotlin.test.Test

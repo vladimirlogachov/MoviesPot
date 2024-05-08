@@ -3,13 +3,13 @@ package com.vlohachov.shared.ui.screen.details
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vlohachov.shared.core.WhileUiSubscribed
+import com.vlohachov.shared.core.toViewState
+import com.vlohachov.shared.core.toViewStatePaginated
 import com.vlohachov.shared.domain.usecase.credits.LoadDirector
 import com.vlohachov.shared.domain.usecase.movie.LoadDetails
 import com.vlohachov.shared.domain.usecase.movie.LoadKeywords
 import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
-import com.vlohachov.shared.ui.core.WhileUiSubscribed
-import com.vlohachov.shared.ui.state.toViewState
-import com.vlohachov.shared.ui.state.toViewStatePaginated
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

@@ -26,7 +26,7 @@ import com.vlohachov.shared.domain.model.Country
 import com.vlohachov.shared.domain.model.Language
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.ui.component.Poster
-import com.vlohachov.shared.ui.core.utils.DateUtils
+import com.vlohachov.shared.utils.DateUtils
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.directed_by

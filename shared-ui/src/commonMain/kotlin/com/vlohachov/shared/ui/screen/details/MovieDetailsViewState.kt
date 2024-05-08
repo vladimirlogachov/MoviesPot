@@ -3,7 +3,7 @@ package com.vlohachov.shared.ui.screen.details
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.domain.model.movie.keyword.Keyword
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 
 internal data class MovieDetailsViewState(
     val detailsViewState: ViewState<MovieDetails> = ViewState.Loading,

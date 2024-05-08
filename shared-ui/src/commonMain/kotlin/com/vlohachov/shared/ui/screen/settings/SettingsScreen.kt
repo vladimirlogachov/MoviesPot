@@ -39,13 +39,13 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.settings.Settings
 import com.vlohachov.shared.ui.BuildConfig
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.screen.Screen
-import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.isDynamicThemeAvailable
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.app_version
