@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.navigate_back
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -77,7 +76,6 @@ private fun AppBarTitle(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun AppBarBackButton(
     onBackClick: () -> Unit,

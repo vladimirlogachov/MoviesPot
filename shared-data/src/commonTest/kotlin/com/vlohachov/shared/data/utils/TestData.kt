@@ -16,8 +16,7 @@ import com.vlohachov.shared.data.scheme.movie.keyword.MovieKeywordsScheme
 import com.vlohachov.shared.domain.model.settings.Settings
 
 internal val TestSettings = Settings(
-    dynamicTheme = true,
-    supportsDynamicTheme = true,
+    dynamicTheme = true
 )
 
 internal val GenreTestScheme = GenreScheme(

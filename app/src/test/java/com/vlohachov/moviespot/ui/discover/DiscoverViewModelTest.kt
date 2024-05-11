@@ -8,7 +8,7 @@ import com.vlohachov.moviespot.util.TestDispatcherRule
 import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.model.genre.Genre
 import com.vlohachov.shared.domain.usecase.LoadGenres
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi

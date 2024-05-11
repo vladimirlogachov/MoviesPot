@@ -15,7 +15,7 @@ import com.vlohachov.shared.domain.usecase.credits.LoadDirector
 import com.vlohachov.shared.domain.usecase.movie.LoadDetails
 import com.vlohachov.shared.domain.usecase.movie.LoadKeywords
 import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow

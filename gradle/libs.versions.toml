@@ -6,37 +6,28 @@ android-targetSdk = "34"
 agp = "8.4.0"
 coil = "3.0.0-alpha06"
 ktor = "3.0.0-wasm2"
-truth = "1.4.2"
 mockk = "1.13.10"
-junit = "4.13.2"
 detekt = "1.23.6"
 turbine = "1.1.0"
 material = "1.12.0"
 ksp = "1.9.23-1.0.20"
-accompanist = "0.34.0"
 build-konfig = "0.15.1"
 mokkery = "1.9.23-1.7.0"
-compose-bom = "2024.05.00"
-jetbrains-compose = "1.6.2"
-compose-destinations = "1.10.2"
+jetbrains-compose = "1.6.10-rc01"
 multiplatform-settings = "1.1.1"
 
-koin = "3.5.6"
-koin-compose = "3.5.6"
+koin = "3.6.0-wasm-alpha2"
 
 kotlin = "1.9.23"
+kotlin-datetime = "0.6.0-RC.2"
 kotlin-coroutines = "1.8.0"
 
-androidx-junit = "1.1.5"
-androidx-core-ktx = "1.13.1"
-androidx-lifecycle-ktx = "2.7.0"
-androidx-espresso-core = "3.5.1"
-androidx-paging-compose = "3.2.1"
+androidx-lifecycle = "2.8.0-rc01"
+androidx-navigation = "2.7.0-alpha04" # 2.8.* is not compatiable with Compose 1.6.*
+androidx-paging = "3.3.0-rc01"
 androidx-activity-compose = "1.9.0"
 
 [libraries]
-junit = { module = "junit:junit", version.ref = "junit" }
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
@@ -44,8 +35,10 @@ multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil" }
 
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -59,30 +52,17 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-corutiens-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-corutiens-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlin-corutiens-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
 
-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
-
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso-core" }
-androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging-compose" }
+androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "androidx-paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
-androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-ktx" }
-
-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
-androidx-compose-material = { module = "androidx.compose.material:material" }
-androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui" }
-androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
-androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
-androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-
-compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "compose-destinations" }
-compose-destinations-animationes-core = { module = "io.github.raamcosta.compose-destinations:animations-core", version.ref = "compose-destinations" }
+androidx-navigation-common = { module = "org.jetbrains.androidx.navigation:navigation-common", version.ref = "androidx-navigation" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
+androidx-lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime", version.ref = "androidx-lifecycle" }
 
 [plugins]
 mokkery = { id = "dev.mokkery", version.ref = "mokkery" }

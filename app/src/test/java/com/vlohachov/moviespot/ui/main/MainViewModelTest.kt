@@ -8,7 +8,7 @@ import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.model.PaginatedData
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow

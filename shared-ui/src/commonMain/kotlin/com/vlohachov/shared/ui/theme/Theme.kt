@@ -40,7 +40,7 @@ public fun MoviesPotTheme(
     colorScheme: ColorScheme = MoviesPotThemeDefaults.colorScheme,
     shapes: Shapes = MoviesPotThemeDefaults.shapes,
     typography: Typography = MoviesPotThemeDefaults.typography,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MaterialTheme(
         colorScheme = colorScheme,
@@ -49,3 +49,17 @@ public fun MoviesPotTheme(
         content = content
     )
 }
+
+/**
+ * A [MoviesPotTheme] that uses the provided [dynamicColor] and [content].
+ */
+@Composable
+public expect fun MoviesPotTheme(
+    dynamicColor: Boolean,
+    content: @Composable () -> Unit,
+)
+
+/**
+ * Returns whether the dynamic theme is available.
+ */
+internal expect fun isDynamicThemeAvailable(): Boolean

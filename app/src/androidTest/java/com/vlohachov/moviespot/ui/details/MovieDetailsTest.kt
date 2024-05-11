@@ -18,12 +18,12 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestKeywords
 import com.vlohachov.moviespot.data.TestMovieDetails
 import com.vlohachov.moviespot.data.TestMovies
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.ui.component.PosterDefaults
 import com.vlohachov.shared.ui.component.bar.AppBarDefaults
 import com.vlohachov.shared.ui.component.movie.MoviesLazyRowDefaults
 import com.vlohachov.shared.ui.component.movie.MoviesSectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionDefaults
-import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun

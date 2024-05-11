@@ -16,8 +16,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.section.SectionTitleDefaults
-import com.vlohachov.shared.ui.data.TestMovies
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.TestMovies
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import kotlin.js.JsName
 import kotlin.test.Test

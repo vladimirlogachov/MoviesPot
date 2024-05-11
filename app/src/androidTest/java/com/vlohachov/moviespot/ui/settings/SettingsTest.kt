@@ -17,7 +17,7 @@ import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.data.TestSettings
 import com.vlohachov.shared.ui.component.bar.AppBarDefaults
 import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
-import com.vlohachov.shared.ui.state.ViewState
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun

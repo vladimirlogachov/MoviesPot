@@ -20,9 +20,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vlohachov.moviespot.R
 import com.vlohachov.moviespot.core.DummyGenres
 import com.vlohachov.moviespot.data.TestGenres
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.genre.Genre
 import com.vlohachov.shared.ui.component.bar.AppBarDefaults
-import com.vlohachov.shared.ui.state.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import io.mockk.every
 import io.mockk.justRun
