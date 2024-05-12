@@ -31,7 +31,6 @@ class MoviesSearchViewModelTest {
     }
 
     private val pager = MoviesSearchPager(useCase = SearchMovies(repository = repository))
-
     private val viewModel = MoviesSearchViewModel(pager = pager)
 
     @Test

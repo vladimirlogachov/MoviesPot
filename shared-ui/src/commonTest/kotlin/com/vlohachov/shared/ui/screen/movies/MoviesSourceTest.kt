@@ -70,7 +70,7 @@ class MoviesSourceTest {
         } throws exception
 
         expect(expected = expected) {
-            MoviesSource(category = MovieCategory.UPCOMING, useCase = useCase)
+            MoviesSource(category = MovieCategory.NOW_PLAYING, useCase = useCase)
                 .load(
                     PagingSource.LoadParams.Refresh(
                         key = null,
