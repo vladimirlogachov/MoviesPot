@@ -62,6 +62,22 @@ class MoviesSearchViewModelTest {
     }
 
     @Test
+    @JsName(name = "on_clear_leads_to_empty_result")
+    fun `on clear leads to empty result`() = runTest {
+        viewModel.search.test {
+            viewModel.onSearch(search = "query")
+            expect(expected = "query") { expectMostRecentItem() }
+            viewModel.onClear()
+            expect(expected = "") { expectMostRecentItem() }
+            viewModel.movies.test {
+                expect(expected = 0) {
+                    flowOf(awaitItem()).asSnapshot().size
+                }
+            }
+        }
+    }
+
+    @Test
     @JsName(name = "on_search_failure_throws_error")
     fun `on search failure throws error`() = runTest {
         resetAnswers(repository)

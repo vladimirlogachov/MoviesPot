@@ -22,7 +22,7 @@ class MoviesSearchSourceTest {
     private val repository = mock<SearchRepository> {
         every {
             searchMovies(query = any(), page = any(), language = any())
-        } returns flowOf(TestPaginatedData)
+        } returns flowOf(value = TestPaginatedData)
     }
 
     private val useCase = SearchMovies(repository = repository)

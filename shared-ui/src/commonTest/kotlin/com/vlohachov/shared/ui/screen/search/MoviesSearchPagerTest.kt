@@ -19,7 +19,7 @@ class MoviesSearchPagerTest {
     private val repository = mock<SearchRepository> {
         every {
             searchMovies(query = any(), page = any(), language = any())
-        } returns flowOf(TestPaginatedData)
+        } returns flowOf(value = TestPaginatedData)
     }
 
     private val pager = MoviesSearchPager(useCase = SearchMovies(repository = repository))
