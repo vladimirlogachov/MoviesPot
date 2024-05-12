@@ -13,9 +13,11 @@ import com.vlohachov.shared.domain.model.movie.Movie
 internal actual fun MoviesSearch(
     onBack: () -> Unit,
     onMovieDetails: (Movie) -> Unit,
+    viewModel: MoviesSearchViewModel,
     gridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
     keyboardController: SoftwareKeyboardController?,
 ) {
+    TODO("Not yet implemented")
 }

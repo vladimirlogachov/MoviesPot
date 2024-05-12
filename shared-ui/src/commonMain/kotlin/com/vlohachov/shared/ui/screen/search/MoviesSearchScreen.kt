@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
+import org.koin.compose.koinInject
 
 internal data object MoviesSearchScreen : Screen<Unit>() {
 
@@ -47,6 +48,7 @@ internal data object MoviesSearchScreen : Screen<Unit>() {
 internal expect fun MoviesSearch(
     onBack: () -> Unit,
     onMovieDetails: (Movie) -> Unit,
+    viewModel: MoviesSearchViewModel = koinInject(),
     gridState: LazyGridState = rememberLazyGridState(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),

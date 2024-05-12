@@ -61,7 +61,6 @@ import moviespot.shared_ui.generated.resources.clear
 import moviespot.shared_ui.generated.resources.navigate_back
 import moviespot.shared_ui.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -70,15 +69,15 @@ private const val VISIBLE_ITEMS_THRESHOLD = 3
 internal actual fun MoviesSearch(
     onBack: () -> Unit,
     onMovieDetails: (Movie) -> Unit,
+    viewModel: MoviesSearchViewModel,
     gridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
     keyboardController: SoftwareKeyboardController?,
 ) {
-    val viewModel = koinInject<MoviesSearchViewModel>()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
     ErrorBar(
-        error = viewModel.error,
+        error = viewModel.error.collectAsState(initial = null).value,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )
