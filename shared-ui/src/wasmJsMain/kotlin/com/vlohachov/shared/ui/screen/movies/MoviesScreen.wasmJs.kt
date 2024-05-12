@@ -15,12 +15,10 @@ internal actual fun Movies(
     category: MovieCategory,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: MoviesViewModel,
     gridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
     TODO("Not yet implemented")
 }
-
-internal actual val moviesModule: Module
-    get() = TODO("Not yet implemented")
