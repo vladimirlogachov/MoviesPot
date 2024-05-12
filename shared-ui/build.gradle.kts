@@ -89,6 +89,7 @@ kotlin {
             implementation(libs.turbine)
             implementation(libs.koin.test)
             implementation(libs.kotlin.test)
+            implementation(libs.androidx.paging.testing)
 
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
@@ -114,11 +115,4 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-}
-
-// TODO: Remove once tests ready
-tasks.withType<Test> {
-    filter {
-        excludeTestsMatching("com.vlohachov.shared.ui.screen.*")
-    }
 }
