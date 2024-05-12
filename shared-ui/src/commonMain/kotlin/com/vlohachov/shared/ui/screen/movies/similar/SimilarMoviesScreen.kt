@@ -12,6 +12,8 @@ import androidx.navigation.navArgument
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 internal data object SimilarMoviesScreen : Screen<SimilarMoviesScreen.Params>() {
 
@@ -62,6 +64,7 @@ internal expect fun SimilarMovies(
     movieTitle: String,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: SimilarMoviesViewModel = koinInject { parametersOf(movieId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 )
 

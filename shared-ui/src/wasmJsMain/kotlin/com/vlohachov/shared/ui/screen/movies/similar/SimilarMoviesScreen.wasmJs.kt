@@ -11,10 +11,8 @@ internal actual fun SimilarMovies(
     movieTitle: String,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: SimilarMoviesViewModel,
     snackbarHostState: SnackbarHostState,
 ) {
     TODO("Not yet implemented")
 }
-
-internal actual val similarMoviesModule: Module
-    get() = TODO("Not yet implemented")
