@@ -1,10 +1,11 @@
-package com.vlohachov.shared.ui.screen.search
+package com.vlohachov.shared.ui.screen.movies
 
 import androidx.paging.PagingSource
 import com.vlohachov.shared.TestPaginatedData
 import com.vlohachov.shared.domain.model.movie.Movie
-import com.vlohachov.shared.domain.repository.SearchRepository
-import com.vlohachov.shared.domain.usecase.SearchMovies
+import com.vlohachov.shared.domain.model.movie.MovieCategory
+import com.vlohachov.shared.domain.repository.MovieRepository
+import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.every
@@ -17,48 +18,30 @@ import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.expect
 
-class MoviesSearchSourceTest {
+class MoviesSourceTest {
 
-    private val repository = mock<SearchRepository> {
+    private val repository = mock<MovieRepository> {
         every {
-            searchMovies(query = any(), page = any(), language = any())
+            getMoviesByCategory(
+                category = any(),
+                page = any(),
+                language = any(),
+                region = any()
+            )
         } returns flowOf(value = TestPaginatedData)
     }
 
-    private val useCase = SearchMovies(repository = repository)
+    private val useCase = LoadMoviesByCategory(repository = repository)
 
     @Test
-    @JsName(name = "empty_query_loading_success")
-    fun `empty query loading success`() = runTest {
-        val expected = PagingSource.LoadResult.Page<Int, Movie>(
-            data = listOf(),
-            prevKey = null,
-            nextKey = null,
-        )
-
-        expect(expected = expected) {
-            MoviesSearchSource(query = "", useCase = useCase)
-                .load(
-                    PagingSource.LoadParams.Refresh(
-                        key = null,
-                        loadSize = 1,
-                        placeholdersEnabled = false,
-                    )
-                )
-        }
-    }
-
-    @Test
-    @JsName(name = "non_empty_query_loading_success")
-    fun `non-empty query loading success`() = runTest {
+    fun `loading success`() = runTest {
         val expected = PagingSource.LoadResult.Page<Int, Movie>(
             data = TestPaginatedData.data,
             prevKey = null,
             nextKey = null,
         )
-
         expect(expected = expected) {
-            MoviesSearchSource(query = "test", useCase = useCase)
+            MoviesSource(category = MovieCategory.UPCOMING, useCase = useCase)
                 .load(
                     PagingSource.LoadParams.Refresh(
                         key = null,
@@ -78,11 +61,16 @@ class MoviesSearchSourceTest {
         resetAnswers(repository)
 
         every {
-            repository.searchMovies(query = any(), page = any(), language = any())
+            repository.getMoviesByCategory(
+                category = any(),
+                page = any(),
+                language = any(),
+                region = any()
+            )
         } throws exception
 
         expect(expected = expected) {
-            MoviesSearchSource(query = "test", useCase = useCase)
+            MoviesSource(category = MovieCategory.UPCOMING, useCase = useCase)
                 .load(
                     PagingSource.LoadParams.Refresh(
                         key = null,
