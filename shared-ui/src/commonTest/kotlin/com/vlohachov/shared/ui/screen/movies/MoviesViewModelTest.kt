@@ -44,6 +44,7 @@ class MoviesViewModelTest {
     }
 
     @Test
+    @JsName(name = "on_failure_throws_error")
     fun `on failure throws error`() = runTest {
         resetAnswers(repository)
         every {

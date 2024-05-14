@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @Stable
 internal class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ViewModel() {
 
-    private val error = MutableStateFlow<Throwable?>(value = null)
+    private val _error = MutableStateFlow<Throwable?>(value = null)
 
+    val error: StateFlow<Throwable?> = _error
     val uiState: StateFlow<MainViewState> = combine(
         loadMoviesByCategory(param = LoadMoviesByCategory.Param(category = MovieCategory.UPCOMING)),
         loadMoviesByCategory(param = LoadMoviesByCategory.Param(category = MovieCategory.NOW_PLAYING)),
@@ -25,7 +25,6 @@ internal class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ViewM
         loadMoviesByCategory(param = LoadMoviesByCategory.Param(category = MovieCategory.TOP_RATED)),
         error,
     ) { upcoming, nowPlaying, popular, topRated, error ->
-
         MainViewState(
             upcomingViewState = upcoming.toViewStatePaginated(),
             nowPlayingViewState = nowPlaying.toViewStatePaginated(),
@@ -40,11 +39,11 @@ internal class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ViewM
     )
 
     fun onError(error: Throwable) {
-        viewModelScope.launch { this@MainViewModel.error.emit(value = error) }
+        _error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch { error.emit(value = null) }
+        _error.tryEmit(value = null)
     }
 
 }
