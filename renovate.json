@@ -29,7 +29,7 @@
     {
       "matchPackagePatterns": [
         ".*compose.*",
-        ".*.accompanist.*",
+        "dev.mokkery",
         ".*devtools.ksp.*",
         "org.jetbrains.kotlin.*"
       ],
@@ -49,14 +49,6 @@
       ],
       "addLabels": [
         "compose"
-      ]
-    },
-    {
-      "matchPackagePatterns": [
-        ".*.accompanist.*"
-      ],
-      "addLabels": [
-        "accompanist"
       ]
     },
     {
