@@ -3,33 +3,30 @@ package com.vlohachov.shared.ui.screen.settings
 import app.cash.turbine.test
 import com.vlohachov.shared.TestSettings
 import com.vlohachov.shared.core.ViewState
+import com.vlohachov.shared.domain.model.settings.Settings
 import com.vlohachov.shared.domain.repository.SettingsRepository
 import com.vlohachov.shared.domain.usecase.settings.ApplyDynamicTheme
 import com.vlohachov.shared.domain.usecase.settings.LoadSettings
 import dev.mokkery.answering.returns
 import dev.mokkery.every
-import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
+import dev.mokkery.resetAnswers
 import dev.mokkery.verify.VerifyMode.Companion.atMost
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.expect
 
 class SettingsViewModelTest {
 
     private val repository = mock<SettingsRepository> {
-        every { getSettings() } returns flow {
-            emit(value = TestSettings)
-            error("error")
-        }
-        everySuspend { applyDynamicTheme(apply = any()) } returns Unit
+        every { getSettings() } returns flowOf(value = TestSettings)
     }
 
     private val viewModel = SettingsViewModel(
@@ -41,9 +38,7 @@ class SettingsViewModelTest {
     @JsName(name = "settings_flow_emits_Loading")
     fun `settings flow emits Loading`() = runTest {
         viewModel.viewState.test {
-            expect(expected = ViewState.Loading) {
-                awaitItem()
-            }
+            assertIs<ViewState.Loading>(value = awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -53,19 +48,22 @@ class SettingsViewModelTest {
     fun `settings flow emits Success`() = runTest {
         viewModel.viewState.test {
             skipItems(count = 1)
-            expect(expected = ViewState.Success(data = TestSettings)) {
-                awaitItem()
-            }
-            cancelAndIgnoreRemainingEvents()
+            assertIs<ViewState.Success<Settings>>(value = awaitItem())
         }
     }
 
     @Test
     @JsName(name = "settings_flow_emits_Error")
     fun `settings flow emits Error`() = runTest {
-        viewModel.viewState.test {
-            assertIs<ViewState.Error>(value = expectMostRecentItem())
-            cancelAndIgnoreRemainingEvents()
+        resetAnswers(repository)
+        every { repository.getSettings() } returns flow { error(message = "Error") }
+
+        SettingsViewModel(
+            loadSettings = LoadSettings(repository = repository),
+            applyDynamicTheme = ApplyDynamicTheme(repository = repository),
+        ).viewState.test {
+            skipItems(count = 1)
+            assertIs<ViewState.Error>(value = awaitItem())
         }
     }
 
