@@ -48,7 +48,7 @@ internal actual fun SimilarMovies(
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
     ErrorBar(
-        error = viewModel.error.collectAsState(initial = null).value,
+        error = viewModel.error.collectAsState().value,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )
