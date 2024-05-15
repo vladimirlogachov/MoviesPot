@@ -10,6 +10,7 @@ internal actual fun KeywordMoviesScreen(
     keywordId: Int,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: KeywordMoviesViewModel,
     snackbarHostState: SnackbarHostState,
 ) {
     TODO("Not yet implemented")

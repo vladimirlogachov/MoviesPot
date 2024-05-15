@@ -12,6 +12,8 @@ import androidx.navigation.navArgument
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 internal data object KeywordMoviesScreen : Screen<KeywordMoviesScreen.Params>() {
 
@@ -63,6 +65,7 @@ internal expect fun KeywordMoviesScreen(
     keywordId: Int,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: KeywordMoviesViewModel = koinInject { parametersOf(keywordId) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 )
 

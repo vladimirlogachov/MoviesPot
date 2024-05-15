@@ -1,30 +1,24 @@
 package com.vlohachov.shared.ui.screen.keyword
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class KeywordMoviesViewModel(pager: KeywordMoviesPager) : ViewModel() {
 
+    private val _error = MutableStateFlow<Throwable?>(value = null)
+
+    val error: StateFlow<Throwable?> = _error
     val movies = pager.pagingDataFlow.cachedIn(scope = viewModelScope)
 
-    var error by mutableStateOf<Throwable?>(value = null)
-        private set
-
     fun onError(error: Throwable) {
-        viewModelScope.launch {
-            this@KeywordMoviesViewModel.error = error
-        }
+        _error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch {
-            this@KeywordMoviesViewModel.error = null
-        }
+        _error.tryEmit(value = null)
     }
 
 }
