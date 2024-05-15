@@ -1,5 +1,6 @@
 package com.vlohachov.shared.ui.screen.discover
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.shared.core.WhileUiSubscribed
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
+@Stable
 internal class DiscoverViewModel(loadGenres: LoadGenres) : ViewModel() {
 
     private companion object {

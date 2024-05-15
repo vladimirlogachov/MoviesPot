@@ -1,11 +1,13 @@
 package com.vlohachov.shared.ui.screen.keyword
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+@Stable
 internal class KeywordMoviesViewModel(pager: KeywordMoviesPager) : ViewModel() {
 
     private val _error = MutableStateFlow<Throwable?>(value = null)

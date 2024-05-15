@@ -11,6 +11,8 @@ import androidx.navigation.navArgument
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>() {
 
@@ -67,6 +69,7 @@ internal expect fun DiscoverResult(
     genres: IntArray?,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: DiscoverResultViewModel = koinInject { parametersOf(year, genres) },
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 )
 

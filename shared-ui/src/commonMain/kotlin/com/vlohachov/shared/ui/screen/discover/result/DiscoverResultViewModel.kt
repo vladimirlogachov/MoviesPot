@@ -1,30 +1,26 @@
 package com.vlohachov.shared.ui.screen.discover.result
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
+@Stable
 internal class DiscoverResultViewModel(pager: DiscoverResultPager) : ViewModel() {
 
+    private val _error = MutableStateFlow<Throwable?>(value = null)
+
+    val error: StateFlow<Throwable?> = _error
     val movies = pager.pagingDataFlow.cachedIn(scope = viewModelScope)
 
-    var error by mutableStateOf<Throwable?>(value = null)
-        private set
-
     fun onError(error: Throwable) {
-        viewModelScope.launch {
-            this@DiscoverResultViewModel.error = error
-        }
+        _error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch {
-            this@DiscoverResultViewModel.error = null
-        }
+        _error.tryEmit(value = null)
     }
 
 }

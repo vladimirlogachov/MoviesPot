@@ -1,5 +1,6 @@
 package com.vlohachov.shared.ui.screen.credits.crew
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.shared.core.WhileUiSubscribed
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+@Stable
 internal class CrewViewModel(
     movieId: Long,
     loadCrew: LoadCrew,

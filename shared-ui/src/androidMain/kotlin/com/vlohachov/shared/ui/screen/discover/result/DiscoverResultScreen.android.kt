@@ -14,6 +14,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -29,8 +30,6 @@ import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGrid
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.discover_results
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
-import org.koin.core.parameter.parametersOf
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -41,15 +40,15 @@ internal actual fun DiscoverResult(
     genres: IntArray?,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: DiscoverResultViewModel,
     snackbarHostState: SnackbarHostState,
 ) {
-    val viewModel = koinInject<DiscoverResultViewModel> { parametersOf(year, genres) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
     ErrorBar(
-        error = viewModel.error,
+        error = viewModel.error.collectAsState(initial = null).value,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )

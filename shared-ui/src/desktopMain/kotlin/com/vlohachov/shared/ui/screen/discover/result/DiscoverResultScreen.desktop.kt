@@ -10,6 +10,7 @@ internal actual fun DiscoverResult(
     genres: IntArray?,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: DiscoverResultViewModel,
     snackbarHostState: SnackbarHostState,
 ) {
     TODO("Not yet implemented")
