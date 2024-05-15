@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.vlohachov.shared.core.WhileUiSubscribed
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -19,7 +18,7 @@ internal class MoviesSearchViewModel(pager: MoviesSearchPager) : ViewModel() {
     private val _search = MutableStateFlow(value = "")
 
     val error: StateFlow<Throwable?> = _error
-    val search: Flow<String> = _search
+    val search: StateFlow<String> = _search
         .onEach(pager::onQuery)
         .stateIn(
             scope = viewModelScope,

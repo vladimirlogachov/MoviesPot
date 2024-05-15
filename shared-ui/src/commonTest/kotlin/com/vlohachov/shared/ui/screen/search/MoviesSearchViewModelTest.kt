@@ -6,11 +6,11 @@ import com.vlohachov.shared.TestPaginatedData
 import com.vlohachov.shared.domain.repository.SearchRepository
 import com.vlohachov.shared.domain.usecase.SearchMovies
 import dev.mokkery.answering.returns
-import dev.mokkery.answering.throwsErrorWith
 import dev.mokkery.every
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import dev.mokkery.resetAnswers
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.js.JsName
@@ -50,8 +50,9 @@ class MoviesSearchViewModelTest {
     @JsName(name = "non-empty_query_leads_to_non-empty_result")
     fun `non-empty query leads to non-empty result`() = runTest {
         viewModel.search.test {
+            skipItems(count = 1)
             viewModel.onSearch(search = "query")
-            expect(expected = "query") { expectMostRecentItem() }
+            expect(expected = "query") { awaitItem() }
             viewModel.movies.test {
                 expect(expected = TestPaginatedData.data.size) {
                     flowOf(awaitItem()).asSnapshot().size
@@ -64,10 +65,11 @@ class MoviesSearchViewModelTest {
     @JsName(name = "on_clear_leads_to_empty_result")
     fun `on clear leads to empty result`() = runTest {
         viewModel.search.test {
+            skipItems(count = 1)
             viewModel.onSearch(search = "query")
-            expect(expected = "query") { expectMostRecentItem() }
+            expect(expected = "query") { awaitItem() }
             viewModel.onClear()
-            expect(expected = "") { expectMostRecentItem() }
+            expect(expected = "") { awaitItem() }
             viewModel.movies.test {
                 expect(expected = 0) {
                     flowOf(awaitItem()).asSnapshot().size
@@ -82,11 +84,12 @@ class MoviesSearchViewModelTest {
         resetAnswers(repository)
         every {
             repository.searchMovies(query = any(), page = any(), language = any())
-        } throwsErrorWith "Error"
+        } returns flow { error(message = "Error") }
 
         viewModel.search.test {
+            skipItems(count = 1)
             viewModel.onSearch(search = "invalid")
-            expect(expected = "invalid") { expectMostRecentItem() }
+            expect(expected = "invalid") { awaitItem() }
             viewModel.movies.test {
                 assertIs<IllegalStateException>(
                     value = assertFails {
