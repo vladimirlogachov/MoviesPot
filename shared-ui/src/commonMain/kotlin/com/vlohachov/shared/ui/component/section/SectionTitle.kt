@@ -42,11 +42,11 @@ public fun SectionTitle(
     }
 }
 
-public object SectionTitleDefaults {
+internal object SectionTitleDefaults {
 
-    public const val TitleTestTag: String = "title"
-    public const val TitleTextTestTag: String = "title_text"
-    public const val TitleIconTestTag: String = "title_icon"
+    const val TitleTestTag: String = "title"
+    const val TitleTextTestTag: String = "title_text"
+    const val TitleIconTestTag: String = "title_icon"
 
 }
 

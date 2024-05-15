@@ -28,6 +28,7 @@ class SimilarMoviesSourceTest {
     private val useCase = LoadRecommendations(repository = repository)
 
     @Test
+    @JsName(name = "loading_success")
     fun `loading success`() = runTest {
         val expected = PagingSource.LoadResult.Page<Int, Movie>(
             data = TestPaginatedData.data,

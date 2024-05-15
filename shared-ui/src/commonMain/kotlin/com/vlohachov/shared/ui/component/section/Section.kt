@@ -55,14 +55,14 @@ public fun Section(
     }
 }
 
-public object SectionDefaults {
+internal object SectionDefaults {
 
-    public const val SectionTestTag: String = "section"
-    public const val SectionTitleTestTag: String = "section_title"
-    public const val SectionContentTestTag: String = "section_content"
+    const val SectionTestTag: String = "section"
+    const val SectionTitleTestTag: String = "section_title"
+    const val SectionContentTestTag: String = "section_content"
 
     @Composable
-    public fun sectionColors(
+    fun sectionColors(
         titleColor: Color = LocalContentColor.current,
         contentColor: Color = LocalContentColor.current,
     ): SectionColors =
@@ -72,7 +72,7 @@ public object SectionDefaults {
         )
 
     @Composable
-    public fun largeTextStyles(
+    fun largeTextStyles(
         titleTextStyle: TextStyle = MaterialTheme.typography.headlineLarge,
         contentTextStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     ): SectionTextStyles =
@@ -82,7 +82,7 @@ public object SectionDefaults {
         )
 
     @Composable
-    public fun mediumTextStyles(
+    fun mediumTextStyles(
         titleTextStyle: TextStyle = MaterialTheme.typography.headlineMedium,
         contentTextStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     ): SectionTextStyles =
@@ -92,7 +92,7 @@ public object SectionDefaults {
         )
 
     @Composable
-    public fun smallTextStyles(
+    fun smallTextStyles(
         titleTextStyle: TextStyle = MaterialTheme.typography.headlineSmall,
         contentTextStyle: TextStyle = MaterialTheme.typography.bodySmall,
     ): SectionTextStyles =

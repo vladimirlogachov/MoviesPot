@@ -92,11 +92,11 @@ private fun AppBarBackButton(
     }
 }
 
-public object AppBarDefaults {
+internal object AppBarDefaults {
 
-    public const val AppBarTestTag: String = "app_bar"
-    public const val TitleTestTag: String = "app_bar_title"
-    public const val BackButtonTestTag: String = "back_button"
+    const val AppBarTestTag: String = "app_bar"
+    const val TitleTestTag: String = "app_bar_title"
+    const val BackButtonTestTag: String = "back_button"
 
 }
 

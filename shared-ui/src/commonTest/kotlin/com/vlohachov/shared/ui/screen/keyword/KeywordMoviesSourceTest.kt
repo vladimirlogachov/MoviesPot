@@ -34,6 +34,7 @@ class KeywordMoviesSourceTest {
     private val useCase = DiscoverMovies(repository = repository)
 
     @Test
+    @JsName(name = "loading_success")
     fun `loading success`() = runTest {
         val expected = PagingSource.LoadResult.Page<Int, Movie>(
             data = TestPaginatedData.data,

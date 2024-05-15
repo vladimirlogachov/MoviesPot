@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.Poster
-import com.vlohachov.shared.utils.DummyMovies
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.utils.DummyMovies
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -68,11 +68,11 @@ public fun MoviesLazyRow(
     }
 }
 
-public object MoviesLazyRowDefaults {
+internal object MoviesLazyRowDefaults {
 
-    public const val MoviesLazyRowTestTag: String = "movies_lazy_row"
+    const val MoviesLazyRowTestTag: String = "movies_lazy_row"
 
-    public val ContentPadding: PaddingValues = PaddingValues(all = 16.dp)
+    val ContentPadding: PaddingValues = PaddingValues(all = 16.dp)
 
 }
 

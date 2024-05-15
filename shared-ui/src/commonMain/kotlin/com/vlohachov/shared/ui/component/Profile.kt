@@ -199,18 +199,18 @@ private fun Footer(
     }
 }
 
-public object ProfileDefaults {
+internal object ProfileDefaults {
 
-    public const val ProfileTestTag: String = "profile"
-    public const val ImageTestTag: String = "profile_image"
-    public const val ErrorTestTag: String = "profile_error"
-    public const val TitleTestTag: String = "profile_title"
-    public const val BodyTestTag: String = "profile_body"
+    const val ProfileTestTag: String = "profile"
+    const val ImageTestTag: String = "profile_image"
+    const val ErrorTestTag: String = "profile_error"
+    const val TitleTestTag: String = "profile_title"
+    const val BodyTestTag: String = "profile_body"
 
-    public val FooterPadding: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
-    public val Shape: Shape = RoundedCornerShape(size = 16.dp)
-    public val TonalElevation: Dp = 4.dp
-    public val ShadowElevation: Dp = 0.dp
+    val FooterPadding: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
+    val Shape: Shape = RoundedCornerShape(size = 16.dp)
+    val TonalElevation: Dp = 4.dp
+    val ShadowElevation: Dp = 0.dp
 
 }
 

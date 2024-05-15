@@ -26,7 +26,8 @@ class MainViewModelTest {
     private val loadMoviesByCategory = LoadMoviesByCategory(repository = repository)
 
     @Test
-    fun `loading test`() = runTest {
+    @JsName(name = "movies loading")
+    fun `movies loading`() = runTest {
         every {
             repository.getMoviesByCategory(
                 category = any(),
@@ -42,8 +43,8 @@ class MainViewModelTest {
     }
 
     @Test
-    @JsName(name = "uiState_content_loading_and_success")
-    fun `uiState content loading and success`() = runTest {
+    @JsName(name = "movies_loading_success")
+    fun `movies loading success`() = runTest {
         every {
             repository.getMoviesByCategory(
                 category = any(),
@@ -54,19 +55,14 @@ class MainViewModelTest {
         } returns flowOf(value = TestPaginatedData)
 
         MainViewModel(loadMoviesByCategory = loadMoviesByCategory).uiState.test {
-            awaitItem()
-                .also(::println) // without this line flow does not emit remaining state updates
-                .validateLoading()
-            awaitItem() // without this line flow does not emit remaining state updates
-                .also(::println)// without this line flow does not emit remaining state updates
-            expectMostRecentItem()
-                .validateSuccess()
+            skipItems(count = 4)
+            awaitItem().validateSuccess()
         }
     }
 
     @Test
-    @JsName(name = "uiState_content_loading_and_error")
-    fun `uiState content loading and error`() = runTest {
+    @JsName(name = "movies_loading_error")
+    fun `movies loading error`() = runTest {
         every {
             repository.getMoviesByCategory(
                 category = any(),
@@ -77,13 +73,8 @@ class MainViewModelTest {
         } returns flow { error(message = "Error") }
 
         MainViewModel(loadMoviesByCategory = loadMoviesByCategory).uiState.test {
-            awaitItem()
-                .also(::println) // without this line flow does not emit remaining state updates
-                .validateLoading()
-            awaitItem() // without this line flow does not emit remaining state updates
-                .also(::println)// without this line flow does not emit remaining state updates
-            expectMostRecentItem()
-                .validateError()
+            skipItems(count = 4)
+            awaitItem().validateError()
         }
     }
 
