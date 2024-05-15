@@ -1,11 +1,13 @@
-package com.vlohachov.shared.ui.screen.credits.cast
+package com.vlohachov.shared.ui.screen.credits.crew
 
 import app.cash.turbine.test
 import com.vlohachov.shared.TestMovieCredits
 import com.vlohachov.shared.core.ViewState
-import com.vlohachov.shared.domain.model.movie.credit.CastMember
+import com.vlohachov.shared.domain.model.movie.credit.CrewMember
 import com.vlohachov.shared.domain.repository.MovieRepository
 import com.vlohachov.shared.domain.usecase.credits.LoadCast
+import com.vlohachov.shared.domain.usecase.credits.LoadCrew
+import com.vlohachov.shared.ui.screen.credits.cast.CastViewModel
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.matcher.any
@@ -21,7 +23,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-class CastViewModelTest {
+class CrewViewModelTest {
 
     private val repository = mock<MovieRepository> {
         every {
@@ -29,34 +31,34 @@ class CastViewModelTest {
         } returns flowOf(value = TestMovieCredits)
     }
 
-    private val viewModel = CastViewModel(
+    private val viewModel = CrewViewModel(
         movieId = 1L,
-        loadCast = LoadCast(repository = repository)
+        loadCrew = LoadCrew(repository = repository)
     )
 
     @Test
-    @JsName(name = "cast_loading")
-    fun `cast loading`() = runTest {
-        viewModel.cast.test {
+    @JsName(name = "crew_loading")
+    fun `crew loading`() = runTest {
+        viewModel.crew.test {
             assertIs<ViewState.Loading>(value = awaitItem())
         }
     }
 
     @Test
-    @JsName(name = "cast_loading_success")
-    fun `cast loading success`() = runTest {
-        viewModel.cast.test {
+    @JsName(name = "crew_loading_success")
+    fun `crew loading success`() = runTest {
+        viewModel.crew.test {
             skipItems(count = 1)
             with(receiver = awaitItem()) {
-                assertIs<ViewState.Success<List<CastMember>>>(value = this)
-                assertEquals(expected = TestMovieCredits.cast, actual = data)
+                assertIs<ViewState.Success<List<CrewMember>>>(value = this)
+                assertEquals(expected = TestMovieCredits.crew, actual = data)
             }
         }
     }
 
     @Test
-    @JsName(name = "cast_loading_error")
-    fun `cast loading error`() = runTest {
+    @JsName(name = "crew_loading_error")
+    fun `crew loading error`() = runTest {
         resetAnswers(repository)
         every {
             repository.getMovieCredits(id = any(), language = any())
