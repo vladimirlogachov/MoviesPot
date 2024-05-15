@@ -3,14 +3,14 @@ package com.vlohachov.shared.ui.screen.credits.crew
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.core.WhileUiSubscribed
 import com.vlohachov.shared.core.toViewState
 import com.vlohachov.shared.domain.usecase.credits.LoadCrew
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @Stable
 internal class CrewViewModel(
@@ -18,28 +18,23 @@ internal class CrewViewModel(
     loadCrew: LoadCrew,
 ) : ViewModel() {
 
-    private val error = MutableStateFlow<Throwable?>(value = null)
+    private val _error = MutableStateFlow<Throwable?>(value = null)
 
-    val uiState: StateFlow<CrewViewState> = combine(
-        loadCrew(param = LoadCrew.Param(id = movieId)),
-        error,
-    ) { crew, error ->
-        CrewViewState(
-            viewState = crew.toViewState(),
-            error = error,
+    val error: StateFlow<Throwable?> = _error
+    val crew = loadCrew(param = LoadCrew.Param(id = movieId))
+        .map { result -> result.toViewState() }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileUiSubscribed,
+            initialValue = ViewState.Loading,
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = WhileUiSubscribed,
-        initialValue = CrewViewState(),
-    )
 
     fun onError(error: Throwable) {
-        viewModelScope.launch { this@CrewViewModel.error.emit(value = error) }
+        _error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch { this@CrewViewModel.error.emit(value = null) }
+        _error.tryEmit(value = null)
     }
 
 }
