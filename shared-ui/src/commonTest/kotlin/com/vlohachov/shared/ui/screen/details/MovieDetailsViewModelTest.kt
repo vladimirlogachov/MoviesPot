@@ -54,6 +54,7 @@ class MovieDetailsViewModelTest {
     )
 
     @Test
+    @JsName(name = "content_loading")
     fun `content loading`() = runTest {
         viewModel.uiState.test {
             awaitItem().validateLoading()
@@ -61,6 +62,7 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
+    @JsName(name = "content_loading_success")
     fun `content loading success`() = runTest {
         viewModel.uiState.test {
             skipItems(count = 4)
@@ -69,6 +71,7 @@ class MovieDetailsViewModelTest {
     }
 
     @Test
+    @JsName(name = "content_loading_error")
     fun `content loading error`() = runTest {
         with(receiver = repository) {
             resetAnswers(this)
