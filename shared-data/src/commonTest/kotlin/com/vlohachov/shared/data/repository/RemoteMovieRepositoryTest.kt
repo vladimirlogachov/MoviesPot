@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 class RemoteMovieRepositoryTest {
 
     @Test
-    @JsName("get_movies_success")
+    @JsName(name = "get_movies_success")
     fun `get movies success`() = runTest {
         RemoteMovieRepository(client = mockClientSuccess(data = MoviesTestPaginatedScheme))
             .getMoviesByCategory(category = "category", page = 1, language = null, region = null)
@@ -29,7 +29,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movies_failure")
+    @JsName(name = "get_movies_failure")
     fun `get movies failure`() = runTest {
         RemoteMovieRepository(client = mockClientFailure())
             .getMoviesByCategory(category = "category", page = 1, language = null, region = null)
@@ -39,7 +39,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_details_success")
+    @JsName(name = "get_movie_details_success")
     fun `get movie details success`() = runTest {
         RemoteMovieRepository(client = mockClientSuccess(data = MovieDetailsTestScheme))
             .getMovieDetails(id = 1, language = null)
@@ -50,7 +50,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_details_failure")
+    @JsName(name = "get_movie_details_failure")
     fun `get movie details failure`() = runTest {
         RemoteMovieRepository(client = mockClientFailure())
             .getMovieDetails(id = 1, language = null)
@@ -60,7 +60,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_credits_success")
+    @JsName(name = "get_movie_credits_success")
     fun `get movie credits success`() = runTest {
         RemoteMovieRepository(client = mockClientSuccess(data = MovieCreditsTestScheme))
             .getMovieCredits(id = 1, language = null)
@@ -71,7 +71,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_credits_failure")
+    @JsName(name = "get_movie_credits_failure")
     fun `get movie credits failure`() = runTest {
         RemoteMovieRepository(client = mockClientFailure())
             .getMovieCredits(id = 1, language = null)
@@ -81,7 +81,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_recommendations_success")
+    @JsName(name = "get_movie_recommendations_success")
     fun `get movie recommendations success`() = runTest {
         RemoteMovieRepository(client = mockClientSuccess(data = MoviesTestPaginatedScheme))
             .getMovieRecommendations(id = 1, page = 1, language = null)
@@ -92,7 +92,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_recommendations_failure")
+    @JsName(name = "get_movie_recommendations_failure")
     fun `get movie recommendations failure`() = runTest {
         RemoteMovieRepository(client = mockClientFailure())
             .getMovieRecommendations(id = 1, page = 1, language = null)
@@ -102,7 +102,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_keywords_success")
+    @JsName(name = "get_movie_keywords_success")
     fun `get movie keywords success`() = runTest {
         RemoteMovieRepository(client = mockClientSuccess(data = MovieKeywordsTestScheme))
             .getMovieKeywords(id = 1)
@@ -113,7 +113,7 @@ class RemoteMovieRepositoryTest {
     }
 
     @Test
-    @JsName("get_movie_keywords_failure")
+    @JsName(name = "get_movie_keywords_failure")
     fun `get movie keywords failure`() = runTest {
         RemoteMovieRepository(client = mockClientFailure())
             .getMovieKeywords(id = 1)

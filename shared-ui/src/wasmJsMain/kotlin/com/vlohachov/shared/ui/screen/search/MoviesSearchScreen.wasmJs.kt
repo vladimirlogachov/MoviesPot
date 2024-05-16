@@ -14,6 +14,7 @@ import org.koin.core.module.Module
 internal actual fun MoviesSearch(
     onBack: () -> Unit,
     onMovieDetails: (Movie) -> Unit,
+    viewModel: MoviesSearchViewModel,
     gridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -21,6 +22,3 @@ internal actual fun MoviesSearch(
 ) {
     TODO("Not yet implemented")
 }
-
-internal actual val moviesSearchModule: Module
-    get() = TODO("Not yet implemented")

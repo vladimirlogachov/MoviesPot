@@ -96,7 +96,8 @@ internal fun Cast(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
-    val uiState by viewModel.uiState.collectAsState()
+    val castState by viewModel.cast.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     Scaffold(
         modifier = Modifier
@@ -137,15 +138,13 @@ internal fun Cast(
                     .testTag(tag = CastDefaults.ContentTestTag)
                     .fillMaxSize(),
                 gridState = gridState,
-                viewState = uiState.viewState,
+                viewState = castState,
                 onCredit = { },
                 onError = viewModel::onError,
             )
 
-            uiState.error?.printStackTrace()
-
             ErrorBar(
-                error = uiState.error,
+                error = error,
                 snackbarHostState = snackbarHostState,
                 onDismissed = viewModel::onErrorConsumed,
             )

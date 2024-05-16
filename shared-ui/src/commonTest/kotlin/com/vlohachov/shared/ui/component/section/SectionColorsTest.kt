@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class SectionColorsTest {
 
     @Test
-    @JsName("default_section_colors")
+    @JsName(name = "default_section_colors")
     fun `default section colors`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {

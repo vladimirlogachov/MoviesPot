@@ -28,7 +28,7 @@ class LoadGenresTest {
     private val useCase = LoadGenres(repository = repository)
 
     @Test
-    @JsName("result_flow_emits_Loading")
+    @JsName(name = "result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
 
@@ -40,7 +40,7 @@ class LoadGenresTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Success_with_all_genres")
+    @JsName(name = "result_flow_emits_Success_with_all_genres")
     fun `result flow emits Success with all genres`() = runTest {
         every { repository.getGenres(language = any()) } returns flowOf(TestGenres)
 
@@ -51,7 +51,7 @@ class LoadGenresTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Success_with_n_genres")
+    @JsName(name = "result_flow_emits_Success_with_n_genres")
     fun `result flow emits Success with n genres`() = runTest {
         val genresToTake = 1
 
@@ -67,7 +67,7 @@ class LoadGenresTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Error")
+    @JsName(name = "result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         every { repository.getGenres(language = any()) } returns flow { throw NullPointerException() }
 

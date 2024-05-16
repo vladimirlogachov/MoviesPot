@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @Stable
 internal class MovieDetailsViewModel(
@@ -25,14 +24,14 @@ internal class MovieDetailsViewModel(
     loadRecommendations: LoadRecommendations,
 ) : ViewModel() {
 
-    private val error = MutableStateFlow<Throwable?>(value = null)
+    private val _error = MutableStateFlow<Throwable?>(value = null)
 
     val uiState: StateFlow<MovieDetailsViewState> = combine(
         loadDetails(param = LoadDetails.Param(id = movieId)),
         loadDirector(param = LoadDirector.Param(id = movieId)),
         loadKeywords(param = LoadKeywords.Param(id = movieId)),
         loadRecommendations(param = LoadRecommendations.Param(id = movieId)),
-        error,
+        _error,
     ) { details, director, keywords, recommendations, error ->
         MovieDetailsViewState(
             detailsViewState = details.toViewState(),
@@ -48,11 +47,11 @@ internal class MovieDetailsViewModel(
     )
 
     fun onError(error: Throwable) {
-        viewModelScope.launch { this@MovieDetailsViewModel.error.emit(value = error) }
+        _error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch { this@MovieDetailsViewModel.error.emit(value = null) }
+        _error.tryEmit(value = null)
     }
 
 }

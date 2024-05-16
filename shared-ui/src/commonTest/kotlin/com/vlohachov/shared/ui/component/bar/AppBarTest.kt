@@ -16,28 +16,28 @@ import kotlin.test.Test
 class AppBarTest {
 
     @Test
-    @JsName("app_bar_displayed_with_title")
+    @JsName(name = "app_bar_displayed_with_title")
     fun `app bar displayed with title`() = runComposeUiTest {
         appBar(showTitle = true)
         verifyAppBar(showTitle = true)
     }
 
     @Test
-    @JsName("app_bar_displayed_without_title")
+    @JsName(name = "app_bar_displayed_without_title")
     fun `app bar displayed without title`() = runComposeUiTest {
         appBar(showTitle = false)
         verifyAppBar(showTitle = false)
     }
 
     @Test
-    @JsName("large_app_bar_displayed_with_title")
+    @JsName(name = "large_app_bar_displayed_with_title")
     fun `large app bar displayed with title`() = runComposeUiTest {
         largeAppBar(showTitle = true)
         verifyAppBar(showTitle = true)
     }
 
     @Test
-    @JsName("large_app_bar_displayed_without_title")
+    @JsName(name = "large_app_bar_displayed_without_title")
     fun `large app bar displayed without title`() = runComposeUiTest {
         largeAppBar(showTitle = false)
         verifyAppBar(showTitle = false)

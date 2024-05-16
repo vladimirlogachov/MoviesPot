@@ -14,6 +14,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -34,8 +35,6 @@ import moviespot.shared_ui.generated.resources.top_rated
 import moviespot.shared_ui.generated.resources.upcoming
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
-import org.koin.core.parameter.parametersOf
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -45,15 +44,15 @@ internal actual fun Movies(
     category: MovieCategory,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: MoviesViewModel,
     gridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
 ) {
-    val viewModel = koinInject<MoviesViewModel> { parametersOf(category) }
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
     ErrorBar(
-        error = viewModel.error,
+        error = viewModel.error.collectAsState().value,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )

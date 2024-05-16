@@ -18,6 +18,8 @@ import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 
 internal data object MoviesScreen : Screen<MoviesScreen.Params>() {
 
@@ -62,6 +64,7 @@ internal expect fun Movies(
     category: MovieCategory,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: MoviesViewModel = koinInject { parametersOf(category) },
     gridState: LazyGridState = rememberLazyGridState(),
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),

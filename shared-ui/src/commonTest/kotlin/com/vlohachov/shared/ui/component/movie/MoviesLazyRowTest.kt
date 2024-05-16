@@ -30,7 +30,7 @@ import kotlin.test.assertEquals
 class MoviesLazyRowTest {
 
     @Test
-    @JsName("empty_movies_list")
+    @JsName(name = "empty_movies_list")
     fun `empty movies list`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -51,7 +51,7 @@ class MoviesLazyRowTest {
     }
 
     @Test
-    @JsName("not_empty_movies_list")
+    @JsName(name = "not_empty_movies_list")
     fun `not empty movies list`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -72,7 +72,7 @@ class MoviesLazyRowTest {
     }
 
     @Test
-    @JsName("click_on_movie")
+    @JsName(name = "click_on_movie")
     fun `click on movie`() = runComposeUiTest {
         var movie by mutableStateOf<Movie?>(value = null)
 

@@ -27,7 +27,7 @@ class LoadCastTest {
     private val useCase = LoadCast(repository = repository)
 
     @Test
-    @JsName("result_flow_emits_Loading")
+    @JsName(name = "result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         every {
             repository.getMovieCredits(id = any(), language = any())
@@ -41,7 +41,7 @@ class LoadCastTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Success")
+    @JsName(name = "result_flow_emits_Success")
     fun `result flow emits Success`() = runTest {
         every {
             repository.getMovieCredits(id = any(), language = any())
@@ -54,7 +54,7 @@ class LoadCastTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Error")
+    @JsName(name = "result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         every {
             repository.getMovieCredits(id = any(), language = any())

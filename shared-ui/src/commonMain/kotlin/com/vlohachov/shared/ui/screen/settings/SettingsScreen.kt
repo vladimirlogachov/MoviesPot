@@ -81,10 +81,11 @@ internal fun Settings(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val uriHandler = LocalUriHandler.current
-    val viewState by viewModel.viewState.collectAsState(initial = ViewState.Loading)
+    val viewState by viewModel.viewState.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     ErrorBar(
-        error = viewModel.error,
+        error = error,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )

@@ -36,8 +36,8 @@ public fun ErrorBar(
     }
 }
 
-public object ErrorBarDefaults {
+internal object ErrorBarDefaults {
 
-    public const val ErrorTestTag: String = "error_bar"
+    const val ErrorTestTag: String = "error_bar"
 
 }

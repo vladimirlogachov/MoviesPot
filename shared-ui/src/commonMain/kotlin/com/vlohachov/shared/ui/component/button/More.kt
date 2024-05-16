@@ -41,7 +41,7 @@ public fun More(
     }
 }
 
-public object MoreDefaults {
+internal object MoreDefaults {
 
     internal val ButtonTestTag = "more_button"
     internal val IconTestTag = "more_button_icon"

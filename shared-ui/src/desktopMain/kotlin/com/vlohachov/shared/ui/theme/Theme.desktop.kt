@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
  * A [MoviesPotTheme] that uses the provided [dynamicColor] and [content].
  */
 @Composable
-public actual fun MoviesPotTheme(
+internal actual fun MoviesPotTheme(
     dynamicColor: Boolean,
     content: @Composable () -> Unit,
 ) {

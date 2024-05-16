@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.button.More
 import com.vlohachov.shared.ui.component.section.Section
@@ -21,9 +22,8 @@ import com.vlohachov.shared.ui.component.section.SectionColors
 import com.vlohachov.shared.ui.component.section.SectionDefaults
 import com.vlohachov.shared.ui.component.section.SectionTextStyles
 import com.vlohachov.shared.ui.component.section.SectionTitle
-import com.vlohachov.shared.utils.DummyMovies
-import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
+import com.vlohachov.shared.utils.DummyMovies
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.no_results
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -131,17 +131,17 @@ private fun Movies(
     }
 }
 
-public object MoviesSectionDefaults {
+internal object MoviesSectionDefaults {
 
-    public const val MoviesSectionTestTag: String = "movies_section"
-    public const val MoreButtonTestTag: String = "movies_section_more_button"
-    public const val ContentTestTag: String = "movies_section_content"
-    public const val ProgressTestTag: String = "movies_section_progress"
-    public const val ErrorTestTag: String = "movies_section_error"
-    public const val EmptyTestTag: String = "movies_section_empty"
+    const val MoviesSectionTestTag: String = "movies_section"
+    const val MoreButtonTestTag: String = "movies_section_more_button"
+    const val ContentTestTag: String = "movies_section_content"
+    const val ProgressTestTag: String = "movies_section_progress"
+    const val ErrorTestTag: String = "movies_section_error"
+    const val EmptyTestTag: String = "movies_section_empty"
 
-    public val TitlePadding: PaddingValues = PaddingValues(start = 16.dp, end = 4.dp)
-    public val ContentPadding: PaddingValues = PaddingValues(all = 16.dp)
+    val TitlePadding: PaddingValues = PaddingValues(start = 16.dp, end = 4.dp)
+    val ContentPadding: PaddingValues = PaddingValues(all = 16.dp)
 
 }
 

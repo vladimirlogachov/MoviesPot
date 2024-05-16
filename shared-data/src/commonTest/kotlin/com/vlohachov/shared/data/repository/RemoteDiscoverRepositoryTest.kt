@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 class RemoteDiscoverRepositoryTest {
 
     @Test
-    @JsName("discover_movies_success")
+    @JsName(name = "discover_movies_success")
     fun `discover movies success`() = runTest {
         RemoteDiscoverRepository(client = mockClientSuccess(data = MoviesTestPaginatedScheme))
             .discoverMovies(
@@ -26,7 +26,7 @@ class RemoteDiscoverRepositoryTest {
     }
 
     @Test
-    @JsName("discover_movies_failure")
+    @JsName(name = "discover_movies_failure")
     fun `discover movies failure`() = runTest {
         RemoteDiscoverRepository(client = mockClientFailure())
             .discoverMovies(

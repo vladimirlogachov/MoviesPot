@@ -1,33 +1,29 @@
 package com.vlohachov.shared.ui.screen.movies.similar
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
 
+@Stable
 internal class SimilarMoviesViewModel(pager: SimilarMoviesPager) : ViewModel() {
 
+    private val _error = MutableStateFlow<Throwable?>(value = null)
+
+    val error: StateFlow<Throwable?> = _error
     val movies = pager.pagingDataFlow
         .catch { error -> onError(error = error) }
         .cachedIn(scope = viewModelScope)
 
-    var error by mutableStateOf<Throwable?>(value = null)
-        private set
-
     fun onError(error: Throwable) {
-        viewModelScope.launch {
-            this@SimilarMoviesViewModel.error = error
-        }
+        _error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch {
-            error = null
-        }
+        _error.tryEmit(value = null)
     }
 
 }

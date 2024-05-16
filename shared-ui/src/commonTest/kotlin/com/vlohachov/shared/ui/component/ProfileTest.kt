@@ -19,28 +19,28 @@ import kotlin.test.Test
 class ProfileTest {
 
     @Test
-    @JsName("non_clickable_profile_displayed_without_error")
+    @JsName(name = "non_clickable_profile_displayed_without_error")
     fun `non clickable profile displayed without error`() = runComposeUiTest {
         nonClickableProfile(error = false)
         verifyNonClickableProfile(clickable = false, error = false)
     }
 
     @Test
-    @JsName("non_clickable_profile_displayed_with_error")
+    @JsName(name = "non_clickable_profile_displayed_with_error")
     fun `non clickable profile displayed with error`() = runComposeUiTest {
         nonClickableProfile(error = true)
         verifyNonClickableProfile(clickable = false, error = true)
     }
 
     @Test
-    @JsName("clickable_profile_displayed_without_error")
+    @JsName(name = "clickable_profile_displayed_without_error")
     fun `clickable profile displayed without error`() = runComposeUiTest {
         clickableProfile(error = false)
         verifyNonClickableProfile(clickable = true, error = false)
     }
 
     @Test
-    @JsName("clickable_profile_displayed_with_error")
+    @JsName(name = "clickable_profile_displayed_with_error")
     fun `clickable profile displayed with error`() = runComposeUiTest {
         clickableProfile(error = true)
         verifyNonClickableProfile(clickable = true, error = true)

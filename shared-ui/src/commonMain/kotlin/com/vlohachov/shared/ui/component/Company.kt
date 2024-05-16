@@ -78,15 +78,15 @@ public fun Company(
     }
 }
 
-public object CompanyDefaults {
+internal object CompanyDefaults {
 
-    public const val CompanyTestTag: String = "company"
-    public const val ImageTestTag: String = "company_image"
-    public const val ErrorTestTag: String = "company_error"
-    public const val NameTestTag: String = "company_name"
+    const val CompanyTestTag: String = "company"
+    const val ImageTestTag: String = "company_image"
+    const val ErrorTestTag: String = "company_error"
+    const val NameTestTag: String = "company_name"
 
-    public val ImageShape: Shape = CircleShape
-    public val ImageSize: Dp = 64.dp
+    val ImageShape: Shape = CircleShape
+    val ImageSize: Dp = 64.dp
 
 }
 

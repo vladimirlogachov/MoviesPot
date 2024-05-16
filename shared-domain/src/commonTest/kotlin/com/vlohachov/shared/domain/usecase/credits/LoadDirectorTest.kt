@@ -31,7 +31,7 @@ class LoadDirectorTest {
     private val useCase = LoadDirector(repository = repository)
 
     @Test
-    @JsName("result_flow_emits_Loading")
+    @JsName(name = "result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         every {
             repository.getMovieCredits(id = any(), language = any())
@@ -45,7 +45,7 @@ class LoadDirectorTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Success_with_director_name")
+    @JsName(name = "result_flow_emits_Success_with_director_name")
     fun `result flow emits Success with director name`() = runTest {
         every {
             repository.getMovieCredits(id = any(), language = any())
@@ -58,7 +58,7 @@ class LoadDirectorTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Success_without_director_name")
+    @JsName(name = "result_flow_emits_Success_without_director_name")
     fun `result flow emits Success without director name`() = runTest {
         every {
             repository.getMovieCredits(id = any(), language = any())
@@ -71,7 +71,7 @@ class LoadDirectorTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Error")
+    @JsName(name = "result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         every {
             repository.getMovieCredits(id = any(), language = any())

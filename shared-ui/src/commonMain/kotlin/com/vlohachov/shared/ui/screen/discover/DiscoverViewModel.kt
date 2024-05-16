@@ -1,5 +1,6 @@
 package com.vlohachov.shared.ui.screen.discover
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.shared.core.WhileUiSubscribed
@@ -11,19 +12,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
+@Stable
 internal class DiscoverViewModel(loadGenres: LoadGenres) : ViewModel() {
 
-    private companion object Constants {
+    private companion object {
         const val YearInputLength = 4
     }
 
-    private val year = MutableStateFlow(value = "")
-
     private val selectedGenres = MutableStateFlow<List<Genre>>(value = listOf())
-
     private val error = MutableStateFlow<Throwable?>(value = null)
+    private val year = MutableStateFlow(value = "")
 
     val uiState: StateFlow<DiscoverViewState> = combine(
         year,
@@ -45,33 +44,23 @@ internal class DiscoverViewModel(loadGenres: LoadGenres) : ViewModel() {
     )
 
     fun onYear(year: String) {
-        viewModelScope.launch {
-            this@DiscoverViewModel.year.emit(value = year.take(n = YearInputLength))
-        }
+        this.year.tryEmit(value = year.take(n = YearInputLength))
     }
 
     fun onSelect(genre: Genre) {
-        viewModelScope.launch {
-            this@DiscoverViewModel.selectedGenres.update { genres -> genres + genre }
-        }
+        selectedGenres.update { genres -> genres + genre }
     }
 
     fun onClearSelection(genre: Genre) {
-        viewModelScope.launch {
-            this@DiscoverViewModel.selectedGenres.update { genres -> genres - genre }
-        }
+        selectedGenres.update { genres -> genres - genre }
     }
 
     fun onError(error: Throwable) {
-        viewModelScope.launch {
-            this@DiscoverViewModel.error.emit(value = error)
-        }
+        this.error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        viewModelScope.launch {
-            this@DiscoverViewModel.error.emit(value = null)
-        }
+        error.tryEmit(value = null)
     }
 
 }

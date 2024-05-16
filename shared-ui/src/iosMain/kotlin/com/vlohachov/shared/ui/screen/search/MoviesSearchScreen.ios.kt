@@ -7,19 +7,17 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import com.vlohachov.shared.domain.model.movie.Movie
-import org.koin.core.module.Module
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal actual fun MoviesSearch(
     onBack: () -> Unit,
     onMovieDetails: (Movie) -> Unit,
+    viewModel: MoviesSearchViewModel,
     gridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     scrollBehavior: TopAppBarScrollBehavior,
     keyboardController: SoftwareKeyboardController?,
 ) {
+    TODO("Not yet implemented")
 }
-
-internal actual val moviesSearchModule: Module
-    get() = TODO("Not yet implemented")

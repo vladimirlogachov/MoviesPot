@@ -13,7 +13,7 @@ import kotlin.test.Test
 class MoreTest {
 
     @Test
-    @JsName("more_displayed")
+    @JsName(name = "more_displayed")
     fun `more displayed`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {

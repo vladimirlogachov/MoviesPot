@@ -48,8 +48,8 @@ public fun ScrollToTop(
     }
 }
 
-public object ScrollToTopDefaults {
+internal object ScrollToTopDefaults {
 
-    public const val ScrollToTopTestTag: String = "scroll_to_top"
+    const val ScrollToTopTestTag: String = "scroll_to_top"
 
 }

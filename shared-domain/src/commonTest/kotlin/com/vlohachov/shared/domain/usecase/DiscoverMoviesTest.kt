@@ -28,7 +28,7 @@ class DiscoverMoviesTest {
     private val useCase = DiscoverMovies(repository = repository)
 
     @Test
-    @JsName("result_flow_emits_Loading")
+    @JsName(name = "result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         every {
             repository.discoverMovies(
@@ -45,7 +45,7 @@ class DiscoverMoviesTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Success")
+    @JsName(name = "result_flow_emits_Success")
     fun `result flow emits Success`() = runTest {
         every {
             repository.discoverMovies(
@@ -61,7 +61,7 @@ class DiscoverMoviesTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Error")
+    @JsName(name = "result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         every {
             repository.discoverMovies(

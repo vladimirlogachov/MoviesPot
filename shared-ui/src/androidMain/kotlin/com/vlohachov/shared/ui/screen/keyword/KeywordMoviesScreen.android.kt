@@ -14,6 +14,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -26,8 +27,6 @@ import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.button.ScrollToTop
 import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGrid
-import org.koin.compose.koinInject
-import org.koin.core.parameter.parametersOf
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
@@ -38,15 +37,15 @@ internal actual fun KeywordMoviesScreen(
     keywordId: Int,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
+    viewModel: KeywordMoviesViewModel,
     snackbarHostState: SnackbarHostState,
 ) {
-    val viewModel = koinInject<KeywordMoviesViewModel> { parametersOf(keywordId) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val gridState = rememberLazyGridState()
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
 
     ErrorBar(
-        error = viewModel.error,
+        error = viewModel.error.collectAsState().value,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )

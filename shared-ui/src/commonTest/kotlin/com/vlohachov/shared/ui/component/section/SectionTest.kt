@@ -25,7 +25,7 @@ import kotlin.test.assertEquals
 class SectionTest {
 
     @Test
-    @JsName("default_section")
+    @JsName(name = "default_section")
     fun `default section`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -39,7 +39,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("customized_section")
+    @JsName(name = "customized_section")
     fun `customized section`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -63,7 +63,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("default_section_colors")
+    @JsName(name = "default_section_colors")
     fun `default section colors`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -82,7 +82,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("customized_section_colors")
+    @JsName(name = "customized_section_colors")
     fun `customized section colors`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -98,7 +98,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("section_default_large_text_styles")
+    @JsName(name = "section_default_large_text_styles")
     fun `section default large text styles`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -117,7 +117,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("section_customized_large_text_styles")
+    @JsName(name = "section_customized_large_text_styles")
     fun `section customized large text styles`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -139,7 +139,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("section_default_medium_text_styles")
+    @JsName(name = "section_default_medium_text_styles")
     fun `section default medium text styles`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -158,7 +158,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("section_customized_medium_text_styles")
+    @JsName(name = "section_customized_medium_text_styles")
     fun `section customized medium text styles`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -180,7 +180,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("section_default_small_text_styles")
+    @JsName(name = "section_default_small_text_styles")
     fun `section default small text styles`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -199,7 +199,7 @@ class SectionTest {
     }
 
     @Test
-    @JsName("section_customized_small_text_styles")
+    @JsName(name = "section_customized_small_text_styles")
     fun `section customized small text styles`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {

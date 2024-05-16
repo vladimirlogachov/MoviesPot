@@ -98,7 +98,8 @@ internal fun Crew(
     val showScrollToTop by remember {
         derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD }
     }
-    val uiState by viewModel.uiState.collectAsState()
+    val crewState by viewModel.crew.collectAsState()
+    val error by viewModel.error.collectAsState()
 
     Scaffold(
         modifier = Modifier
@@ -139,13 +140,13 @@ internal fun Crew(
                     .testTag(tag = CrewDefaults.ContentTestTag)
                     .fillMaxSize(),
                 gridState = gridState,
-                viewState = uiState.viewState,
+                viewState = crewState,
                 onCredit = { },
                 onError = viewModel::onError,
             )
 
             ErrorBar(
-                error = uiState.error,
+                error = error,
                 snackbarHostState = snackbarHostState,
                 onDismissed = viewModel::onErrorConsumed,
             )

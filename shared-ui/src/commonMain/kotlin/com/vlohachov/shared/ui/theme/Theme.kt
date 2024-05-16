@@ -10,24 +10,24 @@ import androidx.compose.runtime.Composable
 /**
  * The default values used for [MoviesPotTheme].
  */
-public object MoviesPotThemeDefaults {
+internal object MoviesPotThemeDefaults {
 
     /**
      * The default [ColorScheme] used for [MoviesPotTheme].
      */
-    public val colorScheme: ColorScheme
+    val colorScheme: ColorScheme
         @Composable get() = if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme
 
     /**
      * The default [Shapes] used for [MoviesPotTheme].
      */
-    public val shapes: Shapes
+    val shapes: Shapes
         @Composable get() = MaterialTheme.shapes
 
     /**
      * The default [Typography] used for [MoviesPotTheme].
      */
-    public val typography: Typography
+    val typography: Typography
         @Composable get() = MaterialTheme.typography
 
 }
@@ -36,7 +36,7 @@ public object MoviesPotThemeDefaults {
  * A [MoviesPotTheme] that uses the provided [colorScheme], [shapes], and [typography].
  */
 @Composable
-public fun MoviesPotTheme(
+internal fun MoviesPotTheme(
     colorScheme: ColorScheme = MoviesPotThemeDefaults.colorScheme,
     shapes: Shapes = MoviesPotThemeDefaults.shapes,
     typography: Typography = MoviesPotThemeDefaults.typography,
@@ -54,7 +54,7 @@ public fun MoviesPotTheme(
  * A [MoviesPotTheme] that uses the provided [dynamicColor] and [content].
  */
 @Composable
-public expect fun MoviesPotTheme(
+internal expect fun MoviesPotTheme(
     dynamicColor: Boolean,
     content: @Composable () -> Unit,
 )

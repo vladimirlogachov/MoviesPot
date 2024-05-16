@@ -23,7 +23,7 @@ import kotlin.test.assertTrue
 class ErrorBarTest {
 
     @Test
-    @JsName("error_bar_displayed")
+    @JsName(name = "error_bar_displayed")
     fun `error bar displayed`() = runComposeUiTest {
         errorBar(error = IllegalStateException("error"), duration = SnackbarDuration.Indefinite)
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag, useUnmergedTree = true)
@@ -32,7 +32,7 @@ class ErrorBarTest {
     }
 
     @Test
-    @JsName("error_bar_not_displayed")
+    @JsName(name = "error_bar_not_displayed")
     fun `error bar not displayed`() = runComposeUiTest {
         errorBar(error = null, duration = SnackbarDuration.Indefinite)
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag, useUnmergedTree = true)
@@ -41,7 +41,7 @@ class ErrorBarTest {
     }
 
     @Test
-    @JsName("error_bar_dissmissed")
+    @JsName(name = "error_bar_dissmissed")
     fun `error bar dismissed`() = runComposeUiTest {
         var dismissed = false
         errorBar(

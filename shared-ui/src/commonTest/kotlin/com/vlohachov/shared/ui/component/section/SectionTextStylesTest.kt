@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class SectionTextStylesTest {
 
     @Test
-    @JsName("default_section_text_styles")
+    @JsName(name = "default_section_text_styles")
     fun `default section text styles`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {

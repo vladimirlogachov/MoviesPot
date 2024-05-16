@@ -18,14 +18,14 @@ import kotlin.test.Test
 class CompanyTest {
 
     @Test
-    @JsName("company_displayed_with_no_error")
+    @JsName(name = "company_displayed_with_no_error")
     fun `company displayed with no error`() = runComposeUiTest {
         company(error = false)
         verifyCompany(error = false)
     }
 
     @Test
-    @JsName("company_displayed_with_error")
+    @JsName(name = "company_displayed_with_error")
     fun `company displayed with error`() = runComposeUiTest {
         company(error = true)
         verifyCompany(error = true)

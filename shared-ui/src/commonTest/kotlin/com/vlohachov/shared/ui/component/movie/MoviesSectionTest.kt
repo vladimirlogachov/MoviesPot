@@ -28,7 +28,7 @@ import kotlin.test.assertTrue
 class MoviesSectionTest {
 
     @Test
-    @JsName("loading_state")
+    @JsName(name = "loading_state")
     fun `loading state`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -58,7 +58,7 @@ class MoviesSectionTest {
     }
 
     @Test
-    @JsName("empty_state")
+    @JsName(name = "empty_state")
     fun `empty state`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -89,7 +89,7 @@ class MoviesSectionTest {
     }
 
     @Test
-    @JsName("not_empty_state")
+    @JsName(name = "not_empty_state")
     fun `not empty state`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -120,7 +120,7 @@ class MoviesSectionTest {
     }
 
     @Test
-    @JsName("error_state")
+    @JsName(name = "error_state")
     fun `error state`() = runComposeUiTest {
         val errorText = "Loading failed"
 
@@ -153,7 +153,7 @@ class MoviesSectionTest {
     }
 
     @Test
-    @JsName("more_button_click")
+    @JsName(name = "more_button_click")
     fun `more click`() = runComposeUiTest {
         var clicked by mutableStateOf(value = false)
 
@@ -178,7 +178,7 @@ class MoviesSectionTest {
     }
 
     @Test
-    @JsName("movie_click")
+    @JsName(name = "movie_click")
     fun `movie click`() = runComposeUiTest {
         var movie by mutableStateOf<Movie?>(value = null)
 
