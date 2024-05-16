@@ -1,8 +1,10 @@
 package com.vlohachov.shared.ui.screen.main
 
-import com.vlohachov.shared.domain.model.movie.Movie
+import androidx.compose.runtime.Stable
 import com.vlohachov.shared.core.ViewState
+import com.vlohachov.shared.domain.model.movie.Movie
 
+@Stable
 internal data class MainViewState(
     val upcomingViewState: ViewState<List<Movie>> = ViewState.Loading,
     val nowPlayingViewState: ViewState<List<Movie>> = ViewState.Loading,
