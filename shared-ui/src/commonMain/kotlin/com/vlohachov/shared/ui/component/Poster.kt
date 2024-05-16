@@ -127,8 +127,8 @@ public fun Poster(
 internal object PosterDefaults {
 
     const val PosterTestTag: String = "poster"
-    val ImageTestTag: String = "poster_image"
-    val ErrorTestTag: String = "poster_error"
+    const val ImageTestTag: String = "poster_image"
+    const val ErrorTestTag: String = "poster_error"
 
     val Shape: Shape = RoundedCornerShape(size = 16.dp)
     val TonalElevation: Dp = 4.dp

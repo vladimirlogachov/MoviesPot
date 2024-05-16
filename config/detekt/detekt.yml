@@ -138,6 +138,7 @@ complexity:
     ignoreAnnotatedParameter: [ ]
     ignoreAnnotated:
       - 'Composable'
+      - 'ScopeExtension'
   MethodOverloading:
     active: false
     threshold: 6

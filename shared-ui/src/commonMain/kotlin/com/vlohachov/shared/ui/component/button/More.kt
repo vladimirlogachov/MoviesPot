@@ -43,8 +43,8 @@ public fun More(
 
 internal object MoreDefaults {
 
-    internal val ButtonTestTag = "more_button"
-    internal val IconTestTag = "more_button_icon"
+    internal const val ButtonTestTag = "more_button"
+    internal const val IconTestTag = "more_button_icon"
 
 }
 

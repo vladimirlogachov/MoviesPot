@@ -37,7 +37,7 @@ internal data object MoviesScreen : Screen<MoviesScreen.Params>() {
         path.replace(oldValue = "{$ArgCategory}", newValue = "${params.category}")
 
     @OptIn(ExperimentalMaterial3Api::class)
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val category =
                 requireNotNull(value = backStackEntry.arguments?.getString(ArgCategory)) {

@@ -45,6 +45,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.vlohachov.shared.core.ScopeExtension
+import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.domain.model.movie.keyword.Keyword
@@ -60,12 +62,10 @@ import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen
 import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen
 import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesScreen
 import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesScreen
-import com.vlohachov.shared.core.ViewState
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.keywords
 import moviespot.shared_ui.generated.resources.no_results
 import moviespot.shared_ui.generated.resources.recommendations
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
@@ -88,7 +88,7 @@ internal data object MovieDetailsScreen : Screen<MovieDetailsScreen.Params>() {
         path.replace(oldValue = "{$ArgMovieId}", newValue = params.movieId.toString())
             .replace(oldValue = "{$ArgMovieTitle}", newValue = params.movieTitle)
 
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val movieId =
                 requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {
@@ -241,6 +241,7 @@ private fun Content(
     }
 }
 
+@ScopeExtension
 private fun LazyListScope.details(
     directorViewState: ViewState<String>,
     detailsViewState: ViewState<MovieDetails>,
@@ -340,7 +341,8 @@ private fun Details(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalLayoutApi::class)
+@ScopeExtension
 private fun LazyListScope.keywords(
     onKeyword: (keyword: Keyword) -> Unit,
     viewState: ViewState<List<Keyword>>,

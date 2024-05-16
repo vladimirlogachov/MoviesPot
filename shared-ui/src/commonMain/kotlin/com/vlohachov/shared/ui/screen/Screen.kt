@@ -34,6 +34,6 @@ internal abstract class Screen<in Params> {
      *
      * @param navController The NavController used to perform navigation to the other screens.
      */
-    abstract fun NavGraphBuilder.screen(navController: NavController)
+    abstract fun NavGraphBuilder.composable(navController: NavController)
 
 }

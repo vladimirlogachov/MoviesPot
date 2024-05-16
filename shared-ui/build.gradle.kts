@@ -23,6 +23,17 @@ buildkonfig {
     }
 }
 
+detekt {
+    source.setFrom(
+        "src/commonMain/kotlin",
+        "src/commonTest/kotlin",
+        "src/androidMain/kotlin",
+        "src/iosMain/kotlin",
+        "src/desktopMain/kotlin",
+        "src/wasmJsMain/kotlin"
+    )
+}
+
 kotlin {
     explicitApi()
     applyDefaultHierarchyTemplate()

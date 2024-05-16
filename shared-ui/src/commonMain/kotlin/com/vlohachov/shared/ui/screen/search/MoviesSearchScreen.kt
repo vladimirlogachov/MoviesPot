@@ -28,7 +28,7 @@ internal data object MoviesSearchScreen : Screen<Unit>() {
     override fun route(params: Unit): String = path
 
     @OptIn(ExperimentalMaterial3Api::class)
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) {
             MoviesSearch(
                 onBack = navController::navigateUp,

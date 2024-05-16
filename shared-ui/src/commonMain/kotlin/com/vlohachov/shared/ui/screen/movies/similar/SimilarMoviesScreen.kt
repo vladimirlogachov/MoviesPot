@@ -33,7 +33,7 @@ internal data object SimilarMoviesScreen : Screen<SimilarMoviesScreen.Params>() 
         path.replace(oldValue = "{$ArgMovieId}", newValue = params.movieId.toString())
             .replace(oldValue = "{$ArgMovieTitle}", newValue = params.movieTitle)
 
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val movieId =
                 requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {

@@ -47,7 +47,7 @@ internal data object FullscreenImageScreen : Screen<FullscreenImageScreen.Params
     override fun route(params: Params): String =
         path.replace(oldValue = "{$ArgPath}", newValue = params.path)
 
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val imagePath = requireNotNull(value = backStackEntry.arguments?.getString(ArgPath)) {
                 "Missing required argument $ArgPath"

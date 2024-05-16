@@ -65,7 +65,7 @@ internal data object SettingsScreen : Screen<Unit>() {
 
     override fun route(params: Unit): String = path
 
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path) {
             Settings(onBack = navController::navigateUp)
         }

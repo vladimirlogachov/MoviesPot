@@ -7,6 +7,13 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
+detekt {
+    source.setFrom(
+        "src/commonMain/kotlin",
+        "src/commonTest/kotlin",
+    )
+}
+
 kotlin {
     explicitApi()
     applyDefaultHierarchyTemplate()

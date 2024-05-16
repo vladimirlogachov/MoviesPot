@@ -10,18 +10,18 @@ import com.vlohachov.shared.ui.screen.main.MainScreen
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
-import com.vlohachov.shared.ui.screen.credits.cast.CastScreen.screen as cast
-import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen.screen as crew
-import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen.screen as movieDetails
-import com.vlohachov.shared.ui.screen.discover.DiscoverScreen.screen as discoverMovies
-import com.vlohachov.shared.ui.screen.discover.result.DiscoverResultScreen.screen as discoverResult
-import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen.screen as fullscreenImage
-import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesScreen.screen as keywordMovies
-import com.vlohachov.shared.ui.screen.main.MainScreen.screen as mainScreen
-import com.vlohachov.shared.ui.screen.movies.MoviesScreen.screen as movies
-import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesScreen.screen as similarMovies
-import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen.screen as moviesSearch
-import com.vlohachov.shared.ui.screen.settings.SettingsScreen.screen as settingsScreen
+import com.vlohachov.shared.ui.screen.credits.cast.CastScreen.composable as cast
+import com.vlohachov.shared.ui.screen.credits.crew.CrewScreen.composable as crew
+import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen.composable as movieDetails
+import com.vlohachov.shared.ui.screen.discover.DiscoverScreen.composable as discoverMovies
+import com.vlohachov.shared.ui.screen.discover.result.DiscoverResultScreen.composable as discoverResult
+import com.vlohachov.shared.ui.screen.image.FullscreenImageScreen.composable as fullscreenImage
+import com.vlohachov.shared.ui.screen.keyword.KeywordMoviesScreen.composable as keywordMovies
+import com.vlohachov.shared.ui.screen.main.MainScreen.composable as mainScreen
+import com.vlohachov.shared.ui.screen.movies.MoviesScreen.composable as movies
+import com.vlohachov.shared.ui.screen.movies.similar.SimilarMoviesScreen.composable as similarMovies
+import com.vlohachov.shared.ui.screen.search.MoviesSearchScreen.composable as moviesSearch
+import com.vlohachov.shared.ui.screen.settings.SettingsScreen.composable as settingsScreen
 
 @Composable
 public fun MoviesPotApp(): Unit = KoinContext {

@@ -38,7 +38,7 @@ internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>(
             newValue = params.genres?.joinToString(separator = ",").toString()
         )
 
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val year = backStackEntry.arguments?.getString(ArgYear)
             val genres = backStackEntry.arguments?.getString(ArgGenres)

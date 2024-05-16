@@ -71,7 +71,7 @@ internal data object CastScreen : Screen<CastScreen.Params>() {
     override fun route(params: Params): String =
         path.replace(oldValue = "{$ArgMovieId}", newValue = params.movieId.toString())
 
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val movieId = requireNotNull(value = backStackEntry.arguments?.getLong(ArgMovieId)) {
                 "Missing required argument $ArgMovieId"

@@ -18,10 +18,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.scroll_to_top
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 public fun ScrollToTop(
     visible: Boolean,

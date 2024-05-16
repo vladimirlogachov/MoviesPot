@@ -33,7 +33,7 @@ internal data object KeywordMoviesScreen : Screen<KeywordMoviesScreen.Params>() 
         path.replace(oldValue = "{$ArgKeyword}", newValue = params.keyword)
             .replace(oldValue = "{$ArgKeywordId}", newValue = params.keywordId.toString())
 
-    override fun NavGraphBuilder.screen(navController: NavController) {
+    override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
             val keyword =
                 requireNotNull(value = backStackEntry.arguments?.getString(ArgKeyword)) {

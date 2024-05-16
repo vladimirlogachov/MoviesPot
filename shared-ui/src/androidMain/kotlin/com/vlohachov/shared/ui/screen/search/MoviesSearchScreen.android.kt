@@ -63,6 +63,7 @@ import moviespot.shared_ui.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
+private const val COLOR_TRANSITION_FRACTION_THRESHOLD = 0.01f
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -170,20 +171,16 @@ private fun SearchBar(
     scrollBehavior: TopAppBarScrollBehavior,
     appBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
-    val heightOffsetLimit =
-        with(LocalDensity.current) { -64.dp.toPx() }
+    val heightOffsetLimit = with(LocalDensity.current) { -64.dp.toPx() }
+
     SideEffect {
         if (scrollBehavior.state.heightOffsetLimit != heightOffsetLimit) {
             scrollBehavior.state.heightOffsetLimit = heightOffsetLimit
         }
     }
 
-    // Obtain the container color from the TopAppBarColors using the `overlapFraction`. This
-    // ensures that the colors will adjust whether the app bar behavior is pinned or scrolled.
-    // This may potentially animate or interpolate a transition between the container-color and the
-    // container's scrolled-color according to the app bar's scroll state.
     val colorTransitionFraction = scrollBehavior.state.overlappedFraction
-    val fraction = if (colorTransitionFraction > 0.01f) 1f else 0f
+    val fraction = if (colorTransitionFraction > COLOR_TRANSITION_FRACTION_THRESHOLD) 1f else 0f
     val appBarContainerColor by animateColorAsState(
         targetValue = lerp(
             start = appBarColors.containerColor,
@@ -201,9 +198,7 @@ private fun SearchBar(
             active = false,
             onActiveChange = { },
             onSearch = { },
-            placeholder = {
-                Text(text = stringResource(resource = Res.string.search))
-            },
+            placeholder = { Text(text = stringResource(resource = Res.string.search)) },
             leadingIcon = {
                 IconButton(onClick = onBack) {
                     Icon(
