@@ -21,7 +21,7 @@ class LocalPreferencesTest {
     private val preferences = LocalPreferences(settings = settings)
 
     @Test
-    @JsName("return_default_when_storage_empty")
+    @JsName(name = "return_default_when_storage_empty")
     fun `return default when storage empty`() = runTest {
         preferences.applyDynamicThemeFlow.test {
             assertEquals(expected = false, actual = awaitItem())
@@ -29,7 +29,7 @@ class LocalPreferencesTest {
     }
 
     @Test
-    @JsName("return_default_when_storage_not_empty")
+    @JsName(name = "return_default_when_storage_not_empty")
     fun `flow emits value after apply`() = runTest {
         preferences.applyDynamicTheme(apply = true)
         preferences.applyDynamicThemeFlow.test {

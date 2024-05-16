@@ -15,14 +15,14 @@ import kotlin.test.Test
 class ScrollToTopTest {
 
     @Test
-    @JsName("scroll_to_top_displayed")
+    @JsName(name = "scroll_to_top_displayed")
     fun `scroll to top displayed`() = runComposeUiTest {
         scrollToTop(visible = true)
         verifyScrollToTop(visible = true)
     }
 
     @Test
-    @JsName("scroll_to_top_not_displayed")
+    @JsName(name = "scroll_to_top_not_displayed")
     fun `scroll to top not displayed`() = runComposeUiTest {
         scrollToTop(visible = false)
         verifyScrollToTop(visible = false)

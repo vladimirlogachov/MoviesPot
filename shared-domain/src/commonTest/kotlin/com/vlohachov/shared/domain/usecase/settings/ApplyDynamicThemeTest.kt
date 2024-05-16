@@ -24,7 +24,7 @@ class ApplyDynamicThemeTest {
     private val useCase = ApplyDynamicTheme(repository = repository)
 
     @Test
-    @JsName("result_flow_emits_Loading")
+    @JsName(name = "result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
 
@@ -36,7 +36,7 @@ class ApplyDynamicThemeTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Value")
+    @JsName(name = "result_flow_emits_Value")
     fun `result flow emits Value`() = runTest {
         everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
 
@@ -47,7 +47,7 @@ class ApplyDynamicThemeTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Error")
+    @JsName(name = "result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         everySuspend { repository.applyDynamicTheme(apply = any()) } throws NullPointerException()
 

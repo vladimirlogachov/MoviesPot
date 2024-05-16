@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 class RemoteSearchRepositoryTest {
 
     @Test
-    @JsName("search_movies_success")
+    @JsName(name = "search_movies_success")
     fun `search movies success`() = runTest {
         RemoteSearchRepository(client = mockClientSuccess(data = MoviesTestPaginatedScheme))
             .searchMovies(page = 1, query = "", language = null)
@@ -24,7 +24,7 @@ class RemoteSearchRepositoryTest {
     }
 
     @Test
-    @JsName("search_movies_failure")
+    @JsName(name = "search_movies_failure")
     fun `search movies failure`() = runTest {
         RemoteSearchRepository(client = mockClientFailure())
             .searchMovies(page = 1, query = "", language = null)

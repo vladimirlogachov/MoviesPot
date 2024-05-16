@@ -28,7 +28,7 @@ class LocalSettingsRepositoryTest {
     private val repository = LocalSettingsRepository(preferences = preferences)
 
     @Test
-    @JsName("settings_loading_success")
+    @JsName(name = "settings_loading_success")
     fun `settings loading success`() = runTest {
         repository.getSettings().test {
             with(awaitItem()) {
@@ -38,7 +38,7 @@ class LocalSettingsRepositoryTest {
     }
 
     @Test
-    @JsName("update_dynamic_theme_success")
+    @JsName(name = "update_dynamic_theme_success")
     fun `update dynamic theme success`() = runTest {
         repository.applyDynamicTheme(apply = true)
 
@@ -50,7 +50,7 @@ class LocalSettingsRepositoryTest {
     }
 
     @Test
-    @JsName("update_dynamic_theme_failure")
+    @JsName(name = "update_dynamic_theme_failure")
     fun `update dynamic theme failure`() = runTest {
         every {
             settings.putBoolean(key = any(), value = any())

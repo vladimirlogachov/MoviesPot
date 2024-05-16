@@ -20,28 +20,28 @@ class PosterTest {
 
 
     @Test
-    @JsName("non_clickable_poster_displayed_without_error")
+    @JsName(name = "non_clickable_poster_displayed_without_error")
     fun `non clickable poster displayed without error`() = runComposeUiTest {
         nonClickablePoster(error = false)
         verifyNonClickablePoster(clickable = false, error = false)
     }
 
     @Test
-    @JsName("non_clickable_poster_displayed_with_error")
+    @JsName(name = "non_clickable_poster_displayed_with_error")
     fun `non clickable poster displayed with error`() = runComposeUiTest {
         nonClickablePoster(error = true)
         verifyNonClickablePoster(clickable = false, error = true)
     }
 
     @Test
-    @JsName("clickable_poster_displayed_without_error")
+    @JsName(name = "clickable_poster_displayed_without_error")
     fun `clickable poster displayed without error`() = runComposeUiTest {
         clickablePoster(error = false)
         verifyNonClickablePoster(clickable = true, error = false)
     }
 
     @Test
-    @JsName("clickable_poster_displayed_with_error")
+    @JsName(name = "clickable_poster_displayed_with_error")
     fun `clickable poster displayed with error`() = runComposeUiTest {
         clickablePoster(error = true)
         verifyNonClickablePoster(clickable = true, error = true)

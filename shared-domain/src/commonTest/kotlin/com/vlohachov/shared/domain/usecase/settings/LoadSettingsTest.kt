@@ -22,7 +22,7 @@ class LoadSettingsTest {
     private val useCase = LoadSettings(repository = repository)
 
     @Test
-    @JsName("result_flow_emits_Loading")
+    @JsName(name = "result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
@@ -34,7 +34,7 @@ class LoadSettingsTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Value")
+    @JsName(name = "result_flow_emits_Value")
     fun `result flow emits Value`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
@@ -45,7 +45,7 @@ class LoadSettingsTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Error")
+    @JsName(name = "result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         every { repository.getSettings() } returns flow { throw NullPointerException() }
 

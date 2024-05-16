@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 class RemoteGenreRepositoryTest {
 
     @Test
-    @JsName("get_genre_success")
+    @JsName(name = "get_genre_success")
     fun `get genres success`() = runTest {
         RemoteGenreRepository(client = mockClientSuccess(data = GenresTestScheme))
             .getGenres(language = null)
@@ -24,7 +24,7 @@ class RemoteGenreRepositoryTest {
     }
 
     @Test
-    @JsName("get_genre_failure")
+    @JsName(name = "get_genre_failure")
     fun `get genres failure`() = runTest {
         RemoteGenreRepository(client = mockClientFailure())
             .getGenres(language = null)

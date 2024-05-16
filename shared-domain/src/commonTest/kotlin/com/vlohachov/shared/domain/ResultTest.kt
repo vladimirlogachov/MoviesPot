@@ -22,7 +22,7 @@ class ResultTest {
     )
 
     @Test
-    @JsName("result_flow_emits_Loading")
+    @JsName(name = "result_flow_emits_Loading")
     fun `result flow emits Loading`() = runTest {
         testFlow.asResult().test {
             assertIs<Result.Loading>(value = awaitItem())
@@ -30,7 +30,7 @@ class ResultTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Success")
+    @JsName(name = "result_flow_emits_Success")
     fun `result flow emits Success`() = runTest {
         testFlow.asResult().test {
             testFlow.emit(value = TEST_VALUE)
@@ -39,7 +39,7 @@ class ResultTest {
     }
 
     @Test
-    @JsName("result_flow_emits_Error")
+    @JsName(name = "result_flow_emits_Error")
     fun `result flow emits Error`() = runTest {
         testFlow.onEach { throw TestException }
             .asResult()

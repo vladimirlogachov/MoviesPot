@@ -16,7 +16,7 @@ import kotlin.test.Test
 class SectionTitleTest {
 
     @Test
-    @JsName("section_title_without_icon")
+    @JsName(name = "section_title_without_icon")
     fun `section title without icon`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
@@ -36,7 +36,7 @@ class SectionTitleTest {
     }
 
     @Test
-    @JsName("section_title_with_icon")
+    @JsName(name = "section_title_with_icon")
     fun `section title with icon`() = runComposeUiTest {
         setContent {
             MoviesPotTheme {
