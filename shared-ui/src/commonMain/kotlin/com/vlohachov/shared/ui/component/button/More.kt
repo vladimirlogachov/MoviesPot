@@ -16,11 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.more
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 public fun More(
     onClick: () -> Unit,

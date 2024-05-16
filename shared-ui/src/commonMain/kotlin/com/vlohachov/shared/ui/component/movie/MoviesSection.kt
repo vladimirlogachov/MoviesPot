@@ -26,7 +26,6 @@ import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import com.vlohachov.shared.utils.DummyMovies
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.no_results
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -80,7 +79,6 @@ public fun MoviesSection(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Movies(
     viewState: ViewState<List<Movie>>,

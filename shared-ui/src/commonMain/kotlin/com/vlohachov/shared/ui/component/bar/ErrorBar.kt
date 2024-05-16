@@ -7,10 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.unknown_error_local
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 public fun ErrorBar(
     error: Throwable?,

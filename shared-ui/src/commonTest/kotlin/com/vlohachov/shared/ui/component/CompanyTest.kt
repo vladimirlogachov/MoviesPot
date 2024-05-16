@@ -9,12 +9,11 @@ import androidx.compose.ui.test.runComposeUiTest
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import moviespot.shared_ui.generated.resources.Res
 import moviespot.shared_ui.generated.resources.ic_launcher_foreground
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import kotlin.js.JsName
 import kotlin.test.Test
 
-@OptIn(ExperimentalTestApi::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalTestApi::class)
 class CompanyTest {
 
     @Test
