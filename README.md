@@ -1,6 +1,6 @@
 # Movies Pot [![Validation](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml/badge.svg?branch=master)](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml)
 
-This Kotlin and Compose multiplatform project allows users to explore the world of movies with
+Kotlin + Compose multiplatform project that allows users to explore the world of movies with
 ease. It utilizes the TMDB API to fetch movie data and presents it in a visually appealing manner.
 Jetpack Navigation ensures smooth navigation between screens, while the Paging library enables
 efficient data loading for a seamless user experience. The user interface adheres to Material3
