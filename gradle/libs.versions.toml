@@ -9,7 +9,7 @@ ktor = "3.0.0-wasm2"
 detekt = "1.23.6"
 turbine = "1.1.0"
 material = "1.12.0"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.21"
 build-konfig = "0.15.1"
 mokkery = "1.9.24-1.7.0"
 jetbrains-compose = "1.6.10"
@@ -17,7 +17,7 @@ multiplatform-settings = "1.1.1"
 
 koin = "3.6.0-wasm-alpha2"
 
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 kotlin-datetime = "0.6.0"
 kotlin-coroutines = "1.8.1"
 
