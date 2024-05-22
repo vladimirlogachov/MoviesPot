@@ -53,15 +53,7 @@ kotlin {
         browser()
     }
 
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = JavaVersion.VERSION_17.majorVersion
-            }
-        }
-        publishLibraryVariants("release")
-    }
-
+    androidTarget()
     jvm("desktop")
 
     listOf(

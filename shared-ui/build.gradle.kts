@@ -3,10 +3,11 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.build.konfig)
     alias(libs.plugins.mokkery)
+    alias(libs.plugins.compose)
     alias(libs.plugins.detekt)
 }
 
@@ -46,15 +47,7 @@ kotlin {
 //        browser()
 //    }
 
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = JavaVersion.VERSION_17.majorVersion
-            }
-        }
-        publishLibraryVariants("release")
-    }
-
+    androidTarget()
     jvm("desktop")
 
     listOf(
@@ -79,9 +72,9 @@ kotlin {
             implementation(project(":shared-data"))
             implementation(project(":shared-domain"))
 
-            implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.navigation.common)
+            implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.paging.common)
             implementation(libs.ktor.client.core)
             implementation(libs.kotlin.datetime)
@@ -98,7 +91,6 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.turbine)
-            implementation(libs.koin.test)
             implementation(libs.kotlin.test)
             implementation(libs.androidx.paging.testing)
 
