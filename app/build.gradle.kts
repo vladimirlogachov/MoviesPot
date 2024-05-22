@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.detekt)
 }
 
@@ -17,18 +16,14 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
     buildTypes {
-        debug {
-            enableAndroidTestCoverage = true
-        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,30 +34,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
-
-    packaging {
-        resources {
-            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-            excludes.add("META-INF/LICENSE.md")
-            excludes.add("META-INF/LICENSE-notice.md")
-        }
-        jniLibs {
-            useLegacyPackaging = true // Needed, so Mockk library works under androidTest
-        }
-    }
-
-    applicationVariants.all {
-        addJavaSourceFoldersToModel(
-            File(
-                layout.buildDirectory.asFile.get(),
-                "generated/ksp/$name/kotlin"
-            )
-        )
     }
 }
 

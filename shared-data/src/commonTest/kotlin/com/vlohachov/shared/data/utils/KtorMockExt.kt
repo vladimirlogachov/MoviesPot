@@ -26,8 +26,7 @@ internal inline fun <reified T> mockClientSuccess(data: T): HttpClient =
         install(ContentNegotiation) { json() }
     }
 
-internal inline fun mockClientFailure(): HttpClient =
+internal fun mockClientFailure(): HttpClient =
     HttpClient(engine = MockEngine { respondBadRequest() }) {
         install(ContentNegotiation) { json() }
     }
-
