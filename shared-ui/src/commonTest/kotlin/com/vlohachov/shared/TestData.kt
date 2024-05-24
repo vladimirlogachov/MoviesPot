@@ -13,14 +13,9 @@ import com.vlohachov.shared.domain.model.movie.credit.CrewMember
 import com.vlohachov.shared.domain.model.movie.keyword.Keyword
 import com.vlohachov.shared.domain.model.settings.Settings
 
-val TestSettings = Settings(
-    dynamicTheme = true,
-)
+val TestSettings = Settings(dynamicTheme = true)
 
-val TestGenre = Genre(
-    id = 1,
-    name = "name",
-)
+val TestGenre = Genre(id = 1, name = "name")
 
 val TestGenres = listOf(
     TestGenre.copy(id = 0),
@@ -94,10 +89,7 @@ val TestLanguage = Language(
     iso = "iso",
 )
 
-val TestCountry = Country(
-    name = "name",
-    iso = "iso",
-)
+val TestCountry = Country(name = "name", iso = "iso")
 
 val TestCompany = Company(
     id = 0,
@@ -128,10 +120,7 @@ val TestMovieDetails = MovieDetails(
     productionCompanies = listOf(TestCompany),
 )
 
-val TestKeyword = Keyword(
-    id = 1,
-    name = "name"
-)
+val TestKeyword = Keyword(id = 1, name = "name")
 
 val TestKeywords = listOf(
     TestKeyword,

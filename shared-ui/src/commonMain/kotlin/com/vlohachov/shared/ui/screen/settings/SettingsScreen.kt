@@ -16,6 +16,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
@@ -78,6 +79,8 @@ internal data object SettingsScreen : Screen<Unit>() {
 internal fun Settings(
     onBack: () -> Unit,
     viewModel: SettingsViewModel = koinInject(),
+    isDynamicThemeAvailable: Boolean = isDynamicThemeAvailable(),
+    snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val uriHandler = LocalUriHandler.current
@@ -86,27 +89,37 @@ internal fun Settings(
 
     ErrorBar(
         error = error,
+        duration = snackbarDuration,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )
 
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        AppBar(
-            modifier = Modifier.fillMaxWidth(),
-            title = stringResource(resource = Res.string.settings),
-            onBackClick = onBack,
-        )
-    }, snackbarHost = {
-        SnackbarHost(
-            modifier = Modifier.testTag(tag = ErrorBarDefaults.ErrorTestTag)
-                .navigationBarsPadding(),
-            hostState = snackbarHostState,
-        )
-    }) { paddingValues ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            AppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(resource = Res.string.settings),
+                onBackClick = onBack,
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                modifier = Modifier
+                    .testTag(tag = ErrorBarDefaults.ErrorTestTag)
+                    .navigationBarsPadding(),
+                hostState = snackbarHostState,
+            )
+        }
+    ) { paddingValues ->
         Content(
-            modifier = Modifier.testTag(tag = SettingsDefaults.ContentTestTag).fillMaxSize()
-                .padding(paddingValues = paddingValues).padding(all = 16.dp),
+            modifier = Modifier
+                .testTag(tag = SettingsDefaults.ContentTestTag)
+                .fillMaxSize()
+                .padding(paddingValues = paddingValues)
+                .padding(all = 16.dp),
             viewState = viewState,
+            isDynamicThemeAvailable = isDynamicThemeAvailable,
             onDynamicTheme = viewModel::applyDynamicTheme,
             onAuthorLink = uriHandler::openUri,
             onError = viewModel::onError,
@@ -118,6 +131,7 @@ internal fun Settings(
 private fun Content(
     modifier: Modifier,
     viewState: ViewState<Settings>,
+    isDynamicThemeAvailable: Boolean,
     onDynamicTheme: (dynamicTheme: Boolean) -> Unit,
     onAuthorLink: (uri: String) -> Unit,
     onError: (error: Throwable) -> Unit,
@@ -136,7 +150,8 @@ private fun Content(
         }
 
         is ViewState.Success -> Row(
-            modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeTestTag)
+            modifier = Modifier
+                .testTag(tag = SettingsDefaults.DynamicThemeTestTag)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -147,17 +162,20 @@ private fun Content(
             Switch(
                 modifier = Modifier.testTag(tag = SettingsDefaults.DynamicThemeToggleTestTag),
                 checked = viewState.data.dynamicTheme,
-                enabled = isDynamicThemeAvailable(),
+                enabled = isDynamicThemeAvailable,
                 onCheckedChange = onDynamicTheme,
             )
         }
     }
     Spacer(modifier = Modifier.weight(weight = 1f))
     Author(
-        modifier = Modifier.testTag(tag = SettingsDefaults.AuthorTestTag),
+        modifier = Modifier.testTag(tag = SettingsDefaults.AppAuthorTestTag),
         onClick = onAuthorLink,
     )
-    Text(text = stringResource(resource = Res.string.app_version) + " ${BuildConfig.VERSION_NAME}")
+    Text(
+        modifier = Modifier.testTag(tag = SettingsDefaults.AppVersionTestTag),
+        text = stringResource(resource = Res.string.app_version) + BuildConfig.VERSION_NAME
+    )
 }
 
 @Composable
@@ -168,7 +186,7 @@ private fun Author(
 ) {
     val annotatedText = buildAnnotatedString {
         withStyle(style = style.toSpanStyle().copy(color = LocalContentColor.current)) {
-            append(stringResource(resource = Res.string.author))
+            append(text = stringResource(resource = Res.string.author))
         }
         pushStringAnnotation(
             tag = "URL", annotation = stringResource(resource = Res.string.author_link)
@@ -180,7 +198,7 @@ private fun Author(
                 textDecoration = TextDecoration.Underline,
             )
         ) {
-            append(stringResource(resource = Res.string.author_name))
+            append(text = stringResource(resource = Res.string.author_name))
         }
         pop()
     }
@@ -204,6 +222,7 @@ internal object SettingsDefaults {
     const val LoadingTestTag = "settings_loading"
     const val DynamicThemeTestTag = "settings_dynamic_theme"
     const val DynamicThemeToggleTestTag = "settings_dynamic_theme_toggle"
-    const val AuthorTestTag = "app_author"
+    const val AppAuthorTestTag = "app_author"
+    const val AppVersionTestTag = "app_version"
 
 }
