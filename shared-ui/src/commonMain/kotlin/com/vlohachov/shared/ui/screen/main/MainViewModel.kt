@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlohachov.shared.core.WhileUiSubscribed
 import com.vlohachov.shared.core.toViewStatePaginated
+import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,13 @@ internal class MainViewModel(loadMoviesByCategory: LoadMoviesByCategory) : ViewM
             nowPlayingViewState = nowPlaying.toViewStatePaginated(),
             popularViewState = popular.toViewStatePaginated(),
             topRatedViewState = topRated.toViewStatePaginated(),
-            error = error,
+            error = when {
+                upcoming is Result.Error -> upcoming.exception
+                nowPlaying is Result.Error -> nowPlaying.exception
+                popular is Result.Error -> popular.exception
+                topRated is Result.Error -> topRated.exception
+                else -> error
+            },
         )
     }.stateIn(
         scope = viewModelScope,

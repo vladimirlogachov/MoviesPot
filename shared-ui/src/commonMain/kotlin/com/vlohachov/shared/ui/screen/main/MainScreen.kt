@@ -21,6 +21,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -43,6 +44,7 @@ import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.component.movie.MoviesSection
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
@@ -113,10 +115,18 @@ internal fun Main(
     onMore: (MovieCategory) -> Unit,
     onDiscover: () -> Unit,
     viewModel: MainViewModel = koinInject(),
+    snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val uiState by viewModel.uiState.collectAsState()
+
+    ErrorBar(
+        error = uiState.error,
+        duration = snackbarDuration,
+        snackbarHostState = snackbarHostState,
+        onDismissed = viewModel::onErrorConsumed,
+    )
 
     Scaffold(
         modifier = Modifier
@@ -139,7 +149,7 @@ internal fun Main(
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .testTag(tag = MainScreenDefaults.ErrorBarTestTag)
+                    .testTag(tag = ErrorBarDefaults.ErrorTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -151,13 +161,6 @@ internal fun Main(
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
             viewState = uiState,
-            onError = { error ->
-                ErrorBar(
-                    error = error,
-                    snackbarHostState = snackbarHostState,
-                    onDismissed = viewModel::onErrorConsumed,
-                )
-            },
             onMovieDetails = onMovieDetails,
             onMore = onMore
         )
@@ -170,7 +173,6 @@ private fun Content(
     viewState: MainViewState,
     onMovieDetails: (movie: Movie) -> Unit,
     onMore: (category: MovieCategory) -> Unit,
-    onError: @Composable (error: Throwable) -> Unit,
 ) = Box(
     modifier = modifier,
     contentAlignment = Alignment.TopCenter,
@@ -191,10 +193,6 @@ private fun Content(
                 onMore = { onMore(category) },
             )
         }
-    }
-
-    viewState.error?.run {
-        onError(this)
     }
 }
 
@@ -274,7 +272,6 @@ internal object MainScreenDefaults {
     const val SettingsButtonTestTag = "settings_button"
     const val SearchButtonTestTag = "search_button"
     const val DiscoverButtonTestTag = "discover_button"
-    const val ErrorBarTestTag = "error_bar"
     const val SectionsTestTag = "movies_sections"
 
 }
