@@ -158,7 +158,7 @@ class MainViewModelTest {
             value = topRatedViewState,
             message = "TopRatedState"
         )
-        assertNull(actual = error)
+        assertNotNull(actual = error)
     }
 
 }
