@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -50,6 +51,7 @@ import com.vlohachov.shared.core.ViewState
 import com.vlohachov.shared.domain.model.genre.Genre
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.discover.result.DiscoverResultScreen
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
@@ -91,6 +93,7 @@ internal fun Discover(
     onBack: () -> Unit,
     onDiscover: (year: Int?, genres: List<Int>?) -> Unit,
     viewModel: DiscoverViewModel = koinInject(),
+    snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -99,6 +102,7 @@ internal fun Discover(
 
     ErrorBar(
         error = uiState.error,
+        duration = snackbarDuration,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )
@@ -121,7 +125,7 @@ internal fun Discover(
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .testTag(tag = DiscoverDefaults.GenresErrorTestTag)
+                    .testTag(tag = ErrorBarDefaults.ErrorTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -292,7 +296,6 @@ internal object DiscoverDefaults {
     const val ContentTestTag = "content"
     const val GenresTestTag = "content_genres"
     const val GenresLoadingTestTag = "content_genres_loading"
-    const val GenresErrorTestTag = "content_genres_error"
     const val YearTestTag = "content_year"
     const val YearClearTestTag = "content_year_clear"
     const val DiscoverButtonTestTag = "content_discover_button"

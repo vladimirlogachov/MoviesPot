@@ -20,15 +20,15 @@ internal class DiscoverViewModel(loadGenres: LoadGenres) : ViewModel() {
         const val YearInputLength = 4
     }
 
-    private val selectedGenres = MutableStateFlow<List<Genre>>(value = listOf())
-    private val error = MutableStateFlow<Throwable?>(value = null)
-    private val year = MutableStateFlow(value = "")
+    private val _selectedGenres = MutableStateFlow<List<Genre>>(value = listOf())
+    private val _error = MutableStateFlow<Throwable?>(value = null)
+    private val _year = MutableStateFlow(value = "")
 
     val uiState: StateFlow<DiscoverViewState> = combine(
-        year,
-        selectedGenres,
+        _year,
+        _selectedGenres,
         loadGenres(param = LoadGenres.Param()),
-        error,
+        _error,
     ) { year, selectedGenres, genres, error ->
         DiscoverViewState(
             year = year,
@@ -44,23 +44,23 @@ internal class DiscoverViewModel(loadGenres: LoadGenres) : ViewModel() {
     )
 
     fun onYear(year: String) {
-        this.year.tryEmit(value = year.take(n = YearInputLength))
+        _year.tryEmit(value = year.take(n = YearInputLength))
     }
 
     fun onSelect(genre: Genre) {
-        selectedGenres.update { genres -> genres + genre }
+        _selectedGenres.update { genres -> genres + genre }
     }
 
     fun onClearSelection(genre: Genre) {
-        selectedGenres.update { genres -> genres - genre }
+        _selectedGenres.update { genres -> genres - genre }
     }
 
     fun onError(error: Throwable) {
-        this.error.tryEmit(value = error)
+        _error.tryEmit(value = error)
     }
 
     fun onErrorConsumed() {
-        error.tryEmit(value = null)
+        _error.tryEmit(value = null)
     }
 
 }
