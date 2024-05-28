@@ -38,6 +38,7 @@ import moviespot.shared_ui.generated.resources.author
 import moviespot.shared_ui.generated.resources.author_name
 import moviespot.shared_ui.generated.resources.settings
 import org.jetbrains.compose.resources.getString
+import kotlin.js.JsName
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -51,6 +52,7 @@ class SettingsScreenTest {
     private val applyDynamicTheme = ApplyDynamicTheme(repository = repository)
 
     @Test
+    @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
         onNodeWithText(text = runBlocking { getString(resource = Res.string.settings) })
@@ -59,6 +61,7 @@ class SettingsScreenTest {
     }
 
     @Test
+    @JsName(name = "check_back_button")
     fun `check back button`() = runComposeUiTest {
         val onBack = mock<() -> Unit> {
             every { invoke() } returns Unit
@@ -73,6 +76,7 @@ class SettingsScreenTest {
     }
 
     @Test
+    @JsName(name = "check_loading_state")
     fun `check loading state`() = runComposeUiTest {
         testContent()
         onNodeWithTag(testTag = SettingsDefaults.ContentTestTag)
@@ -84,6 +88,7 @@ class SettingsScreenTest {
     }
 
     @Test
+    @JsName(name = "check_success_state")
     fun `check success state`() = runComposeUiTest {
         every { repository.getSettings() } returns flowOf(value = TestSettings)
         testContent()
@@ -100,6 +105,7 @@ class SettingsScreenTest {
     }
 
     @Test
+    @JsName(name = "check_error_state")
     fun `check error state`() = runComposeUiTest {
         every { repository.getSettings() } returns flow { error(message = "Error") }
         testContent()
@@ -116,6 +122,7 @@ class SettingsScreenTest {
     }
 
     @Test
+    @JsName(name = "check_apply_dynamic_theme")
     fun `check apply dynamic theme`() = runComposeUiTest {
         every { repository.getSettings() } returns flowOf(value = TestSettings)
         testContent()
@@ -129,6 +136,7 @@ class SettingsScreenTest {
     }
 
     @Test
+    @JsName(name = "check_app_version")
     fun `check app version`() = runComposeUiTest {
         testContent()
         onNodeWithTag(testTag = SettingsDefaults.AppVersionTestTag)
@@ -142,6 +150,7 @@ class SettingsScreenTest {
     }
 
     @Test
+    @JsName(name = "check_author")
     fun `check author`() = runComposeUiTest {
         testContent()
         onNodeWithTag(testTag = SettingsDefaults.AppAuthorTestTag)
