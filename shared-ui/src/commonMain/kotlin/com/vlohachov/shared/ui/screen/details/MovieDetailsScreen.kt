@@ -23,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SuggestionChipDefaults
@@ -52,6 +53,7 @@ import com.vlohachov.shared.domain.model.movie.MovieDetails
 import com.vlohachov.shared.domain.model.movie.keyword.Keyword
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.component.movie.MoviesSection
 import com.vlohachov.shared.ui.component.section.Section
 import com.vlohachov.shared.ui.component.section.SectionDefaults
@@ -150,6 +152,7 @@ internal fun MovieDetails(
     onMovieDetails: (movie: Movie) -> Unit,
     onKeywordMovies: (keyword: Keyword) -> Unit,
     viewModel: MovieDetailsViewModel = koinInject { parametersOf(movieId) },
+    snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -157,6 +160,7 @@ internal fun MovieDetails(
 
     ErrorBar(
         error = uiState.error,
+        duration = snackbarDuration,
         snackbarHostState = snackbarHostState,
         onDismissed = viewModel::onErrorConsumed,
     )
@@ -176,7 +180,7 @@ internal fun MovieDetails(
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .testTag(tag = MovieDetailsDefaults.ErrorBarTestTag)
+                    .testTag(tag = ErrorBarDefaults.ErrorTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
@@ -399,7 +403,6 @@ private fun LazyListScope.keywords(
 
 internal object MovieDetailsDefaults {
 
-    const val ErrorBarTestTag = "error_bar"
     const val DetailsContentTestTag = "details_content"
     const val DetailsLoadingTestTag = "details_loading"
     const val TaglineTestTag = "movie_tagline"

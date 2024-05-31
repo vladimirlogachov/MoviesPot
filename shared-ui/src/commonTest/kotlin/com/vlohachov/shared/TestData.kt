@@ -71,6 +71,13 @@ val TestCrewMember = CrewMember(
     profilePath = "path",
 )
 
+val TestDirector = CrewMember(
+    id = 1,
+    name = "Director Name",
+    job = "Director",
+    profilePath = "path",
+)
+
 val TestCrewMembers = listOf(
     TestCrewMember,
     TestCrewMember,
