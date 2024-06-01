@@ -218,7 +218,7 @@ private fun Genres(
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
             ) {
-                items(items = viewState.data) { genre ->
+                items(items = viewState.data, key = { item -> item.id }) { genre ->
                     val selected = selectedGenres.contains(element = genre)
                     FilterChip(
                         selected = selected,

@@ -62,7 +62,7 @@ internal fun Production(
                 contentPadding = PaddingValues(all = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
             ) {
-                items(items = companies) { company ->
+                items(items = companies, key = { item -> item.id }) { company ->
                     var error by remember { mutableStateOf(false) }
                     val painter = rememberAsyncImagePainter(
                         model = company.logoPath,

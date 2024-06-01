@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBarDefaults
@@ -48,6 +49,7 @@ import com.vlohachov.shared.domain.model.movie.credit.CastMember
 import com.vlohachov.shared.ui.component.Profile
 import com.vlohachov.shared.ui.component.bar.AppBar
 import com.vlohachov.shared.ui.component.bar.ErrorBar
+import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.component.button.ScrollToTop
 import com.vlohachov.shared.ui.screen.Screen
 import moviespot.shared_ui.generated.resources.Res
@@ -91,6 +93,7 @@ internal fun Cast(
     movieId: Long,
     onBack: () -> Unit,
     viewModel: CastViewModel = koinInject { parametersOf(movieId) },
+    snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -98,7 +101,12 @@ internal fun Cast(
     val showScrollToTop by remember { derivedStateOf { gridState.firstVisibleItemIndex > VISIBLE_ITEMS_THRESHOLD } }
     val castState by viewModel.cast.collectAsState()
     val error by viewModel.error.collectAsState()
-
+    ErrorBar(
+        error = error,
+        duration = snackbarDuration,
+        snackbarHostState = snackbarHostState,
+        onDismissed = viewModel::onErrorConsumed,
+    )
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -121,34 +129,23 @@ internal fun Cast(
         snackbarHost = {
             SnackbarHost(
                 modifier = Modifier
-                    .testTag(tag = CastDefaults.ContentErrorTestTag)
+                    .testTag(tag = ErrorBarDefaults.ErrorTestTag)
                     .navigationBarsPadding(),
                 hostState = snackbarHostState,
             )
         },
         contentWindowInsets = WindowInsets.ime
     ) { paddingValues ->
-        Box(
+        Content(
             modifier = Modifier
+                .testTag(tag = CastDefaults.ContentTestTag)
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-        ) {
-            Content(
-                modifier = Modifier
-                    .testTag(tag = CastDefaults.ContentTestTag)
-                    .fillMaxSize(),
-                gridState = gridState,
-                viewState = castState,
-                onCredit = { },
-                onError = viewModel::onError,
-            )
-
-            ErrorBar(
-                error = error,
-                snackbarHostState = snackbarHostState,
-                onDismissed = viewModel::onErrorConsumed,
-            )
-        }
+            gridState = gridState,
+            viewState = castState,
+            onCredit = { },
+            onError = viewModel::onError,
+        )
     }
 }
 
@@ -208,6 +205,5 @@ internal object CastDefaults {
 
     const val ContentTestTag = "content"
     const val ContentLoadingTestTag = "content_loading"
-    const val ContentErrorTestTag = "content_error"
 
 }

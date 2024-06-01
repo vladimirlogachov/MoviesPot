@@ -183,7 +183,7 @@ private fun Content(
         }
 
         is ViewState.Success ->
-            items(items = viewState.data) { member ->
+            items(items = viewState.data, key = { item -> item.id }) { member ->
                 var error by remember { mutableStateOf(false) }
                 val painter = rememberAsyncImagePainter(
                     model = member.profilePath,

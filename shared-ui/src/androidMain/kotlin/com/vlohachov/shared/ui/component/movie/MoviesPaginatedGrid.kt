@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -57,14 +58,15 @@ internal fun MoviesPaginatedGrid(
             progress?.invoke(this)
         }
 
-        items(count = movies.itemCount) { index ->
-            movies[index]?.let { movie ->
-                MovieItem(
-                    modifier = itemModifier,
-                    movie = movie,
-                    onClick = onClick,
-                )
-            }
+        items(
+            items = movies.itemSnapshotList.filterNotNull(),
+            key = { item -> item.id }
+        ) { item ->
+            MovieItem(
+                modifier = itemModifier,
+                movie = item,
+                onClick = onClick,
+            )
         }
 
         if (movies.loadState.append is LoadState.Loading) {

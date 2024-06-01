@@ -15,16 +15,22 @@ import com.vlohachov.shared.domain.model.settings.Settings
 
 val TestSettings = Settings(dynamicTheme = true)
 
-val TestGenre = Genre(id = 1, name = "name")
+val TestGenre = testGenre()
 
-val TestGenres = listOf(
-    TestGenre.copy(id = 0),
-    TestGenre.copy(id = 1),
-    TestGenre.copy(id = 2),
-)
+val TestGenres = buildList {
+    repeat(times = 3) { id -> add(testGenre(id = id)) }
+}
 
-val TestMovie = Movie(
-    id = 0,
+fun testGenre(id: Int = 0) = Genre(id = id, name = "name")
+
+val TestMovie = testMovie()
+
+val TestMovies = buildList {
+    repeat(times = 5) { id -> add(testMovie(id = id.toLong())) }
+}
+
+fun testMovie(id: Long = 0) = Movie(
+    id = id,
     title = "title",
     originalTitle = "original_title",
     overview = "overview",
@@ -36,14 +42,6 @@ val TestMovie = Movie(
     voteAverage = 6.7f,
 )
 
-val TestMovies = listOf(
-    TestMovie,
-    TestMovie,
-    TestMovie,
-    TestMovie,
-    TestMovie,
-)
-
 val TestPaginatedData = PaginatedData(
     page = 1,
     data = TestMovies,
@@ -51,25 +49,20 @@ val TestPaginatedData = PaginatedData(
     totalPages = 1,
 )
 
-val TestCastMember = CastMember(
-    id = 1,
+val TestCastMember = testCastMember()
+
+val TestCastMembers = buildList {
+    repeat(times = 3) { id -> add(testCastMember(id = id.toLong())) }
+}
+
+fun testCastMember(id: Long = 0) = CastMember(
+    id = id,
     name = "name",
     character = "character",
     profilePath = "path",
 )
 
-val TestCastMembers = listOf(
-    TestCastMember,
-    TestCastMember,
-    TestCastMember,
-)
-
-val TestCrewMember = CrewMember(
-    id = 1,
-    name = "name",
-    job = "job",
-    profilePath = "path",
-)
+val TestCrewMember = testCrewMember()
 
 val TestDirector = CrewMember(
     id = 1,
@@ -78,10 +71,15 @@ val TestDirector = CrewMember(
     profilePath = "path",
 )
 
-val TestCrewMembers = listOf(
-    TestCrewMember,
-    TestCrewMember,
-    TestCrewMember,
+val TestCrewMembers = buildList {
+    repeat(times = 3) { id -> add(testCrewMember(id = id.toLong())) }
+}
+
+fun testCrewMember(id: Long = 0) = CrewMember(
+    id = id,
+    name = "name",
+    job = "job",
+    profilePath = "path",
 )
 
 val TestMovieCredits = MovieCredits(
@@ -127,10 +125,10 @@ val TestMovieDetails = MovieDetails(
     productionCompanies = listOf(TestCompany),
 )
 
-val TestKeyword = Keyword(id = 1, name = "name")
+val TestKeyword = testKeyword()
 
-val TestKeywords = listOf(
-    TestKeyword,
-    TestKeyword,
-    TestKeyword,
-)
+val TestKeywords = buildList {
+    repeat(times = 3) { id -> add(testKeyword(id = id)) }
+}
+
+fun testKeyword(id: Int = 0) = Keyword(id = id, name = "name")
