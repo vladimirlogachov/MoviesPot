@@ -39,6 +39,7 @@ class CastViewModelTest {
     fun `cast loading`() = runTest {
         viewModel.cast.test {
             assertIs<ViewState.Loading>(value = awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
