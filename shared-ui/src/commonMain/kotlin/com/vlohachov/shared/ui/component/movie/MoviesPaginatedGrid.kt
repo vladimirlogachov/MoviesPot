@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -24,8 +23,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
 import coil3.compose.rememberAsyncImagePainter
+import com.vlohachov.shared.core.LazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.Poster
 
@@ -58,15 +57,14 @@ internal fun MoviesPaginatedGrid(
             progress?.invoke(this)
         }
 
-        items(
-            items = movies.itemSnapshotList.filterNotNull(),
-            key = { item -> item.id }
-        ) { item ->
-            MovieItem(
-                modifier = itemModifier,
-                movie = item,
-                onClick = onClick,
-            )
+        items(count = movies.itemCount) { index ->
+            movies[index]?.run {
+                MovieItem(
+                    modifier = itemModifier,
+                    movie = this,
+                    onClick = onClick,
+                )
+            }
         }
 
         if (movies.loadState.append is LoadState.Loading) {

@@ -1,46 +1,46 @@
-package com.vlohachov.moviespot.ui.components.movie
+package com.vlohachov.shared.ui.component.movie
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.runComposeUiTest
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.google.common.truth.Truth
-import com.vlohachov.moviespot.data.TestMovies
+import com.vlohachov.shared.TestMovies
+import com.vlohachov.shared.core.collectAsLazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.PosterDefaults
 import com.vlohachov.shared.ui.theme.MoviesPotTheme
 import kotlinx.coroutines.flow.flowOf
-import org.junit.Rule
-import org.junit.Test
+import kotlin.js.JsName
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
+@OptIn(ExperimentalTestApi::class)
 class MoviesPaginatedGridTest {
 
-    @get:Rule
-    val composeRule = createComposeRule()
-
     @Test
-    fun emptyTest(): Unit = with(composeRule) {
+    @JsName(name = "check_empty")
+    fun `check empty`() = runComposeUiTest {
         val dataFlow = flowOf(value = PagingData.empty<Movie>())
 
         setContent {
@@ -54,17 +54,16 @@ class MoviesPaginatedGridTest {
             }
         }
 
-        onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
-            useUnmergedTree = true,
-        ).assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
+        onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
+            .assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = 0)
     }
 
     @Test
-    fun refreshTest(): Unit = with(composeRule) {
+    @JsName(name = "check_refresh")
+    fun `check refresh`() = runComposeUiTest {
         val dataFlow = flowOf(
             value = PagingData.empty<Movie>(
                 sourceLoadStates = LoadStates(
@@ -83,12 +82,7 @@ class MoviesPaginatedGridTest {
                     movies = dataFlow.collectAsLazyPagingItems(),
                     progress = {
                         item(span = { GridItemSpan(currentLineSpan = 3) }) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.semantics {
-                                    testTag =
-                                        MoviesPaginatedGridDefaults.RefreshProgressTestTag
-                                }
-                            )
+                            Progress()
                         }
                     },
                     onError = { },
@@ -96,19 +90,18 @@ class MoviesPaginatedGridTest {
             }
         }
 
-        onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
-            useUnmergedTree = true,
-        ).assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
+        onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
+            .assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = 1)
             .onFirst()
-            .assert(hasTestTag(testTag = MoviesPaginatedGridDefaults.RefreshProgressTestTag))
+            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.RefreshProgressTestTag))
     }
 
     @Test
-    fun errorTest(): Unit = with(composeRule) {
+    @JsName(name = "check_error")
+    fun `check error`() = runComposeUiTest {
         val exception = Exception()
         val dataFlow = flowOf(
             value = PagingData.empty<Movie>(
@@ -129,12 +122,7 @@ class MoviesPaginatedGridTest {
                     movies = dataFlow.collectAsLazyPagingItems(),
                     progress = {
                         item(span = { GridItemSpan(currentLineSpan = 3) }) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.semantics {
-                                    testTag =
-                                        MoviesPaginatedGridDefaults.RefreshProgressTestTag
-                                }
-                            )
+                            Progress()
                         }
                     },
                     onError = { e -> error = e },
@@ -142,19 +130,18 @@ class MoviesPaginatedGridTest {
             }
         }
 
-        onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
-            useUnmergedTree = true,
-        ).assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
+        onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
+            .assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = 0)
 
-        Truth.assertThat(error).isEqualTo(exception)
+        assertEquals(expected = exception, actual = error)
     }
 
     @Test
-    fun nonEmptyTest(): Unit = with(composeRule) {
+    @JsName(name = "check_not_empty")
+    fun `check not empty`() = runComposeUiTest {
         val dataFlow = flowOf(value = PagingData.from(data = TestMovies))
 
         setContent {
@@ -168,18 +155,17 @@ class MoviesPaginatedGridTest {
             }
         }
 
-        onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
-            useUnmergedTree = true,
-        ).assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
+        onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
+            .assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size)
-            .assertAll(hasTestTag(testTag = PosterDefaults.PosterTestTag))
+            .assertAll(matcher = hasTestTag(testTag = PosterDefaults.PosterTestTag))
     }
 
     @Test
-    fun appendTest(): Unit = with(composeRule) {
+    @JsName(name = "check_append")
+    fun `check append`() = runComposeUiTest {
         val dataFlow = flowOf(
             value = PagingData.from(
                 data = TestMovies,
@@ -202,19 +188,18 @@ class MoviesPaginatedGridTest {
             }
         }
 
-        onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
-            useUnmergedTree = true,
-        ).assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
+        onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
+            .assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size + 1)
             .onLast()
-            .assert(hasTestTag(testTag = MoviesPaginatedGridDefaults.AppendProgressTestTag))
+            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.AppendProgressTestTag))
     }
 
     @Test
-    fun clickableTest(): Unit = with(composeRule) {
+    @JsName(name = "check_on_click")
+    fun `check on click`() = runComposeUiTest {
         val dataFlow = flowOf(value = PagingData.from(data = TestMovies))
         var movie by mutableStateOf<Movie?>(value = null)
 
@@ -230,17 +215,21 @@ class MoviesPaginatedGridTest {
             }
         }
 
-        onNodeWithTag(
-            testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag,
-            useUnmergedTree = true,
-        ).assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
+        onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
+            .assertExists(errorMessageOnFail = "No MoviesPaginatedGrid component found.")
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size)
-            .assertAll(hasTestTag(testTag = PosterDefaults.PosterTestTag))
+            .assertAll(matcher = hasTestTag(testTag = PosterDefaults.PosterTestTag))
             .onFirst()
             .performClick()
 
-        Truth.assertThat(movie).isEqualTo(TestMovies.first())
+        assertEquals(expected = TestMovies.first(), actual = movie)
     }
+
+    @Composable
+    private fun Progress() = CircularProgressIndicator(
+        modifier = Modifier.testTag(tag = MoviesPaginatedGridDefaults.RefreshProgressTestTag)
+    )
+
 }

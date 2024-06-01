@@ -21,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.testTag
-import androidx.paging.compose.collectAsLazyPagingItems
+import com.vlohachov.shared.core.collectAsLazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.bar.LargeAppBar
