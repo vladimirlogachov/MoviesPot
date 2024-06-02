@@ -64,7 +64,6 @@ import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.component.button.ScrollToTop
 import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGrid
-import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import moviespot.shared_ui.generated.resources.Res
@@ -185,7 +184,6 @@ private fun Content(
             movies = viewModel.movies.collectAsLazyPagingItems(),
             onClick = onMovieClick,
             onError = viewModel::onError,
-            progress = MoviesPaginatedGridDefaults.Progress,
         )
     }
 }

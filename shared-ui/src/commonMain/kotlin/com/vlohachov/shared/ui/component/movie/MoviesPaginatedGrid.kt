@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -28,6 +29,7 @@ import coil3.compose.rememberAsyncImagePainter
 import com.vlohachov.shared.core.LazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.ui.component.Poster
+import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGridDefaults.spannableProgress
 
 @Composable
 internal fun MoviesPaginatedGrid(
@@ -37,7 +39,9 @@ internal fun MoviesPaginatedGrid(
     modifier: Modifier = Modifier,
     onClick: ((movie: Movie) -> Unit)? = null,
     state: LazyGridState = rememberLazyGridState(),
-    progress: (LazyGridScope.() -> Unit)? = null,
+    progress: (LazyGridScope.() -> Unit)? = {
+        spannableProgress(span = { GridItemSpan(currentLineSpan = 3) })
+    },
     contentPadding: PaddingValues = MoviesPaginatedGridDefaults.ContentPadding,
     verticalArrangement: Arrangement.Vertical = MoviesPaginatedGridDefaults.VerticalArrangement,
     horizontalArrangement: Arrangement.Horizontal = MoviesPaginatedGridDefaults.HorizontalArrangement,
@@ -69,13 +73,7 @@ internal fun MoviesPaginatedGrid(
         }
 
         if (movies.loadState.append is LoadState.Loading) {
-            item {
-                Box(
-                    modifier = modifier
-                        .testTag(tag = MoviesPaginatedGridDefaults.AppendProgressTestTag),
-                    contentAlignment = Alignment.Center,
-                ) { CircularProgressIndicator() }
-            }
+            spannableProgress(span = null)
         }
     }
 
@@ -123,8 +121,7 @@ private fun MovieItem(
 internal object MoviesPaginatedGridDefaults {
 
     const val MoviesPaginatedGridTestTag = "movies_paginated_grid"
-    const val LoadingProgressTestTag = "movies_paginated_grid_loading_progress"
-    const val AppendProgressTestTag = "movies_paginated_grid_append_progress"
+    const val LoadingTestTag = "movies_paginated_grid_loading"
 
     private val ItemsSpace: Dp = 16.dp
 
@@ -134,15 +131,15 @@ internal object MoviesPaginatedGridDefaults {
 
     val HorizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(space = ItemsSpace)
 
-    val Progress: (LazyGridScope.() -> Unit) = {
-        item(span = { GridItemSpan(currentLineSpan = 3) }) {
-            Box(
-                modifier = Modifier
-                    .testTag(tag = LoadingProgressTestTag)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center,
-            ) { CircularProgressIndicator() }
-        }
+    fun LazyGridScope.spannableProgress(
+        span: (LazyGridItemSpanScope.() -> GridItemSpan)? = null,
+    ) = item(span = span) {
+        Box(
+            modifier = Modifier
+                .testTag(tag = LoadingTestTag)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+        ) { CircularProgressIndicator() }
     }
 
 }

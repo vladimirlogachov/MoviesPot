@@ -1,6 +1,5 @@
-package com.vlohachov.shared.ui.screen.movies
+package com.vlohachov.shared.ui.screen.movies.similar
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -18,9 +17,8 @@ import androidx.compose.ui.test.runComposeUiTest
 import com.vlohachov.shared.TestMovies
 import com.vlohachov.shared.TestPaginatedData
 import com.vlohachov.shared.domain.model.movie.Movie
-import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.domain.repository.MovieRepository
-import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
+import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
 import com.vlohachov.shared.testMovie
 import com.vlohachov.shared.ui.component.bar.AppBarDefaults
 import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
@@ -39,28 +37,31 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import moviespot.shared_ui.generated.resources.Res
-import moviespot.shared_ui.generated.resources.upcoming
+import moviespot.shared_ui.generated.resources.similar_to
 import org.jetbrains.compose.resources.getString
 import kotlin.js.JsName
 import kotlin.test.Ignore
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
-class MoviesScreenTest {
+class SimilarMoviesScreenTest {
 
     private val repository = mock<MovieRepository> {
         every {
-            getMoviesByCategory(category = any(), page = any(), language = any(), region = any())
+            getMovieRecommendations(id = any(), page = any(), language = any())
         } returns emptyFlow()
     }
 
-    private val pager = MoviesPager(useCase = LoadMoviesByCategory(repository = repository))
+    private val pager = SimilarMoviesPager(
+        movieId = 1,
+        useCase = LoadRecommendations(repository = repository)
+    )
 
     @Test
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.upcoming) })
+        onNodeWithText(text = runBlocking { getString(resource = Res.string.similar_to, "title") })
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -84,12 +85,7 @@ class MoviesScreenTest {
     @JsName(name = "check_movies_loading")
     fun `check movies loading`() = runComposeUiTest {
         every {
-            repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any()
-            )
+            repository.getMovieRecommendations(id = any(), page = any(), language = any())
         } returns flow { delay(timeMillis = 200) }
         testContent()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
@@ -107,12 +103,7 @@ class MoviesScreenTest {
     @JsName(name = "check_movies_loading_success")
     fun `check movies loading success`() = runComposeUiTest {
         every {
-            repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any()
-            )
+            repository.getMovieRecommendations(id = any(), page = any(), language = any())
         } returns flowOf(value = TestPaginatedData)
         testContent()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
@@ -131,12 +122,7 @@ class MoviesScreenTest {
     @JsName(name = "check_movies_loading_error")
     fun `check movies loading error`() = runComposeUiTest {
         every {
-            repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any()
-            )
+            repository.getMovieRecommendations(id = any(), page = any(), language = any())
         } returns flow { error(message = "Error") }
         testContent()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
@@ -153,12 +139,7 @@ class MoviesScreenTest {
             every { invoke(any()) } returns Unit
         }
         every {
-            repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any()
-            )
+            repository.getMovieRecommendations(id = any(), page = any(), language = any())
         } returns flowOf(value = TestPaginatedData)
         testContent(onMovieDetails = onMovieDetails)
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
@@ -183,12 +164,7 @@ class MoviesScreenTest {
             repeat(times = 20) { id -> add(testMovie(id = id.toLong())) }
         }
         every {
-            repository.getMoviesByCategory(
-                category = any(),
-                page = any(),
-                language = any(),
-                region = any()
-            )
+            repository.getMovieRecommendations(id = any(), page = any(), language = any())
         } returns flowOf(value = TestPaginatedData.copy(data = largeMovies))
         testContent()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
@@ -208,17 +184,17 @@ class MoviesScreenTest {
             .assertDoesNotExist()
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     private fun ComposeUiTest.testContent(
         onBack: () -> Unit = {},
         onMovieDetails: (movie: Movie) -> Unit = {},
     ) = setContent {
         MoviesPotTheme {
-            Movies(
-                category = MovieCategory.UPCOMING,
+            SimilarMovies(
+                movieId = 1,
+                movieTitle = "title",
                 onBack = onBack,
                 onMovieDetails = onMovieDetails,
-                viewModel = MoviesViewModel(category = MovieCategory.UPCOMING, pager = pager),
+                viewModel = SimilarMoviesViewModel(pager = pager),
                 snackbarDuration = SnackbarDuration.Indefinite,
             )
         }

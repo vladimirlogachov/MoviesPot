@@ -46,6 +46,7 @@ class MoviesPaginatedGridTest {
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
                     onError = { },
+                    progress = null,
                 )
             }
         }
@@ -77,7 +78,6 @@ class MoviesPaginatedGridTest {
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
                     onError = { },
-                    progress = MoviesPaginatedGridDefaults.Progress
                 )
             }
         }
@@ -88,7 +88,7 @@ class MoviesPaginatedGridTest {
             .onChildren()
             .assertCountEquals(expectedSize = 1)
             .onFirst()
-            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.LoadingProgressTestTag))
+            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag))
     }
 
     @Test
@@ -113,6 +113,7 @@ class MoviesPaginatedGridTest {
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
                     onError = { e -> error = e },
+                    progress = null,
                 )
             }
         }
@@ -138,6 +139,7 @@ class MoviesPaginatedGridTest {
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
                     onError = { },
+                    progress = null,
                 )
             }
         }
@@ -171,6 +173,7 @@ class MoviesPaginatedGridTest {
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
                     onError = { },
+                    progress = null,
                 )
             }
         }
@@ -181,7 +184,7 @@ class MoviesPaginatedGridTest {
             .onChildren()
             .assertCountEquals(expectedSize = TestMovies.size + 1)
             .onLast()
-            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.AppendProgressTestTag))
+            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag))
     }
 
     @Test
@@ -197,7 +200,8 @@ class MoviesPaginatedGridTest {
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
                     onError = { },
-                    onClick = { m -> movie = m }
+                    onClick = { m -> movie = m },
+                    progress = null,
                 )
             }
         }
