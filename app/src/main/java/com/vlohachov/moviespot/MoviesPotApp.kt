@@ -2,7 +2,7 @@ package com.vlohachov.moviespot
 
 import android.app.Application
 import com.google.android.material.color.DynamicColors
-import com.vlohachov.shared.di.appComponent
+import com.vlohachov.shared.presentation.di.appComponent
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

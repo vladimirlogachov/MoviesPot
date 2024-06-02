@@ -44,7 +44,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":shared-ui"))
+    implementation(project(":shared-presentation"))
     implementation(project(":shared-domain"))
     implementation(project(":shared-data"))
 

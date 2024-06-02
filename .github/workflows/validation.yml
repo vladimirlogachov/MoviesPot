@@ -111,7 +111,7 @@ jobs:
       - name: Test
         run: ./gradlew shared-domain:test
 
-  test-ui:
+  test-presentation:
     needs: [ 'detekt' ]
     runs-on: macos-latest
     steps:
@@ -133,4 +133,4 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
       - name: Test
-        run: ./gradlew shared-ui:desktopTest
+        run: ./gradlew shared-presentation:desktopTest
