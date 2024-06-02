@@ -19,13 +19,13 @@ internal class MoviesSearchSource(
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { position ->
             state.closestPageToPosition(anchorPosition = position)?.run {
-                prevKey?.plus(1) ?: nextKey?.minus(1)
+                prevKey?.plus(other = 1) ?: nextKey?.minus(other = 1)
             }
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
-        return if (query.isEmpty()) {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> =
+        if (query.isEmpty()) {
             LoadResult.Page(data = emptyList(), prevKey = null, nextKey = null)
         } else {
             runCatching { loadPage(page = params.key ?: 1) }
@@ -37,16 +37,15 @@ internal class MoviesSearchSource(
                             nextKey = result.nextKey(),
                         )
                     },
-                    onFailure = { e -> LoadResult.Error(e) }
+                    onFailure = { e -> LoadResult.Error(throwable = e) }
                 )
         }
-    }
 
     private fun PaginatedData<Movie>.prevKey(): Int? =
-        if (page == 1) null else page.minus(1)
+        if (page == 1) null else page.minus(other = 1)
 
     private fun PaginatedData<Movie>.nextKey(): Int? =
-        if (page >= totalPages) null else page.plus(1)
+        if (page >= totalPages) null else page.plus(other = 1)
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
         useCase(param = SearchMovies.Param(query = query, page = page))

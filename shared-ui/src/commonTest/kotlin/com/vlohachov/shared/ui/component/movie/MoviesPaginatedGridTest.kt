@@ -2,14 +2,10 @@ package com.vlohachov.shared.ui.component.movie
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertAll
@@ -80,12 +76,8 @@ class MoviesPaginatedGridTest {
                     modifier = Modifier.fillMaxWidth(),
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
-                    progress = {
-                        item(span = { GridItemSpan(currentLineSpan = 3) }) {
-                            Progress()
-                        }
-                    },
                     onError = { },
+                    progress = MoviesPaginatedGridDefaults.Progress
                 )
             }
         }
@@ -96,7 +88,7 @@ class MoviesPaginatedGridTest {
             .onChildren()
             .assertCountEquals(expectedSize = 1)
             .onFirst()
-            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.RefreshProgressTestTag))
+            .assert(matcher = hasTestTag(testTag = MoviesPaginatedGridDefaults.LoadingProgressTestTag))
     }
 
     @Test
@@ -120,11 +112,6 @@ class MoviesPaginatedGridTest {
                     modifier = Modifier.fillMaxWidth(),
                     columns = GridCells.Fixed(count = 3),
                     movies = dataFlow.collectAsLazyPagingItems(),
-                    progress = {
-                        item(span = { GridItemSpan(currentLineSpan = 3) }) {
-                            Progress()
-                        }
-                    },
                     onError = { e -> error = e },
                 )
             }
@@ -226,10 +213,5 @@ class MoviesPaginatedGridTest {
 
         assertEquals(expected = TestMovies.first(), actual = movie)
     }
-
-    @Composable
-    private fun Progress() = CircularProgressIndicator(
-        modifier = Modifier.testTag(tag = MoviesPaginatedGridDefaults.RefreshProgressTestTag)
-    )
 
 }

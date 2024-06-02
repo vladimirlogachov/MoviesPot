@@ -146,7 +146,7 @@ internal class LazyPagingItems<T : Any> internal constructor(
      * A [CombinedLoadStates] object which represents the current loading state.
      */
     var loadState: CombinedLoadStates by mutableStateOf(
-        pagingDataPresenter.loadStateFlow.value
+        value = pagingDataPresenter.loadStateFlow.value
             ?: CombinedLoadStates(
                 refresh = InitialLoadStates.refresh,
                 prepend = InitialLoadStates.prepend,
@@ -157,23 +157,23 @@ internal class LazyPagingItems<T : Any> internal constructor(
         private set
 
     internal suspend fun collectLoadState() {
-        pagingDataPresenter.loadStateFlow.filterNotNull().collect {
-            loadState = it
+        pagingDataPresenter.loadStateFlow.filterNotNull().collect { combinedState ->
+            loadState = combinedState
         }
     }
 
     internal suspend fun collectPagingData() {
-        flow.collectLatest {
-            pagingDataPresenter.collectFrom(it)
+        flow.collectLatest { data ->
+            pagingDataPresenter.collectFrom(pagingData = data)
         }
     }
 }
 
-private val IncompleteLoadState = LoadState.NotLoading(false)
+private val IncompleteLoadState = LoadState.NotLoading(endOfPaginationReached = false)
 private val InitialLoadStates = LoadStates(
-    LoadState.Loading,
-    IncompleteLoadState,
-    IncompleteLoadState
+    refresh = LoadState.Loading,
+    prepend = IncompleteLoadState,
+    append = IncompleteLoadState,
 )
 
 /**

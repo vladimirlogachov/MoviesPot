@@ -17,13 +17,11 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,7 +44,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
@@ -67,6 +64,7 @@ import com.vlohachov.shared.ui.component.bar.ErrorBar
 import com.vlohachov.shared.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.ui.component.button.ScrollToTop
 import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGrid
+import com.vlohachov.shared.ui.component.movie.MoviesPaginatedGridDefaults
 import com.vlohachov.shared.ui.screen.Screen
 import com.vlohachov.shared.ui.screen.details.MovieDetailsScreen
 import moviespot.shared_ui.generated.resources.Res
@@ -187,18 +185,7 @@ private fun Content(
             movies = viewModel.movies.collectAsLazyPagingItems(),
             onClick = onMovieClick,
             onError = viewModel::onError,
-            progress = {
-                item(span = { GridItemSpan(currentLineSpan = 3) }) {
-                    Box(
-                        modifier = Modifier
-                            .testTag(tag = SearchMoviesDefaults.ContentLoadingTestTag)
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
+            progress = MoviesPaginatedGridDefaults.Progress,
         )
     }
 }
@@ -285,6 +272,5 @@ internal object SearchMoviesDefaults {
 
     const val SearchBarTestTag = "search_bar"
     const val ClearSearchBarTestTag = "clear_search_bar"
-    const val ContentLoadingTestTag = "content_loading"
 
 }

@@ -20,7 +20,7 @@ internal class MoviesSource(
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { position ->
             state.closestPageToPosition(anchorPosition = position)?.run {
-                prevKey?.plus(1) ?: nextKey?.minus(1)
+                prevKey?.plus(other = 1) ?: nextKey?.minus(other = 1)
             }
         }
     }
@@ -35,14 +35,22 @@ internal class MoviesSource(
                         nextKey = result.nextKey(),
                     )
                 },
-                onFailure = { e -> LoadResult.Error(e) }
+                onFailure = { e ->
+                    when (e) {
+                        is NoSuchElementException ->
+                            LoadResult.Page(data = emptyList(), prevKey = null, nextKey = null)
+
+                        else ->
+                            LoadResult.Error(throwable = e)
+                    }
+                }
             )
 
     private fun PaginatedData<Movie>.prevKey(): Int? =
-        if (page == 1) null else page.minus(1)
+        if (page == 1) null else page.minus(other = 1)
 
     private fun PaginatedData<Movie>.nextKey(): Int? =
-        if (page >= totalPages) null else page.plus(1)
+        if (page >= totalPages) null else page.plus(other = 1)
 
     private suspend fun loadPage(page: Int): PaginatedData<Movie> =
         useCase(param = LoadMoviesByCategory.Param(category = category, page = page))
