@@ -35,7 +35,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "MoviesPot"
 
-include(":app")
-include(":shared-ui")
+include(":androidApp")
+include(":shared-presentation")
 include(":shared-domain")
 include(":shared-data")
