@@ -41,12 +41,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
@@ -213,23 +215,15 @@ private fun SearchAppBar(
     appBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 ) {
     val heightOffsetLimit = with(LocalDensity.current) { -64.dp.toPx() }
-
     SideEffect {
         if (scrollBehavior.state.heightOffsetLimit != heightOffsetLimit) {
             scrollBehavior.state.heightOffsetLimit = heightOffsetLimit
         }
     }
-
     val colorTransitionFraction = scrollBehavior.state.overlappedFraction
-    val fraction = if (colorTransitionFraction > COLOR_TRANSITION_FRACTION_THRESHOLD) 1f else 0f
-    val appBarContainerColor by animateColorAsState(
-        targetValue = lerp(
-            start = appBarColors.containerColor,
-            stop = appBarColors.scrolledContainerColor,
-            fraction = FastOutLinearInEasing.transform(fraction)
-        ),
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-        label = "anim_app_bar_container_color"
+    val appBarContainerColor by animateAppBarColor(
+        fraction = if (colorTransitionFraction > COLOR_TRANSITION_FRACTION_THRESHOLD) 1f else 0f,
+        appBarColors = appBarColors
     )
     Surface(color = appBarContainerColor) {
         SearchBar(
@@ -273,6 +267,19 @@ private fun SearchAppBar(
         )
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun animateAppBarColor(fraction: Float, appBarColors: TopAppBarColors): State<Color> =
+    animateColorAsState(
+        targetValue = lerp(
+            start = appBarColors.containerColor,
+            stop = appBarColors.scrolledContainerColor,
+            fraction = FastOutLinearInEasing.transform(fraction)
+        ),
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        label = "anim_app_bar_container_color"
+    )
 
 internal object SearchMoviesDefaults {
 
