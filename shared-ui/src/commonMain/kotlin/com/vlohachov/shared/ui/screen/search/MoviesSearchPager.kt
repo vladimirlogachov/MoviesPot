@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 )
 internal class MoviesSearchPager(
     useCase: SearchMovies,
+    debounce: Long = QUERY_CHANGE_DEBOUNCE,
     config: PagingConfig = PagingConfig(pageSize = 20),
 ) {
 
@@ -26,17 +27,17 @@ internal class MoviesSearchPager(
         const val QUERY_CHANGE_DEBOUNCE = 400L
     }
 
-    private val query = MutableStateFlow(value = "")
+    private val _query = MutableStateFlow(value = "")
 
-    val pagingDataFlow: Flow<PagingData<Movie>> = query
-        .debounce(timeoutMillis = QUERY_CHANGE_DEBOUNCE)
+    val pagingDataFlow: Flow<PagingData<Movie>> = _query
+        .debounce(timeoutMillis = debounce)
         .distinctUntilChanged()
         .flatMapLatest { query ->
             Pager(config = config) { MoviesSearchSource(query = query, useCase = useCase) }.flow
         }
 
     fun onQuery(query: String) {
-        this.query.value = query
+        _query.tryEmit(value = query)
     }
 
 }
