@@ -16,13 +16,12 @@ internal class SimilarMoviesSource(
     private val useCase: LoadRecommendations,
 ) : PagingSource<Int, Movie>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
-        return state.anchorPosition?.let { position ->
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? =
+        state.anchorPosition?.let { position ->
             state.closestPageToPosition(anchorPosition = position)?.run {
                 prevKey?.plus(other = 1) ?: nextKey?.minus(other = 1)
             }
         }
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> =
         runCatching { loadPage(page = params.key ?: 1) }
