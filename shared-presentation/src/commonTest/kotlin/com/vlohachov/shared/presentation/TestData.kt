@@ -58,7 +58,7 @@ val TestCastMembers = buildList {
 fun testCastMember(id: Long = 0) = CastMember(
     id = id,
     name = "name",
-    character = "character",
+    character = "character$id",
     profilePath = "path",
 )
 
@@ -78,7 +78,7 @@ val TestCrewMembers = buildList {
 fun testCrewMember(id: Long = 0) = CrewMember(
     id = id,
     name = "name",
-    job = "job",
+    job = "job$id",
     profilePath = "path",
 )
 
