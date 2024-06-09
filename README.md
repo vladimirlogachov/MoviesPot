@@ -1,4 +1,5 @@
-# Movies Pot [![Validation](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml/badge.svg?branch=master)](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml)
+[![Validation](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml/badge.svg?branch=master)](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml)
+# Movies Pot
 
 Kotlin + Compose multiplatform project that allows users to explore the world of movies with
 ease. It utilizes the TMDB API to fetch movie data and presents it in a visually appealing manner.
@@ -42,8 +43,7 @@ design guidelines, providing a modern and intuitive way to discover and engage w
   and [Material 3](https://m3.material.io/) design guidelines
 - Supports [Dynamic Colors](https://m3.material.io/styles/color/dynamic-color/overview) schema
 - Adaptive
-  launcher [Themed Icon](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive) (
-  for Android 13+)
+  launcher [Themed Icon](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive) (for Android 13+)
 - Navigation based
   on [Jetpack Navigation](https://developer.android.com/jetpack/androidx/releases/navigation)
 - Uses [TMDB](https://www.themoviedb.org) open API
