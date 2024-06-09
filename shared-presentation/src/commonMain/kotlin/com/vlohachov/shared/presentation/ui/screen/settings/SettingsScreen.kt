@@ -56,7 +56,8 @@ import moviespot.shared_presentation.generated.resources.author_name
 import moviespot.shared_presentation.generated.resources.dynamic_theme
 import moviespot.shared_presentation.generated.resources.settings
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
 internal data object SettingsScreen : Screen<Unit>() {
 
@@ -74,11 +75,11 @@ internal data object SettingsScreen : Screen<Unit>() {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun Settings(
     onBack: () -> Unit,
-    viewModel: SettingsViewModel = koinInject(),
+    viewModel: SettingsViewModel = koinViewModel(),
     isDynamicThemeAvailable: Boolean = isDynamicThemeAvailable(),
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },

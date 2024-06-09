@@ -16,18 +16,18 @@ import com.vlohachov.shared.presentation.ui.screen.movies.similar.SimilarMoviesV
 import com.vlohachov.shared.presentation.ui.screen.search.MoviesSearchPager
 import com.vlohachov.shared.presentation.ui.screen.search.MoviesSearchViewModel
 import com.vlohachov.shared.presentation.ui.screen.settings.SettingsViewModel
-import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
+import org.koin.compose.viewmodel.dsl.viewModel
+import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 internal val viewModelModule = module {
-    singleOf(::MainViewModel)
-    singleOf(::SettingsViewModel)
-    factoryOf(::MovieDetailsViewModel)
-    factoryOf(::CastViewModel)
-    factoryOf(::CrewViewModel)
-    factoryOf(::DiscoverViewModel)
-    factory { params ->
+    viewModelOf(::MainViewModel)
+    viewModelOf(::SettingsViewModel)
+    viewModelOf(::MovieDetailsViewModel)
+    viewModelOf(::CastViewModel)
+    viewModelOf(::CrewViewModel)
+    viewModelOf(::DiscoverViewModel)
+    viewModel { params ->
         DiscoverResultViewModel(
             pager = DiscoverResultPager(
                 year = params.getOrNull(),
@@ -36,18 +36,18 @@ internal val viewModelModule = module {
             )
         )
     }
-    factory {
+    viewModel {
         MoviesSearchViewModel(
             pager = MoviesSearchPager(useCase = get()),
         )
     }
-    factory { params ->
+    viewModel { params ->
         MoviesViewModel(
             category = params.get(),
             pager = MoviesPager(useCase = get()),
         )
     }
-    factory { params ->
+    viewModel { params ->
         SimilarMoviesViewModel(
             pager = SimilarMoviesPager(
                 movieId = params.get(),
@@ -55,7 +55,7 @@ internal val viewModelModule = module {
             )
         )
     }
-    factory { params ->
+    viewModel { params ->
         KeywordMoviesViewModel(
             pager = KeywordMoviesPager(
                 keywordId = params.get(),

@@ -37,7 +37,8 @@ import com.vlohachov.shared.presentation.ui.component.button.ScrollToTop
 import com.vlohachov.shared.presentation.ui.component.movie.MoviesPaginatedGrid
 import com.vlohachov.shared.presentation.ui.screen.Screen
 import com.vlohachov.shared.presentation.ui.screen.details.MovieDetailsScreen
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.parametersOf
 
 internal data object KeywordMoviesScreen : Screen<KeywordMoviesScreen.Params>() {
@@ -86,14 +87,14 @@ internal data object KeywordMoviesScreen : Screen<KeywordMoviesScreen.Params>() 
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun KeywordMovies(
     keyword: String,
     keywordId: Int,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
-    viewModel: KeywordMoviesViewModel = koinInject { parametersOf(keywordId) },
+    viewModel: KeywordMoviesViewModel = koinViewModel { parametersOf(keywordId) },
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {

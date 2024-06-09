@@ -71,7 +71,8 @@ import moviespot.shared_presentation.generated.resources.clear
 import moviespot.shared_presentation.generated.resources.navigate_back
 import moviespot.shared_presentation.generated.resources.search
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
 internal data object MoviesSearchScreen : Screen<Unit>() {
 
@@ -100,12 +101,12 @@ internal data object MoviesSearchScreen : Screen<Unit>() {
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 private const val COLOR_TRANSITION_FRACTION_THRESHOLD = 0.01f
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun MoviesSearch(
     onBack: () -> Unit,
     onMovieDetails: (Movie) -> Unit,
-    viewModel: MoviesSearchViewModel = koinInject(),
+    viewModel: MoviesSearchViewModel = koinViewModel(),
     gridState: LazyGridState = rememberLazyGridState(),
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },

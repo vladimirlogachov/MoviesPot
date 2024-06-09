@@ -69,7 +69,8 @@ import moviespot.shared_presentation.generated.resources.keywords
 import moviespot.shared_presentation.generated.resources.no_results
 import moviespot.shared_presentation.generated.resources.recommendations
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.parametersOf
 
 internal data object MovieDetailsScreen : Screen<MovieDetailsScreen.Params>() {
@@ -140,7 +141,7 @@ internal data object MovieDetailsScreen : Screen<MovieDetailsScreen.Params>() {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun MovieDetails(
     movieId: Long,
@@ -151,7 +152,7 @@ internal fun MovieDetails(
     onSimilar: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
     onKeywordMovies: (keyword: Keyword) -> Unit,
-    viewModel: MovieDetailsViewModel = koinInject { parametersOf(movieId) },
+    viewModel: MovieDetailsViewModel = koinViewModel { parametersOf(movieId) },
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {

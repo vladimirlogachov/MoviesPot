@@ -40,7 +40,8 @@ import com.vlohachov.shared.presentation.ui.screen.details.MovieDetailsScreen
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.similar_to
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.parametersOf
 
 internal data object SimilarMoviesScreen : Screen<SimilarMoviesScreen.Params>() {
@@ -86,14 +87,14 @@ internal data object SimilarMoviesScreen : Screen<SimilarMoviesScreen.Params>() 
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun SimilarMovies(
     movieId: Long,
     movieTitle: String,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
-    viewModel: SimilarMoviesViewModel = koinInject { parametersOf(movieId) },
+    viewModel: SimilarMoviesViewModel = koinViewModel { parametersOf(movieId) },
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {

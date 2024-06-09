@@ -63,7 +63,8 @@ import moviespot.shared_presentation.generated.resources.discover_movies
 import moviespot.shared_presentation.generated.resources.year
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
 internal data object DiscoverScreen : Screen<Unit>() {
 
@@ -87,12 +88,12 @@ internal data object DiscoverScreen : Screen<Unit>() {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun Discover(
     onBack: () -> Unit,
     onDiscover: (year: Int?, genres: List<Int>?) -> Unit,
-    viewModel: DiscoverViewModel = koinInject(),
+    viewModel: DiscoverViewModel = koinViewModel(),
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
