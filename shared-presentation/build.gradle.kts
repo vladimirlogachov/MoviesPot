@@ -41,7 +41,7 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
-
+    // TODO("uncomment when androidx.paging:paging-common supports 'wasm' target")
 //    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
 //        browser()
@@ -64,7 +64,6 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.paging.compose)
             implementation(compose.uiTooling)
             api(libs.koin.android)
         }
@@ -72,16 +71,12 @@ kotlin {
             implementation(project(":shared-data"))
             implementation(project(":shared-domain"))
 
-            implementation(libs.androidx.navigation.compose)
-            implementation(libs.androidx.navigation.common)
+            implementation(libs.bundles.coil)
+            implementation(libs.bundles.koin.compose)
+            implementation(libs.bundles.androidx.navigation)
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.paging.common)
-            implementation(libs.ktor.client.core)
             implementation(libs.kotlin.datetime)
-            implementation(libs.coil.network.ktor)
-            implementation(libs.coil.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.koin.compose)
             api(libs.koin.core)
 
             implementation(compose.ui)
@@ -91,8 +86,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
         }
         commonTest.dependencies {
-            implementation(libs.turbine)
-            implementation(libs.kotlin.test)
+            implementation(libs.bundles.test)
             implementation(libs.androidx.paging.testing)
 
             @OptIn(ExperimentalComposeLibrary::class)
