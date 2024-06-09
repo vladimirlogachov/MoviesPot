@@ -55,7 +55,8 @@ import com.vlohachov.shared.presentation.ui.screen.Screen
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.crew
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.parametersOf
 
 internal data object CrewScreen : Screen<CrewScreen.Params>() {
@@ -87,12 +88,12 @@ internal data object CrewScreen : Screen<CrewScreen.Params>() {
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun Crew(
     movieId: Long,
     onBack: () -> Unit,
-    viewModel: CrewViewModel = koinInject { parametersOf(movieId) },
+    viewModel: CrewViewModel = koinViewModel { parametersOf(movieId) },
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {

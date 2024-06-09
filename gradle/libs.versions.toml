@@ -15,7 +15,8 @@ ksp = "2.0.0-1.0.22"
 build-konfig = "0.15.1"
 multiplatform-settings = "1.1.1"
 
-koin = "3.6.0-wasm-alpha2"
+koin = "3.6.0-Beta4"
+koin-compose = "1.2.0-Beta4"
 
 kotlin = "2.0.0"
 kotlin-datetime = "0.6.0"
@@ -34,10 +35,11 @@ multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil" }
 
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-compose" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

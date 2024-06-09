@@ -65,7 +65,8 @@ import moviespot.shared_presentation.generated.resources.upcoming
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
 internal data object MainScreen : Screen<Unit>() {
 
@@ -106,7 +107,7 @@ internal data object MainScreen : Screen<Unit>() {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun Main(
     onSearch: () -> Unit,
@@ -114,7 +115,7 @@ internal fun Main(
     onMovieDetails: (Movie) -> Unit,
     onMore: (MovieCategory) -> Unit,
     onDiscover: () -> Unit,
-    viewModel: MainViewModel = koinInject(),
+    viewModel: MainViewModel = koinViewModel(),
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {

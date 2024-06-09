@@ -80,6 +80,7 @@ kotlin {
             implementation(libs.kotlin.datetime)
             implementation(libs.coil.network.ktor)
             implementation(libs.coil.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose)
             api(libs.koin.core)
 

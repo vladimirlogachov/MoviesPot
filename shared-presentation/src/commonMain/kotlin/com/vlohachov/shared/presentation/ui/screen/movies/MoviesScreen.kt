@@ -47,7 +47,8 @@ import moviespot.shared_presentation.generated.resources.top_rated
 import moviespot.shared_presentation.generated.resources.upcoming
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.parametersOf
 
 internal data object MoviesScreen : Screen<MoviesScreen.Params>() {
@@ -89,13 +90,13 @@ internal data object MoviesScreen : Screen<MoviesScreen.Params>() {
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun Movies(
     category: MovieCategory,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
-    viewModel: MoviesViewModel = koinInject { parametersOf(category) },
+    viewModel: MoviesViewModel = koinViewModel { parametersOf(category) },
     gridState: LazyGridState = rememberLazyGridState(),
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },

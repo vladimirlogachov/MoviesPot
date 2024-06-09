@@ -39,7 +39,8 @@ import com.vlohachov.shared.presentation.ui.screen.details.MovieDetailsScreen
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.discover_results
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.parameter.parametersOf
 
 internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>() {
@@ -93,14 +94,14 @@ internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>(
 
 private const val VISIBLE_ITEMS_THRESHOLD = 3
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun DiscoverResult(
     year: Int?,
     genres: IntArray?,
     onBack: () -> Unit,
     onMovieDetails: (movie: Movie) -> Unit,
-    viewModel: DiscoverResultViewModel = koinInject { parametersOf(year, genres) },
+    viewModel: DiscoverResultViewModel = koinViewModel { parametersOf(year, genres) },
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
