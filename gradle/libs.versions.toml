@@ -63,6 +63,32 @@ androidx-lifecycle-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecy
 androidx-navigation-common = { module = "org.jetbrains.androidx.navigation:navigation-common", version.ref = "androidx-navigation" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 
+[bundles]
+coil = [
+    "coil-compose",
+    "coil-network-ktor"
+]
+koin-compose = [
+    "koin-compose",
+    "koin-compose-viewmodel"
+]
+ktor-data = [
+    "ktor-serialization",
+    "ktor-client-logging",
+    "ktor-client-core",
+    "ktor-client-json",
+    "ktor-client-content-negotiation"
+]
+androidx-navigation = [
+    "androidx-navigation-common",
+    "androidx-navigation-compose"
+]
+test = [
+    "turbine",
+    "kotlin-test",
+    "kotlin-corutiens-test"
+]
+
 [plugins]
 mokkery = { id = "dev.mokkery", version.ref = "mokkery" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
