@@ -4,7 +4,7 @@ android-minSdk = "30"
 android-targetSdk = "34"
 
 agp = "8.5.0"
-coil = "3.0.0-alpha06"
+coil = "3.0.0-alpha07"
 ktor = "3.0.0-wasm2"
 detekt = "1.23.6"
 turbine = "1.1.0"
@@ -16,7 +16,7 @@ build-konfig = "0.15.1"
 multiplatform-settings = "1.1.1"
 
 koin = "3.6.0-Beta4"
-koin-compose = "1.2.0-Beta4"
+koin-compose = "1.2.0-alpha3"
 
 kotlin = "2.0.0"
 kotlin-datetime = "0.6.0"
