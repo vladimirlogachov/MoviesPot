@@ -27,23 +27,36 @@
       "matchPackagePatterns": [
         "androidx.*"
       ],
-      "groupName": "AndroidX"
-    },
-    {
-      "matchPackagePatterns": [
-        ".*compose.*",
-        "dev.mokkery",
-        ".*devtools.ksp.*",
-        "org.jetbrains.kotlin.*"
-      ],
-      "groupName": "Compose&Kotlin"
-    },
-    {
-      "matchPackagePatterns": [
-        "androidx.*"
-      ],
+      "groupName": "AndroidX",
       "addLabels": [
         "androidx"
+      ]
+    },
+        {
+      "matchPackagePatterns": [
+        "io.insert-koin.*"
+      ],
+      "groupName": "Koin",
+      "addLabels": [
+        "koin"
+      ]
+    },
+    {
+      "matchPackagePatterns": [
+        "io.ktor.*"
+      ],
+      "groupName": "Ktor",
+      "addLabels": [
+        "ktor"
+      ]
+    },
+    {
+      "matchPackagePatterns": [
+        "io.coil-kt.*"
+      ],
+      "groupName": "Coil",
+      "addLabels": [
+        "coil"
       ]
     },
     {
@@ -68,30 +81,6 @@
       ],
       "addLabels": [
         "kotlin"
-      ]
-    },
-    {
-      "matchPackagePatterns": [
-        "io.insert-koin.*"
-      ],
-      "addLabels": [
-        "koin"
-      ]
-    },
-    {
-      "matchPackagePatterns": [
-        "io.ktor.*"
-      ],
-      "addLabels": [
-        "koin"
-      ]
-    },
-    {
-      "matchPackagePatterns": [
-        "io.coil-kt.*"
-      ],
-      "addLabels": [
-        "coil"
       ]
     }
   ]
