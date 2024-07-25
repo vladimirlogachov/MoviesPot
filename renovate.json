@@ -93,7 +93,7 @@
       "matchPackagePatterns": [
         "io.insert-koin.*"
       ],
-      "allowedVersions": "!/^(1\\.2\\.0-alpha.*|3\\.6\\.0-alpha.*)$/"
+      "allowedVersions": "!/^(1\\.2\\.0-alpha.*|3\\.6\\.0.*alpha.*)$/"
     }
   ]
 }
