@@ -32,7 +32,7 @@
         "androidx"
       ]
     },
-        {
+    {
       "matchPackagePatterns": [
         "io.insert-koin.*"
       ],
@@ -82,6 +82,12 @@
       "addLabels": [
         "kotlin"
       ]
+    },
+    {
+      "matchPackagePatterns": [
+        "io.ktor.*"
+      ],
+      "allowedVersions": "!/^(3\\.2\\.0|3\\.0\\.0-wasm2)$/"
     }
   ]
 }
