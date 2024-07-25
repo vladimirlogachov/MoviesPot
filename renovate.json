@@ -87,7 +87,7 @@
       "matchPackagePatterns": [
         "io.ktor.*"
       ],
-      "allowedVersions": "!/^(3\\.2\\.0|3\\.0\\.0-wasm2)$/"
+      "allowedVersions": "!/^(3\\.2\\.0|3\\.0\\.0-wasm.*)$/"
     }
   ]
 }
