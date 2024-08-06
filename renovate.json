@@ -24,76 +24,76 @@
       "groupName": "Actions"
     },
     {
-      "matchPackagePatterns": [
-        "androidx.*"
-      ],
       "groupName": "AndroidX",
       "addLabels": [
         "androidx"
+      ],
+      "matchPackageNames": [
+        "/androidx.*/"
       ]
     },
     {
-      "matchPackagePatterns": [
-        "io.insert-koin.*"
-      ],
       "groupName": "Koin",
       "addLabels": [
         "koin"
+      ],
+      "matchPackageNames": [
+        "/io.insert-koin.*/"
       ]
     },
     {
-      "matchPackagePatterns": [
-        "io.ktor.*"
-      ],
       "groupName": "Ktor",
       "addLabels": [
         "ktor"
+      ],
+      "matchPackageNames": [
+        "/io.ktor.*/"
       ]
     },
     {
-      "matchPackagePatterns": [
-        "io.coil-kt.*"
-      ],
       "groupName": "Coil",
       "addLabels": [
         "coil"
+      ],
+      "matchPackageNames": [
+        "/io.coil-kt.*/"
       ]
     },
     {
-      "matchPackagePatterns": [
-        ".*compose.*"
-      ],
       "addLabels": [
         "compose"
+      ],
+      "matchPackageNames": [
+        "/.*compose.*/"
       ]
     },
     {
-      "matchPackagePatterns": [
-        ".*devtools.ksp.*"
-      ],
       "addLabels": [
         "ksp"
+      ],
+      "matchPackageNames": [
+        "/.*devtools.ksp.*/"
       ]
     },
     {
-      "matchPackagePatterns": [
-        "org.jetbrains.kotlin.*"
-      ],
       "addLabels": [
         "kotlin"
+      ],
+      "matchPackageNames": [
+        "/org.jetbrains.kotlin.*/"
       ]
     },
     {
-      "matchPackagePatterns": [
-        "io.ktor.*"
-      ],
-      "allowedVersions": "!/^(3\\.2\\.0|3\\.0\\.0-wasm.*)$/"
+      "allowedVersions": "!/^(3\\.2\\.0|3\\.0\\.0-wasm.*)$/",
+      "matchPackageNames": [
+        "/io.ktor.*/"
+      ]
     },
     {
-      "matchPackagePatterns": [
-        "io.insert-koin.*"
-      ],
-      "allowedVersions": "!/^(1\\.2\\.0-alpha.*|3\\.6\\.0.*alpha.*)$/"
+      "allowedVersions": "!/^(1\\.2\\.0-alpha.*|3\\.6\\.0.*alpha.*)$/",
+      "matchPackageNames": [
+        "/io.insert-koin.*/"
+      ]
     }
   ]
 }
