@@ -19,7 +19,7 @@ koin = "3.6.0-Beta5"
 koin-compose = "1.2.0-Beta5"
 
 kotlin = "2.0.10"
-kotlin-datetime = "0.6.0"
+kotlin-datetime = "0.6.1"
 kotlin-coroutines = "1.8.1"
 
 androidx-paging = "3.3.2"
