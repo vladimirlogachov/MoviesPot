@@ -15,8 +15,8 @@ ksp = "2.0.20-1.0.25"
 build-konfig = "0.15.2"
 multiplatform-settings = "1.2.0"
 
-koin = "3.6.0-Beta5"
-koin-compose = "1.2.0-Beta5"
+koin = "4.0.0"
+koin-compose = "4.0.0"
 
 kotlin = "2.0.20"
 kotlin-datetime = "0.6.1"
