@@ -16,8 +16,8 @@ import com.vlohachov.shared.presentation.ui.screen.movies.similar.SimilarMoviesV
 import com.vlohachov.shared.presentation.ui.screen.search.MoviesSearchPager
 import com.vlohachov.shared.presentation.ui.screen.search.MoviesSearchViewModel
 import com.vlohachov.shared.presentation.ui.screen.settings.SettingsViewModel
-import org.koin.compose.viewmodel.dsl.viewModel
-import org.koin.compose.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 internal val viewModelModule = module {
