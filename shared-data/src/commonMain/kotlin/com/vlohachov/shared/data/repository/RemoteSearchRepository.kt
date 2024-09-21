@@ -18,9 +18,9 @@ public class RemoteSearchRepository(private val client: HttpClient) : SearchRepo
     override fun searchMovies(
         query: String,
         page: Int,
-        language: String?
+        language: String?,
     ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedScheme> {
-        url(host = TmdbConfig.HOST, path = "/3/search/movie") {
+        url(scheme = "https", host = TmdbConfig.HOST, path = "/3/search/movie") {
             parameter(key = "query", value = query)
             parameter(key = "page", value = page)
             parameter(key = "language", value = language)
