@@ -1,8 +1,6 @@
 [![Validation](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml/badge.svg?branch=master)](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml)
 
-# Movies Pot
-
-![Static Badge](https://img.shields.io/badge/android-3DDC84?label=target) ![Static Badge](https://img.shields.io/badge/iOS-A2AAAD?label=target)
+# Movies Pot ![Static Badge](https://img.shields.io/badge/android-3DDC84?label=target) ![Static Badge](https://img.shields.io/badge/iOS-A2AAAD?label=target)
 
 Kotlin + Compose multiplatform project that allows users to explore the world of movies with
 ease. It utilizes the TMDB API to fetch movie data and presents it in a visually appealing manner.
