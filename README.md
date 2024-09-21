@@ -1,6 +1,6 @@
+![Static Badge](https://img.shields.io/badge/android-3DDC84?label=target) ![Static Badge](https://img.shields.io/badge/iOS-A2AAAD?label=target)
+
 [![Validation](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml/badge.svg?branch=master)](https://github.com/vladimirlogachov/MoviesPot/actions/workflows/validation.yml)
-![Static Badge](https://img.shields.io/badge/android-3DDC84?label=target)
-![Static Badge](https://img.shields.io/badge/iOS-A2AAAD?label=target)
 
 # Movies Pot
 
