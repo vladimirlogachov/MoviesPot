@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 public class RemoteGenreRepository(private val client: HttpClient) : GenreRepository {
 
     override fun getGenres(language: String?): Flow<List<Genre>> = client.getFlow<GenresScheme> {
-        url(host = TmdbConfig.HOST, path = "/3/genre/movie/list") {
+        url(scheme = "https", host = TmdbConfig.HOST, path = "/3/genre/movie/list") {
             parameter(key = "api_key", value = TmdbConfig.API_KEY)
             parameter(key = "language", value = language)
         }

@@ -20,9 +20,9 @@ public class RemoteDiscoverRepository(private val client: HttpClient) : Discover
         year: Int?,
         genres: String?,
         keywords: String?,
-        language: String?
+        language: String?,
     ): Flow<PaginatedData<Movie>> = client.getFlow<MoviesPaginatedScheme> {
-        url(host = TmdbConfig.HOST, path = "/3/discover/movie") {
+        url(scheme = "https", host = TmdbConfig.HOST, path = "/3/discover/movie") {
             parameter(key = "api_key", value = TmdbConfig.API_KEY)
             parameter(key = "page", value = page)
             parameter(key = "year", value = year)

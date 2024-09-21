@@ -71,13 +71,15 @@ kotlin {
             implementation(project(":shared-data"))
             implementation(project(":shared-domain"))
 
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.kotlin.datetime)
+
             implementation(libs.bundles.coil)
             implementation(libs.bundles.koin.compose)
             implementation(libs.bundles.androidx.navigation)
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.paging.common)
-            implementation(libs.kotlin.datetime)
-            api(libs.koin.core)
 
             implementation(compose.ui)
             implementation(compose.material3)
@@ -91,6 +93,9 @@ kotlin {
 
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         val desktopTest by getting
         desktopTest.dependencies {
