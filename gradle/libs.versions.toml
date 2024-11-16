@@ -11,7 +11,7 @@ turbine = "1.2.0"
 mokkery = "2.5.1"
 compose = "1.7.1"
 material = "1.12.0"
-ksp = "2.0.21-1.0.27"
+ksp = "2.0.21-1.0.28"
 build-konfig = "0.15.2"
 multiplatform-settings = "1.2.0"
 
