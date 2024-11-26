@@ -4,7 +4,7 @@ android-minSdk = "30"
 android-targetSdk = "34"
 
 agp = "8.7.2"
-coil = "3.0.3"
+coil = "3.0.4"
 ktor = "3.0.1"
 detekt = "1.23.7"
 turbine = "1.2.0"
