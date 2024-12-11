@@ -21,7 +21,7 @@ kotlin = "2.1.0"
 kotlin-datetime = "0.6.1"
 kotlin-coroutines = "1.9.0"
 
-androidx-paging = "3.3.4"
+androidx-paging = "3.3.5"
 androidx-lifecycle = "2.8.4"
 androidx-navigation = "2.7.0-alpha07" # 2.8.* is not compatiable with Compose 1.6.*
 androidx-activity-compose = "1.9.3"
