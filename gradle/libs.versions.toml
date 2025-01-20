@@ -1,7 +1,7 @@
 [versions]
-android-compileSdk = "34"
+android-compileSdk = "35"
 android-minSdk = "30"
-android-targetSdk = "34"
+android-targetSdk = "35"
 
 agp = "8.8.0"
 coil = "3.0.4"
@@ -24,7 +24,7 @@ kotlin-coroutines = "1.10.1"
 androidx-paging = "3.3.5"
 androidx-lifecycle = "2.8.4"
 androidx-navigation = "2.7.0-alpha07" # 2.8.* is not compatiable with Compose 1.6.*
-androidx-activity-compose = "1.9.3"
+androidx-activity-compose = "1.10.0"
 
 [libraries]
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
