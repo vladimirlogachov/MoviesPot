@@ -5,7 +5,7 @@ android-targetSdk = "35"
 
 agp = "8.8.1"
 coil = "3.1.0"
-ktor = "3.1.0"
+ktor = "3.1.1"
 detekt = "1.23.8"
 turbine = "1.2.0"
 mokkery = "2.7.0"
