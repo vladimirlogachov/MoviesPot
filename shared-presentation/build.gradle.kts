@@ -80,7 +80,6 @@ kotlin {
             implementation(libs.bundles.coil)
             implementation(libs.bundles.koin.compose)
             implementation(libs.bundles.androidx.navigation)
-//            implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.paging.common)
 
             implementation(compose.ui)
