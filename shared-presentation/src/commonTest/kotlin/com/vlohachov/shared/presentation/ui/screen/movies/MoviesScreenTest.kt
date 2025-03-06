@@ -42,7 +42,6 @@ import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.upcoming
 import org.jetbrains.compose.resources.getString
 import kotlin.js.JsName
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -177,7 +176,6 @@ class MoviesScreenTest {
 
     @Test
     @JsName(name = "check_scroll_to_top")
-    @Ignore // TODO("remove when https://github.com/coil-kt/coil/issues/1764 fixed")
     fun `check scroll to top`() = runComposeUiTest {
         val largeMovies = buildList {
             repeat(times = 20) { id -> add(testMovie(id = id.toLong())) }
