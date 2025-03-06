@@ -60,11 +60,8 @@ internal class LazyPagingItems<T : Any> internal constructor(
             null
         }
     ) {
-        override suspend fun presentPagingDataEvent(
-            event: PagingDataEvent<T>,
-        ) {
+        override suspend fun presentPagingDataEvent(event: PagingDataEvent<T>) =
             updateItemSnapshotList()
-        }
     }
 
     /**
@@ -73,9 +70,7 @@ internal class LazyPagingItems<T : Any> internal constructor(
      * Note that similarly to [peek] accessing the items in a list will not trigger any loads.
      * Use [get] to achieve such behavior.
      */
-    var itemSnapshotList by mutableStateOf(
-        pagingDataPresenter.snapshot()
-    )
+    var itemSnapshotList by mutableStateOf(value = pagingDataPresenter.snapshot())
         private set
 
     /**
@@ -167,6 +162,7 @@ internal class LazyPagingItems<T : Any> internal constructor(
             pagingDataPresenter.collectFrom(pagingData = data)
         }
     }
+
 }
 
 private val IncompleteLoadState = LoadState.NotLoading(endOfPaginationReached = false)

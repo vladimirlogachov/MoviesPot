@@ -36,7 +36,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlin.js.JsName
-import kotlin.test.Ignore
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -184,7 +183,6 @@ class KeywordMoviesScreenTest {
 
     @Test
     @JsName(name = "check_scroll_to_top")
-    @Ignore // TODO("remove when https://github.com/coil-kt/coil/issues/1764 fixed")
     fun `check scroll to top`() = runComposeUiTest {
         val largeMovies = buildList {
             repeat(times = 20) { id -> add(testMovie(id = id.toLong())) }

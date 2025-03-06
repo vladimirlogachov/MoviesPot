@@ -65,6 +65,8 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(compose.uiTooling)
+
+            api(project.dependencies.platform(libs.koin.bom))
             api(libs.koin.android)
         }
         commonMain.dependencies {
@@ -78,7 +80,6 @@ kotlin {
             implementation(libs.bundles.coil)
             implementation(libs.bundles.koin.compose)
             implementation(libs.bundles.androidx.navigation)
-            implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.paging.common)
 
             implementation(compose.ui)

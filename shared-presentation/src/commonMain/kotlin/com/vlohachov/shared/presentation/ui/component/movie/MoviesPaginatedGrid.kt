@@ -46,10 +46,6 @@ internal fun MoviesPaginatedGrid(
     verticalArrangement: Arrangement.Vertical = MoviesPaginatedGridDefaults.VerticalArrangement,
     horizontalArrangement: Arrangement.Horizontal = MoviesPaginatedGridDefaults.HorizontalArrangement,
 ) {
-    val itemModifier = Modifier
-        .fillMaxWidth()
-        .aspectRatio(ratio = .75f)
-
     LazyVerticalGrid(
         modifier = modifier.testTag(tag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag),
         state = state,
@@ -65,7 +61,9 @@ internal fun MoviesPaginatedGrid(
         items(count = movies.itemCount) { index ->
             movies[index]?.run {
                 MovieItem(
-                    modifier = itemModifier,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(ratio = .75f),
                     movie = this,
                     onClick = onClick,
                 )
@@ -94,7 +92,7 @@ private fun MovieItem(
     movie: Movie,
     onClick: ((movie: Movie) -> Unit)?,
 ) {
-    var error by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf(value = false) }
     val painter = rememberAsyncImagePainter(
         model = movie.posterPath,
         onError = { error = true },
