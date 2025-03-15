@@ -24,7 +24,7 @@ import com.vlohachov.shared.presentation.utils.DummyMovies
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun MoviesLazyRow(
+internal fun MoviesLazyRow(
     movies: List<Movie>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = MoviesLazyRowDefaults.ContentPadding,

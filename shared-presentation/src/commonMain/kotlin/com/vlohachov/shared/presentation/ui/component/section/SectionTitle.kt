@@ -17,7 +17,7 @@ import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun SectionTitle(
+internal fun SectionTitle(
     text: String,
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,

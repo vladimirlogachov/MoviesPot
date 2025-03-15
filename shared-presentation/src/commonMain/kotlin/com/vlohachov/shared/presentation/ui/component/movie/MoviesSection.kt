@@ -30,7 +30,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun MoviesSection(
+internal fun MoviesSection(
     title: String,
     viewState: ViewState<List<Movie>>,
     modifier: Modifier = Modifier,

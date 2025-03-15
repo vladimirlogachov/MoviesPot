@@ -7,17 +7,17 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.text.TextStyle
 
 @Stable
-public interface SectionTextStyles {
+internal interface SectionTextStyles {
 
     @Composable
-    public fun titleTextStyle(): State<TextStyle>
+    fun titleTextStyle(): State<TextStyle>
 
     @Composable
-    public fun contentTextStyle(): State<TextStyle>
+    fun contentTextStyle(): State<TextStyle>
 
 }
 
-public class DefaultSectionTextStyles(
+internal class DefaultSectionTextStyles(
     private val titleTextStyle: TextStyle,
     private val contentTextStyle: TextStyle,
 ) : SectionTextStyles {

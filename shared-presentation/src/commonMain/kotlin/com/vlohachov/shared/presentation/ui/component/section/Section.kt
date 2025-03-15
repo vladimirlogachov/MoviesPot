@@ -20,7 +20,7 @@ import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun Section(
+internal fun Section(
     title: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,

@@ -21,7 +21,7 @@ import moviespot.shared_presentation.generated.resources.scroll_to_top
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-public fun ScrollToTop(
+internal fun ScrollToTop(
     visible: Boolean,
     gridState: LazyGridState,
     modifier: Modifier = Modifier,

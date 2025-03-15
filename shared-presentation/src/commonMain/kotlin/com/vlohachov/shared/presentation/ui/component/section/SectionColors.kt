@@ -7,17 +7,17 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
 
 @Stable
-public interface SectionColors {
+internal interface SectionColors {
 
     @Composable
-    public fun titleColor(): State<Color>
+    fun titleColor(): State<Color>
 
     @Composable
-    public fun contentColor(): State<Color>
+    fun contentColor(): State<Color>
 
 }
 
-public class DefaultSectionColors(
+internal class DefaultSectionColors(
     private val titleColor: Color,
     private val contentColor: Color,
 ) : SectionColors {

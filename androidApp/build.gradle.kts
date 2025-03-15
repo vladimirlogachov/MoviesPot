@@ -41,6 +41,9 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+    sourceSets {
+        configureEach { languageSettings.enableLanguageFeature(name = "ExplicitBackingFields") }
+    }
 }
 
 dependencies {

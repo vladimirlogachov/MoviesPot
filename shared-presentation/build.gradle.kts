@@ -62,10 +62,9 @@ kotlin {
     }
 
     sourceSets {
+        configureEach { languageSettings.enableLanguageFeature(name = "ExplicitBackingFields") }
         androidMain.dependencies {
-            implementation(libs.androidx.activity.compose)
             implementation(compose.uiTooling)
-
             api(project.dependencies.platform(libs.koin.bom))
             api(libs.koin.android)
         }

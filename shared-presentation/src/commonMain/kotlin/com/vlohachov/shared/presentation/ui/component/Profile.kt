@@ -40,7 +40,7 @@ import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun Profile(
+internal fun Profile(
     painter: Painter,
     title: String,
     body: String,
@@ -75,7 +75,7 @@ public fun Profile(
 }
 
 @Composable
-public fun Profile(
+internal fun Profile(
     painter: Painter,
     title: String,
     body: String,

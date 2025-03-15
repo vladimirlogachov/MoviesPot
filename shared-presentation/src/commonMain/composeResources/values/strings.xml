@@ -46,4 +46,6 @@
     <string name="author">Author: </string>
     <string name="author_name">Volodymyr Lohachov</string>
     <string name="author_link">https://github.com/vladimirlogachov</string>
+    <string name="error_common_title">Error</string>
+    <string name="failed_to_load_settings">Failed to load settings.</string>
 </resources>

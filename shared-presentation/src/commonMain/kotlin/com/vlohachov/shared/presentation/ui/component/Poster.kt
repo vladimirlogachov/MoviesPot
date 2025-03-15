@@ -33,7 +33,7 @@ import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun Poster(
+internal fun Poster(
     painter: Painter,
     modifier: Modifier = Modifier,
     error: Boolean = false,
@@ -78,7 +78,7 @@ public fun Poster(
 }
 
 @Composable
-public fun Poster(
+internal fun Poster(
     painter: Painter,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
