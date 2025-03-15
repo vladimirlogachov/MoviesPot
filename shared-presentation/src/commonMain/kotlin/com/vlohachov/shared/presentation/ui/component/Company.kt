@@ -29,7 +29,7 @@ import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun Company(
+internal fun Company(
     painter: Painter,
     name: String,
     modifier: Modifier = Modifier,

@@ -10,6 +10,7 @@ import moviespot.shared_presentation.generated.resources.unknown_error_local
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
+@Deprecated(message = "Use ErrorCard instead")
 public fun ErrorBar(
     error: Throwable?,
     snackbarHostState: SnackbarHostState,
@@ -21,7 +22,7 @@ public fun ErrorBar(
 
     val unknownErrorText = stringResource(resource = Res.string.unknown_error_local)
 
-    LaunchedEffect(snackbarHostState) {
+    LaunchedEffect(error) {
         when (
             snackbarHostState.showSnackbar(
                 message = error.message ?: unknownErrorText,

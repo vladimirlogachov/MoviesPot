@@ -24,7 +24,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-public fun AppBar(
+internal fun AppBar(
     modifier: Modifier,
     title: String,
     onBackClick: () -> Unit,
@@ -41,7 +41,7 @@ public fun AppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-public fun LargeAppBar(
+internal fun LargeAppBar(
     modifier: Modifier,
     title: String,
     onBackClick: () -> Unit,
