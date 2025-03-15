@@ -19,22 +19,21 @@ internal class SettingsViewModel(
     private val applyDynamicTheme: ApplyDynamicTheme,
 ) : ViewModel() {
 
-    private val _settings = loadSettings(param = Unit)
-        .onEach { result ->
-            uiState.update { state ->
-                when (result) {
-                    Result.Loading -> state.copy(isLoading = true)
-                    is Result.Error -> state.copy(isLoading = false, error = result.exception)
-                    is Result.Success<Settings> -> SettingsUiState(settings = result.value)
-                }
-            }
-        }
-
     val uiState: StateFlow<SettingsUiState>
         field: MutableStateFlow<SettingsUiState> = MutableStateFlow(value = SettingsUiState())
 
     init {
-        _settings.launchIn(scope = viewModelScope)
+        loadSettings(param = Unit)
+            .onEach { result ->
+                uiState.update { state ->
+                    when (result) {
+                        Result.Loading -> state.copy(isLoading = true)
+                        is Result.Error -> state.copy(isLoading = false, error = result.exception)
+                        is Result.Success<Settings> -> SettingsUiState(settings = result.value)
+                    }
+                }
+            }
+            .launchIn(scope = viewModelScope)
     }
 
     fun applyDynamicTheme(apply: Boolean) {
