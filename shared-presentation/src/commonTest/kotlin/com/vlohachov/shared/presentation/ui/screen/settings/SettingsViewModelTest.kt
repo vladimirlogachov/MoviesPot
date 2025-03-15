@@ -24,7 +24,7 @@ class SettingsViewModelTest {
 
     private val repository = mock<SettingsRepository> {
         every { getSettings() } returns flow {
-            delay(timeMillis = 50)
+            delay(timeMillis = 100)
             emit(value = TestSettings)
         }
     }
