@@ -26,7 +26,7 @@ class LoadSettingsTest {
     fun `result flow emits Loading`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
-        useCase(param = Unit).test {
+        useCase().test {
             assertIs<Result.Loading>(value = awaitItem())
             skipItems(count = 1)
             awaitComplete()
@@ -38,7 +38,7 @@ class LoadSettingsTest {
     fun `result flow emits Value`() = runTest {
         every { repository.getSettings() } returns flowOf(TestSettings)
 
-        useCase(param = Unit).test {
+        useCase().test {
             assertIs<Result.Success<Settings>>(value = expectMostRecentItem())
             awaitComplete()
         }
@@ -49,7 +49,7 @@ class LoadSettingsTest {
     fun `result flow emits Error`() = runTest {
         every { repository.getSettings() } returns flow { throw NullPointerException() }
 
-        useCase(param = Unit).test {
+        useCase().test {
             assertIs<Result.Error>(value = expectMostRecentItem())
             awaitComplete()
         }
