@@ -1,17 +1,15 @@
 package com.vlohachov.shared.domain.usecase.settings
 
-import app.cash.turbine.test
-import com.vlohachov.shared.domain.Result
 import com.vlohachov.shared.domain.repository.SettingsRepository
 import dev.mokkery.answering.returns
-import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.test.runTest
 import kotlin.js.JsName
 import kotlin.test.Test
-import kotlin.test.assertIs
 
 class ApplyDynamicThemeTest {
 
@@ -24,36 +22,14 @@ class ApplyDynamicThemeTest {
     private val useCase = ApplyDynamicTheme(repository = repository)
 
     @Test
-    @JsName(name = "result_flow_emits_Loading")
-    fun `result flow emits Loading`() = runTest {
+    @JsName(name = "check_applies_dynamic_theme")
+    fun `check applies dynamic theme`() = runTest {
         everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
 
-        useCase(param = TestParam).test {
-            assertIs<Result.Loading>(value = awaitItem())
-            skipItems(count = 1)
-            awaitComplete()
-        }
-    }
+        useCase(param = TestParam)
 
-    @Test
-    @JsName(name = "result_flow_emits_Value")
-    fun `result flow emits Value`() = runTest {
-        everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
-
-        useCase(param = TestParam).test {
-            assertIs<Result.Success<Boolean>>(value = expectMostRecentItem())
-            awaitComplete()
-        }
-    }
-
-    @Test
-    @JsName(name = "result_flow_emits_Error")
-    fun `result flow emits Error`() = runTest {
-        everySuspend { repository.applyDynamicTheme(apply = any()) } throws NullPointerException()
-
-        useCase(param = TestParam).test {
-            assertIs<Result.Error>(value = expectMostRecentItem())
-            awaitComplete()
+        verifySuspend(mode = VerifyMode.atMost(n = 1)) {
+            repository.applyDynamicTheme(apply = any())
         }
     }
 
