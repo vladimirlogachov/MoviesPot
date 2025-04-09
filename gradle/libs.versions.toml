@@ -20,7 +20,7 @@ koin-bom = "4.0.4"
 
 kotlin = "2.1.20"
 kotlin-datetime = "0.6.2"
-kotlin-coroutines = "1.10.1"
+kotlin-coroutines = "1.10.2"
 
 androidx-paging = "3.3.6"
 androidx-navigation = "2.8.0-alpha11"
