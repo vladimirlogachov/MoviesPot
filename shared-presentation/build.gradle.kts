@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.build.konfig)
     alias(libs.plugins.mokkery)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.detekt)
 }
 
@@ -79,6 +79,7 @@ kotlin {
             implementation(libs.bundles.koin.compose)
             implementation(libs.bundles.androidx.navigation)
             implementation(libs.androidx.paging.common)
+            implementation(libs.androidx.lifecycle.runtime.compose)
 
             implementation(compose.ui)
             implementation(compose.material3)

@@ -69,10 +69,10 @@ internal data object MoviesScreen : Screen<MoviesScreen.Params>() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
-            val category =
-                requireNotNull(value = backStackEntry.arguments?.getString(ArgCategory)) {
-                    "Missing required argument $ArgCategory"
-                }.run(MovieCategory::valueOf)
+            val category = backStackEntry.arguments.readOrThrow(
+                block = { getString(ArgCategory) },
+                lazyMessage = { "Missing required argument $ArgCategory" },
+            ).run(MovieCategory::valueOf)
 
             Movies(
                 category = category,

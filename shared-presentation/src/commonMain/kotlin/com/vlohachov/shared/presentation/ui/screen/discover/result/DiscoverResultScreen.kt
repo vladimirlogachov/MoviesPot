@@ -27,6 +27,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.savedstate.read
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.presentation.core.collectAsLazyPagingItems
 import com.vlohachov.shared.presentation.ui.component.bar.AppBar
@@ -69,8 +70,8 @@ internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>(
 
     override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
-            val year = backStackEntry.arguments?.getString(ArgYear)
-            val genres = backStackEntry.arguments?.getString(ArgGenres)
+            val year = backStackEntry.arguments?.read { getString(ArgYear) }
+            val genres = backStackEntry.arguments?.read { getString(ArgGenres) }
 
             DiscoverResult(
                 year = year?.toIntOrNull(),

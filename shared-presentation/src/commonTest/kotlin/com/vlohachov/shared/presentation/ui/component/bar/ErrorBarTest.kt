@@ -41,7 +41,7 @@ class ErrorBarTest {
     }
 
     @Test
-    @JsName(name = "error_bar_dissmissed")
+    @JsName(name = "error_bar_dismissed")
     fun `error bar dismissed`() = runComposeUiTest {
         var dismissed = false
         errorBar(
@@ -49,6 +49,7 @@ class ErrorBarTest {
             duration = SnackbarDuration.Short,
             onDismissed = { dismissed = true }
         )
+        mainClock.advanceTimeBy(milliseconds = 4000L) // Equals to SnackbarDuration.Short
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
