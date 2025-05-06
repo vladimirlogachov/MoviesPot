@@ -49,9 +49,10 @@ internal data object FullscreenImageScreen : Screen<FullscreenImageScreen.Params
 
     override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
-            val imagePath = requireNotNull(value = backStackEntry.arguments?.getString(ArgPath)) {
-                "Missing required argument $ArgPath"
-            }
+            val imagePath = backStackEntry.arguments.readOrThrow(
+                block = { getString(ArgPath) },
+                lazyMessage = { "Missing required argument $ArgPath" },
+            )
 
             FullscreenImage(path = imagePath, onBack = navController::navigateUp)
         }

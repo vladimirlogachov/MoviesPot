@@ -61,14 +61,14 @@ internal data object KeywordMoviesScreen : Screen<KeywordMoviesScreen.Params>() 
 
     override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
-            val keyword =
-                requireNotNull(value = backStackEntry.arguments?.getString(ArgKeyword)) {
-                    "Missing required argument $ArgKeyword"
-                }
-            val keywordId =
-                requireNotNull(value = backStackEntry.arguments?.getInt(ArgKeywordId)) {
-                    "Missing required argument $ArgKeywordId"
-                }
+            val keyword = backStackEntry.arguments.readOrThrow(
+                block = { getString(ArgKeyword) },
+                lazyMessage = { "Missing required argument $ArgKeyword" },
+            )
+            val keywordId = backStackEntry.arguments.readOrThrow(
+                block = { getInt(ArgKeywordId) },
+                lazyMessage = { "Missing required argument $ArgKeywordId" },
+            )
 
             KeywordMovies(
                 keyword = keyword,

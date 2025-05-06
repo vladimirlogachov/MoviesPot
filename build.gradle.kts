@@ -8,6 +8,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply (false)
     alias(libs.plugins.devtools.ksp) apply (false)
     alias(libs.plugins.build.konfig) apply (false)
-    alias(libs.plugins.compose) apply (false)
+    alias(libs.plugins.compose.multiplatform) apply (false)
     alias(libs.plugins.detekt) apply (false)
 }

@@ -3,6 +3,9 @@ package com.vlohachov.shared.presentation.ui.screen
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.savedstate.SavedState
+import androidx.savedstate.SavedStateReader
+import androidx.savedstate.read
 
 /**
  * Abstract class representing a screen in a navigation graph.
@@ -35,5 +38,22 @@ internal abstract class Screen<in Params> {
      * @param navController The NavController used to perform navigation to the other screens.
      */
     abstract fun NavGraphBuilder.composable(navController: NavController)
+
+    /**
+     * Calls the specified function [block] with a [SavedStateReader] value as its receiver and returns
+     * the [block] value.
+     *
+     * **IMPORTANT:** The [SavedStateReader] passed as a receiver to the [block] is valid only inside
+     * that function. Using it outside of the function may produce an unspecified behavior.
+     *
+     * @param block A lambda function that performs read operations using the [SavedStateReader].
+     * @param lazyMessage A function that returns a message to be used if the [SavedState] is null.
+     * @return The result of the lambda function's execution.
+     */
+    protected inline fun <T> SavedState?.readOrThrow(
+        block: SavedStateReader.() -> T,
+        lazyMessage: () -> Any = { "Missing saved state" },
+    ): T = requireNotNull(value = this, lazyMessage = lazyMessage)
+        .read(block = block)
 
 }

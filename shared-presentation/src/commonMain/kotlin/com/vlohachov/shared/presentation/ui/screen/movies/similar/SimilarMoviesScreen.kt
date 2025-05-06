@@ -64,12 +64,15 @@ internal data object SimilarMoviesScreen : Screen<SimilarMoviesScreen.Params>() 
 
     override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
-            val movieId = requireNotNull(
-                value = backStackEntry.arguments?.getLong(ArgMovieId)
-            ) { "Missing required argument $ArgMovieId" }
-            val movieTitle = requireNotNull(
-                value = backStackEntry.arguments?.getString(ArgMovieTitle)
-            ) { "Missing required argument $ArgMovieTitle" }
+            val movieId = backStackEntry.arguments.readOrThrow(
+                block = { getLong(ArgMovieId) },
+                lazyMessage = { "Missing required argument $ArgMovieId" },
+            )
+            val movieTitle = backStackEntry.arguments.readOrThrow(
+                block = { getString(ArgMovieTitle) },
+                lazyMessage = { "Missing required argument $ArgMovieTitle" },
+            )
+
             SimilarMovies(
                 movieId = movieId,
                 movieTitle = movieTitle,
