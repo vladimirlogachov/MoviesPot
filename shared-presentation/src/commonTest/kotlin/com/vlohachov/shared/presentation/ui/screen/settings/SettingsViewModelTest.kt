@@ -13,16 +13,26 @@ import dev.mokkery.mock
 import dev.mokkery.resetAnswers
 import dev.mokkery.verify.VerifyMode.Companion.atMost
 import dev.mokkery.verifySuspend
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.js.JsName
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.expect
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTest {
+
+    private val testScope = TestScope()
 
     private val repository = mock<SettingsRepository> {
         every { getSettings() } returns flow {
@@ -36,9 +46,21 @@ class SettingsViewModelTest {
         applyDynamicTheme = ApplyDynamicTheme(repository = repository),
     )
 
+    @BeforeTest
+    fun setUp() {
+        Dispatchers.setMain(
+            dispatcher = StandardTestDispatcher(scheduler = testScope.testScheduler)
+        )
+    }
+
+    @AfterTest
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
     @JsName(name = "check_ui_state_loading")
-    fun `check ui state loading`() = runTest {
+    fun `check ui state loading`() = testScope.runTest {
         viewModel.uiState.test {
             skipItems(count = 1)
 
@@ -51,7 +73,7 @@ class SettingsViewModelTest {
 
     @Test
     @JsName(name = "check_ui_state_settings")
-    fun `check ui state settings`() = runTest {
+    fun `check ui state settings`() = testScope.runTest {
         viewModel.uiState.test {
             skipItems(count = 2)
 
@@ -64,7 +86,7 @@ class SettingsViewModelTest {
 
     @Test
     @JsName(name = "check_ui_state_error")
-    fun `check ui state error`() = runTest {
+    fun `check ui state error`() = testScope.runTest {
         val error = IllegalStateException("Error")
 
         resetAnswers(repository)
@@ -95,10 +117,12 @@ class SettingsViewModelTest {
     @Test
     @JsName(name = "apply_dynamic_theme")
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun `apply dynamic theme`() = runTest {
+    fun `apply dynamic theme`() = testScope.runTest {
         everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
 
         viewModel.applyDynamicTheme(apply = true)
+
+        advanceUntilIdle()
 
         verifySuspend(mode = atMost(n = 1)) {
             repository.applyDynamicTheme(apply = any())
