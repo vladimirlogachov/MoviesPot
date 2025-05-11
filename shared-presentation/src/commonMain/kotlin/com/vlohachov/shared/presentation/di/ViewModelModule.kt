@@ -23,10 +23,28 @@ import org.koin.dsl.module
 internal val viewModelModule = module {
     viewModelOf(::MainViewModel)
     viewModelOf(::SettingsViewModel)
-    viewModelOf(::MovieDetailsViewModel)
-    viewModelOf(::CastViewModel)
-    viewModelOf(::CrewViewModel)
     viewModelOf(::DiscoverViewModel)
+    viewModel { params ->
+        MovieDetailsViewModel(
+            movieId = params.get(),
+            loadDetails = get(),
+            loadDirector = get(),
+            loadKeywords = get(),
+            loadRecommendations = get(),
+        )
+    }
+    viewModel { params ->
+        CastViewModel(
+            movieId = params.get(),
+            loadCast = get(),
+        )
+    }
+    viewModel { params ->
+        CrewViewModel(
+            movieId = params.get(),
+            loadCrew = get(),
+        )
+    }
     viewModel { params ->
         DiscoverResultViewModel(
             pager = DiscoverResultPager(

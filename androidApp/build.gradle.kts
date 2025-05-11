@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotzilla)
     alias(libs.plugins.detekt)
 }
 
@@ -50,4 +51,5 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.material)
+    implementation(libs.kotlzilla.sdk)
 }
