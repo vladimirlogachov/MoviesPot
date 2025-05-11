@@ -70,8 +70,8 @@ internal data object DiscoverResultScreen : Screen<DiscoverResultScreen.Params>(
 
     override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) { backStackEntry ->
-            val year = backStackEntry.arguments?.read { getString(ArgYear) }
-            val genres = backStackEntry.arguments?.read { getString(ArgGenres) }
+            val year = backStackEntry.arguments?.read { getStringOrNull(ArgYear) }
+            val genres = backStackEntry.arguments?.read { getStringOrNull(ArgGenres) }
 
             DiscoverResult(
                 year = year?.toIntOrNull(),
