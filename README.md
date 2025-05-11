@@ -68,6 +68,7 @@ design guidelines, providing a modern and intuitive way to discover and engage w
 - [Ktor](https://ktor.io/)
 - [Coil](https://coil-kt.github.io/coil/)
 - [Koin](https://insert-koin.io/)
+- [Kotzilla Platform](https://doc.kotzilla.io/docs/discover/overview)
 - [BuildKonfig](https://github.com/yshrsmz/BuildKonfig)
 - [Multiplatform Settings](https://github.com/russhwolf/multiplatform-settings)
 - [Mokkery](https://mokkery.dev/)
