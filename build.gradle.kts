@@ -10,10 +10,5 @@ plugins {
     alias(libs.plugins.build.konfig) apply (false)
     alias(libs.plugins.compose.multiplatform) apply (false)
     alias(libs.plugins.detekt) apply (false)
-}
-
-buildscript {
-    dependencies {
-        classpath(libs.kotzilla.plugin)
-    }
+    alias(libs.plugins.kotzilla) apply (false)
 }
