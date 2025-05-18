@@ -35,7 +35,6 @@ multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
-kotzilla-plugin = { module = "io.kotzilla:kotzilla-plugin", version.ref = "kotzilla" }
 kotlzilla-sdk = { module = "io.kotzilla:kotzilla-sdk-ktor3", version.ref = "kotzilla" }
 
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
@@ -94,10 +93,10 @@ test = [
 ]
 
 [plugins]
-kotzilla = { id = "io.kotzilla.kotzilla-plugin" }
 mokkery = { id = "dev.mokkery", version.ref = "mokkery" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfig" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 
