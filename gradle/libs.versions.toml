@@ -1,5 +1,5 @@
 [versions]
-android-compileSdk = "35"
+android-compileSdk = "36"
 android-minSdk = "30"
 android-targetSdk = "35"
 
