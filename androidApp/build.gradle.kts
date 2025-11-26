@@ -51,5 +51,5 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.material)
-    implementation(libs.kotlzilla.sdk)
+    implementation(libs.kotlzilla.sdk.compose)
 }
