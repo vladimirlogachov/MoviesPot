@@ -21,13 +21,16 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.createdAtStart
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal val dataModule = module {
-    single {
-        HttpClient {
-            install(HttpCache)
-            install(ContentNegotiation) {
+    single(createdAtStart = true) {
+        HttpClient(engine = get()) {
+            install(plugin = HttpCache)
+            install(plugin = ContentNegotiation) {
                 json(
                     json = Json {
                         ignoreUnknownKeys = true
@@ -36,38 +39,34 @@ internal val dataModule = module {
                     }
                 )
             }
-            install(Logging) {
+            install(plugin = Logging) {
                 logger = Logger.SIMPLE
                 level = LogLevel.ALL
             }
         }
     }
-
-    single<DiscoverRepository> {
-        RemoteDiscoverRepository(client = get())
+    singleOf(constructor = ::RemoteMovieRepository) {
+        bind<MovieRepository>()
+        createdAtStart()
     }
-
-    single<GenreRepository> {
-        RemoteGenreRepository(client = get())
+    singleOf(constructor = ::RemoteDiscoverRepository) {
+        bind<DiscoverRepository>()
     }
-
-    single<MovieRepository> {
-        RemoteMovieRepository(client = get())
+    singleOf(constructor = ::RemoteDiscoverRepository) {
+        bind<DiscoverRepository>()
     }
-
-    single<SearchRepository> {
-        RemoteSearchRepository(client = get())
+    singleOf(constructor = ::RemoteGenreRepository) {
+        bind<GenreRepository>()
     }
-
+    singleOf(constructor = ::RemoteSearchRepository) {
+        bind<SearchRepository>()
+    }
+    singleOf(constructor = ::LocalSettingsRepository) {
+        bind<SettingsRepository>()
+    }
+    singleOf(constructor = ::LocalPreferences)
+//    singleOf(constructor = ::Settings)
     single {
         Settings()
-    }
-
-    single {
-        LocalPreferences(settings = get())
-    }
-
-    single<SettingsRepository> {
-        LocalSettingsRepository(preferences = get())
     }
 }

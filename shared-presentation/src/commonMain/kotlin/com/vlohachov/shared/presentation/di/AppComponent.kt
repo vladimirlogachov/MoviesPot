@@ -4,6 +4,7 @@ import org.koin.core.module.Module
 
 internal val appComponent: List<Module> = listOf(
     appModule,
+    platformModule,
     dataModule,
     useCaseModule,
     viewModelModule,

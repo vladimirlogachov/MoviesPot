@@ -21,9 +21,11 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 internal val viewModelModule = module {
-    viewModelOf(::MainViewModel)
-    viewModelOf(::SettingsViewModel)
-    viewModelOf(::DiscoverViewModel)
+    viewModelOf(constructor = ::MainViewModel) {
+//        createdAtStart()
+    }
+    viewModelOf(constructor = ::SettingsViewModel)
+    viewModelOf(constructor = ::DiscoverViewModel)
     viewModel { params ->
         MovieDetailsViewModel(
             movieId = params.get(),
