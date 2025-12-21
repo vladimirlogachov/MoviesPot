@@ -15,7 +15,7 @@ internal const val LoremIpsum =
 
 internal val DummyGenres = listOf(
     Genre(id = 1, name = "Fiction"),
-    Genre(id = 1, name = "Drama"),
+    Genre(id = 2, name = "Drama"),
 )
 
 internal val DummyCastMember = CastMember(
