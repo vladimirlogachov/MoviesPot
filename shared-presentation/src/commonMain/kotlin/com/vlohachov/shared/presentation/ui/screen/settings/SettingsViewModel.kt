@@ -31,7 +31,7 @@ internal class SettingsViewModel(
 
     init {
         loadSettings()
-            .onEach(::processResult)
+            .onEach(action = ::processResult)
             .launchIn(scope = viewModelScope)
     }
 

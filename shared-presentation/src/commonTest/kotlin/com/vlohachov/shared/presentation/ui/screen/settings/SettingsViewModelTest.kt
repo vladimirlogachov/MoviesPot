@@ -10,123 +10,84 @@ import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
-import dev.mokkery.resetAnswers
-import dev.mokkery.verify.VerifyMode.Companion.atMost
+import dev.mokkery.verify.VerifyMode.Companion.exactly
 import dev.mokkery.verifySuspend
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import kotlin.js.JsName
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.expect
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTest {
 
-    private val testScope = TestScope()
+    private val repository = mock<SettingsRepository>()
 
-    private val repository = mock<SettingsRepository> {
-        every { getSettings() } returns flow {
-            delay(timeMillis = 100)
+    @Test
+    @JsName(name = "ui_state_is_loaded_successfully")
+    fun `ui state is loaded successfully`() = runTest {
+        every { repository.getSettings() } returns flow {
+            delay(timeMillis = 100) // simulate loading
             emit(value = TestSettings)
         }
-    }
 
-    private val viewModel = SettingsViewModel(
-        loadSettings = LoadSettings(repository = repository),
-        applyDynamicTheme = ApplyDynamicTheme(repository = repository),
-    )
+        val viewModel = createViewModel()
 
-    @BeforeTest
-    fun setUp() {
-        Dispatchers.setMain(
-            dispatcher = StandardTestDispatcher(scheduler = testScope.testScheduler)
-        )
-    }
-
-    @AfterTest
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
-
-    @Test
-    @JsName(name = "check_ui_state_loading")
-    fun `check ui state loading`() = testScope.runTest {
         viewModel.uiState.test {
-            skipItems(count = 1)
-
-            expect(
-                expected = SettingsUiState(isLoading = true),
-                message = "Should be uiState with loading = true",
-            ) { awaitItem() }
+            expect(expected = SettingsUiState()) { awaitItem() }
+            expect(expected = SettingsUiState(isLoading = true)) { awaitItem() }
+            expect(expected = SettingsUiState(isLoading = false, settings = TestSettings)) {
+                awaitItem()
+            }
         }
     }
 
     @Test
-    @JsName(name = "check_ui_state_settings")
-    fun `check ui state settings`() = testScope.runTest {
-        viewModel.uiState.test {
-            skipItems(count = 2)
-
-            expect(
-                expected = SettingsUiState(settings = TestSettings),
-                message = "Should be uiState with expected setting",
-            ) { awaitItem() }
-        }
-    }
-
-    @Test
-    @JsName(name = "check_ui_state_error")
-    fun `check ui state error`() = testScope.runTest {
+    @JsName(name = "ui_state_is_error")
+    fun `ui state is error`() = runTest {
         val error = IllegalStateException("Error")
+        every { repository.getSettings() } returns flow {
+            delay(timeMillis = 100) // simulate loading
+            throw error
+        }
 
-        resetAnswers(repository)
-        every { repository.getSettings() } returns flow { throw error }
-
-        val viewModel = SettingsViewModel(
-            loadSettings = LoadSettings(repository = repository),
-            applyDynamicTheme = ApplyDynamicTheme(repository = repository),
-        )
+        val viewModel = createViewModel()
 
         viewModel.uiState.test {
-            skipItems(count = 1)
-
-            expect(
-                expected = SettingsUiState(error = error),
-                message = "Should be error uiState",
-            ) { awaitItem() }
+            expect(expected = SettingsUiState()) { awaitItem() }
+            expect(expected = SettingsUiState(isLoading = true)) { awaitItem() }
+            expect(expected = SettingsUiState(isLoading = false, error = error)) { awaitItem() }
 
             viewModel.resetError()
 
-            expect(
-                expected = SettingsUiState(error = null),
-                message = "Should be uiState without error",
-            ) { awaitItem() }
+            expect(expected = SettingsUiState(isLoading = false, error = null)) { awaitItem() }
         }
     }
 
     @Test
-    @JsName(name = "apply_dynamic_theme")
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun `apply dynamic theme`() = testScope.runTest {
+    @JsName(name = "apply_dynamic_theme_is_called")
+    fun `apply dynamic theme is called`() = runTest {
+        every { repository.getSettings() } returns flowOf()
         everySuspend { repository.applyDynamicTheme(apply = any()) } returns Unit
 
-        viewModel.applyDynamicTheme(apply = true)
+        val viewModel = createViewModel()
 
+        viewModel.applyDynamicTheme(apply = true)
+        
         advanceUntilIdle()
 
-        verifySuspend(mode = atMost(n = 1)) {
-            repository.applyDynamicTheme(apply = any())
+        verifySuspend(mode = exactly(n = 1)) {
+            repository.applyDynamicTheme(apply = true)
         }
     }
+
+    private fun createViewModel() = SettingsViewModel(
+        loadSettings = LoadSettings(repository = repository),
+        applyDynamicTheme = ApplyDynamicTheme(repository = repository),
+    )
 
 }
