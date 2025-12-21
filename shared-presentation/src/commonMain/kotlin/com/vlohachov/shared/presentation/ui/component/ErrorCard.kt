@@ -19,11 +19,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.dismiss
 import moviespot.shared_presentation.generated.resources.error_common_title
 import moviespot.shared_presentation.generated.resources.unknown_error_local
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ErrorCard(
@@ -80,4 +82,14 @@ internal object ErrorCardDefaults {
     const val ErrorTestTag: String = "error_card"
     const val DismissTestTag: String = "error_card_dismiss"
 
+}
+
+@[Composable Preview(showBackground = true)]
+private fun ErrorCardPreview() {
+    MoviesPotTheme {
+        ErrorCard(
+            modifier = Modifier.padding(all = 16.dp),
+            onDismiss = { /* no ops. */ },
+        )
+    }
 }

@@ -33,7 +33,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,12 +42,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.vlohachov.shared.domain.model.genre.Genre
-import com.vlohachov.shared.presentation.core.ViewState
 import com.vlohachov.shared.presentation.ui.component.bar.AppBar
 import com.vlohachov.shared.presentation.ui.component.bar.ErrorBar
 import com.vlohachov.shared.presentation.ui.component.bar.ErrorBarDefaults
@@ -75,14 +74,23 @@ internal data object DiscoverScreen : Screen<Unit>() {
 
     override fun NavGraphBuilder.composable(navController: NavController) {
         composable(route = path, arguments = arguments) {
-            Discover(
-                onBack = navController::navigateUp,
-                onDiscover = { year, genres ->
-                    DiscoverResultScreen.Params(year = year, genres = genres)
-                        .run(DiscoverResultScreen::route)
-                        .run(navController::navigate)
-                },
-            )
+            val viewModel = koinViewModel<DiscoverViewModel>()
+            val uiState by viewModel.state.collectAsStateWithLifecycle()
+
+            LaunchedEffect(viewModel) {
+                viewModel.effect.collect { event ->
+                    when (event) {
+                        DiscoverEvent.NavigateBack ->
+                            navController.navigateUp()
+
+                        is DiscoverEvent.NavigateToResults ->
+                            DiscoverResultScreen.Params(year = event.year, genres = event.genres)
+                                .let(DiscoverResultScreen::route)
+                                .run(navController::navigate)
+                    }
+                }
+            }
+            Discover(onAction = viewModel::onAction, state = uiState)
         }
     }
 
@@ -91,21 +99,19 @@ internal data object DiscoverScreen : Screen<Unit>() {
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 internal fun Discover(
-    onBack: () -> Unit,
-    onDiscover: (year: Int?, genres: List<Int>?) -> Unit,
-    viewModel: DiscoverViewModel = koinViewModel(),
+    onAction: (DiscoverAction) -> Unit,
+    state: DiscoverViewState,
     snackbarDuration: SnackbarDuration = SnackbarDuration.Short,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val keyboardController = LocalSoftwareKeyboardController.current
-    val uiState by viewModel.uiState.collectAsState()
 
     ErrorBar(
-        error = uiState.error,
+        error = state.error,
         duration = snackbarDuration,
         snackbarHostState = snackbarHostState,
-        onDismissed = viewModel::onErrorConsumed,
+        onDismissed = { onAction(DiscoverAction.HideError) },
     )
 
     Scaffold(
@@ -119,7 +125,7 @@ internal fun Discover(
                 scrollBehavior = scrollBehavior,
                 onBackClick = {
                     keyboardController?.hide()
-                    onBack()
+                    onAction(DiscoverAction.Back)
                 }
             )
         },
@@ -136,59 +142,48 @@ internal fun Discover(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues = paddingValues),
-            viewState = uiState,
-            onYear = viewModel::onYear,
-            onSelect = viewModel::onSelect,
-            onClearSelection = viewModel::onClearSelection,
-            onError = viewModel::onError,
-            onDiscover = {
-                onDiscover(
-                    uiState.year.toIntOrNull(),
-                    uiState.selectedGenres.map(Genre::id)
-                )
-            }
+            onAction = onAction,
+            state = state,
         )
     }
 }
 
 @Composable
 private fun Content(
-    modifier: Modifier,
-    viewState: DiscoverViewState,
-    onYear: (year: String) -> Unit,
-    onSelect: (genre: Genre) -> Unit,
-    onClearSelection: (genre: Genre) -> Unit,
-    onError: (error: Throwable) -> Unit,
-    onDiscover: () -> Unit,
+    onAction: (DiscoverAction) -> Unit,
+    state: DiscoverViewState,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.testTag(tag = DiscoverDefaults.ContentTestTag),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Genres(
+        if (state.showProgress) CircularProgressIndicator(
+            modifier = Modifier.testTag(tag = DiscoverDefaults.GenresLoadingTestTag)
+        )
+        else if (state.error == null) Genres(
             modifier = Modifier
                 .testTag(tag = DiscoverDefaults.GenresTestTag)
                 .fillMaxWidth(),
-            viewState = viewState.genresViewState,
-            selectedGenres = viewState.selectedGenres,
-            onSelect = onSelect,
-            onClearSelection = onClearSelection,
-            onError = onError,
+            genres = state.genres,
+            selectedGenres = state.selectedGenres,
+            onSelect = { genre -> onAction(DiscoverAction.SelectGenre(genre = genre)) },
+            onClearSelection = { genre -> onAction(DiscoverAction.RemoveGenre(genre = genre)) },
         )
         Input(
             modifier = Modifier
                 .testTag(tag = DiscoverDefaults.YearTestTag)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            value = viewState.year,
-            onValueChange = onYear,
+            value = state.year,
+            onValueChange = { value -> onAction(DiscoverAction.EnterYear(year = value)) },
         )
         Button(
             modifier = Modifier
                 .testTag(tag = DiscoverDefaults.DiscoverButtonTestTag)
                 .padding(all = 16.dp),
-            onClick = onDiscover,
-            enabled = viewState.discoverEnabled,
+            onClick = { onAction(DiscoverAction.Discover) },
+            enabled = state.discoverEnabled,
         ) {
             Text(text = stringResource(resource = Res.string.discover_movies))
         }
@@ -197,45 +192,31 @@ private fun Content(
 
 @Composable
 private fun Genres(
-    modifier: Modifier,
-    viewState: ViewState<List<Genre>>,
+    genres: List<Genre>,
     selectedGenres: List<Genre>,
     onSelect: (genre: Genre) -> Unit,
     onClearSelection: (genre: Genre) -> Unit,
-    onError: (error: Throwable) -> Unit,
+    modifier: Modifier = Modifier,
+) = LazyRow(
+    modifier = modifier,
+    contentPadding = PaddingValues(horizontal = 16.dp),
+    horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
 ) {
-    when (viewState) {
-        ViewState.Loading -> CircularProgressIndicator(
-            modifier = Modifier.testTag(tag = DiscoverDefaults.GenresLoadingTestTag)
-        )
-
-        is ViewState.Error -> LaunchedEffect(key1 = viewState.error) {
-            viewState.error?.run(onError)
-        }
-
-        is ViewState.Success ->
-            LazyRow(
-                modifier = modifier,
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-            ) {
-                items(items = viewState.data, key = { item -> item.id }) { genre ->
-                    val selected = selectedGenres.contains(element = genre)
-                    FilterChip(
-                        selected = selected,
-                        onClick = { if (!selected) onSelect(genre) else onClearSelection(genre) },
-                        leadingIcon = {
-                            if (selected) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Check,
-                                    contentDescription = null,
-                                )
-                            }
-                        },
-                        label = { Text(text = genre.name) },
+    items(items = genres, key = { item -> item.id }) { genre ->
+        val selected = selectedGenres.contains(element = genre)
+        FilterChip(
+            selected = selected,
+            onClick = { if (!selected) onSelect(genre) else onClearSelection(genre) },
+            leadingIcon = {
+                if (selected) {
+                    Icon(
+                        imageVector = Icons.Rounded.Check,
+                        contentDescription = null,
                     )
                 }
-            }
+            },
+            label = { Text(text = genre.name) },
+        )
     }
 }
 
@@ -276,18 +257,12 @@ private fun Input(
 @Composable
 internal fun DiscoverContentPreview() {
     MoviesPotTheme {
-        Content(
-            modifier = Modifier.padding(all = 16.dp),
-            viewState = DiscoverViewState(
-                year = "2022",
-                genresViewState = ViewState.Success(data = DummyGenres),
-                discoverEnabled = true,
+        Discover(
+            onAction = { /* no ops. */ },
+            state = DiscoverViewState(
+                year = "",
+                genres = DummyGenres,
             ),
-            onYear = {},
-            onSelect = {},
-            onClearSelection = {},
-            onError = {},
-            onDiscover = {},
         )
     }
 }

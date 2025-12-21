@@ -1,6 +1,8 @@
 package com.vlohachov.shared.presentation.ui.screen.discover
 
 import androidx.compose.material3.SnackbarDuration
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertCountEquals
@@ -18,6 +20,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
+import app.cash.turbine.test
 import com.vlohachov.shared.domain.repository.GenreRepository
 import com.vlohachov.shared.domain.usecase.LoadGenres
 import com.vlohachov.shared.presentation.TestGenres
@@ -28,8 +31,6 @@ import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
-import dev.mokkery.verify
-import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -40,6 +41,7 @@ import moviespot.shared_presentation.generated.resources.year
 import org.jetbrains.compose.resources.getString
 import kotlin.js.JsName
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalTestApi::class)
 class DiscoverScreenTest {
@@ -62,16 +64,21 @@ class DiscoverScreenTest {
     @Test
     @JsName(name = "check_back_button")
     fun `check back button`() = runComposeUiTest {
-        val onBack = mock<() -> Unit> {
-            every { invoke() } returns Unit
-        }
-        testContent(onBack = onBack)
+        val viewModel = DiscoverViewModel(loadGenres = loadGenres)
+        testContent(viewModel = viewModel)
+
         onNodeWithTag(testTag = AppBarDefaults.BackButtonTestTag)
             .assertExists(errorMessageOnFail = "No Back button component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
             .performClick()
-        verify(mode = VerifyMode.atMost(n = 1)) { onBack() }
+
+        viewModel.effect.test {
+            assertEquals(
+                expected = DiscoverEvent.NavigateBack,
+                actual = awaitItem(),
+            )
+        }
     }
 
     @Test
@@ -127,21 +134,18 @@ class DiscoverScreenTest {
     @Test
     @JsName(name = "check_discover_button")
     fun `check discover button`() = runComposeUiTest {
-        val onDiscover = mock<(year: Int?, genres: List<Int>?) -> Unit> {
-            every { invoke(any(), any()) } returns Unit
-        }
         every { repository.getGenres(language = any()) } returns flowOf(value = TestGenres)
 
         val viewModel = DiscoverViewModel(loadGenres = loadGenres)
 
-        testContent(onDiscover = onDiscover, viewModel = viewModel)
+        testContent(viewModel = viewModel)
         onNodeWithTag(testTag = DiscoverDefaults.DiscoverButtonTestTag)
             .assertExists(errorMessageOnFail = "No Button back component found.")
             .assertIsDisplayed()
             .assertIsNotEnabled()
 
-        viewModel.onSelect(genre = TestGenres.first())
-        viewModel.onYear(year = "2022")
+        viewModel.onAction(action = DiscoverAction.SelectGenre(genre = TestGenres.first()))
+        viewModel.onAction(action = DiscoverAction.EnterYear(year = "2022"))
 
         onNodeWithTag(testTag = DiscoverDefaults.DiscoverButtonTestTag)
             .assertExists(errorMessageOnFail = "No Button back component found.")
@@ -149,7 +153,15 @@ class DiscoverScreenTest {
             .assertIsEnabled()
             .performClick()
 
-        verify(mode = VerifyMode.atMost(n = 1)) { onDiscover(any(), any()) }
+        viewModel.effect.test {
+            assertEquals(
+                expected = DiscoverEvent.NavigateToResults(
+                    year = 2022,
+                    genres = listOf(TestGenres.first().id),
+                ),
+                actual = awaitItem(),
+            )
+        }
     }
 
     @Test
@@ -183,15 +195,13 @@ class DiscoverScreenTest {
     }
 
     private fun ComposeUiTest.testContent(
-        onBack: () -> Unit = {},
-        onDiscover: (year: Int?, genres: List<Int>?) -> Unit = { _, _ -> },
         viewModel: DiscoverViewModel = DiscoverViewModel(loadGenres = loadGenres),
     ) = setContent {
         MoviesPotTheme {
+            val state by viewModel.state.collectAsState()
             Discover(
-                onBack = onBack,
-                onDiscover = onDiscover,
-                viewModel = viewModel,
+                onAction = viewModel::onAction,
+                state = state,
                 snackbarDuration = SnackbarDuration.Indefinite
             )
         }
