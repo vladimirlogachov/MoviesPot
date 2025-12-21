@@ -69,7 +69,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(libs.ktor.client.cio)
+            api(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(project(":shared-domain"))

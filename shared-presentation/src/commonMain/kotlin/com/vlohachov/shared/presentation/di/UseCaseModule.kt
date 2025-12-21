@@ -13,59 +13,24 @@ import com.vlohachov.shared.domain.usecase.movie.LoadMoviesByCategory
 import com.vlohachov.shared.domain.usecase.movie.LoadRecommendations
 import com.vlohachov.shared.domain.usecase.settings.ApplyDynamicTheme
 import com.vlohachov.shared.domain.usecase.settings.LoadSettings
+import org.koin.core.module.dsl.createdAtStart
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
-
-    single {
-        LoadGenres(repository = get())
+    singleOf(constructor = ::LoadMoviesByCategory) {
+        createdAtStart()
     }
-
-    single {
-        LoadMoviesByCategory(repository = get())
-    }
-
-    single {
-        LoadDetails(repository = get())
-    }
-
-    single {
-        LoadCredits(repository = get())
-    }
-
-    single {
-        LoadDirector(repository = get())
-    }
-
-    single {
-        LoadCast(repository = get())
-    }
-
-    single {
-        LoadCrew(repository = get())
-    }
-
-    single {
-        LoadRecommendations(repository = get())
-    }
-
-    single {
-        LoadKeywords(repository = get())
-    }
-
-    single {
-        SearchMovies(repository = get())
-    }
-
-    single {
-        DiscoverMovies(repository = get())
-    }
-
-    single {
-        LoadSettings(repository = get())
-    }
-
-    single {
-        ApplyDynamicTheme(repository = get())
-    }
+    singleOf(constructor = ::LoadGenres)
+    singleOf(constructor = ::LoadDetails)
+    singleOf(constructor = ::LoadCredits)
+    singleOf(constructor = ::LoadDirector)
+    singleOf(constructor = ::LoadCast)
+    singleOf(constructor = ::LoadCrew)
+    singleOf(constructor = ::LoadRecommendations)
+    singleOf(constructor = ::LoadKeywords)
+    singleOf(constructor = ::SearchMovies)
+    singleOf(constructor = ::DiscoverMovies)
+    singleOf(constructor = ::LoadSettings)
+    singleOf(constructor = ::ApplyDynamicTheme)
 }

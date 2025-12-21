@@ -97,6 +97,11 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okhttp)
+            }
+        }
         val desktopTest by getting
         desktopTest.dependencies {
             implementation(libs.kotlin.corutiens.swing)
