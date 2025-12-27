@@ -45,9 +45,7 @@ design guidelines, providing a modern and intuitive way to discover and engage w
   using [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
   and [Material 3](https://m3.material.io/) design guidelines
 - Supports [Dynamic Colors](https://m3.material.io/styles/color/dynamic-color/overview) schema
-- Adaptive
-  launcher [Themed Icon](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive) (
-  for Android 13+)
+- Adaptive launcher [Themed Icon](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive) (for Android 13+)
 - Navigation based
   on [Jetpack Navigation](https://developer.android.com/jetpack/androidx/releases/navigation)
 - Uses [TMDB](https://www.themoviedb.org) open API
