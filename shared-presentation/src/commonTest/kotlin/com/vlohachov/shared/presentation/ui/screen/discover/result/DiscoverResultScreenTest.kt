@@ -149,6 +149,7 @@ class DiscoverResultScreenTest {
             )
         } returns flow { error(message = "Error") }
         testContent()
+        waitForIdle()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()

@@ -124,6 +124,7 @@ class SimilarMoviesScreenTest {
             repository.getMovieRecommendations(id = any(), page = any(), language = any())
         } returns flow { error(message = "Error") }
         testContent()
+        waitForIdle()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()

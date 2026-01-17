@@ -107,6 +107,7 @@ class DiscoverScreenTest {
     fun `check genres loading error`() = runComposeUiTest {
         every { repository.getGenres(language = any()) } returns flow { error(message = "Error") }
         testContent()
+        waitForIdle()
         onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)

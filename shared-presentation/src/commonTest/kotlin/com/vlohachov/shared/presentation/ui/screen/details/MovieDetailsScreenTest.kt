@@ -152,6 +152,7 @@ class MovieDetailsScreenTest {
             repository.getMovieDetails(id = any(), language = any())
         } returns flow { error(message = "Error") }
         testContent()
+        waitForIdle()
         onNodeWithTag(testTag = MovieDetailsDefaults.DetailsLoadingTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = HeadlineDefaults.TestTag)

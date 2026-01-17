@@ -140,6 +140,7 @@ class MoviesSearchScreenTest {
             repository.searchMovies(query = any(), page = any(), language = any())
         } returns flow { error(message = "Error") }
         testContent()
+        waitForIdle()
         onNode(matcher = hasImeAction(actionType = ImeAction.Search))
             .assertExists(errorMessageOnFail = "No Search input component found.")
             .assertIsDisplayed()
