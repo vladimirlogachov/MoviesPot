@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.presentation.ui.component.section.Section
 import com.vlohachov.shared.presentation.ui.component.section.SectionDefaults
@@ -18,7 +19,6 @@ import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.no_results
 import moviespot.shared_presentation.generated.resources.overview
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Overview(
@@ -44,8 +44,7 @@ internal fun Overview(
     )
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun OverviewPreview() {
     MoviesPotTheme {
         Overview(text = LoremIpsum)

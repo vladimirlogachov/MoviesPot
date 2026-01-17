@@ -33,11 +33,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Profile(
@@ -214,8 +214,7 @@ internal object ProfileDefaults {
 
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun ProfilePreview() {
     MoviesPotTheme {
         Row(

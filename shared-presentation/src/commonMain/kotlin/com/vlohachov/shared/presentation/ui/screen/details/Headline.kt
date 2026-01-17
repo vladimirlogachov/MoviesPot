@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.vlohachov.shared.domain.model.Company
@@ -31,7 +32,6 @@ import com.vlohachov.shared.presentation.utils.DateUtils
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.directed_by
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Headline(
@@ -116,8 +116,7 @@ private fun HeadlineFrame(
     }
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun HeadlinePreview() {
     MoviesPotTheme {
         Headline(

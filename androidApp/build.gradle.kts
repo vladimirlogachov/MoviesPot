@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotzilla)
     alias(libs.plugins.detekt)
 }
@@ -45,11 +44,11 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":shared-presentation"))
-    implementation(project(":shared-domain"))
-    implementation(project(":shared-data"))
+    implementation(projects.sharedPresentation)
+    implementation(projects.sharedDomain)
+    implementation(projects.sharedData)
 
-    implementation(libs.androidx.activity.compose)
     implementation(libs.material)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.kotlzilla.sdk.compose)
 }

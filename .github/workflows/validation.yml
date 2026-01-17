@@ -85,7 +85,7 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
       - name: Test
-        run: ./gradlew shared-data:test
+        run: ./gradlew shared-data:desktopTest
 
   test-domain:
     needs: [ 'detekt' ]
@@ -109,7 +109,7 @@ jobs:
           key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
       - name: Test
-        run: ./gradlew shared-domain:test
+        run: ./gradlew shared-domain:desktopTest
 
   test-presentation:
     needs: [ 'detekt' ]
