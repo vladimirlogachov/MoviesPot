@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.androidLibrary
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import java.io.FileInputStream
@@ -6,7 +7,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.build.konfig)
     alias(libs.plugins.mokkery)
     alias(libs.plugins.detekt)
@@ -52,8 +53,14 @@ kotlin {
     wasmJs {
         browser()
     }
-
-    androidTarget()
+    androidLibrary {
+        namespace = "com.vlohachov.shared.data"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        withJava()
+        withHostTestBuilder {}
+            .configure {}
+    }
     jvm("desktop")
 
     listOf(
@@ -72,7 +79,7 @@ kotlin {
             api(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
-            implementation(project(":shared-domain"))
+            implementation(projects.sharedDomain)
 
             implementation(libs.kotlin.corutiens.core)
 
@@ -84,19 +91,4 @@ kotlin {
             implementation(libs.ktor.client.mock)
         }
     }
-}
-
-android {
-    namespace = "com.vlohachov.shared.data"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 }
