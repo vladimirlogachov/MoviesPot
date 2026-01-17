@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.presentation.core.ViewState
@@ -27,7 +28,6 @@ import com.vlohachov.shared.presentation.utils.DummyMovies
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.no_results
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun MoviesSection(
@@ -143,8 +143,7 @@ internal object MoviesSectionDefaults {
 
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun MoviesSectionPreview() {
     MoviesPotTheme {
         Column {

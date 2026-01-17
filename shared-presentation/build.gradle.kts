@@ -1,13 +1,13 @@
+import com.android.build.api.dsl.androidLibrary
 import com.codingfeline.buildkonfig.compiler.FieldSpec
-import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.android.library)
     alias(libs.plugins.build.konfig)
     alias(libs.plugins.mokkery)
-    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.detekt)
 }
 
@@ -46,9 +46,18 @@ kotlin {
 //    wasmJs {
 //        browser()
 //    }
-
-    androidTarget()
     jvm("desktop")
+    androidLibrary {
+        namespace = "com.vlohachov.shared.presentation"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        withJava()
+        withHostTestBuilder {}
+            .configure {}
+        androidResources {
+            enable = true
+        }
+    }
 
     listOf(
         iosX64(),
@@ -63,13 +72,13 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(compose.uiTooling)
+            implementation(libs.compose.ui.tooling)
             api(project.dependencies.platform(libs.koin.bom))
             api(libs.koin.android)
         }
         commonMain.dependencies {
-            implementation(project(":shared-data"))
-            implementation(project(":shared-domain"))
+            implementation(projects.sharedData)
+            implementation(projects.sharedDomain)
 
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
@@ -81,18 +90,16 @@ kotlin {
             implementation(libs.androidx.paging.common)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(compose.ui)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.material.icons.extended)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.ui.tooling.preview)
         }
         commonTest.dependencies {
             implementation(libs.bundles.test)
             implementation(libs.androidx.paging.testing)
-
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
+            implementation(libs.compose.ui.test)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -108,19 +115,4 @@ kotlin {
             implementation(compose.desktop.currentOs)
         }
     }
-}
-
-android {
-    namespace = "com.vlohachov.shared.presentation"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 }

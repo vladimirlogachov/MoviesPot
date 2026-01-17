@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.cast
 import moviespot.shared_presentation.generated.resources.crew
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Credits(
@@ -40,8 +40,7 @@ internal fun Credits(
     }
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun CreditsPreview() {
     MoviesPotTheme {
         Credits(

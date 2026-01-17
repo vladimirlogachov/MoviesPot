@@ -14,10 +14,10 @@ internal object DateUtils {
         char('-')
         monthNumber(padding = Padding.SPACE)
         char('-')
-        dayOfMonth()
+        day()
     }
     private val LocalDateFormat: DateTimeFormat<LocalDate> = LocalDate.Format {
-        dayOfMonth()
+        day()
         char(' ')
         monthName(names = MonthNames.ENGLISH_ABBREVIATED)
         char(' ')

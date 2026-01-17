@@ -41,6 +41,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NamedNavArgument
@@ -61,7 +62,6 @@ import moviespot.shared_presentation.generated.resources.discover
 import moviespot.shared_presentation.generated.resources.discover_movies
 import moviespot.shared_presentation.generated.resources.year
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -253,8 +253,7 @@ private fun Input(
     )
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun DiscoverContentPreview() {
     MoviesPotTheme {
         Discover(

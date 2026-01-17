@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import moviespot.shared_presentation.generated.resources.Res
@@ -25,7 +26,6 @@ import moviespot.shared_presentation.generated.resources.dismiss
 import moviespot.shared_presentation.generated.resources.error_common_title
 import moviespot.shared_presentation.generated.resources.unknown_error_local
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ErrorCard(

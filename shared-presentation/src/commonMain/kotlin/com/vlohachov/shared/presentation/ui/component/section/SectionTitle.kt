@@ -12,9 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun SectionTitle(
@@ -50,8 +50,7 @@ internal object SectionTitleDefaults {
 
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun SectionTitlePreview() {
     MoviesPotTheme {
         Column(verticalArrangement = Arrangement.spacedBy(space = 16.dp)) {

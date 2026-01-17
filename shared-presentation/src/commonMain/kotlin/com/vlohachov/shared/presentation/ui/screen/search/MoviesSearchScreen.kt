@@ -199,7 +199,7 @@ private fun SearchAppBar(
     onClear: () -> Unit,
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
-    appBarColors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
+    appBarColors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(),
 ) {
     val heightOffsetLimit = with(LocalDensity.current) { -64.dp.toPx() }
     SideEffect {

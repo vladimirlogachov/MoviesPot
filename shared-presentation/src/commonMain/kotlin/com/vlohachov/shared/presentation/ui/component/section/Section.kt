@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun Section(
@@ -102,8 +102,7 @@ internal object SectionDefaults {
         )
 }
 
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun SectionPreview() {
     MoviesPotTheme {
         Column(verticalArrangement = Arrangement.spacedBy(space = 16.dp)) {

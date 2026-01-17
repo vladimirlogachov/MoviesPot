@@ -3,10 +3,12 @@ android-compileSdk = "36"
 android-minSdk = "30"
 android-targetSdk = "36"
 
-agp = "9.0.0"
+agp = "8.13.2"
 coil = "3.3.0"
 ktor = "3.3.3"
 detekt = "1.23.8"
+material3 = "1.9.0"
+material-icons-extended = "1.7.3"
 turbine = "1.2.1"
 mokkery = "3.1.1"
 kotzilla = "1.4.2"
@@ -67,6 +69,14 @@ androidx-navigation-common = { module = "org.jetbrains.androidx.navigation:navig
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
+compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-multiplatform" }
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
+
 [bundles]
 coil = [
     "coil-compose",
@@ -102,6 +112,7 @@ build-konfig = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfi
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 
 android-library = { id = "com.android.library", version.ref = "agp" }
+android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

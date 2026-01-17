@@ -16,11 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.navigate_back
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,8 +101,7 @@ internal object AppBarDefaults {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
+@[Composable Preview(showBackground = true)]
 internal fun AppBarPreview() {
     MoviesPotTheme {
         AppBar(
