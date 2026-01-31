@@ -27,7 +27,7 @@ kotlin-coroutines = "1.10.2"
 androidx-paging = "3.4.0"
 androidx-navigation = "2.9.1"
 androidx-lifecycle = "2.9.6"
-androidx-activity-compose = "1.12.2"
+androidx-activity-compose = "1.12.3"
 
 [libraries]
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
