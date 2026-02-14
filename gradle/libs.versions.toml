@@ -3,7 +3,7 @@ android-compileSdk = "36"
 android-minSdk = "30"
 android-targetSdk = "36"
 
-agp = "9.0.0"
+agp = "9.0.1"
 coil = "3.3.0"
 ktor = "3.4.0"
 detekt = "1.23.8"
