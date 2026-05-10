@@ -24,7 +24,7 @@ kotlin = "2.3.21"
 kotlin-datetime = "0.8.0-0.6.x-compat"
 kotlin-coroutines = "1.10.2"
 
-androidx-paging = "3.4.2"
+androidx-paging = "3.5.0"
 androidx-navigation = "2.9.2"
 androidx-lifecycle = "2.10.0"
 androidx-activity-compose = "1.13.0"
