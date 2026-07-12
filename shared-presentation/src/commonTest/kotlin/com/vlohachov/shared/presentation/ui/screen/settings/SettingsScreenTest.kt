@@ -12,7 +12,7 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.presentation.BuildConfig
 import com.vlohachov.shared.presentation.ui.component.ErrorCardDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.AppBarDefaults
@@ -24,7 +24,6 @@ import dev.mokkery.mock
 import dev.mokkery.verify
 import dev.mokkery.verify.VerifyMode.Companion.atMost
 import dev.mokkery.verifySuspend
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.app_version
 import moviespot.shared_presentation.generated.resources.author
@@ -41,7 +40,7 @@ class SettingsScreenTest {
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.settings) })
+        onNodeWithText(text = getString(resource = Res.string.settings))
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -88,17 +87,13 @@ class SettingsScreenTest {
             .assertExists(errorMessageOnFail = "No AppVersion component found.")
             .assertIsDisplayed()
             .assertTextEquals(
-                runBlocking {
-                    getString(resource = Res.string.app_version) + BuildConfig.VERSION_NAME
-                }
+                getString(resource = Res.string.app_version) + BuildConfig.VERSION_NAME
             )
         onNodeWithTag(testTag = SettingsDefaults.AppAuthorTestTag)
             .assertExists(errorMessageOnFail = "No AppVersion component found.")
             .assertIsDisplayed()
             .assertTextEquals(
-                runBlocking {
-                    getString(resource = Res.string.author) + getString(resource = Res.string.author_name)
-                }
+                getString(resource = Res.string.author) + getString(resource = Res.string.author_name)
             )
     }
 

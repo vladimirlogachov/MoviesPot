@@ -6,14 +6,13 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.mock
 import dev.mokkery.verify
 import dev.mokkery.verify.VerifyMode.Companion.atMost
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.error_common_title
 import moviespot.shared_presentation.generated.resources.unknown_error_local
@@ -35,10 +34,10 @@ class ErrorCardTest {
         onNodeWithTag(testTag = ErrorCardDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No ErrorCard component found.")
             .assertIsDisplayed()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.error_common_title) })
+        onNodeWithText(text = getString(resource = Res.string.error_common_title))
             .assertExists(errorMessageOnFail = "Title displayed without default value.")
             .assertIsDisplayed()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.unknown_error_local) })
+        onNodeWithText(text = getString(resource = Res.string.unknown_error_local))
             .assertExists(errorMessageOnFail = "Message displayed without default value.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = ErrorCardDefaults.DismissTestTag)

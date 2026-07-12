@@ -2,7 +2,7 @@ package com.vlohachov.shared.presentation.ui.component.section
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import kotlin.js.JsName
 import kotlin.test.Test

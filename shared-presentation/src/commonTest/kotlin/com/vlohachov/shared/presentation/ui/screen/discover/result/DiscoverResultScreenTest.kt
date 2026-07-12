@@ -7,19 +7,21 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.repository.DiscoverRepository
 import com.vlohachov.shared.domain.usecase.DiscoverMovies
 import com.vlohachov.shared.presentation.TestMovies
 import com.vlohachov.shared.presentation.TestPaginatedData
 import com.vlohachov.shared.presentation.testMovie
+import com.vlohachov.shared.presentation.ui.component.PosterDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.AppBarDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.presentation.ui.component.button.ScrollToTopDefaults
@@ -35,7 +37,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.discover_results
 import org.jetbrains.compose.resources.getString
@@ -67,7 +68,7 @@ class DiscoverResultScreenTest {
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.discover_results) })
+        onNodeWithText(text = getString(resource = Res.string.discover_results))
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -124,6 +125,10 @@ class DiscoverResultScreenTest {
             )
         } returns flowOf(value = TestPaginatedData)
         testContent()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().size == TestMovies.size
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -149,9 +154,13 @@ class DiscoverResultScreenTest {
             )
         } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag)
             .assertDoesNotExist()
@@ -173,6 +182,10 @@ class DiscoverResultScreenTest {
             )
         } returns flowOf(value = TestPaginatedData)
         testContent(onMovieDetails = onMovieDetails)
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()

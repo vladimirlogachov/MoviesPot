@@ -42,6 +42,7 @@ kotlin {
     ).forEach { target ->
         target.binaries.framework {
             baseName = "shared-domain"
+            freeCompilerArgs += listOf("-Xbinary=bundleId=com.vlohachov.moviespot.shared.domain")
             isStatic = true
         }
     }

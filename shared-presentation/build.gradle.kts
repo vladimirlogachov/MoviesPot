@@ -59,12 +59,12 @@ kotlin {
     }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { target ->
         target.binaries.framework {
             baseName = "shared-presentation"
+            freeCompilerArgs += listOf("-Xbinary=bundleId=com.vlohachov.moviespot.shared.presentation")
             isStatic = true
         }
     }
@@ -87,6 +87,7 @@ kotlin {
             implementation(libs.bundles.koin.compose)
             implementation(libs.bundles.androidx.navigation)
             implementation(libs.androidx.paging.common)
+            implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
             implementation(libs.compose.ui)

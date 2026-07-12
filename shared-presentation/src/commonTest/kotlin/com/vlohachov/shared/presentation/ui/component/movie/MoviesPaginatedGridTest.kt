@@ -17,13 +17,13 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.presentation.TestMovies
-import com.vlohachov.shared.presentation.core.collectAsLazyPagingItems
 import com.vlohachov.shared.presentation.ui.component.PosterDefaults
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import kotlinx.coroutines.flow.flowOf

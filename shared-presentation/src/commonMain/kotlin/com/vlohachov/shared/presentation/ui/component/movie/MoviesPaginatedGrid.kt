@@ -25,9 +25,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import coil3.compose.rememberAsyncImagePainter
 import com.vlohachov.shared.domain.model.movie.Movie
-import com.vlohachov.shared.presentation.core.LazyPagingItems
 import com.vlohachov.shared.presentation.ui.component.Poster
 import com.vlohachov.shared.presentation.ui.component.movie.MoviesPaginatedGridDefaults.spannableProgress
 

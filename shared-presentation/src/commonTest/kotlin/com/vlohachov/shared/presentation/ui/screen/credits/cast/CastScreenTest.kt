@@ -7,12 +7,13 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToIndex
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.domain.repository.MovieRepository
 import com.vlohachov.shared.domain.usecase.credits.LoadCast
 import com.vlohachov.shared.presentation.TestCastMembers
@@ -31,7 +32,6 @@ import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.cast
 import org.jetbrains.compose.resources.getString
@@ -53,7 +53,7 @@ class CastScreenTest {
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.cast) })
+        onNodeWithText(text = getString(resource = Res.string.cast))
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -97,6 +97,10 @@ class CastScreenTest {
             repository.getMovieCredits(id = any(), language = any())
         } returns flowOf(value = TestMovieCredits)
         testContent()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = CastDefaults.ContentLoadingTestTag)
+                .fetchSemanticsNodes().isEmpty()
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -114,9 +118,13 @@ class CastScreenTest {
             repository.getMovieCredits(id = any(), language = any())
         } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = CastDefaults.ContentTestTag)
             .assertExists(errorMessageOnFail = "No Content component found.")
