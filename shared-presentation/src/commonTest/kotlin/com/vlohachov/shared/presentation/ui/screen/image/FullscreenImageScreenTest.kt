@@ -7,7 +7,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.presentation.ui.component.bar.AppBarDefaults
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import dev.mokkery.answering.returns

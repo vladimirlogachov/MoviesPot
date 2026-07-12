@@ -12,7 +12,7 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.presentation.BuildConfig
 import com.vlohachov.shared.presentation.ui.component.ErrorCardDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.AppBarDefaults

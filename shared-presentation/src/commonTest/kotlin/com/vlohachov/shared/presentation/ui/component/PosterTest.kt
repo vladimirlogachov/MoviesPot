@@ -6,7 +6,7 @@ import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.presentation.ui.theme.MoviesPotTheme
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.ic_launcher_foreground

@@ -27,9 +27,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.savedstate.read
 import com.vlohachov.shared.domain.model.movie.Movie
-import com.vlohachov.shared.presentation.core.collectAsLazyPagingItems
 import com.vlohachov.shared.presentation.ui.component.bar.AppBar
 import com.vlohachov.shared.presentation.ui.component.bar.ErrorBar
 import com.vlohachov.shared.presentation.ui.component.bar.ErrorBarDefaults

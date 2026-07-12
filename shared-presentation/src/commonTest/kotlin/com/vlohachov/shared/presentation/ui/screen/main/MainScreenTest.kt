@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
 import com.vlohachov.shared.domain.model.movie.Movie
 import com.vlohachov.shared.domain.model.movie.MovieCategory
 import com.vlohachov.shared.domain.repository.MovieRepository
