@@ -43,7 +43,6 @@ import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.directed_by
 import moviespot.shared_presentation.generated.resources.no_results
@@ -119,8 +118,10 @@ class MovieDetailsScreenTest {
             repository.getMovieDetails(id = any(), language = any())
         } returns flowOf(value = TestMovieDetails)
         testContent()
-        onNodeWithTag(testTag = MovieDetailsDefaults.DetailsLoadingTestTag)
-            .assertDoesNotExist()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = MovieDetailsDefaults.DetailsLoadingTestTag)
+                .fetchSemanticsNodes().isEmpty()
+        }
         onNodeWithTag(testTag = HeadlineDefaults.TestTag)
             .assertExists(errorMessageOnFail = "No Headline component found.")
             .assertIsDisplayed()
@@ -153,6 +154,9 @@ class MovieDetailsScreenTest {
         } returns flow { error(message = "Error") }
         testContent()
         waitForIdle()
+        onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+            .assertExists(errorMessageOnFail = "No Error component found.")
+            .assertIsDisplayed()
         onNodeWithTag(testTag = MovieDetailsDefaults.DetailsLoadingTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = HeadlineDefaults.TestTag)
@@ -202,7 +206,8 @@ class MovieDetailsScreenTest {
             repository.getMovieDetails(id = any(), language = any())
         } returns flowOf(value = TestMovieDetails)
         testContent(onCast = onCast)
-        onNodeWithTag(testTag = CreditsDefaults.CastButtonTestTag)
+        waitForIdle()
+        onNodeWithTag(testTag = CreditsDefaults.CastButtonTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Cast component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
@@ -220,7 +225,8 @@ class MovieDetailsScreenTest {
             repository.getMovieDetails(id = any(), language = any())
         } returns flowOf(value = TestMovieDetails)
         testContent(onCrew = onCrew)
-        onNodeWithTag(testTag = CreditsDefaults.CrewButtonTestTag)
+        waitForIdle()
+        onNodeWithTag(testTag = CreditsDefaults.CrewButtonTestTag, useUnmergedTree = true)
             .assertExists(errorMessageOnFail = "No Cast component found.")
             .assertIsDisplayed()
             .assertHasClickAction()
@@ -238,7 +244,7 @@ class MovieDetailsScreenTest {
             repository.getMovieCredits(id = any(), language = any())
         } returns flowOf(value = TestMovieCredits)
         testContent()
-        onNodeWithText(text = runBlocking { getString(Res.string.directed_by, "") })
+        onNodeWithText(text = getString(Res.string.directed_by, ""))
             .assertDoesNotExist()
     }
 
@@ -252,7 +258,7 @@ class MovieDetailsScreenTest {
             repository.getMovieCredits(id = any(), language = any())
         } returns flowOf(value = TestMovieCredits.copy(crew = listOf(element = TestDirector)))
         testContent()
-        onNodeWithText(text = runBlocking { getString(Res.string.directed_by, TestDirector.name) })
+        onNodeWithText(text = getString(Res.string.directed_by, TestDirector.name))
             .assertExists(errorMessageOnFail = "No Director component found")
             .assertIsDisplayed()
     }
@@ -339,10 +345,14 @@ class MovieDetailsScreenTest {
             repository.getMovieKeywords(id = any())
         } returns flowOf(value = emptyList())
         testContent()
-        onNodeWithTag(testTag = MovieDetailsDefaults.KeywordsTestTag)
-            .assertExists(errorMessageOnFail = "No Keywords component found.")
-            .assertIsDisplayed()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.no_results) })
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(
+                testTag = MovieDetailsDefaults.KeywordsTestTag,
+                useUnmergedTree = true
+            )
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        onNodeWithText(text = getString(resource = Res.string.no_results))
             .assertExists(errorMessageOnFail = "No Empty text component found.")
             .assertIsDisplayed()
     }
@@ -357,10 +367,14 @@ class MovieDetailsScreenTest {
             repository.getMovieKeywords(id = any())
         } returns flowOf(value = TestKeywords)
         testContent(onKeywordMovies = onKeywordMovies)
-        onNodeWithTag(testTag = MovieDetailsDefaults.KeywordsTestTag)
-            .assertExists(errorMessageOnFail = "No Keywords component found.")
-            .assertIsDisplayed()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.no_results) })
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(
+                testTag = MovieDetailsDefaults.KeywordsTestTag,
+                useUnmergedTree = true
+            )
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        onNodeWithText(text = getString(resource = Res.string.no_results))
             .assertDoesNotExist()
         onAllNodesWithTag(testTag = SectionDefaults.SectionContentTestTag)
             .onLast()

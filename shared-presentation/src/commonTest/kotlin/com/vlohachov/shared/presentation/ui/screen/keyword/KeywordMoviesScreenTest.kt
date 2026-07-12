@@ -7,6 +7,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
@@ -144,9 +145,13 @@ class KeywordMoviesScreenTest {
             )
         } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag)
             .assertDoesNotExist()

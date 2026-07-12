@@ -8,6 +8,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
@@ -37,7 +38,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.upcoming
 import org.jetbrains.compose.resources.getString
@@ -59,7 +59,7 @@ class MoviesScreenTest {
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.upcoming) })
+        onNodeWithText(text = getString(resource = Res.string.upcoming))
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -138,9 +138,13 @@ class MoviesScreenTest {
             )
         } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag)
             .assertDoesNotExist()
