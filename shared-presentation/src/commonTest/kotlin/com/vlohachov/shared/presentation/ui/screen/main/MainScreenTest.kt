@@ -31,7 +31,6 @@ import dev.mokkery.verify.VerifyMode.Companion.atMost
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.app_name
 import org.jetbrains.compose.resources.getString
@@ -53,7 +52,7 @@ class MainScreenTest {
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.app_name) })
+        onNodeWithText(text = getString(resource = Res.string.app_name))
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -107,6 +106,7 @@ class MainScreenTest {
     @JsName(name = "check_loading_state")
     fun `check loading state`() = runComposeUiTest {
         testContent()
+        waitForIdle()
         onAllNodesWithTag(testTag = MoviesSectionDefaults.ProgressTestTag)
             .assertCountEquals(expectedSize = 4)
     }
@@ -123,6 +123,10 @@ class MainScreenTest {
             )
         } returns flowOf(value = TestPaginatedData)
         testContent()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = MoviesLazyRowDefaults.MoviesLazyRowTestTag)
+                .fetchSemanticsNodes().size == 4
+        }
         onAllNodesWithTag(testTag = MoviesLazyRowDefaults.MoviesLazyRowTestTag)
             .assertCountEquals(expectedSize = 4)
         onAllNodesWithTag(testTag = MoviesSectionDefaults.MoreButtonTestTag)
@@ -141,8 +145,10 @@ class MainScreenTest {
             )
         } returns flow { error(message = "Error") }
         testContent()
-        onAllNodesWithTag(testTag = MoviesSectionDefaults.ErrorTestTag)
-            .assertCountEquals(expectedSize = 4)
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = MoviesSectionDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().size == 4
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found")
             .assertIsDisplayed()
@@ -163,6 +169,10 @@ class MainScreenTest {
             )
         } returns flowOf(value = TestPaginatedData)
         testContent(onMore = onMore)
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = MoviesSectionDefaults.MoreButtonTestTag)
+                .fetchSemanticsNodes().size == 4
+        }
         onAllNodesWithTag(testTag = MoviesSectionDefaults.MoreButtonTestTag)
             .onFirst()
             .assertIsDisplayed()
@@ -186,6 +196,10 @@ class MainScreenTest {
             )
         } returns flowOf(value = TestPaginatedData)
         testContent(onMovieDetails = onMovieDetails)
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+        }
         onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
             .onFirst()
             .assertHasClickAction()

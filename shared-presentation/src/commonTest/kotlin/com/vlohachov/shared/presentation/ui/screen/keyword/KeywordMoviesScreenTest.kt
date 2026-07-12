@@ -7,6 +7,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
@@ -20,6 +21,7 @@ import com.vlohachov.shared.domain.usecase.DiscoverMovies
 import com.vlohachov.shared.presentation.TestMovies
 import com.vlohachov.shared.presentation.TestPaginatedData
 import com.vlohachov.shared.presentation.testMovie
+import com.vlohachov.shared.presentation.ui.component.PosterDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.AppBarDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.presentation.ui.component.button.ScrollToTopDefaults
@@ -119,6 +121,10 @@ class KeywordMoviesScreenTest {
             )
         } returns flowOf(value = TestPaginatedData)
         testContent()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().size == TestMovies.size
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -144,9 +150,13 @@ class KeywordMoviesScreenTest {
             )
         } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag)
             .assertDoesNotExist()
@@ -168,6 +178,10 @@ class KeywordMoviesScreenTest {
             )
         } returns flowOf(value = TestPaginatedData)
         testContent(onMovieDetails = onMovieDetails)
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()

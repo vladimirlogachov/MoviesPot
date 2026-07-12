@@ -15,7 +15,6 @@ import dev.mokkery.every
 import dev.mokkery.mock
 import dev.mokkery.verify
 import dev.mokkery.verify.VerifyMode
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.image_loading_failed
 import org.jetbrains.compose.resources.getString
@@ -54,7 +53,7 @@ class FullscreenImageScreenTest {
     fun `check broken image`() = runComposeUiTest {
         testContent(path = "")
         onNodeWithContentDescription(
-            label = runBlocking { getString(resource = Res.string.image_loading_failed) }
+            label = getString(resource = Res.string.image_loading_failed)
         ).assertExists(errorMessageOnFail = "No Image error component found.")
             .assertIsDisplayed()
     }

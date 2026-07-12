@@ -13,6 +13,7 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
@@ -34,7 +35,6 @@ import dev.mokkery.mock
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.discover
 import moviespot.shared_presentation.generated.resources.year
@@ -56,7 +56,7 @@ class DiscoverScreenTest {
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.discover) })
+        onNodeWithText(text = getString(resource = Res.string.discover))
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -95,6 +95,10 @@ class DiscoverScreenTest {
     fun `check genres loading success`() = runComposeUiTest {
         every { repository.getGenres(language = any()) } returns flowOf(value = TestGenres)
         testContent()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = DiscoverDefaults.GenresLoadingTestTag)
+                .fetchSemanticsNodes().isEmpty()
+        }
         onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag)
             .assertExists(errorMessageOnFail = "No Genres component found.")
             .assertIsDisplayed()
@@ -107,11 +111,15 @@ class DiscoverScreenTest {
     fun `check genres loading error`() = runComposeUiTest {
         every { repository.getGenres(language = any()) } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = DiscoverDefaults.GenresTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
     }
 
@@ -168,7 +176,7 @@ class DiscoverScreenTest {
     @Test
     @JsName(name = "check_year_input")
     fun `check year input`() = runComposeUiTest {
-        val hint = runBlocking { getString(resource = Res.string.year) }
+        val hint = getString(resource = Res.string.year)
         testContent()
         onNodeWithTag(testTag = DiscoverDefaults.YearTestTag)
             .assertExists(errorMessageOnFail = "No Year input component found.")

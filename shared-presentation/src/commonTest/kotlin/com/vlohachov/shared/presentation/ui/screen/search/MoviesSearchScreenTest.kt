@@ -10,6 +10,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasImeAction
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
@@ -24,6 +25,7 @@ import com.vlohachov.shared.domain.usecase.SearchMovies
 import com.vlohachov.shared.presentation.TestMovies
 import com.vlohachov.shared.presentation.TestPaginatedData
 import com.vlohachov.shared.presentation.testMovie
+import com.vlohachov.shared.presentation.ui.component.PosterDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.AppBarDefaults
 import com.vlohachov.shared.presentation.ui.component.bar.ErrorBarDefaults
 import com.vlohachov.shared.presentation.ui.component.button.ScrollToTopDefaults
@@ -39,7 +41,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.search
 import org.jetbrains.compose.resources.getString
@@ -80,7 +81,7 @@ class MoviesSearchScreenTest {
             .assertExists(errorMessageOnFail = "No Search input component found.")
             .assertIsDisplayed()
             .assertTextEquals(
-                runBlocking { getString(resource = Res.string.search) },
+                getString(resource = Res.string.search),
                 includeEditableText = false,
             )
         onNodeWithTag(testTag = AppBarDefaults.BackButtonTestTag)
@@ -117,13 +118,17 @@ class MoviesSearchScreenTest {
             repository.searchMovies(query = any(), page = any(), language = any())
         } returns flowOf(value = TestPaginatedData)
         testContent()
-        onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
-            .assertIsNotDisplayed()
         onNode(matcher = hasImeAction(actionType = ImeAction.Search))
             .assertExists(errorMessageOnFail = "No Search input component found.")
             .assertIsDisplayed()
             .performTextInput(text = "search")
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().size == TestMovies.size
+        }
+        onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+            .assertExists(errorMessageOnFail = "No Error component found.")
+            .assertIsNotDisplayed()
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
@@ -140,15 +145,19 @@ class MoviesSearchScreenTest {
             repository.searchMovies(query = any(), page = any(), language = any())
         } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
         onNode(matcher = hasImeAction(actionType = ImeAction.Search))
             .assertExists(errorMessageOnFail = "No Search input component found.")
             .assertIsDisplayed()
             .performTextInput(text = "search")
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.LoadingTestTag)
             .assertDoesNotExist()
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
     }
 
@@ -162,13 +171,17 @@ class MoviesSearchScreenTest {
             repository.searchMovies(query = any(), page = any(), language = any())
         } returns flowOf(value = TestPaginatedData)
         testContent(onMovieDetails = onMovieDetails)
-        onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
-            .assertIsNotDisplayed()
         onNode(matcher = hasImeAction(actionType = ImeAction.Search))
             .assertExists(errorMessageOnFail = "No Search input component found.")
             .assertIsDisplayed()
             .performTextInput(text = "search")
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = PosterDefaults.PosterTestTag, useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+            .assertExists(errorMessageOnFail = "No Error component found.")
+            .assertIsNotDisplayed()
         onNodeWithTag(testTag = MoviesPaginatedGridDefaults.MoviesPaginatedGridTestTag)
             .assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()

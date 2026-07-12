@@ -3,11 +3,9 @@ package com.vlohachov.shared.presentation.ui.screen.credits.crew
 import app.cash.turbine.test
 import com.vlohachov.shared.domain.model.movie.credit.CrewMember
 import com.vlohachov.shared.domain.repository.MovieRepository
-import com.vlohachov.shared.domain.usecase.credits.LoadCast
 import com.vlohachov.shared.domain.usecase.credits.LoadCrew
 import com.vlohachov.shared.presentation.TestMovieCredits
 import com.vlohachov.shared.presentation.core.ViewState
-import com.vlohachov.shared.presentation.ui.screen.credits.cast.CastViewModel
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.matcher.any
@@ -41,6 +39,7 @@ class CrewViewModelTest {
     fun `crew loading`() = runTest {
         viewModel.crew.test {
             assertIs<ViewState.Loading>(value = awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -64,7 +63,10 @@ class CrewViewModelTest {
             repository.getMovieCredits(id = any(), language = any())
         } returns flow { error(message = "Error") }
 
-        CastViewModel(movieId = 1L, loadCast = LoadCast(repository = repository)).cast.test {
+        CrewViewModel(
+            movieId = 1L,
+            loadCrew = LoadCrew(repository = repository)
+        ).crew.test {
             skipItems(count = 1)
             assertIs<ViewState.Error>(value = awaitItem())
         }

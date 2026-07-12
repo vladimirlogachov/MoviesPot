@@ -7,6 +7,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -31,7 +32,6 @@ import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import moviespot.shared_presentation.generated.resources.Res
 import moviespot.shared_presentation.generated.resources.crew
 import org.jetbrains.compose.resources.getString
@@ -53,7 +53,7 @@ class CrewScreenTest {
     @JsName(name = "check_app_bar_title")
     fun `check app bar title`() = runComposeUiTest {
         testContent()
-        onNodeWithText(text = runBlocking { getString(resource = Res.string.crew) })
+        onNodeWithText(text = getString(resource = Res.string.crew))
             .assertExists(errorMessageOnFail = "No Title component found.")
             .assertIsDisplayed()
     }
@@ -97,6 +97,10 @@ class CrewScreenTest {
             repository.getMovieCredits(id = any(), language = any())
         } returns flowOf(value = TestMovieCredits)
         testContent()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = CrewDefaults.ContentLoadingTestTag)
+                .fetchSemanticsNodes().isEmpty()
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
             .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsNotDisplayed()
@@ -114,13 +118,18 @@ class CrewScreenTest {
             repository.getMovieCredits(id = any(), language = any())
         } returns flow { error(message = "Error") }
         testContent()
-        waitForIdle()
+        waitUntil(timeoutMillis = 5000) {
+            onAllNodesWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
+                .fetchSemanticsNodes().any { node ->
+                    node.size.width > 0 && node.size.height > 0
+                }
+        }
         onNodeWithTag(testTag = ErrorBarDefaults.ErrorTestTag)
-            .assertExists(errorMessageOnFail = "No Error component found.")
             .assertIsDisplayed()
         onNodeWithTag(testTag = CrewDefaults.ContentTestTag)
             .assertExists(errorMessageOnFail = "No Content component found.")
             .assertIsDisplayed()
+        onNodeWithTag(testTag = CrewDefaults.ContentTestTag)
             .onChildren()
             .assertCountEquals(expectedSize = 0)
     }
