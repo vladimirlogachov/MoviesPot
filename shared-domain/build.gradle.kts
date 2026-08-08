@@ -25,7 +25,7 @@ kotlin {
     wasmJs {
         browser()
     }
-    androidLibrary {
+    android {
         namespace = "com.vlohachov.shared.domain"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -38,7 +38,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { target ->
         target.binaries.framework {
             baseName = "shared-domain"

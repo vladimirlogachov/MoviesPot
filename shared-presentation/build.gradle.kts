@@ -18,7 +18,7 @@ buildkonfig {
         buildConfigField(
             FieldSpec.Type.STRING,
             "VERSION_NAME",
-            System.getenv("VERSION_NAME") ?: "1.0.0"
+            System.getenv("VERSION_NAME") ?: "1.0.0",
         )
     }
 }
@@ -46,7 +46,7 @@ kotlin {
 //        browser()
 //    }
     jvm("desktop")
-    androidLibrary {
+    android {
         namespace = "com.vlohachov.shared.presentation"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -104,13 +104,10 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
-        val desktopMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.okhttp)
-            }
+        getByName("desktopMain").dependencies {
+            implementation(libs.ktor.client.okhttp)
         }
-        val desktopTest by getting
-        desktopTest.dependencies {
+        getByName("desktopTest").dependencies {
             implementation(libs.kotlin.corutiens.swing)
             implementation(compose.desktop.currentOs)
         }
